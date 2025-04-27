@@ -1,0 +1,958 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 8: Continuous Random Variables &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_08';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 9: Common Continuous Distributions" href="chapter_09.html" />
+    <link rel="prev" title="Chapter 7: Common Discrete Distributions" href="chapter_07.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_08.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_08.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 8: Continuous Random Variables</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition-and-contrast-with-discrete-variables">Definition and Contrast with Discrete Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-density-function-pdf">Probability Density Function (PDF)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-distribution-function-cdf">Cumulative Distribution Function (CDF)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-value-and-variance">Expected Value and Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#percentiles-and-quantiles">Percentiles and Quantiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-of-a-continuous-random-variable">Functions of a Continuous Random Variable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-working-with-continuous-variables-in-python">Hands-on: Working with Continuous Variables in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-pdfs-and-cdfs-with-scipy-stats">1. Defining PDFs and CDFs with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-probabilities-using-pdf-and-cdf">2. Calculating Probabilities using PDF and CDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-expected-value-variance-and-percentiles">3. Calculating Expected Value, Variance, and Percentiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulating-data-and-comparing-empirical-vs-theoretical">4. Simulating Data and Comparing Empirical vs. Theoretical</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-8-continuous-random-variables">
+<h1>Chapter 8: Continuous Random Variables<a class="headerlink" href="#chapter-8-continuous-random-variables" title="Link to this heading">#</a></h1>
+<section id="definition-and-contrast-with-discrete-variables">
+<h2>Definition and Contrast with Discrete Variables<a class="headerlink" href="#definition-and-contrast-with-discrete-variables" title="Link to this heading">#</a></h2>
+<p>In the previous chapters, we focused on <em>discrete</em> random variables, which take on a finite or countably infinite number of distinct values. Think about the number of heads in 10 coin flips (0, 1, …, 10), the number of emails received in an hour (0, 1, 2, …), or the outcome of a die roll ({1, 2, 3, 4, 5, 6}).</p>
+<p>Now, we turn our attention to <em>continuous</em> random variables. These variables can take on any value within a given range or interval. Examples include:</p>
+<ul class="simple">
+<li><p>The exact height of a randomly selected adult (e.g., 1.7532… meters).</p></li>
+<li><p>The time until a radioactive particle decays (e.g., 3.1415… seconds).</p></li>
+<li><p>The temperature of a room (e.g., 21.5… degrees Celsius).</p></li>
+<li><p>The exact concentration of a chemical in a solution.</p></li>
+</ul>
+<p>The key difference lies in the nature of the sample space. For discrete variables, we can list the possible outcomes. For continuous variables, there are uncountably infinite possible values between any two given values.</p>
+<p><strong>Example:</strong> Measuring the exact height of a person results in a continuous variable, as height can theoretically take any value within a range (e.g., 1.5m, 1.51m, 1.511m, …). In contrast, counting the number of people taller than 1.8m in a sample of 100 yields a discrete variable (0, 1, 2, …, 100).</p>
+<p>This fundamental difference means we can no longer talk about the probability of the variable taking on a <em>specific</em> value, like <span class="math notranslate nohighlight">\(P(\text{Height} = 1.80000... \text{ meters})\)</span>. Because there are infinitely many possible heights, the probability of hitting any single exact value is essentially zero. Instead, for continuous variables, we talk about the probability that the variable falls <em>within a certain interval</em>, such as <span class="math notranslate nohighlight">\(P(1.7\text{m} &lt; \text{Height} \le 1.8\text{m})\)</span>.</p>
+<p>To describe the probability distribution of continuous random variables, we introduce two key functions: the Probability Density Function (PDF) and the Cumulative Distribution Function (CDF).</p>
+</section>
+<section id="probability-density-function-pdf">
+<h2>Probability Density Function (PDF)<a class="headerlink" href="#probability-density-function-pdf" title="Link to this heading">#</a></h2>
+<p>For a continuous random variable <span class="math notranslate nohighlight">\(X\)</span>, the <strong>Probability Density Function (PDF)</strong>, denoted as <span class="math notranslate nohighlight">\(f_X(x)\)</span>, describes the <em>relative likelihood</em> for the random variable to take on a given value. Unlike the PMF for discrete variables, the PDF value <span class="math notranslate nohighlight">\(f_X(x)\)</span> is <em>not</em> a probability itself. Instead, the <em>area under the PDF curve</em> over an interval corresponds to the probability that the variable falls within that interval.</p>
+<p>Key properties of a PDF <span class="math notranslate nohighlight">\(f_X(x)\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Non-negativity: <span class="math notranslate nohighlight">\(f_X(x) \ge 0\)</span> for all <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p>Total area equals 1: <span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} f_X(x) dx = 1\)</span>. (The total probability over the entire range of possible values is 1).</p></li>
+<li><p>Probability as Area: The probability that <span class="math notranslate nohighlight">\(X\)</span> falls within an interval <span class="math notranslate nohighlight">\([a, b]\)</span> is given by the integral of the PDF over that interval:
+$<span class="math notranslate nohighlight">\(P(a \le X \le b) = \int_a^b f_X(x) dx\)</span>$</p></li>
+</ol>
+<p><strong>Important Note:</strong> For any continuous random variable <span class="math notranslate nohighlight">\(X\)</span> and any specific value <span class="math notranslate nohighlight">\(c\)</span>, <span class="math notranslate nohighlight">\(P(X=c) = \int_c^c f_X(x) dx = 0\)</span>. This implies <span class="math notranslate nohighlight">\(P(a \le X \le b) = P(a &lt; X \le b) = P(a \le X &lt; b) = P(a &lt; X &lt; b)\)</span>. Including or excluding the endpoints does not change the probability for continuous variables.</p>
+<p><strong>Example:</strong> Imagine the distribution of IQ scores in a large population, often modeled by a Normal distribution (a “bell curve”). The PDF would be highest around the average IQ (e.g., 100) and taper off towards very high or very low scores. The value of the PDF at <span class="math notranslate nohighlight">\(x=110\)</span> tells us the density of the distribution around that point, but the probability <span class="math notranslate nohighlight">\(P(\text{IQ}=110)\)</span> is 0. However, we can calculate the probability <span class="math notranslate nohighlight">\(P(100 \le \text{IQ} \le 110)\)</span> by finding the area under the bell curve between 100 and 110.</p>
+<p>In Python, libraries like <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> provide objects representing various continuous distributions, allowing us to evaluate their PDFs using the <code class="docutils literal notranslate"><span class="pre">.pdf()</span></code> method.</p>
+</section>
+<section id="cumulative-distribution-function-cdf">
+<h2>Cumulative Distribution Function (CDF)<a class="headerlink" href="#cumulative-distribution-function-cdf" title="Link to this heading">#</a></h2>
+<p>The <strong>Cumulative Distribution Function (CDF)</strong>, denoted as <span class="math notranslate nohighlight">\(F_X(x)\)</span>, gives the probability that the random variable <span class="math notranslate nohighlight">\(X\)</span> takes on a value less than or equal to a specific value <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[F_X(x) = P(X \le x)\]</div>
+<p>For a continuous random variable with PDF <span class="math notranslate nohighlight">\(f_X(t)\)</span>, the CDF is obtained by integrating the PDF from negative infinity up to <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[F_X(x) = \int_{-\infty}^{x} f_X(t) dt\]</div>
+<p>Key properties of a CDF <span class="math notranslate nohighlight">\(F_X(x)\)</span>:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(F_X(x)\)</span> is a non-decreasing function of <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x \to -\infty} F_X(x) = 0\)</span>. (The probability of being less than or equal to a very small number is 0).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x \to \infty} F_X(x) = 1\)</span>. (The probability of being less than or equal to a very large number is 1).</p></li>
+<li><p>The probability of <span class="math notranslate nohighlight">\(X\)</span> falling in an interval <span class="math notranslate nohighlight">\((a, b]\)</span> can be calculated using the CDF:
+$<span class="math notranslate nohighlight">\(P(a &lt; X \le b) = F_X(b) - F_X(a)\)</span>$</p></li>
+<li><p>The PDF can be obtained by differentiating the CDF (where the derivative exists): <span class="math notranslate nohighlight">\(f_X(x) = \frac{d}{dx} F_X(x)\)</span>.</p></li>
+</ol>
+<p><strong>Example:</strong> For the IQ distribution, the CDF <span class="math notranslate nohighlight">\(F_X(110)\)</span> would give the probability that a randomly selected person has an IQ score less than or equal to 110. This corresponds to the total area under the PDF curve to the left of <span class="math notranslate nohighlight">\(x=110\)</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> objects also provide methods to evaluate the CDF using the <code class="docutils literal notranslate"><span class="pre">.cdf()</span></code> method.</p>
+</section>
+<section id="expected-value-and-variance">
+<h2>Expected Value and Variance<a class="headerlink" href="#expected-value-and-variance" title="Link to this heading">#</a></h2>
+<p>Similar to discrete random variables, we can define measures of central tendency and spread for continuous variables using integration instead of summation.</p>
+<p><strong>Expected Value (Mean):</strong>
+The expected value or mean of a continuous random variable <span class="math notranslate nohighlight">\(X\)</span>, denoted <span class="math notranslate nohighlight">\(E[X]\)</span> or <span class="math notranslate nohighlight">\(\mu\)</span>, represents the average value we would expect to observe over many repetitions of the experiment. It’s calculated by integrating the product of each possible value <span class="math notranslate nohighlight">\(x\)</span> and its corresponding density <span class="math notranslate nohighlight">\(f_X(x)\)</span> over the entire range:</p>
+<div class="math notranslate nohighlight">
+\[E[X] = \mu = \int_{-\infty}^{\infty} x f_X(x) dx\]</div>
+<p>Think of it as the center of mass of the distribution.</p>
+<p><strong>Variance and Standard Deviation:</strong>
+The variance measures the spread or dispersion of the distribution around the mean. It’s the expected value of the squared deviation from the mean:</p>
+<div class="math notranslate nohighlight">
+\[Var(X) = \sigma^2 = E[(X - \mu)^2] = \int_{-\infty}^{\infty} (x - \mu)^2 f_X(x) dx\]</div>
+<p>An alternative computational formula is often more convenient:
+$<span class="math notranslate nohighlight">\(Var(X) = E[X^2] - (E[X])^2\)</span><span class="math notranslate nohighlight">\(
+where \)</span>E[X^2] = \int_{-\infty}^{\infty} x^2 f_X(x) dx$ is the second moment about the origin.</p>
+<p>The <strong>Standard Deviation</strong>, <span class="math notranslate nohighlight">\(\sigma = \sqrt{Var(X)}\)</span>, provides a measure of spread in the original units of the random variable.</p>
+<p><strong>Example:</strong> For the IQ distribution (often modeled as Normal with mean 100 and standard deviation 15), <span class="math notranslate nohighlight">\(E[\text{IQ}] = 100\)</span> and <span class="math notranslate nohighlight">\(Var(\text{IQ}) = 15^2 = 225\)</span>. The standard deviation <span class="math notranslate nohighlight">\(\sigma = 15\)</span> indicates the typical deviation of IQ scores from the average of 100.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> distributions often have methods like <code class="docutils literal notranslate"><span class="pre">.mean()</span></code>, <code class="docutils literal notranslate"><span class="pre">.var()</span></code>, and <code class="docutils literal notranslate"><span class="pre">.std()</span></code> to compute these directly, or <code class="docutils literal notranslate"><span class="pre">.expect()</span></code> for more general expectations.</p>
+</section>
+<section id="percentiles-and-quantiles">
+<h2>Percentiles and Quantiles<a class="headerlink" href="#percentiles-and-quantiles" title="Link to this heading">#</a></h2>
+<p>Percentiles and quantiles help us understand specific points in the distribution relative to the cumulative probability.</p>
+<p>The <strong><span class="math notranslate nohighlight">\(p\)</span>-th percentile</strong> (where <span class="math notranslate nohighlight">\(0 &lt; p &lt; 1\)</span>) is the value <span class="math notranslate nohighlight">\(x_p\)</span> such that the probability of the random variable being less than or equal to <span class="math notranslate nohighlight">\(x_p\)</span> is <span class="math notranslate nohighlight">\(p\)</span>. In terms of the CDF:</p>
+<div class="math notranslate nohighlight">
+\[F_X(x_p) = P(X \le x_p) = p\]</div>
+<p>The <strong>quantile function</strong>, often denoted <span class="math notranslate nohighlight">\(Q(p)\)</span>, is the inverse of the CDF: <span class="math notranslate nohighlight">\(Q(p) = F_X^{-1}(p) = x_p\)</span>. It tells you the value below which a certain proportion <span class="math notranslate nohighlight">\(p\)</span> of the distribution lies.</p>
+<ul class="simple">
+<li><p>The 0.5 quantile (or 50th percentile) is the <strong>median</strong>.</p></li>
+<li><p>The 0.25 quantile (25th percentile) is the first quartile (Q1).</p></li>
+<li><p>The 0.75 quantile (75th percentile) is the third quartile (Q3).</p></li>
+</ul>
+<p><strong>Example:</strong> Finding the IQ score that marks the 95th percentile means finding the value <span class="math notranslate nohighlight">\(x_{0.95}\)</span> such that <span class="math notranslate nohighlight">\(P(\text{IQ} \le x_{0.95}) = 0.95\)</span>. For a Normal distribution with mean 100 and standard deviation 15, this value is approximately 124.7. This means 95% of the population has an IQ score of 124.7 or less.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> provides the <code class="docutils literal notranslate"><span class="pre">.ppf()</span></code> (percent point function) method, which is the inverse of the CDF (quantile function).</p>
+</section>
+<section id="functions-of-a-continuous-random-variable">
+<h2>Functions of a Continuous Random Variable<a class="headerlink" href="#functions-of-a-continuous-random-variable" title="Link to this heading">#</a></h2>
+<p>Often, we are interested in a new random variable <span class="math notranslate nohighlight">\(Y\)</span> that is a function of an existing continuous random variable <span class="math notranslate nohighlight">\(X\)</span>. That is, <span class="math notranslate nohighlight">\(Y = g(X)\)</span>. How can we find the PDF or CDF of <span class="math notranslate nohighlight">\(Y\)</span>?</p>
+<p><strong>Method 1: Using the CDF</strong></p>
+<ol class="arabic simple">
+<li><p>Find the CDF of <span class="math notranslate nohighlight">\(Y\)</span>: <span class="math notranslate nohighlight">\(F_Y(y) = P(Y \le y) = P(g(X) \le y)\)</span>.</p></li>
+<li><p>Express the event <span class="math notranslate nohighlight">\(\{g(X) \le y\}\)</span> in terms of <span class="math notranslate nohighlight">\(X\)</span>. This might involve solving the inequality for <span class="math notranslate nohighlight">\(X\)</span>. Be careful if <span class="math notranslate nohighlight">\(g(x)\)</span> is not monotonically increasing (i.e., if it goes up and down).</p></li>
+<li><p>Calculate <span class="math notranslate nohighlight">\(P(\text{event in terms of } X)\)</span> using the CDF of <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(F_X(x)\)</span>.</p></li>
+<li><p>Differentiate the resulting <span class="math notranslate nohighlight">\(F_Y(y)\)</span> with respect to <span class="math notranslate nohighlight">\(y\)</span> to find the PDF of <span class="math notranslate nohighlight">\(Y\)</span>: <span class="math notranslate nohighlight">\(f_Y(y) = \frac{d}{dy} F_Y(y)\)</span>.</p></li>
+</ol>
+<p><strong>Method 2: Change of Variables Formula (for monotonic functions)</strong>
+If <span class="math notranslate nohighlight">\(y = g(x)\)</span> is a strictly monotonic (always increasing or always decreasing) differentiable function over the range of <span class="math notranslate nohighlight">\(X\)</span>, then it has an inverse function <span class="math notranslate nohighlight">\(x = g^{-1}(y)\)</span>. The PDF of <span class="math notranslate nohighlight">\(Y\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[f_Y(y) = f_X(g^{-1}(y)) \left| \frac{dx}{dy} \right|\]</div>
+<p>where <span class="math notranslate nohighlight">\(\frac{dx}{dy}\)</span> is the derivative of the inverse function <span class="math notranslate nohighlight">\(x = g^{-1}(y)\)</span> with respect to <span class="math notranslate nohighlight">\(y\)</span>. The absolute value ensures the PDF remains non-negative.</p>
+<p><strong>Example:</strong> Suppose the temperature <span class="math notranslate nohighlight">\(T\)</span> in Celsius is a random variable, perhaps uniformly distributed between 15°C and 25°C. We want to find the distribution of the temperature in Fahrenheit, <span class="math notranslate nohighlight">\(F = 1.8T + 32\)</span>.
+Here, <span class="math notranslate nohighlight">\(g(T) = 1.8T + 32\)</span>. This is strictly increasing.
+The inverse function is <span class="math notranslate nohighlight">\(T = g^{-1}(F) = (F - 32) / 1.8\)</span>.
+The derivative is <span class="math notranslate nohighlight">\(\frac{dT}{dF} = 1 / 1.8\)</span>.
+If the PDF of T is <span class="math notranslate nohighlight">\(f_T(t) = \frac{1}{25-15} = 0.1\)</span> for <span class="math notranslate nohighlight">\(15 \le t \le 25\)</span> (and 0 otherwise), then the PDF of <span class="math notranslate nohighlight">\(F\)</span> is:
+$<span class="math notranslate nohighlight">\(f_F(f) = f_T\left(\frac{f - 32}{1.8}\right) \left| \frac{1}{1.8} \right|\)</span><span class="math notranslate nohighlight">\(
+We need to find the range for F. When \)</span>T=15<span class="math notranslate nohighlight">\(, \)</span>F = 1.8(15) + 32 = 59<span class="math notranslate nohighlight">\(. When \)</span>T=25<span class="math notranslate nohighlight">\(, \)</span>F = 1.8(25) + 32 = 77<span class="math notranslate nohighlight">\(.
+So, for \)</span>59 \le f \le 77<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\(f_F(f) = (0.1) \times \left| \frac{1}{1.8} \right| = \frac{0.1}{1.8} = \frac{1}{18}\)</span>$
+Thus, F is uniformly distributed between 59°F and 77°F.</p>
+<p>Calculating the expected value of a function <span class="math notranslate nohighlight">\(Y=g(X)\)</span> can often be done more directly without finding the full distribution of Y, using the <strong>Law of the Unconscious Statistician (LOTUS)</strong>:
+$<span class="math notranslate nohighlight">\(E[Y] = E[g(X)] = \int_{-\infty}^{\infty} g(x) f_X(x) dx\)</span>$</p>
+</section>
+<section id="hands-on-working-with-continuous-variables-in-python">
+<h2>Hands-on: Working with Continuous Variables in Python<a class="headerlink" href="#hands-on-working-with-continuous-variables-in-python" title="Link to this heading">#</a></h2>
+<p>Let’s put these concepts into practice using Python libraries. We’ll simulate heights assuming a Normal distribution and compare the histogram to the theoretical PDF, as well as perform calculations using <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy.integrate</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Essential imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Configure plots for better visualization</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39; # Make plots sharper
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Essential imports</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="defining-pdfs-and-cdfs-with-scipy-stats">
+<h3>1. Defining PDFs and CDFs with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code><a class="headerlink" href="#defining-pdfs-and-cdfs-with-scipy-stats" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> provides convenient objects for many standard continuous distributions (we’ll explore these in Chapter 9). Let’s use the Normal distribution as an example again. Suppose adult male heights (in cm) are Normally distributed with a mean (<span class="math notranslate nohighlight">\(\mu\)</span>) of 177 cm and a standard deviation (<span class="math notranslate nohighlight">\(\sigma\)</span>) of 7 cm.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the normal distribution for heights</span>
+<span class="n">mu_height</span> <span class="o">=</span> <span class="mi">177</span>
+<span class="n">sigma_height</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="c1"># Create a frozen distribution object</span>
+<span class="n">height_dist</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu_height</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma_height</span><span class="p">)</span> <span class="c1"># loc=mean, scale=std dev</span>
+
+<span class="c1"># Define a range of height values for plotting</span>
+<span class="c1"># Go out +/- 4 standard deviations to cover most of the probability mass</span>
+<span class="n">x_height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">),</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.9999</span><span class="p">),</span> <span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># Calculate PDF and CDF values for the range</span>
+<span class="n">pdf_values</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_height</span><span class="p">)</span>
+<span class="n">cdf_values</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x_height</span><span class="p">)</span>
+
+<span class="c1"># Plot PDF</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_height</span><span class="p">,</span> <span class="n">pdf_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Normal PDF ($\mu=</span><span class="si">{</span><span class="n">mu_height</span><span class="si">}</span><span class="s1">, \sigma=</span><span class="si">{</span><span class="n">sigma_height</span><span class="si">}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_height</span><span class="p">,</span> <span class="n">pdf_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Probability Density Function (PDF) of Adult Male Height&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Height (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Plot CDF</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_height</span><span class="p">,</span> <span class="n">cdf_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Normal CDF ($\mu=</span><span class="si">{</span><span class="n">mu_height</span><span class="si">}</span><span class="s1">, \sigma=</span><span class="si">{</span><span class="n">sigma_height</span><span class="si">}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Cumulative Distribution Function (CDF) of Adult Male Height&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Height (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative Probability P(Height &lt;= x)&#39;</span><span class="p">)</span>
+<span class="c1"># Add lines for key percentiles</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Median (50th percentile)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png"><img alt="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png" src="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png" style="width: 855px; height: 546px;" /></a>
+<a class="reference internal image-reference" href="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png"><img alt="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png" src="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png" style="width: 846px; height: 546px;" /></a>
+</div>
+</div>
+</section>
+<section id="calculating-probabilities-using-pdf-and-cdf">
+<h3>2. Calculating Probabilities using PDF and CDF<a class="headerlink" href="#calculating-probabilities-using-pdf-and-cdf" title="Link to this heading">#</a></h3>
+<p>We want to calculate the probability of a height falling within a specific range, e.g., P(170 cm &lt; Height ≤ 185 cm).</p>
+<p><strong>Method 1: Using the CDF</strong>
+<span class="math notranslate nohighlight">\(P(170 &lt; X \le 185) = F_X(185) - F_X(170)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate probability using CDF method</span>
+<span class="n">prob_cdf</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">185</span><span class="p">)</span> <span class="o">-</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">170</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(170 &lt; Height &lt;= 185) using CDF: </span><span class="si">{</span><span class="n">prob_cdf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Visualize this area on the PDF</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_height</span><span class="p">,</span> <span class="n">pdf_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Normal PDF&#39;</span><span class="p">)</span>
+<span class="c1"># Create filter for the range of interest</span>
+<span class="n">range_filter</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_height</span> <span class="o">&gt;</span> <span class="mi">170</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x_height</span> <span class="o">&lt;=</span> <span class="mi">185</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_height</span><span class="p">[</span><span class="n">range_filter</span><span class="p">],</span> <span class="n">pdf_values</span><span class="p">[</span><span class="n">range_filter</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;P(170 &lt; Height &lt;= 185)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Area under PDF corresponding to P(170 &lt; Height &lt;= 185)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Height (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(170 &lt; Height &lt;= 185) using CDF: 0.7148
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png"><img alt="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png" src="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png" style="width: 855px; height: 546px;" /></a>
+</div>
+</div>
+<p><strong>Method 2: Using Numerical Integration of the PDF</strong>
+We need to calculate <span class="math notranslate nohighlight">\(\int_{170}^{185} f_X(x) dx\)</span>. We can use <code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> (which performs quadrature, a numerical integration method).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The first argument to quad is the function to integrate (our PDF)</span>
+<span class="c1"># The next two arguments are the lower and upper limits of integration</span>
+<span class="n">prob_integral</span><span class="p">,</span> <span class="n">integration_error</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">height_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">185</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(170 &lt; Height &lt;= 185) using PDF integration: </span><span class="si">{</span><span class="n">prob_integral</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimated integration error: </span><span class="si">{</span><span class="n">integration_error</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># Should be very small</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(170 &lt; Height &lt;= 185) using PDF integration: 0.7148
+Estimated integration error: 7.94e-15
+</pre></div>
+</div>
+</div>
+</div>
+<p>As expected, both methods give essentially the same result (within numerical precision). Using the CDF is generally more direct and computationally efficient when available. Integration is necessary if you only have the PDF function defined (e.g., a custom, non-standard distribution).</p>
+</section>
+<section id="calculating-expected-value-variance-and-percentiles">
+<h3>3. Calculating Expected Value, Variance, and Percentiles<a class="headerlink" href="#calculating-expected-value-variance-and-percentiles" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> objects have built-in methods for these common statistics.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expected Value (Mean)</span>
+<span class="n">e_height</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected Height E[X]: </span><span class="si">{</span><span class="n">e_height</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+
+<span class="c1"># Variance</span>
+<span class="n">var_height</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance Var(X): </span><span class="si">{</span><span class="n">var_height</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm^2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Standard Deviation</span>
+<span class="n">std_height</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard Deviation std(X): </span><span class="si">{</span><span class="n">std_height</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span> <span class="c1"># Should match sigma_height</span>
+
+<span class="c1"># Calculate Percentiles (Quantiles) using PPF (Percent Point Function)</span>
+<span class="n">percentile_95</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span> <span class="c1"># 95th percentile</span>
+<span class="n">median</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.50</span><span class="p">)</span>       <span class="c1"># 50th percentile (median)</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>           <span class="c1"># 25th percentile (Q1)</span>
+<span class="n">q3</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>           <span class="c1"># 75th percentile (Q3)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;25th Percentile (Q1) of Height: </span><span class="si">{</span><span class="n">q1</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Median Height (Q2): </span><span class="si">{</span><span class="n">median</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span> <span class="c1"># Should be equal to the mean for Normal dist.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;75th Percentile (Q3) of Height: </span><span class="si">{</span><span class="n">q3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95th Percentile of Height: </span><span class="si">{</span><span class="n">percentile_95</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Expected Height E[X]: 177.00 cm
+Variance Var(X): 49.00 cm^2
+Standard Deviation std(X): 7.00 cm
+25th Percentile (Q1) of Height: 172.28 cm
+Median Height (Q2): 177.00 cm
+75th Percentile (Q3) of Height: 181.72 cm
+95th Percentile of Height: 188.51 cm
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Calculating Moments using Numerical Integration</strong></p>
+<p>We can also calculate moments like <span class="math notranslate nohighlight">\(E[X]\)</span> and <span class="math notranslate nohighlight">\(E[X^2]\)</span> using <code class="docutils literal notranslate"><span class="pre">integrate.quad</span></code> and the definitions:
+<span class="math notranslate nohighlight">\(E[X] = \int_{-\infty}^{\infty} x f_X(x) dx\)</span>
+<span class="math notranslate nohighlight">\(E[X^2] = \int_{-\infty}^{\infty} x^2 f_X(x) dx\)</span></p>
+<p>We integrate over a wide practical range instead of <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span>, e.g., <span class="math notranslate nohighlight">\(\mu \pm 10\sigma\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define functions representing x*f(x) and x^2*f(x)</span>
+<span class="k">def</span> <span class="nf">integrand_mean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Function x * pdf(x) for calculating E[X]&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">integrand_mean_square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Function x^2 * pdf(x) for calculating E[X^2]&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Integrate over a wide range (practically equivalent to -inf to +inf for Normal)</span>
+<span class="n">lower_bound</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">)</span> <span class="c1"># Very small percentile</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="c1"># Very large percentile</span>
+
+<span class="n">e_height_integral</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">integrand_mean</span><span class="p">,</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">)</span>
+<span class="n">e_height_sq_integral</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">integrand_mean_square</span><span class="p">,</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">)</span>
+
+<span class="c1"># Calculate variance from integrated moments</span>
+<span class="n">var_height_integral</span> <span class="o">=</span> <span class="n">e_height_sq_integral</span> <span class="o">-</span> <span class="p">(</span><span class="n">e_height_integral</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E[X] via integration: </span><span class="si">{</span><span class="n">e_height_integral</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E[X^2] via integration: </span><span class="si">{</span><span class="n">e_height_sq_integral</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Var(X) via integration (E[X^2] - E[X]^2): </span><span class="si">{</span><span class="n">var_height_integral</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>E[X] via integration: 177.00
+E[X^2] via integration: 31378.00
+Var(X) via integration (E[X^2] - E[X]^2): 49.00
+</pre></div>
+</div>
+</div>
+</div>
+<p>The results from numerical integration closely match the built-in methods, confirming our understanding of the definitions.</p>
+</section>
+<section id="simulating-data-and-comparing-empirical-vs-theoretical">
+<h3>4. Simulating Data and Comparing Empirical vs. Theoretical<a class="headerlink" href="#simulating-data-and-comparing-empirical-vs-theoretical" title="Link to this heading">#</a></h3>
+<p>We can simulate drawing random samples from the distribution using the <code class="docutils literal notranslate"><span class="pre">.rvs()</span></code> method (Random VariateS) and compare the results (like the histogram and sample statistics) to the theoretical distribution. This is a fundamental technique in Monte Carlo methods (Chapter 17).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate 10,000 random height samples</span>
+<span class="n">num_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c1"># Set random_state for reproducibility - ensures we get the same &#39;random&#39; samples each time</span>
+<span class="n">simulated_heights</span> <span class="o">=</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Calculate empirical (sample) mean and std dev</span>
+<span class="n">empirical_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">simulated_heights</span><span class="p">)</span>
+<span class="n">empirical_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">simulated_heights</span><span class="p">)</span> <span class="c1"># Use np.std for population std dev estimate based on sample</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical Mean: </span><span class="si">{</span><span class="n">mu_height</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Empirical Mean (from </span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s2"> samples): </span><span class="si">{</span><span class="n">empirical_mean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical Std Dev: </span><span class="si">{</span><span class="n">sigma_height</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Empirical Std Dev (from </span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s2"> samples): </span><span class="si">{</span><span class="n">empirical_std</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot histogram of simulated data vs theoretical PDF</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="c1"># Use density=True to normalize the histogram so its area sums to 1, making it comparable to the PDF</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">simulated_heights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Simulated Heights Histogram&#39;</span><span class="p">)</span>
+
+<span class="c1"># Overlay the theoretical PDF for comparison</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_height</span><span class="p">,</span> <span class="n">pdf_values</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Theoretical Normal PDF&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Simulated Heights (N=</span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s1">) vs Theoretical PDF&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Height (cm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Theoretical Mean: 177.00, Empirical Mean (from 10000 samples): 176.99
+Theoretical Std Dev: 7.00, Empirical Std Dev (from 10000 samples): 7.02
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png"><img alt="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png" src="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png" style="width: 855px; height: 546px;" /></a>
+</div>
+</div>
+<p>As the plot shows, the histogram of the randomly generated samples closely follows the shape of the theoretical Probability Density Function. Furthermore, the calculated sample mean and standard deviation are very close to the theoretical parameters (<span class="math notranslate nohighlight">\(\mu=177\)</span>, <span class="math notranslate nohighlight">\(\sigma=7\)</span>) of the distribution we sampled from.</p>
+<p>According to the Law of Large Numbers (Chapter 13), as the number of samples (<code class="docutils literal notranslate"><span class="pre">num_samples</span></code>) increases, the empirical histogram will better approximate the true PDF, and the sample statistics (like mean and standard deviation) will converge to the true parameters of the distribution.</p>
+<p>This hands-on section demonstrated how to work with the core concepts of continuous random variables – PDFs, CDFs, expectations, percentiles – using <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>. We also saw how numerical integration can be used for calculations and how simulation allows us to generate data that follows a specific distribution, enabling comparison between empirical results and theoretical models.</p>
+<p>In the next chapter, we will delve into specific, commonly encountered continuous distributions like the Uniform, Exponential, and the Normal distribution in more detail, exploring their properties and applications.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_07.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 7: Common Discrete Distributions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_09.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 9: Common Continuous Distributions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition-and-contrast-with-discrete-variables">Definition and Contrast with Discrete Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-density-function-pdf">Probability Density Function (PDF)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-distribution-function-cdf">Cumulative Distribution Function (CDF)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-value-and-variance">Expected Value and Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#percentiles-and-quantiles">Percentiles and Quantiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-of-a-continuous-random-variable">Functions of a Continuous Random Variable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-working-with-continuous-variables-in-python">Hands-on: Working with Continuous Variables in Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-pdfs-and-cdfs-with-scipy-stats">1. Defining PDFs and CDFs with <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-probabilities-using-pdf-and-cdf">2. Calculating Probabilities using PDF and CDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-expected-value-variance-and-percentiles">3. Calculating Expected Value, Variance, and Percentiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulating-data-and-comparing-empirical-vs-theoretical">4. Simulating Data and Comparing Empirical vs. Theoretical</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

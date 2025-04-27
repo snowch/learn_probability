@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 14: The Central Limit Theorem (CLT) &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_14';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 15: Introduction to Bayesian Inference" href="chapter_15.html" />
+    <link rel="prev" title="Chapter 13: The Law of Large Numbers (LLN)" href="chapter_13.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_14.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_14.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 14: The Central Limit Theorem (CLT)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-the-ubiquitous-bell-curve">Introduction: The Ubiquitous Bell Curve</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statement-and-intuition">Statement and Intuition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-in-distribution">Convergence in Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditions-and-limitations">Conditions and Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-the-normal-approximation">Applications: The Normal Approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-simulating-the-central-limit-theorem">Hands-on: Simulating the Central Limit Theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-q-q-plots-for-visual-assessment">Using Q-Q Plots for Visual Assessment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-normal-approximation-to-binomial">Hands-on: Normal Approximation to Binomial</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-14-the-central-limit-theorem-clt">
+<h1>Chapter 14: The Central Limit Theorem (CLT)<a class="headerlink" href="#chapter-14-the-central-limit-theorem-clt" title="Link to this heading">#</a></h1>
+<section id="introduction-the-ubiquitous-bell-curve">
+<h2>Introduction: The Ubiquitous Bell Curve<a class="headerlink" href="#introduction-the-ubiquitous-bell-curve" title="Link to this heading">#</a></h2>
+<p>In the previous chapter, we explored the Law of Large Numbers (LLN), which tells us that the average of a large number of independent and identically distributed (IID) random variables converges to the expected value. That’s about the <em>value</em> it approaches. But what about the <em>distribution</em> of that average? Does it have a predictable shape?</p>
+<p>Enter the Central Limit Theorem (CLT), often considered one of the most remarkable and useful results in probability theory. In essence, the CLT states that the distribution of the sum (or average) of a large number of IID random variables tends towards a Normal (Gaussian) distribution, <em>regardless of the shape of the original distribution</em> from which the variables are drawn, provided the original distribution has a finite variance.</p>
+<p>This is profound! It explains why the Normal distribution appears so frequently in nature and in data analysis. Many real-world phenomena can be thought of as the sum or average of many small, independent effects (e.g., measurement errors, height influenced by many genetic and environmental factors), and the CLT predicts that these resulting phenomena will be approximately Normally distributed.</p>
+<p>In this chapter, we will:</p>
+<ol class="arabic simple">
+<li><p>Formally state the Central Limit Theorem.</p></li>
+<li><p>Understand the concept of convergence in distribution.</p></li>
+<li><p>Discuss the conditions required for the CLT to hold and its limitations.</p></li>
+<li><p>Explore key applications, particularly the Normal approximation to other distributions.</p></li>
+<li><p>Use Python simulations to visualize the CLT in action and apply it to problems.</p></li>
+</ol>
+<p>Let’s start by stating the theorem more formally.</p>
+</section>
+<section id="statement-and-intuition">
+<h2>Statement and Intuition<a class="headerlink" href="#statement-and-intuition" title="Link to this heading">#</a></h2>
+<p><strong>The Central Limit Theorem (Lindeberg–Lévy CLT):</strong></p>
+<p>Let <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> be a sequence of <span class="math notranslate nohighlight">\(n\)</span> independent and identically distributed (IID) random variables, each having a finite expected value <span class="math notranslate nohighlight">\(\mu\)</span> and a finite non-zero variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>.
+Let <span class="math notranslate nohighlight">\(\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i\)</span> be the sample mean.
+As <span class="math notranslate nohighlight">\(n \to \infty\)</span>, the distribution of the standardized sample mean converges to a standard Normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[ Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0, 1) \]</div>
+<p>Where <span class="math notranslate nohighlight">\(\xrightarrow{d}\)</span> denotes convergence in distribution.</p>
+<p><strong>Intuition:</strong>
+Imagine you have <em>any</em> distribution for a single random variable <span class="math notranslate nohighlight">\(X\)</span> (as long as its variance isn’t infinite). This could be a Uniform distribution (like rolling a fair die), an Exponential distribution (like waiting times), or something completely irregular.
+Now, take a sample of <span class="math notranslate nohighlight">\(n\)</span> values from this distribution and calculate their average, <span class="math notranslate nohighlight">\(\bar{X}_n\)</span>. Repeat this process many times, collecting many sample averages.
+The CLT tells us that if <span class="math notranslate nohighlight">\(n\)</span> is sufficiently large, the histogram of these collected sample averages will look like a bell curve (a Normal distribution).</p>
+<p>Furthermore, the theorem specifies the parameters of this Normal distribution:</p>
+<ul class="simple">
+<li><p>The mean of the distribution of sample means (<span class="math notranslate nohighlight">\(\mu_{\bar{X}_n}\)</span>) is the same as the original distribution’s mean (<span class="math notranslate nohighlight">\(\mu\)</span>).</p></li>
+<li><p>The standard deviation of the distribution of sample means (<span class="math notranslate nohighlight">\(\sigma_{\bar{X}_n}\)</span>), often called the <strong>standard error</strong>, is the original standard deviation divided by the square root of the sample size (<span class="math notranslate nohighlight">\(\sigma/\sqrt{n}\)</span>).</p></li>
+</ul>
+<p><strong>Example:</strong> Think about the average weight of 30 randomly chosen apples. Individual apple weights might follow some distribution (maybe skewed, maybe multimodal), but the CLT suggests that the distribution of the <em>average</em> weight calculated from samples of 30 apples will be approximately Normal. The more apples we average (<span class="math notranslate nohighlight">\(n=50, n=100\)</span>), the closer the distribution of the average weight will be to a perfect Normal distribution.</p>
+</section>
+<section id="convergence-in-distribution">
+<h2>Convergence in Distribution<a class="headerlink" href="#convergence-in-distribution" title="Link to this heading">#</a></h2>
+<p>The CLT uses the concept of <strong>convergence in distribution</strong>. This is different from <em>convergence in probability</em> which we saw with the Weak Law of Large Numbers (WLLN).</p>
+<ul class="simple">
+<li><p><strong>Convergence in Probability (WLLN):</strong> The <em>value</em> of the sample mean <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> gets arbitrarily close to the true mean <span class="math notranslate nohighlight">\(\mu\)</span> as <span class="math notranslate nohighlight">\(n\)</span> increases. <span class="math notranslate nohighlight">\(P(|\bar{X}_n - \mu| &gt; \epsilon) \to 0\)</span>.</p></li>
+<li><p><strong>Convergence in Distribution (CLT):</strong> The <em>shape</em> of the probability distribution of the (standardized) sample mean <span class="math notranslate nohighlight">\(Z_n = (\bar{X}_n - \mu) / (\sigma/\sqrt{n})\)</span> gets arbitrarily close to the shape of the standard Normal distribution <span class="math notranslate nohighlight">\(N(0, 1)\)</span> as <span class="math notranslate nohighlight">\(n\)</span> increases. Formally, the Cumulative Distribution Function (CDF) of <span class="math notranslate nohighlight">\(Z_n\)</span> converges to the CDF of the standard Normal distribution at every point where the standard Normal CDF is continuous (which is everywhere for the Normal distribution).
+$<span class="math notranslate nohighlight">\( \lim_{n \to \infty} P(Z_n \le z) = \Phi(z) \)</span><span class="math notranslate nohighlight">\(
+  where \)</span>\Phi(z)$ is the CDF of the standard Normal distribution.</p></li>
+</ul>
+<p>This means that for large <span class="math notranslate nohighlight">\(n\)</span>, we can approximate the probability <span class="math notranslate nohighlight">\(P(\bar{X}_n \le x)\)</span> by using the Normal distribution <span class="math notranslate nohighlight">\(N(\mu, \sigma^2/n)\)</span>. Specifically:
+$<span class="math notranslate nohighlight">\( P(\bar{X}_n \le x) \approx \Phi\left(\frac{x - \mu}{\sigma/\sqrt{n}}\right) \)</span>$</p>
+<p>Similarly, for the sum <span class="math notranslate nohighlight">\(S_n = \sum_{i=1}^{n} X_i\)</span>, we know <span class="math notranslate nohighlight">\(E[S_n] = n\mu\)</span> and <span class="math notranslate nohighlight">\(Var(S_n) = n\sigma^2\)</span>. The CLT implies:
+$<span class="math notranslate nohighlight">\( \frac{S_n - n\mu}{\sqrt{n}\sigma} \xrightarrow{d} N(0, 1) \)</span><span class="math notranslate nohighlight">\(
+So, we can approximate the distribution of the sum \)</span>S_n<span class="math notranslate nohighlight">\( using \)</span>N(n\mu, n\sigma^2)$.</p>
+</section>
+<section id="conditions-and-limitations">
+<h2>Conditions and Limitations<a class="headerlink" href="#conditions-and-limitations" title="Link to this heading">#</a></h2>
+<p>The power of the CLT is immense, but it’s crucial to understand its requirements:</p>
+<ol class="arabic simple">
+<li><p><strong>Independent and Identically Distributed (IID) Variables:</strong> The standard version of the CLT assumes the random variables <span class="math notranslate nohighlight">\(X_i\)</span> are independent and drawn from the same distribution. There are extensions (like the Lyapunov CLT or Lindeberg-Feller CLT) that relax these conditions, particularly the identical distribution part, but they require more complex conditions. For many practical applications, the IID assumption is a reasonable starting point.</p></li>
+<li><p><strong>Finite Variance (<span class="math notranslate nohighlight">\(\sigma^2 &lt; \infty\)</span>):</strong> The original distribution <em>must</em> have a finite variance. If the variance is infinite (e.g., the Cauchy distribution), the sample mean does not converge to a Normal distribution. The sample mean’s distribution might still converge, but to a different type of stable distribution.</p></li>
+<li><p><strong>Sufficiently Large Sample Size (<span class="math notranslate nohighlight">\(n\)</span>):</strong> The theorem states convergence <em>as <span class="math notranslate nohighlight">\(n \to \infty\)</span></em>. In practice, “sufficiently large” depends heavily on the shape of the original distribution.</p>
+<ul class="simple">
+<li><p>If the original distribution is already symmetric and close to Normal, <span class="math notranslate nohighlight">\(n\)</span> can be quite small (even <span class="math notranslate nohighlight">\(n&lt;10\)</span>).</p></li>
+<li><p>If the original distribution is highly skewed (like Exponential), <span class="math notranslate nohighlight">\(n\)</span> might need to be larger (e.g., <span class="math notranslate nohighlight">\(n \ge 30\)</span> or <span class="math notranslate nohighlight">\(n \ge 50\)</span>) for the Normal approximation to be reasonably accurate.</p></li>
+<li><p>There’s no single magic number for <span class="math notranslate nohighlight">\(n\)</span>, but <span class="math notranslate nohighlight">\(n=30\)</span> is a commonly cited, often overly simplistic, rule of thumb. Visualization (like we’ll do in the hands-on section) is key.</p></li>
+</ul>
+</li>
+<li><p><strong>Applies to Sums or Averages:</strong> The CLT specifically describes the distribution of the <em>sum</em> or <em>average</em> of random variables, not the distribution of the individual variables themselves.</p></li>
+</ol>
+</section>
+<section id="applications-the-normal-approximation">
+<h2>Applications: The Normal Approximation<a class="headerlink" href="#applications-the-normal-approximation" title="Link to this heading">#</a></h2>
+<p>One of the most frequent applications of the CLT is approximating probabilities for distributions that are difficult to calculate directly, especially sums of random variables.</p>
+<p><strong>Approximating the Binomial Distribution:</strong>
+Recall that a Binomial random variable <span class="math notranslate nohighlight">\(X \sim Binomial(n, p)\)</span> can be seen as the sum of <span class="math notranslate nohighlight">\(n\)</span> independent Bernoulli(<span class="math notranslate nohighlight">\(p\)</span>) random variables: <span class="math notranslate nohighlight">\(X = \sum_{i=1}^{n} Y_i\)</span>, where <span class="math notranslate nohighlight">\(Y_i \sim Bernoulli(p)\)</span>.
+Each <span class="math notranslate nohighlight">\(Y_i\)</span> has mean <span class="math notranslate nohighlight">\(\mu = p\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2 = p(1-p)\)</span>.
+By the CLT, if <span class="math notranslate nohighlight">\(n\)</span> is large enough, the sum <span class="math notranslate nohighlight">\(X\)</span> will be approximately Normally distributed.</p>
+<ul class="simple">
+<li><p>Mean: <span class="math notranslate nohighlight">\(E[X] = n\mu = np\)</span></p></li>
+<li><p>Variance: <span class="math notranslate nohighlight">\(Var(X) = n\sigma^2 = np(1-p)\)</span>
+So, <span class="math notranslate nohighlight">\(X \approx N(np, np(1-p))\)</span>.</p></li>
+</ul>
+<p>A common rule of thumb for this approximation to be adequate is <span class="math notranslate nohighlight">\(np \ge 5\)</span> and <span class="math notranslate nohighlight">\(n(1-p) \ge 5\)</span>. Some sources use <span class="math notranslate nohighlight">\(np \ge 10\)</span> and <span class="math notranslate nohighlight">\(n(1-p) \ge 10\)</span> for better accuracy.</p>
+<p><strong>Continuity Correction:</strong> When approximating a discrete distribution (like Binomial) with a continuous one (Normal), accuracy is improved by using a <strong>continuity correction</strong>. Since a Normal variable can take any value, while a Binomial variable only takes integer values, we adjust the interval.</p>
+<ul class="simple">
+<li><p>To approximate <span class="math notranslate nohighlight">\(P(X \le k)\)</span>, we calculate <span class="math notranslate nohighlight">\(P(Y \le k + 0.5)\)</span> where <span class="math notranslate nohighlight">\(Y\)</span> is the Normal approximation.</p></li>
+<li><p>To approximate <span class="math notranslate nohighlight">\(P(X \ge k)\)</span>, we calculate <span class="math notranslate nohighlight">\(P(Y \ge k - 0.5)\)</span>.</p></li>
+<li><p>To approximate <span class="math notranslate nohighlight">\(P(X = k)\)</span>, we calculate <span class="math notranslate nohighlight">\(P(k - 0.5 \le Y \le k + 0.5)\)</span>.</p></li>
+<li><p>To approximate <span class="math notranslate nohighlight">\(P(a \le X \le b)\)</span>, we calculate <span class="math notranslate nohighlight">\(P(a - 0.5 \le Y \le b + 0.5)\)</span>.</p></li>
+</ul>
+<p><strong>Example:</strong> What is the probability of getting more than 60 heads in 100 flips of a fair coin?
+Here, <span class="math notranslate nohighlight">\(X \sim Binomial(n=100, p=0.5)\)</span>.
+Mean <span class="math notranslate nohighlight">\(\mu = np = 100 \times 0.5 = 50\)</span>.
+Variance <span class="math notranslate nohighlight">\(\sigma^2 = np(1-p) = 100 \times 0.5 \times 0.5 = 25\)</span>. Standard deviation <span class="math notranslate nohighlight">\(\sigma = \sqrt{25} = 5\)</span>.
+Since <span class="math notranslate nohighlight">\(np = 50 \ge 5\)</span> and <span class="math notranslate nohighlight">\(n(1-p) = 50 \ge 5\)</span>, we can use the Normal approximation <span class="math notranslate nohighlight">\(Y \sim N(50, 25)\)</span>.
+We want <span class="math notranslate nohighlight">\(P(X &gt; 60)\)</span>, which is the same as <span class="math notranslate nohighlight">\(P(X \ge 61)\)</span>.
+Using continuity correction, we approximate this by <span class="math notranslate nohighlight">\(P(Y \ge 61 - 0.5) = P(Y \ge 60.5)\)</span>.
+Standardize the value: <span class="math notranslate nohighlight">\(Z = \frac{60.5 - 50}{5} = \frac{10.5}{5} = 2.1\)</span>.
+So we need <span class="math notranslate nohighlight">\(P(Z \ge 2.1)\)</span>, where <span class="math notranslate nohighlight">\(Z \sim N(0, 1)\)</span>.
+Using a standard Normal table or <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>:
+<span class="math notranslate nohighlight">\(P(Z \ge 2.1) = 1 - P(Z &lt; 2.1) \approx 1 - 0.9821 = 0.0179\)</span>.
+The probability is approximately 1.79%.</p>
+<p>Other applications include:</p>
+<ul class="simple">
+<li><p><strong>Confidence Intervals:</strong> The CLT underpins the construction of confidence intervals for population means, even when the population distribution is unknown.</p></li>
+<li><p><strong>Hypothesis Testing:</strong> Many statistical tests rely on the assumption that sample means are Normally distributed for large samples.</p></li>
+</ul>
+</section>
+<section id="hands-on-simulating-the-central-limit-theorem">
+<h2>Hands-on: Simulating the Central Limit Theorem<a class="headerlink" href="#hands-on-simulating-the-central-limit-theorem" title="Link to this heading">#</a></h2>
+<p>Let’s use Python to see the CLT in action. We’ll simulate taking averages from a non-Normal distribution (the Exponential distribution) and see how the distribution of these averages becomes Normal as the sample size <span class="math notranslate nohighlight">\(n\)</span> increases.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+
+<span class="c1"># Set parameters for the simulation</span>
+<span class="c1"># We&#39;ll use the Exponential distribution</span>
+<span class="c1"># Lambda (rate parameter) for Exponential</span>
+<span class="n">lambda_param</span> <span class="o">=</span> <span class="mf">1.0</span> 
+<span class="c1"># Theoretical mean (mu) = 1/lambda</span>
+<span class="n">theo_mean</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">lambda_param</span>
+<span class="c1"># Theoretical variance (sigma^2) = 1/lambda^2</span>
+<span class="n">theo_var</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">lambda_param</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Theoretical standard deviation (sigma)</span>
+<span class="n">theo_std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">theo_var</span><span class="p">)</span> 
+
+<span class="c1"># Number of simulations (number of sample means to generate)</span>
+<span class="n">num_simulations</span> <span class="o">=</span> <span class="mi">10000</span> 
+
+<span class="c1"># Sample sizes (n) to test</span>
+<span class="n">sample_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original Distribution: Exponential(lambda=</span><span class="si">{</span><span class="n">lambda_param</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical Mean (mu): </span><span class="si">{</span><span class="n">theo_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical Variance (sigma^2): </span><span class="si">{</span><span class="n">theo_var</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical Std Dev (sigma): </span><span class="si">{</span><span class="n">theo_std_dev</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="c1"># Flatten axes array for easy iteration</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> 
+
+<span class="c1"># --- Simulation Loop ---</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">):</span>
+    <span class="c1"># Store the means of samples</span>
+    <span class="n">sample_means</span> <span class="o">=</span> <span class="p">[]</span> 
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_simulations</span><span class="p">):</span>
+        <span class="c1"># 1. Draw n samples from the Exponential distribution</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">lambda_param</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+        <span class="c1"># 2. Calculate the mean of these n samples</span>
+        <span class="n">current_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="c1"># 3. Store the mean</span>
+        <span class="n">sample_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_mean</span><span class="p">)</span>
+    
+    <span class="c1"># --- Plotting ---</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1"># Plot histogram of the sample means</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sample_means</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sample Means Hist&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Calculate theoretical mean and std dev for the sample mean distribution (CLT prediction)</span>
+    <span class="n">clt_mean</span> <span class="o">=</span> <span class="n">theo_mean</span>
+    <span class="n">clt_std_dev</span> <span class="o">=</span> <span class="n">theo_std_dev</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    
+    <span class="c1"># Generate points for the theoretical Normal PDF curve</span>
+    <span class="n">x_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">sample_means</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">sample_means</span><span class="p">),</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">clt_pdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">clt_mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">clt_std_dev</span><span class="p">)</span>
+    
+    <span class="c1"># Plot the theoretical Normal PDF</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">clt_pdf</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;CLT Normal PDF&#39;</span><span class="p">)</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distribution of Sample Means (n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Mean Value&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Density&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Import necessary libraries</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># Set parameters for the simulation</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># We&#39;ll use the Exponential distribution</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># Lambda (rate parameter) for Exponential</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Observation:</strong>
+Notice how the histogram of sample means starts highly skewed (similar to the original Exponential distribution) when <span class="math notranslate nohighlight">\(n=1\)</span>. As the sample size <span class="math notranslate nohighlight">\(n\)</span> increases (from 2, 5, 10, 30, to 100), the shape of the histogram becomes increasingly symmetric and bell-shaped, closely matching the red curve representing the Normal distribution predicted by the CLT (<span class="math notranslate nohighlight">\(N(\mu, \sigma^2/n)\)</span>). For <span class="math notranslate nohighlight">\(n=30\)</span> and especially <span class="math notranslate nohighlight">\(n=100\)</span>, the fit is remarkably good, even though the original data came from a very non-Normal, skewed Exponential distribution.</p>
+<section id="using-q-q-plots-for-visual-assessment">
+<h3>Using Q-Q Plots for Visual Assessment<a class="headerlink" href="#using-q-q-plots-for-visual-assessment" title="Link to this heading">#</a></h3>
+<p>A Quantile-Quantile (Q-Q) plot is another excellent tool to visually check if a dataset follows a particular distribution (in this case, Normal). It plots the quantiles of the sample data against the theoretical quantiles of the target distribution. If the data follows the distribution, the points should fall approximately along a straight line.</p>
+<p>Let’s generate Q-Q plots for our sample means for different <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_qq</span><span class="p">,</span> <span class="n">axes_qq</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">axes_qq</span> <span class="o">=</span> <span class="n">axes_qq</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># --- Simulation and Q-Q Plot Loop ---</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_sizes</span><span class="p">):</span>
+    <span class="c1"># Regenerate sample means for clarity (could reuse from above)</span>
+    <span class="n">sample_means_qq</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_simulations</span><span class="p">):</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">lambda_param</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">current_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="n">sample_means_qq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_mean</span><span class="p">)</span>
+        
+    <span class="n">ax_qq</span> <span class="o">=</span> <span class="n">axes_qq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1"># Create Q-Q plot against the Normal distribution</span>
+    <span class="c1"># stats.probplot generates the plot directly</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample_means_qq</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s2">&quot;norm&quot;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">ax_qq</span><span class="p">)</span> 
+    
+    <span class="c1"># Calculate theoretical parameters for title</span>
+    <span class="n">clt_mean</span> <span class="o">=</span> <span class="n">theo_mean</span>
+    <span class="n">clt_std_dev</span> <span class="o">=</span> <span class="n">theo_std_dev</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    
+    <span class="n">ax_qq</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Q-Q Plot vs Normal (n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">)</span><span class="se">\n</span><span class="s1">Mean=</span><span class="si">{</span><span class="n">clt_mean</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, SD=</span><span class="si">{</span><span class="n">clt_std_dev</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/93fd091a92e53dfc07b28ce4f32c15a9e9857dbb0d8357b607dc0ab5344d572e.png" src="_images/93fd091a92e53dfc07b28ce4f32c15a9e9857dbb0d8357b607dc0ab5344d572e.png" />
+</div>
+</div>
+<p><strong>Observation:</strong>
+The Q-Q plots reinforce our findings. For small <span class="math notranslate nohighlight">\(n\)</span> (like <span class="math notranslate nohighlight">\(n=1, n=2\)</span>), the points deviate significantly from the straight red line, especially at the tails, indicating non-Normality. As <span class="math notranslate nohighlight">\(n\)</span> increases, the points align much more closely with the line, showing that the distribution of sample means is increasingly well-approximated by a Normal distribution. For <span class="math notranslate nohighlight">\(n=30\)</span> and <span class="math notranslate nohighlight">\(n=100\)</span>, the points lie almost perfectly on the line.</p>
+</section>
+<section id="hands-on-normal-approximation-to-binomial">
+<h3>Hands-on: Normal Approximation to Binomial<a class="headerlink" href="#hands-on-normal-approximation-to-binomial" title="Link to this heading">#</a></h3>
+<p>Let’s verify the coin flip example calculation (<span class="math notranslate nohighlight">\(P(X &gt; 60)\)</span> for <span class="math notranslate nohighlight">\(X \sim Binomial(100, 0.5)\)</span>) using Python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters for Binomial</span>
+<span class="n">n_binom</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">p_binom</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1"># Calculate exact probability using Binomial CDF/SF</span>
+<span class="c1"># P(X &gt; 60) = P(X &gt;= 61) = 1 - P(X &lt;= 60)</span>
+<span class="c1"># Using Survival Function (SF = 1 - CDF) is often more numerically stable for upper tail</span>
+<span class="n">exact_prob</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_binom</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_binom</span><span class="p">)</span>
+
+<span class="c1"># Calculate parameters for Normal approximation</span>
+<span class="n">mu_approx</span> <span class="o">=</span> <span class="n">n_binom</span> <span class="o">*</span> <span class="n">p_binom</span>
+<span class="n">var_approx</span> <span class="o">=</span> <span class="n">n_binom</span> <span class="o">*</span> <span class="n">p_binom</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_binom</span><span class="p">)</span>
+<span class="n">sigma_approx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_approx</span><span class="p">)</span>
+
+<span class="c1"># Calculate approximated probability WITHOUT continuity correction</span>
+<span class="c1"># P(Y &gt; 60) where Y ~ N(mu_approx, var_approx)</span>
+<span class="n">approx_prob_no_cc</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">mu_approx</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma_approx</span><span class="p">)</span>
+
+<span class="c1"># Calculate approximated probability WITH continuity correction</span>
+<span class="c1"># P(Y &gt;= 60.5) where Y ~ N(mu_approx, var_approx)</span>
+<span class="c1"># We want P(X &gt; 60) which is P(X &gt;= 61). The continuity correction is P(Y &gt;= 61 - 0.5) = P(Y &gt;= 60.5)</span>
+<span class="n">approx_prob_cc</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">60.5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">mu_approx</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma_approx</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Binomial Parameters: n=</span><span class="si">{</span><span class="n">n_binom</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_binom</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Normal Approx Params: mean=</span><span class="si">{</span><span class="n">mu_approx</span><span class="si">}</span><span class="s2">, std_dev=</span><span class="si">{</span><span class="n">sigma_approx</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact Probability P(X &gt; 60) using Binomial: </span><span class="si">{</span><span class="n">exact_prob</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approx Probability P(Y &gt; 60) (No CC):       </span><span class="si">{</span><span class="n">approx_prob_no_cc</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approx Probability P(Y &gt;= 60.5) (With CC):  </span><span class="si">{</span><span class="n">approx_prob_cc</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Error (No CC): </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">approx_prob_no_cc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exact_prob</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error (With CC): </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">approx_prob_cc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exact_prob</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Binomial Parameters: n=100, p=0.5
+Normal Approx Params: mean=50.0, std_dev=5.0000
+
+Exact Probability P(X &gt; 60) using Binomial: 0.017600
+Approx Probability P(Y &gt; 60) (No CC):       0.022750
+Approx Probability P(Y &gt;= 60.5) (With CC):  0.017864
+
+Error (No CC): 0.005150
+Error (With CC): 0.000264
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Observation:</strong>
+As expected, the Normal approximation with continuity correction (<code class="docutils literal notranslate"><span class="pre">0.017864</span></code>) is significantly closer to the exact Binomial probability (<code class="docutils literal notranslate"><span class="pre">0.017600</span></code>) than the approximation without it (<code class="docutils literal notranslate"><span class="pre">0.022750</span></code>). This highlights the importance of the continuity correction when approximating a discrete distribution with a continuous one.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>The Central Limit Theorem is a cornerstone of probability and statistics. It tells us that under fairly general conditions (IID variables, finite variance), the distribution of the sample mean (or sum) converges to a Normal distribution as the sample size grows large. This convergence is in <em>distribution</em>, meaning the shape of the standardized distribution approaches the standard Normal bell curve.</p>
+<p>This theorem is incredibly practical:</p>
+<ul class="simple">
+<li><p>It explains the prevalence of Normal distributions in observed data.</p></li>
+<li><p>It allows us to approximate complex distributions (like Binomial or Poisson for large parameters) with the well-understood Normal distribution, simplifying calculations.</p></li>
+<li><p>It provides the theoretical basis for many statistical inference techniques, such as constructing confidence intervals and performing hypothesis tests for means.</p></li>
+</ul>
+<p>Through simulation, we visually confirmed how the distribution of sample means from an Exponential distribution becomes increasingly Normal as the sample size <span class="math notranslate nohighlight">\(n\)</span> increases, validating the CLT’s prediction. We also demonstrated the effectiveness and importance of the continuity correction when using the Normal distribution to approximate Binomial probabilities.</p>
+<p>Understanding the CLT empowers you to make approximations, understand statistical methods, and appreciate the surprising emergence of order (the Normal distribution) from the combination of many independent random events.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Simulating from Uniform:</strong> Repeat the simulation and plotting steps (histograms and Q-Q plots) from the “Hands-on: Simulating the Central Limit Theorem” section, but this time draw samples from a <code class="docutils literal notranslate"><span class="pre">Uniform(0,</span> <span class="pre">1)</span></code> distribution instead of an Exponential distribution. Does the convergence to Normality appear faster or slower compared to the Exponential case? Why might this be?</p>
+<ul class="simple">
+<li><p><em>Hint:</em> The Uniform(0, 1) distribution has mean <span class="math notranslate nohighlight">\(\mu=0.5\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2=1/12\)</span>. Consider the symmetry of the Uniform distribution compared to the Exponential.</p></li>
+</ul>
+</li>
+<li><p><strong>Poisson Approximation:</strong> The number of calls arriving at a call center follows a Poisson distribution with an average rate of <span class="math notranslate nohighlight">\(\lambda = 30\)</span> calls per hour. We are interested in the probability of receiving <em>fewer than 25 calls</em> in a given hour.</p>
+<ul class="simple">
+<li><p>Calculate the exact probability using <code class="docutils literal notranslate"><span class="pre">scipy.stats.poisson</span></code>.</p></li>
+<li><p>Use the Normal approximation to the Poisson distribution (recall for Poisson(<span class="math notranslate nohighlight">\(\lambda\)</span>), <span class="math notranslate nohighlight">\(\mu=\lambda\)</span> and <span class="math notranslate nohighlight">\(\sigma^2=\lambda\)</span>) to estimate this probability. Remember to use the continuity correction. Compare the approximation to the exact value. (Is the approximation valid here? Check the rule of thumb <span class="math notranslate nohighlight">\(\lambda \ge 5\)</span> or <span class="math notranslate nohighlight">\(\lambda \ge 10\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Limitations Question:</strong> Suppose you are averaging samples from a Cauchy distribution. Why does the standard Central Limit Theorem <em>not</em> apply in this case? What key condition is violated?</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_13.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 13: The Law of Large Numbers (LLN)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_15.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 15: Introduction to Bayesian Inference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-the-ubiquitous-bell-curve">Introduction: The Ubiquitous Bell Curve</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statement-and-intuition">Statement and Intuition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-in-distribution">Convergence in Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditions-and-limitations">Conditions and Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-the-normal-approximation">Applications: The Normal Approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-simulating-the-central-limit-theorem">Hands-on: Simulating the Central Limit Theorem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-q-q-plots-for-visual-assessment">Using Q-Q Plots for Visual Assessment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-normal-approximation-to-binomial">Hands-on: Normal Approximation to Binomial</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

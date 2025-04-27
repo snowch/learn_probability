@@ -1,0 +1,82 @@
+Traceback (most recent call last):
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+from scipy.stats import binom
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Parameters
+n = 100
+p = 0.5
+mu = n * p
+sigma = np.sqrt(n * p * (1 - p))
+k = 2
+epsilon = k * sigma
+
+# Calculate the actual probability P(|X - mu| >= k*sigma)
+# This is P(X <= mu - k*sigma) + P(X >= mu + k*sigma)
+# Since Binomial is discrete, we need P(X <= floor(mu - k*sigma)) + P(X >= ceil(mu + k*sigma))
+lower_bound = np.floor(mu - epsilon)
+upper_bound = np.ceil(mu + epsilon)
+
+prob_lower = binom.cdf(k=lower_bound, n=n, p=p)
+prob_upper = 1.0 - binom.cdf(k=upper_bound - 1, n=n, p=p) # P(X >= upper_bound) = 1 - P(X < upper_bound) = 1 - P(X <= upper_bound - 1)
+
+actual_prob = prob_lower + prob_upper
+
+# Chebyshev bound
+chebyshev_bound = 1 / (k**2)
+
+print(f"Distribution: Binomial(n={n}, p={p})")
+print(f"Mean (mu): {mu}, Standard Deviation (sigma): {sigma:.2f}")
+print(f"Checking deviation of k={k} standard deviations (epsilon={epsilon:.2f})")
+print(f"We want P(|X - {mu}| >= {epsilon:.2f}), which is P(X <= {lower_bound} or X >= {upper_bound})")
+print(f"Actual Probability: {actual_prob:.4f}")
+print(f"Chebyshev Bound: <= {chebyshev_bound:.4f}")
+print(f"Is the actual probability less than or equal to the bound? {actual_prob <= chebyshev_bound}")
+
+# Plot the distribution and the bounds
+x_values = np.arange(0, n + 1)
+pmf_values = binom.pmf(k=x_values, n=n, p=p)
+
+plt.figure(figsize=(12, 6))
+plt.bar(x_values, pmf_values, label='Binomial PMF', color='skyblue')
+plt.axvline(mu, color='black', linestyle='--', label=f'Mean (mu={mu})')
+plt.axvline(mu - epsilon, color='red', linestyle=':', label=f'mu - {k}*sigma ({mu - epsilon:.1f})')
+plt.axvline(mu + epsilon, color='red', linestyle=':', label=f'mu + {k}*sigma ({mu + epsilon:.1f})')
+plt.fill_between(x_values, pmf_values, where=(x_values <= lower_bound) | (x_values >= upper_bound),
+                 color='red', alpha=0.5, label=f'Area where |X - mu| >= {k}*sigma')
+plt.title("Binomial Distribution and Chebyshev's Bound (k=2)")
+plt.xlabel("Number of Successes (X)")
+plt.ylabel("Probability")
+plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 2[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[0;32m----> 2[0m [38;5;28;01mfrom[39;00m [38;5;21;01mscipy[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstats[39;00m [38;5;28;01mimport[39;00m binom
+[1;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mseaborn[39;00m [38;5;28;01mas[39;00m [38;5;21;01msns[39;00m
+
+[0;31mModuleNotFoundError[0m: No module named 'scipy'
+

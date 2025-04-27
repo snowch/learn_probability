@@ -1,0 +1,866 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 13: The Law of Large Numbers (LLN) &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_13';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 14: The Central Limit Theorem (CLT)" href="chapter_14.html" />
+    <link rel="prev" title="Chapter 12: Functions of Multiple Random Variables" href="chapter_12.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_13.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_13.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 13: The Law of Large Numbers (LLN)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chebyshev-s-inequality">Chebyshev’s Inequality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-illustrating-chebyshev-s-bound">Hands-on: Illustrating Chebyshev’s Bound</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-law-of-large-numbers-lln">The Law of Large Numbers (LLN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weak-law-of-large-numbers-wlln">1. Weak Law of Large Numbers (WLLN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-law-of-large-numbers-slln">2. Strong Law of Large Numbers (SLLN)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-justification-for-monte-carlo-methods">Applications: Justification for Monte Carlo Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-simulating-the-law-of-large-numbers">Hands-on: Simulating the Law of Large Numbers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">Chapter Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-13-the-law-of-large-numbers-lln">
+<h1>Chapter 13: The Law of Large Numbers (LLN)<a class="headerlink" href="#chapter-13-the-law-of-large-numbers-lln" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>In the previous chapters, we explored individual random variables and their distributions, as well as how multiple variables interact. Now, we venture into the fascinating realm of <em>limit theorems</em>. These theorems describe the long-term behavior of sequences of random variables, forming the theoretical bedrock for many statistical methods and simulations.</p>
+<p>The first major limit theorem we’ll explore is the <strong>Law of Large Numbers (LLN)</strong>. Intuitively, the LLN tells us that if we repeat an experiment independently many times, the average of the outcomes will tend to get closer and closer to the theoretical expected value of the experiment. This aligns with our everyday understanding – flip a fair coin enough times, and the proportion of heads will likely be very close to 50%. The LLN provides the mathematical justification for this intuition and is fundamental to why simulation methods, like Monte Carlo, work.</p>
+<p>In this chapter, we will:</p>
+<ol class="arabic simple">
+<li><p>Introduce <strong>Chebyshev’s Inequality</strong>, a tool that provides a bound on how likely a random variable is to deviate far from its mean.</p></li>
+<li><p>Define and explain the <strong>Weak Law of Large Numbers (WLLN)</strong>, focusing on convergence in probability.</p></li>
+<li><p>Discuss the conceptual difference with the <strong>Strong Law of Large Numbers (SLLN)</strong>.</p></li>
+<li><p>Illustrate the practical implications, particularly how the LLN justifies <strong>Monte Carlo simulations</strong>.</p></li>
+<li><p>Use Python simulations to visualize the convergence described by the LLN.</p></li>
+</ol>
+<p>Let’s begin by looking at an inequality that helps us quantify deviations from the mean.</p>
+</section>
+<section id="chebyshev-s-inequality">
+<h2>Chebyshev’s Inequality<a class="headerlink" href="#chebyshev-s-inequality" title="Link to this heading">#</a></h2>
+<p>Chebyshev’s Inequality provides a way to estimate the probability that a random variable takes a value far from its mean, using only its mean (<span class="math notranslate nohighlight">\(\mu\)</span>) and variance (<span class="math notranslate nohighlight">\(\sigma^2\)</span>). It’s powerful because it applies regardless of the specific distribution of the random variable, as long as the mean and variance are finite.</p>
+<p><strong>Theorem (Chebyshev’s Inequality):</strong> Let <span class="math notranslate nohighlight">\(X\)</span> be a random variable with finite mean <span class="math notranslate nohighlight">\(\mu = E[X]\)</span> and finite variance <span class="math notranslate nohighlight">\(\sigma^2 = Var(X)\)</span>. Then, for any real number <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[P(|X - \mu| \ge \epsilon) \le \frac{Var(X)}{\epsilon^2} = \frac{\sigma^2}{\epsilon^2}\]</div>
+<p>Alternatively, letting <span class="math notranslate nohighlight">\(\epsilon = k\sigma\)</span> for some <span class="math notranslate nohighlight">\(k &gt; 0\)</span>, the inequality can be written as:</p>
+<div class="math notranslate nohighlight">
+\[P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}\]</div>
+<p>This second form states that the probability of <span class="math notranslate nohighlight">\(X\)</span> being <span class="math notranslate nohighlight">\(k\)</span> or more standard deviations away from its mean is at most <span class="math notranslate nohighlight">\(1/k^2\)</span>.</p>
+<ul class="simple">
+<li><p>For <span class="math notranslate nohighlight">\(k=2\)</span>, the probability of being 2 or more standard deviations away is at most <span class="math notranslate nohighlight">\(1/4 = 0.25\)</span>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(k=3\)</span>, the probability of being 3 or more standard deviations away is at most <span class="math notranslate nohighlight">\(1/9 \approx 0.11\)</span>.</p></li>
+</ul>
+<p><strong>Interpretation:</strong> Chebyshev’s inequality gives us a <em>guaranteed upper bound</em> on the probability of large deviations. This bound is often quite loose (i.e., the actual probability might be much smaller), especially if we know more about the distribution (like if it’s Normal). However, its universality makes it very useful in theoretical contexts.</p>
+<p><strong>Example:</strong> Suppose the average daily return of a stock (<span class="math notranslate nohighlight">\(\mu\)</span>) is 0.05% and the standard deviation (<span class="math notranslate nohighlight">\(\sigma\)</span>) is 1%. What is the maximum probability that the return on a given day is outside the range [-1.95%, 2.05%]?
+This range corresponds to being <span class="math notranslate nohighlight">\(k\sigma\)</span> away from the mean, where <span class="math notranslate nohighlight">\(k\sigma = 2\%\)</span>, so <span class="math notranslate nohighlight">\(k = 2\% / 1\% = 2\)</span>.
+Using Chebyshev’s inequality with <span class="math notranslate nohighlight">\(k=2\)</span>:
+<span class="math notranslate nohighlight">\(P(|X - 0.05\%| \ge 2 \times 1\%) \le \frac{1}{2^2} = \frac{1}{4} = 0.25\)</span>.
+So, there’s at most a 25% chance that the daily return falls outside the [-1.95%, 2.05%] range, regardless of the specific distribution shape (as long as mean and variance are as stated).</p>
+<section id="hands-on-illustrating-chebyshev-s-bound">
+<h3>Hands-on: Illustrating Chebyshev’s Bound<a class="headerlink" href="#hands-on-illustrating-chebyshev-s-bound" title="Link to this heading">#</a></h3>
+<p>Let’s consider a Binomial random variable, say <span class="math notranslate nohighlight">\(X \sim Binomial(n=100, p=0.5)\)</span>.
+We know <span class="math notranslate nohighlight">\(E[X] = np = 100 \times 0.5 = 50\)</span>.
+And <span class="math notranslate nohighlight">\(Var(X) = np(1-p) = 100 \times 0.5 \times 0.5 = 25\)</span>, so <span class="math notranslate nohighlight">\(\sigma = \sqrt{25} = 5\)</span>.</p>
+<p>Let’s check the probability of being <span class="math notranslate nohighlight">\(k=2\)</span> standard deviations away from the mean. That is, <span class="math notranslate nohighlight">\(P(|X - 50| \ge 2 \times 5) = P(|X - 50| \ge 10)\)</span>. This means we want <span class="math notranslate nohighlight">\(P(X \le 40 \text{ or } X \ge 60)\)</span>.</p>
+<p>Chebyshev’s inequality states: <span class="math notranslate nohighlight">\(P(|X - 50| \ge 10) \le \frac{1}{2^2} = 0.25\)</span>.</p>
+<p>Let’s calculate the actual probability using <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">p</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">))</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">sigma</span>
+
+<span class="c1"># Calculate the actual probability P(|X - mu| &gt;= k*sigma)</span>
+<span class="c1"># This is P(X &lt;= mu - k*sigma) + P(X &gt;= mu + k*sigma)</span>
+<span class="c1"># Since Binomial is discrete, we need P(X &lt;= floor(mu - k*sigma)) + P(X &gt;= ceil(mu + k*sigma))</span>
+<span class="n">lower_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span>
+
+<span class="n">prob_lower</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<span class="n">prob_upper</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">binom</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">upper_bound</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span> <span class="c1"># P(X &gt;= upper_bound) = 1 - P(X &lt; upper_bound) = 1 - P(X &lt;= upper_bound - 1)</span>
+
+<span class="n">actual_prob</span> <span class="o">=</span> <span class="n">prob_lower</span> <span class="o">+</span> <span class="n">prob_upper</span>
+
+<span class="c1"># Chebyshev bound</span>
+<span class="n">chebyshev_bound</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribution: Binomial(n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean (mu): </span><span class="si">{</span><span class="n">mu</span><span class="si">}</span><span class="s2">, Standard Deviation (sigma): </span><span class="si">{</span><span class="n">sigma</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking deviation of k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> standard deviations (epsilon=</span><span class="si">{</span><span class="n">epsilon</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;We want P(|X - </span><span class="si">{</span><span class="n">mu</span><span class="si">}</span><span class="s2">| &gt;= </span><span class="si">{</span><span class="n">epsilon</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">), which is P(X &lt;= </span><span class="si">{</span><span class="n">lower_bound</span><span class="si">}</span><span class="s2"> or X &gt;= </span><span class="si">{</span><span class="n">upper_bound</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actual Probability: </span><span class="si">{</span><span class="n">actual_prob</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chebyshev Bound: &lt;= </span><span class="si">{</span><span class="n">chebyshev_bound</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is the actual probability less than or equal to the bound? </span><span class="si">{</span><span class="n">actual_prob</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">chebyshev_bound</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the distribution and the bounds</span>
+<span class="n">x_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">pmf_values</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">x_values</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Binomial PMF&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Mean (mu=</span><span class="si">{</span><span class="n">mu</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;mu - </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">*sigma (</span><span class="si">{</span><span class="n">mu</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">epsilon</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;mu + </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">*sigma (</span><span class="si">{</span><span class="n">mu</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">epsilon</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="n">x_values</span> <span class="o">&lt;=</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">x_values</span> <span class="o">&gt;=</span> <span class="n">upper_bound</span><span class="p">),</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Area where |X - mu| &gt;= </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">*sigma&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Binomial Distribution and Chebyshev&#39;s Bound (k=2)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Successes (X)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;scipy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see, the actual probability (around 0.0569) is much smaller than the Chebyshev bound (0.25). This illustrates that while the inequality always holds, it might not be very precise for specific, well-behaved distributions like the Binomial (which is close to Normal for these parameters).</p>
+</section>
+</section>
+<section id="the-law-of-large-numbers-lln">
+<h2>The Law of Large Numbers (LLN)<a class="headerlink" href="#the-law-of-large-numbers-lln" title="Link to this heading">#</a></h2>
+<p>Chebyshev’s inequality provides a foundation for proving one version of the Law of Large Numbers. The LLN formalizes the idea that sample averages converge to the population mean as the sample size increases.</p>
+<p>Let <span class="math notranslate nohighlight">\(X_1, X_2, ..., X_n\)</span> be a sequence of independent and identically distributed (i.i.d.) random variables, each with the same finite mean <span class="math notranslate nohighlight">\(\mu = E[X_i]\)</span> and finite variance <span class="math notranslate nohighlight">\(\sigma^2 = Var(X_i)\)</span>.</p>
+<p>Let <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> be the sample mean (average) of the first <span class="math notranslate nohighlight">\(n\)</span> variables:
+$<span class="math notranslate nohighlight">\(\bar{X}_n = \frac{X_1 + X_2 + ... + X_n}{n}\)</span>$</p>
+<p>The LLN describes the behavior of <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> as <span class="math notranslate nohighlight">\(n \to \infty\)</span>. There are two main versions:</p>
+<section id="weak-law-of-large-numbers-wlln">
+<h3>1. Weak Law of Large Numbers (WLLN)<a class="headerlink" href="#weak-law-of-large-numbers-wlln" title="Link to this heading">#</a></h3>
+<p>The WLLN states that the sample mean <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> <strong>converges in probability</strong> to the true mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
+<p><strong>Definition (Convergence in Probability):</strong> A sequence of random variables <span class="math notranslate nohighlight">\(Y_n\)</span> converges in probability to a constant <span class="math notranslate nohighlight">\(c\)</span> (written <span class="math notranslate nohighlight">\(Y_n \xrightarrow{P} c\)</span>) if, for every <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>:
+$<span class="math notranslate nohighlight">\(\lim_{n\to\infty} P(|Y_n - c| \ge \epsilon) = 0\)</span><span class="math notranslate nohighlight">\(
+In words: As \)</span>n<span class="math notranslate nohighlight">\( gets larger, the probability that \)</span>Y_n<span class="math notranslate nohighlight">\( is significantly different from \)</span>c$ becomes arbitrarily small.</p>
+<p><strong>Theorem (Weak Law of Large Numbers):</strong> If <span class="math notranslate nohighlight">\(X_1, X_2, ...\)</span> are i.i.d. with finite mean <span class="math notranslate nohighlight">\(\mu\)</span> and finite variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, then the sample mean <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> converges in probability to <span class="math notranslate nohighlight">\(\mu\)</span>:
+$<span class="math notranslate nohighlight">\(\bar{X}_n \xrightarrow{P} \mu \quad \text{as } n \to \infty\)</span><span class="math notranslate nohighlight">\(
+That is, for any \)</span>\epsilon &gt; 0<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\(\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0\)</span>$</p>
+<p><strong>Proof using Chebyshev’s Inequality:</strong>
+We need the properties of expected value and variance for the sample mean <span class="math notranslate nohighlight">\(\bar{X}_n\)</span>:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(E[\bar{X}_n] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n}\sum_{i=1}^n \mu = \frac{n\mu}{n} = \mu\)</span>.
+(The expected value of the sample mean is the true mean).</p></li>
+<li><p><span class="math notranslate nohighlight">\(Var(\bar{X}_n) = Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2} Var\left(\sum_{i=1}^n X_i\right)\)</span>.
+Since the <span class="math notranslate nohighlight">\(X_i\)</span> are independent:
+<span class="math notranslate nohighlight">\(Var(\bar{X}_n) = \frac{1}{n^2} \sum_{i=1}^n Var(X_i) = \frac{1}{n^2} \sum_{i=1}^n \sigma^2 = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}\)</span>.
+(The variance of the sample mean decreases as <span class="math notranslate nohighlight">\(n\)</span> increases).</p></li>
+</ol>
+<p>Now, apply Chebyshev’s Inequality to the random variable <span class="math notranslate nohighlight">\(\bar{X}_n\)</span>, which has mean <span class="math notranslate nohighlight">\(\mu\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2/n\)</span>:
+$<span class="math notranslate nohighlight">\(P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{Var(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2/n}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}\)</span><span class="math notranslate nohighlight">\(
+Taking the limit as \)</span>n \to \infty<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\(\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) \le \lim_{n\to\infty} \frac{\sigma^2}{n\epsilon^2} = 0\)</span>$
+Since probability cannot be negative, the limit must be exactly 0. This proves the WLLN under the condition of finite variance. (Note: The WLLN holds even if only the mean is finite, but the proof is more complex).</p>
+<p><strong>Intuition:</strong> The WLLN tells us that for a <em>sufficiently large sample size n</em>, the probability that the sample average <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> deviates from the true mean <span class="math notranslate nohighlight">\(\mu\)</span> by more than any small amount <span class="math notranslate nohighlight">\(\epsilon\)</span> is very low.</p>
+</section>
+<section id="strong-law-of-large-numbers-slln">
+<h3>2. Strong Law of Large Numbers (SLLN)<a class="headerlink" href="#strong-law-of-large-numbers-slln" title="Link to this heading">#</a></h3>
+<p>The SLLN makes a stronger statement about the convergence of the sample mean. It states that <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> converges <strong>almost surely</strong> to <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
+<p><strong>Definition (Almost Sure Convergence):</strong> A sequence of random variables <span class="math notranslate nohighlight">\(Y_n\)</span> converges almost surely to a constant <span class="math notranslate nohighlight">\(c\)</span> (written <span class="math notranslate nohighlight">\(Y_n \xrightarrow{a.s.} c\)</span>) if:
+$<span class="math notranslate nohighlight">\(P\left( \lim_{n\to\infty} Y_n = c \right) = 1\)</span><span class="math notranslate nohighlight">\(
+In words: The probability that the sequence of values \)</span>Y_n<span class="math notranslate nohighlight">\( eventually converges to and stays at \)</span>c$ is 1. This means that for any <em>specific realization</em> (sequence of outcomes) of the random process, the sample average will converge to the true mean, except possibly for a set of outcomes with zero probability.</p>
+<p><strong>Theorem (Strong Law of Large Numbers - Kolmogorov):</strong> If <span class="math notranslate nohighlight">\(X_1, X_2, ...\)</span> are i.i.d. with finite mean <span class="math notranslate nohighlight">\(\mu = E[X_i]\)</span>, then the sample mean <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> converges almost surely to <span class="math notranslate nohighlight">\(\mu\)</span>:
+$<span class="math notranslate nohighlight">\(\bar{X}_n \xrightarrow{a.s.} \mu \quad \text{as } n \to \infty\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(P\left( \lim_{n\to\infty} \bar{X}_n = \mu \right) = 1\)</span>$
+<em>(Note: The condition for the SLLN only requires finite mean, not finite variance, unlike our proof of the WLLN using Chebyshev).</em></p>
+<p><strong>WLLN vs SLLN:</strong></p>
+<ul class="simple">
+<li><p>WLLN concerns the probability of deviation for a <em>specific large n</em>. It doesn’t guarantee that convergence will happen for a <em>particular sequence</em> of outcomes.</p></li>
+<li><p>SLLN concerns the behavior of the <em>entire sequence</em> of sample averages. It guarantees that the sample average will <em>eventually</em> converge to the true mean for almost every possible sequence of outcomes.</p></li>
+</ul>
+<p>For most practical applications in simulation and statistics, the intuition provided by either law is similar: <strong>the sample average is a reliable estimator of the true expected value for large sample sizes.</strong></p>
+</section>
+</section>
+<section id="applications-justification-for-monte-carlo-methods">
+<h2>Applications: Justification for Monte Carlo Methods<a class="headerlink" href="#applications-justification-for-monte-carlo-methods" title="Link to this heading">#</a></h2>
+<p>The Law of Large Numbers is the cornerstone of <strong>Monte Carlo simulation</strong>. Monte Carlo methods use repeated random sampling to obtain numerical results, often when analytical solutions are intractable.</p>
+<p>Consider estimating a probability <span class="math notranslate nohighlight">\(p\)</span> of some event <span class="math notranslate nohighlight">\(A\)</span>. We can perform <span class="math notranslate nohighlight">\(n\)</span> independent trials of the relevant experiment. Let <span class="math notranslate nohighlight">\(X_i\)</span> be an indicator random variable for the <span class="math notranslate nohighlight">\(i\)</span>-th trial:
+<span class="math notranslate nohighlight">\(X_i = 1\)</span> if event <span class="math notranslate nohighlight">\(A\)</span> occurs on trial <span class="math notranslate nohighlight">\(i\)</span>,
+<span class="math notranslate nohighlight">\(X_i = 0\)</span> if event <span class="math notranslate nohighlight">\(A\)</span> does not occur on trial <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>Then <span class="math notranslate nohighlight">\(E[X_i] = 1 \cdot P(X_i=1) + 0 \cdot P(X_i=0) = P(A) = p\)</span>.
+The sample mean <span class="math notranslate nohighlight">\(\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i\)</span> represents the proportion of times event <span class="math notranslate nohighlight">\(A\)</span> occurred in the <span class="math notranslate nohighlight">\(n\)</span> trials (the empirical probability).</p>
+<p>By the LLN (either Weak or Strong), as <span class="math notranslate nohighlight">\(n \to \infty\)</span>:
+$<span class="math notranslate nohighlight">\(\bar{X}_n \longrightarrow E[X_i] = p\)</span>$
+So, the proportion of successes in a large number of trials converges to the true probability of success. This justifies using the observed frequency from a large simulation to estimate an unknown probability.</p>
+<p>Similarly, if we want to estimate the expected value <span class="math notranslate nohighlight">\(E[g(Y)]\)</span> for some random variable <span class="math notranslate nohighlight">\(Y\)</span> and function <span class="math notranslate nohighlight">\(g\)</span>, we can generate many i.i.d. samples <span class="math notranslate nohighlight">\(Y_1, Y_2, ..., Y_n\)</span> from the distribution of <span class="math notranslate nohighlight">\(Y\)</span>. Let <span class="math notranslate nohighlight">\(Z_i = g(Y_i)\)</span>. Then <span class="math notranslate nohighlight">\(E[Z_i] = E[g(Y)]\)</span>. The sample mean of the transformed variables is:
+$<span class="math notranslate nohighlight">\(\bar{Z}_n = \frac{1}{n} \sum_{i=1}^n g(Y_i)\)</span><span class="math notranslate nohighlight">\(
+By the LLN, as \)</span>n \to \infty<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\(\bar{Z}_n \longrightarrow E[Z_i] = E[g(Y)]\)</span><span class="math notranslate nohighlight">\(
+Thus, the average of \)</span>g(Y_i)<span class="math notranslate nohighlight">\( over many simulations converges to the true expected value \)</span>E[g(Y)]$. This is the basis for Monte Carlo integration and estimating expected values of complex systems.</p>
+</section>
+<section id="hands-on-simulating-the-law-of-large-numbers">
+<h2>Hands-on: Simulating the Law of Large Numbers<a class="headerlink" href="#hands-on-simulating-the-law-of-large-numbers" title="Link to this heading">#</a></h2>
+<p>Let’s visualize the LLN by simulating the rolling of a fair six-sided die.
+The random variable <span class="math notranslate nohighlight">\(X\)</span> is the outcome of a single roll. The sample space is <span class="math notranslate nohighlight">\(\{1, 2, 3, 4, 5, 6\}\)</span>.
+The true mean (expected value) is:
+$<span class="math notranslate nohighlight">\(E[X] = \sum_{k=1}^6 k \cdot P(X=k) = \sum_{k=1}^6 k \cdot \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = \frac{21}{6} = 3.5\)</span>$</p>
+<p>We will simulate <span class="math notranslate nohighlight">\(N\)</span> die rolls, calculate the running sample average after each roll, and plot how it converges towards the theoretical mean of 3.5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># --- Simulation Parameters ---</span>
+<span class="n">num_rolls</span> <span class="o">=</span> <span class="mi">5000</span>  <span class="c1"># Total number of die rolls to simulate</span>
+<span class="n">true_mean</span> <span class="o">=</span> <span class="mf">3.5</span>   <span class="c1"># Theoretical expected value for a fair die</span>
+
+<span class="c1"># --- Simulate Die Rolls ---</span>
+<span class="c1"># Generate random integers between 1 and 6 (inclusive)</span>
+<span class="n">rolls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_rolls</span><span class="p">)</span>
+
+<span class="c1"># --- Calculate Running Average ---</span>
+<span class="c1"># Calculate the cumulative sum of the rolls</span>
+<span class="n">cumulative_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">rolls</span><span class="p">)</span>
+<span class="c1"># Calculate the number of rolls at each step (1, 2, 3, ..., num_rolls)</span>
+<span class="n">roll_numbers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_rolls</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Calculate the running average: cumulative_sum / number_of_rolls</span>
+<span class="n">running_average</span> <span class="o">=</span> <span class="n">cumulative_sum</span> <span class="o">/</span> <span class="n">roll_numbers</span>
+
+<span class="c1"># --- Plotting ---</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Plot the running average</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">roll_numbers</span><span class="p">,</span> <span class="n">running_average</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Running Sample Average&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the true mean</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;True Mean (</span><span class="si">{</span><span class="n">true_mean</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add annotations and labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Law of Large Numbers: Convergence of Sample Mean (</span><span class="si">{</span><span class="n">num_rolls</span><span class="si">}</span><span class="s1"> Die Rolls)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Rolls&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sample Average&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_rolls</span><span class="p">)</span>
+<span class="c1"># Adjust y-limits for better visualization if needed, e.g.:</span>
+<span class="c1"># plt.ylim(1, 6)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Optional: Show the plot for the first few rolls more clearly</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">roll_numbers</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">running_average</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Running Sample Average (First 100)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;True Mean (</span><span class="si">{</span><span class="n">true_mean</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;LLN: Convergence Detail (First 100 Rolls)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Rolls&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sample Average&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="c1"># Set fixed y-axis for fair comparison</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final sample average after </span><span class="si">{</span><span class="n">num_rolls</span><span class="si">}</span><span class="s2"> rolls: </span><span class="si">{</span><span class="n">running_average</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Difference from true mean: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">running_average</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">true_mean</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a990af51b6e4cdfa59f5323e33af21b3bf458f5f36e06bf209f1f5dfce437ed1.png" src="_images/a990af51b6e4cdfa59f5323e33af21b3bf458f5f36e06bf209f1f5dfce437ed1.png" />
+<img alt="_images/ab8b9a010d003663e434fe61a1032dab555329a20b2bf8f5463755b1789f8284.png" src="_images/ab8b9a010d003663e434fe61a1032dab555329a20b2bf8f5463755b1789f8284.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final sample average after 5000 rolls: 3.4908
+Difference from true mean: 0.0092
+</pre></div>
+</div>
+</div>
+</div>
+<p>The plots clearly demonstrate the LLN in action. Initially, the sample average fluctuates significantly. However, as the number of rolls increases, the sample average stabilizes and gets progressively closer to the true expected value of 3.5. The final average after 5000 rolls is very close to the theoretical mean. This convergence is exactly what the LLN predicts.</p>
+</section>
+<section id="chapter-summary">
+<h2>Chapter Summary<a class="headerlink" href="#chapter-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Chebyshev’s Inequality</strong> provides a distribution-independent upper bound on the probability that a random variable deviates from its mean by a certain amount: <span class="math notranslate nohighlight">\(P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}\)</span>. While often loose, it’s universally applicable given finite mean and variance.</p></li>
+<li><p><strong>The Law of Large Numbers (LLN)</strong> describes the convergence of the sample average (<span class="math notranslate nohighlight">\(\bar{X}_n\)</span>) of i.i.d. random variables to the population mean (<span class="math notranslate nohighlight">\(\mu\)</span>) as the sample size (<span class="math notranslate nohighlight">\(n\)</span>) grows.</p></li>
+<li><p><strong>Weak Law of Large Numbers (WLLN):</strong> States that <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> converges <em>in probability</em> to <span class="math notranslate nohighlight">\(\mu\)</span>. This means <span class="math notranslate nohighlight">\(P(|\bar{X}_n - \mu| \ge \epsilon) \to 0\)</span> as <span class="math notranslate nohighlight">\(n \to \infty\)</span>. It can be proven using Chebyshev’s inequality (if variance is finite).</p></li>
+<li><p><strong>Strong Law of Large Numbers (SLLN):</strong> States that <span class="math notranslate nohighlight">\(\bar{X}_n\)</span> converges <em>almost surely</em> to <span class="math notranslate nohighlight">\(\mu\)</span>. This means <span class="math notranslate nohighlight">\(P(\lim_{n\to\infty} \bar{X}_n = \mu) = 1\)</span>. It’s a stronger condition, implying convergence for almost every specific sequence of outcomes.</p></li>
+<li><p><strong>Applications:</strong> The LLN is the fundamental justification for <strong>Monte Carlo methods</strong>, ensuring that averages calculated from large simulations reliably estimate true probabilities and expected values.</p></li>
+<li><p><strong>Simulation:</strong> We visualized the LLN by plotting the running average of simulated die rolls, observing its convergence towards the theoretical mean of 3.5.</p></li>
+</ul>
+<p>The LLN tells us <em>where</em> the sample average converges (to the population mean). Our next topic, the Central Limit Theorem (CLT), will tell us about the <em>shape of the distribution</em> of the sample average around that mean for large sample sizes.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Chebyshev vs. Reality (Exponential):</strong> Let <span class="math notranslate nohighlight">\(X \sim Exponential(\lambda=1)\)</span>. Recall <span class="math notranslate nohighlight">\(E[X] = 1/\lambda = 1\)</span> and <span class="math notranslate nohighlight">\(Var(X) = 1/\lambda^2 = 1\)</span>.
+a. Use Chebyshev’s inequality to find an upper bound for <span class="math notranslate nohighlight">\(P(|X - 1| \ge 2)\)</span>. (Here <span class="math notranslate nohighlight">\(\mu=1, \sigma=1\)</span>, so <span class="math notranslate nohighlight">\(k=2\)</span>).
+b. Calculate the exact probability <span class="math notranslate nohighlight">\(P(|X - 1| \ge 2) = P(X \ge 3)\)</span> using the CDF of the Exponential distribution (<span class="math notranslate nohighlight">\(F(x) = 1 - e^{-\lambda x}\)</span> for <span class="math notranslate nohighlight">\(x \ge 0\)</span>).
+c. Compare the bound from (a) with the exact value from (b).</p></li>
+<li><p><strong>Simulating LLN for Bernoulli:</strong> Consider a Bernoulli trial with <span class="math notranslate nohighlight">\(p=0.3\)</span> (probability of success). The true mean is <span class="math notranslate nohighlight">\(\mu = p = 0.3\)</span>.
+a. Simulate 10,000 Bernoulli trials with <span class="math notranslate nohighlight">\(p=0.3\)</span>.
+b. Calculate and plot the running average of the outcomes (which represents the empirical probability of success).
+c. Verify visually that the running average converges towards 0.3.</p></li>
+<li><p><strong>Convergence Rate:</strong> In the proof of WLLN using Chebyshev, we found <span class="math notranslate nohighlight">\(P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n\epsilon^2}\)</span>. If we want to ensure this probability bound is less than 0.01 for <span class="math notranslate nohighlight">\(\epsilon=0.1\)</span>, how large does <span class="math notranslate nohighlight">\(n\)</span> need to be for the die roll example (<span class="math notranslate nohighlight">\(Var(X) = E[X^2] - (E[X])^2 = (1^2+2^2+3^2+4^2+5^2+6^2)/6 - 3.5^2 = 91/6 - 12.25 \approx 15.167 - 12.25 = 2.917\)</span>)? Does this seem like a practical sample size based on the simulation?</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_12.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 12: Functions of Multiple Random Variables</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_14.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 14: The Central Limit Theorem (CLT)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chebyshev-s-inequality">Chebyshev’s Inequality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-illustrating-chebyshev-s-bound">Hands-on: Illustrating Chebyshev’s Bound</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-law-of-large-numbers-lln">The Law of Large Numbers (LLN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weak-law-of-large-numbers-wlln">1. Weak Law of Large Numbers (WLLN)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-law-of-large-numbers-slln">2. Strong Law of Large Numbers (SLLN)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-justification-for-monte-carlo-methods">Applications: Justification for Monte Carlo Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-simulating-the-law-of-large-numbers">Hands-on: Simulating the Law of Large Numbers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">Chapter Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

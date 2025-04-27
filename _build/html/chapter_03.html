@@ -1,0 +1,1173 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 3: Counting Techniques: Permutations and Combinations &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_03';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 4: Conditional Probability" href="chapter_04.html" />
+    <link rel="prev" title="Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events" href="chapter_02.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_03.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_03.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 3: Counting Techniques: Permutations and Combinations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multiplication-principle">The Multiplication Principle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permutations-when-order-matters">Permutations: When Order Matters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#permutations-without-repetition">Permutations without Repetition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#permutations-with-repetition-multinomial-coefficients">Permutations with Repetition (Multinomial Coefficients)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combinations-when-order-doesn-t-matter">Combinations: When Order Doesn’t Matter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combinations-without-repetition">Combinations without Repetition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combinations-with-repetition">Combinations with Repetition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-to-probability-problems">Applications to Probability Problems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-using-python-for-counting">Hands-on: Using Python for Counting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-3-counting-techniques-permutations-and-combinations">
+<h1>Chapter 3: Counting Techniques: Permutations and Combinations<a class="headerlink" href="#chapter-3-counting-techniques-permutations-and-combinations" title="Link to this heading">#</a></h1>
+<p>Welcome to Chapter 3! In the previous chapter, we established the fundamental language of probability using sets and explored the basic axioms and rules. Now, we dive into a crucial skill for calculating probabilities, especially when dealing with equally likely outcomes: <strong>counting</strong>.</p>
+<p>Often, calculating a probability boils down to answering two questions:</p>
+<ol class="arabic simple">
+<li><p>How many total possible outcomes are there in our sample space?</p></li>
+<li><p>How many of those outcomes correspond to the event we’re interested in?</p></li>
+</ol>
+<p>If all outcomes are equally likely, the probability is simply the ratio of these two counts. While this sounds simple, counting the number of possibilities can become complex very quickly. Imagine trying to list every possible 5-card poker hand!</p>
+<p>This chapter introduces systematic methods for counting outcomes: the Multiplication Principle, Permutations, and Combinations. We’ll see how these techniques allow us to tackle problems that would be tedious or impossible to solve by simple enumeration. We’ll also use Python’s <code class="docutils literal notranslate"><span class="pre">math</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy.special</span></code> libraries to perform these calculations efficiently.</p>
+<p>Let’s start counting!</p>
+<section id="the-multiplication-principle">
+<h2>The Multiplication Principle<a class="headerlink" href="#the-multiplication-principle" title="Link to this heading">#</a></h2>
+<p>The most fundamental counting technique is the <strong>Multiplication Principle</strong> (also known as the rule of product).</p>
+<p><strong>Principle:</strong> If a procedure can be broken down into a sequence of <span class="math notranslate nohighlight">\(k\)</span> steps, and</p>
+<ul class="simple">
+<li><p>there are <span class="math notranslate nohighlight">\(n_1\)</span> ways to perform the first step,</p></li>
+<li><p>there are <span class="math notranslate nohighlight">\(n_2\)</span> ways to perform the second step (regardless of the outcome of the first step),</p></li>
+<li><p>…</p></li>
+<li><p>there are <span class="math notranslate nohighlight">\(n_k\)</span> ways to perform the <span class="math notranslate nohighlight">\(k\)</span>-th step (regardless of the outcomes of the previous steps),</p></li>
+</ul>
+<p>then the total number of ways to perform the entire procedure is the product <span class="math notranslate nohighlight">\(n_1 \times n_2 \times \dots \times n_k\)</span>.</p>
+<p><strong>Example:</strong> A restaurant offers a fixed-price dinner menu with 3 choices for starters, 4 choices for the main course, and 2 choices for dessert. How many different meal combinations are possible?</p>
+<ul class="simple">
+<li><p>Step 1: Choose a starter (<span class="math notranslate nohighlight">\(n_1 = 3\)</span> ways)</p></li>
+<li><p>Step 2: Choose a main course (<span class="math notranslate nohighlight">\(n_2 = 4\)</span> ways)</p></li>
+<li><p>Step 3: Choose a dessert (<span class="math notranslate nohighlight">\(n_3 = 2\)</span> ways)</p></li>
+</ul>
+<p>According to the Multiplication Principle, the total number of different meal combinations is <span class="math notranslate nohighlight">\(3 \times 4 \times 2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using Python for the meal combination example</span>
+<span class="n">num_starters</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">num_mains</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">num_desserts</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_combinations</span> <span class="o">=</span> <span class="n">num_starters</span> <span class="o">*</span> <span class="n">num_mains</span> <span class="o">*</span> <span class="n">num_desserts</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total number of meal combinations: </span><span class="si">{</span><span class="n">total_combinations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of meal combinations: 24
+</pre></div>
+</div>
+</div>
+</div>
+<p>This principle is the foundation upon which permutations and combinations are built.</p>
+</section>
+<section id="permutations-when-order-matters">
+<h2>Permutations: When Order Matters<a class="headerlink" href="#permutations-when-order-matters" title="Link to this heading">#</a></h2>
+<p>A <strong>permutation</strong> is an arrangement of objects in a specific order. Consider arranging books on a shelf – swapping two books creates a different arrangement.</p>
+<section id="permutations-without-repetition">
+<h3>Permutations without Repetition<a class="headerlink" href="#permutations-without-repetition" title="Link to this heading">#</a></h3>
+<p>This is the most common type of permutation. It involves arranging <span class="math notranslate nohighlight">\(k\)</span> distinct objects chosen from a set of <span class="math notranslate nohighlight">\(n\)</span> distinct objects, where order matters and objects cannot be reused.</p>
+<p><strong>Formula:</strong> The number of permutations of <span class="math notranslate nohighlight">\(n\)</span> distinct objects taken <span class="math notranslate nohighlight">\(k\)</span> at a time is denoted by <span class="math notranslate nohighlight">\(P(n, k)\)</span>, <span class="math notranslate nohighlight">\(_nP_k\)</span>, or <span class="math notranslate nohighlight">\(P^n_k\)</span> and is calculated as:
+$<span class="math notranslate nohighlight">\( P(n, k) = \frac{n!}{(n-k)!} \)</span><span class="math notranslate nohighlight">\(
+where \)</span>n!<span class="math notranslate nohighlight">\( (read &quot;n factorial&quot;) is the product of all positive integers up to \)</span>n<span class="math notranslate nohighlight">\( (i.e., \)</span>n! = n \times (n-1) \times \dots \times 2 \times 1<span class="math notranslate nohighlight">\(), and \)</span>0! = 1$ by definition.</p>
+<p><strong>Example:</strong> In a race with 8 runners, how many different ways can the 1st, 2nd, and 3rd place medals be awarded?</p>
+<p>Here, we are choosing <span class="math notranslate nohighlight">\(k=3\)</span> winners from <span class="math notranslate nohighlight">\(n=8\)</span> runners, and the order matters (Gold is different from Silver). We cannot reuse a runner (no repetition).</p>
+<p>Using the formula:
+$<span class="math notranslate nohighlight">\( P(8, 3) = \frac{8!}{(8-3)!} = \frac{8!}{5!} = \frac{8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1}{5 \times 4 \times 3 \times 2 \times 1} = 8 \times 7 \times 6 \)</span>$</p>
+<p>Let’s calculate this using Python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">perm</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">math</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">perm</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;scipy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using math.factorial</span>
+<span class="n">n_runners</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">k_places</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_8_3_math</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_runners</span><span class="p">)</span> <span class="o">//</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_runners</span> <span class="o">-</span> <span class="n">k_places</span><span class="p">)</span> <span class="c1"># Use // for integer division</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using math.factorial: P(</span><span class="si">{</span><span class="n">n_runners</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">k_places</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">p_8_3_math</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using math.factorial: P(8, 3) = 336
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.special.perm</span>
+<span class="c1"># Note: scipy.special.perm(n, k) calculates P(n, k) directly</span>
+<span class="n">p_8_3_scipy</span> <span class="o">=</span> <span class="n">perm</span><span class="p">(</span><span class="n">n_runners</span><span class="p">,</span> <span class="n">k_places</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># exact=True ensures integer result</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using scipy.special.perm: P(</span><span class="si">{</span><span class="n">n_runners</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">k_places</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">p_8_3_scipy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using scipy.special.perm: P(8, 3) = 336
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Direct calculation based on the multiplication principle</span>
+<span class="n">p_8_3_direct</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">6</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Direct calculation: </span><span class="si">{</span><span class="n">p_8_3_direct</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Direct calculation: 336
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Special Case:</strong> The number of ways to arrange all <span class="math notranslate nohighlight">\(n\)</span> distinct objects is <span class="math notranslate nohighlight">\(P(n, n) = \frac{n!}{(n-n)!} = \frac{n!}{0!} = n!\)</span>. For example, there are <span class="math notranslate nohighlight">\(3! = 3 \times 2 \times 1 = 6\)</span> ways to arrange the letters A, B, C: (ABC, ACB, BAC, BCA, CAB, CBA).</p>
+</section>
+<section id="permutations-with-repetition-multinomial-coefficients">
+<h3>Permutations with Repetition (Multinomial Coefficients)<a class="headerlink" href="#permutations-with-repetition-multinomial-coefficients" title="Link to this heading">#</a></h3>
+<p>Sometimes we need to arrange objects where some are identical.</p>
+<p><strong>Formula:</strong> The number of distinct permutations of <span class="math notranslate nohighlight">\(n\)</span> objects where there are <span class="math notranslate nohighlight">\(n_1\)</span> identical objects of type 1, <span class="math notranslate nohighlight">\(n_2\)</span> identical objects of type 2, …, and <span class="math notranslate nohighlight">\(n_k\)</span> identical objects of type k (such that <span class="math notranslate nohighlight">\(n_1 + n_2 + \dots + n_k = n\)</span>) is:
+$<span class="math notranslate nohighlight">\( \frac{n!}{n_1! n_2! \dots n_k!} \)</span>$</p>
+<p><strong>Example:</strong> How many distinct ways can the letters in the word “MISSISSIPPI” be arranged?</p>
+<ul class="simple">
+<li><p>Total letters <span class="math notranslate nohighlight">\(n = 11\)</span></p></li>
+<li><p>M: <span class="math notranslate nohighlight">\(n_1 = 1\)</span></p></li>
+<li><p>I: <span class="math notranslate nohighlight">\(n_2 = 4\)</span></p></li>
+<li><p>S: <span class="math notranslate nohighlight">\(n_3 = 4\)</span></p></li>
+<li><p>P: <span class="math notranslate nohighlight">\(n_4 = 2\)</span>
+(Check: <span class="math notranslate nohighlight">\(1 + 4 + 4 + 2 = 11\)</span>)</p></li>
+</ul>
+<p>The number of distinct arrangements is:
+$<span class="math notranslate nohighlight">\( \frac{11!}{1! 4! 4! 2!} \)</span>$</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">n_M</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">n_I</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">n_S</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">n_P</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate factorials</span>
+<span class="n">numerator</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_M</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_I</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_S</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_P</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distinct_arrangements</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">//</span> <span class="n">denominator</span> <span class="c1"># Use integer division</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of distinct arrangements of &#39;MISSISSIPPI&#39;: </span><span class="si">{</span><span class="n">distinct_arrangements</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of distinct arrangements of &#39;MISSISSIPPI&#39;: 34650
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="combinations-when-order-doesn-t-matter">
+<h2>Combinations: When Order Doesn’t Matter<a class="headerlink" href="#combinations-when-order-doesn-t-matter" title="Link to this heading">#</a></h2>
+<p>A <strong>combination</strong> is a selection of objects where the order of selection does not matter. Consider choosing members for a committee – selecting Alice then Bob is the same as selecting Bob then Alice.</p>
+<section id="combinations-without-repetition">
+<h3>Combinations without Repetition<a class="headerlink" href="#combinations-without-repetition" title="Link to this heading">#</a></h3>
+<p>This involves selecting <span class="math notranslate nohighlight">\(k\)</span> distinct objects from a set of <span class="math notranslate nohighlight">\(n\)</span> distinct objects, where order <em>does not</em> matter and objects cannot be reused.</p>
+<p><strong>Formula:</strong> The number of combinations of <span class="math notranslate nohighlight">\(n\)</span> distinct objects taken <span class="math notranslate nohighlight">\(k\)</span> at a time is denoted by <span class="math notranslate nohighlight">\(C(n, k)\)</span>, <span class="math notranslate nohighlight">\(_nC_k\)</span>, <span class="math notranslate nohighlight">\(C^n_k\)</span>, or <span class="math notranslate nohighlight">\(\binom{n}{k}\)</span> (read “n choose k”) and is calculated as:
+$<span class="math notranslate nohighlight">\( C(n, k) = \binom{n}{k} = \frac{n!}{k!(n-k)!} \)</span>$</p>
+<p>Notice that <span class="math notranslate nohighlight">\(C(n, k) = \frac{P(n, k)}{k!}\)</span>. This is because for every combination of <span class="math notranslate nohighlight">\(k\)</span> objects, there are <span class="math notranslate nohighlight">\(k!\)</span> ways to order them (permutations). We divide the number of permutations <span class="math notranslate nohighlight">\(P(n,k)\)</span> by <span class="math notranslate nohighlight">\(k!\)</span> to remove the effect of order.</p>
+<p><strong>Example:</strong> How many ways can a committee of 3 people be chosen from a group of 10 people?</p>
+<p>Here, we are choosing <span class="math notranslate nohighlight">\(k=3\)</span> people from <span class="math notranslate nohighlight">\(n=10\)</span>, and the order in which they are chosen doesn’t matter.</p>
+<p>Using the formula:
+$<span class="math notranslate nohighlight">\( C(10, 3) = \binom{10}{3} = \frac{10!}{3!(10-3)!} = \frac{10!}{3!7!} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} \)</span>$</p>
+<p>Let’s calculate this using Python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using math.factorial</span>
+<span class="n">n_people</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">k_committee</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c_10_3_math</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_people</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">k_committee</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n_people</span> <span class="o">-</span> <span class="n">k_committee</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using math.factorial: C(</span><span class="si">{</span><span class="n">n_people</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">k_committee</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">c_10_3_math</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using math.factorial: C(10, 3) = 120
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.special.comb</span>
+<span class="c1"># Note: scipy.special.comb(n, k) calculates C(n, k) directly</span>
+<span class="n">c_10_3_scipy</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">n_people</span><span class="p">,</span> <span class="n">k_committee</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># exact=True ensures integer result</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using scipy.special.comb: C(</span><span class="si">{</span><span class="n">n_people</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">k_committee</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">c_10_3_scipy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using scipy.special.comb: C(10, 3) = 120
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Direct calculation</span>
+<span class="n">c_10_3_direct</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Direct calculation: </span><span class="si">{</span><span class="n">c_10_3_direct</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Direct calculation: 120
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="combinations-with-repetition">
+<h3>Combinations with Repetition<a class="headerlink" href="#combinations-with-repetition" title="Link to this heading">#</a></h3>
+<p>This involves selecting <span class="math notranslate nohighlight">\(k\)</span> objects from <span class="math notranslate nohighlight">\(n\)</span> types of objects, where order doesn’t matter and we can choose multiple objects of the same type (repetition is allowed). This is sometimes called “multiset coefficient” or “stars and bars” problem.</p>
+<p><strong>Formula:</strong> The number of combinations with repetition of <span class="math notranslate nohighlight">\(n\)</span> types of objects taken <span class="math notranslate nohighlight">\(k\)</span> at a time is:
+$<span class="math notranslate nohighlight">\( \binom{n+k-1}{k} = \frac{(n+k-1)!}{k!(n-1)!} \)</span>$</p>
+<p><strong>Example:</strong> A bakery offers 4 types of donuts (plain, chocolate, glazed, jelly). How many different ways can you select a dozen (12) donuts?</p>
+<p>Here, <span class="math notranslate nohighlight">\(n=4\)</span> (types of donuts) and we are choosing <span class="math notranslate nohighlight">\(k=12\)</span> donuts. The order doesn’t matter, and we can choose multiple donuts of the same type.</p>
+<p>Using the formula:
+$<span class="math notranslate nohighlight">\( \binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12!(15-12)!} = \frac{15!}{12!3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} \)</span>$</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_types</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">k_donuts</span> <span class="o">=</span> <span class="mi">12</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the formula C(n+k-1, k)</span>
+<span class="n">combinations_with_repetition</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">n_types</span> <span class="o">+</span> <span class="n">k_donuts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k_donuts</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of ways to choose </span><span class="si">{</span><span class="n">k_donuts</span><span class="si">}</span><span class="s2"> donuts from </span><span class="si">{</span><span class="n">n_types</span><span class="si">}</span><span class="s2"> types: </span><span class="si">{</span><span class="n">combinations_with_repetition</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of ways to choose 12 donuts from 4 types: 455
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Direct calculation</span>
+<span class="n">c_15_12_direct</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="mi">14</span> <span class="o">*</span> <span class="mi">13</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Direct calculation: </span><span class="si">{</span><span class="n">c_15_12_direct</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Direct calculation: 455
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note:</p>
+<ul class="simple">
+<li><p>scipy.special.comb can also take repetition=True argument for this</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># combinations_with_repetition_scipy = comb(n_types, k_donuts, exact=True, repetition=True)</span>
+<span class="c1"># print(f&quot;Using scipy.special.comb with repetition=True: {combinations_with_repetition_scipy}&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>^^ Uncomment the above lines if your SciPy version supports repetition=True (relatively recent addition)</p>
+</section>
+</section>
+<section id="applications-to-probability-problems">
+<h2>Applications to Probability Problems<a class="headerlink" href="#applications-to-probability-problems" title="Link to this heading">#</a></h2>
+<p>Counting techniques are essential for calculating probabilities in scenarios with equally likely outcomes, often found in games of chance, sampling, and more.</p>
+<p>The basic formula is:
+$<span class="math notranslate nohighlight">\( P(\text{Event}) = \frac{\text{Number of outcomes favorable to the event}}{\text{Total number of possible outcomes}} \)</span>$</p>
+<p>Both the numerator and the denominator often require permutations or combinations to calculate.</p>
+<p><strong>Example: UK National Lottery</strong>
+In the UK National Lottery’s main “Lotto” game (as of early 2020s), a player chooses 6 distinct numbers from 1 to 59. The lottery machine then randomly selects 6 distinct numbers. What is the probability of winning the jackpot (matching all 6 numbers)?</p>
+<ol class="arabic simple">
+<li><p><strong>Total number of possible outcomes:</strong> This is the number of ways to choose 6 distinct numbers from 59, where order doesn’t matter. This is a combination problem: <span class="math notranslate nohighlight">\(C(59, 6)\)</span>.</p></li>
+<li><p><strong>Number of favorable outcomes:</strong> There is only 1 way to match the specific 6 numbers drawn by the machine.</p></li>
+</ol>
+<p>The probability is <span class="math notranslate nohighlight">\(P(\text{Jackpot}) = \frac{1}{C(59, 6)}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total numbers to choose from</span>
+<span class="n">n_lotto</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="c1"># Numbers to choose</span>
+<span class="n">k_lotto</span> <span class="o">=</span> <span class="mi">6</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the total number of possible combinations</span>
+<span class="n">total_lotto_combinations</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">n_lotto</span><span class="p">,</span> <span class="n">k_lotto</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total possible UK Lotto combinations: </span><span class="si">{</span><span class="n">total_lotto_combinations</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># Format with commas</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total possible UK Lotto combinations: 45,057,474
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the probability of winning the jackpot</span>
+<span class="n">prob_jackpot</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">total_lotto_combinations</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of winning the jackpot: 1 / </span><span class="si">{</span><span class="n">total_lotto_combinations</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability (decimal): </span><span class="si">{</span><span class="n">prob_jackpot</span><span class="si">:</span><span class="s2">.10f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># Print with more decimal places</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability (scientific notation): </span><span class="si">{</span><span class="n">prob_jackpot</span><span class="si">:</span><span class="s2">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Probability of winning the jackpot: 1 / 45,057,474
+Probability (decimal): 0.0000000222
+Probability (scientific notation): 2.219388e-08
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Example: Poker Hand Probability (Four of a Kind)</strong>
+What is the probability of being dealt “Four of a Kind” in a standard 5-card poker hand from a 52-card deck? (Four cards of one rank, plus one other card of a different rank).</p>
+<ol class="arabic simple">
+<li><p><strong>Total number of possible outcomes:</strong> The total number of ways to choose 5 cards from 52, where order doesn’t matter. This is <span class="math notranslate nohighlight">\(C(52, 5)\)</span>.</p></li>
+<li><p><strong>Number of favorable outcomes (Four of a Kind):</strong> We can use the Multiplication Principle to count this:</p>
+<ul class="simple">
+<li><p>Step 1: Choose the rank for the four cards (e.g., four Aces, four Kings). There are <span class="math notranslate nohighlight">\(C(13, 1) = 13\)</span> ways.</p></li>
+<li><p>Step 2: Choose the four cards of that rank. There is only <span class="math notranslate nohighlight">\(C(4, 4) = 1\)</span> way (you must take all four suits).</p></li>
+<li><p>Step 3: Choose the rank for the fifth card (it must be different from the rank in Step 1). There are <span class="math notranslate nohighlight">\(C(12, 1) = 12\)</span> remaining ranks.</p></li>
+<li><p>Step 4: Choose the suit for the fifth card. There are <span class="math notranslate nohighlight">\(C(4, 1) = 4\)</span> ways.
+Total favorable outcomes = <span class="math notranslate nohighlight">\(13 \times 1 \times 12 \times 4\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<p>The probability is <span class="math notranslate nohighlight">\(P(\text{Four of a Kind}) = \frac{13 \times 1 \times 12 \times 4}{C(52, 5)}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total cards in deck</span>
+<span class="n">n_deck</span> <span class="o">=</span> <span class="mi">52</span>
+<span class="c1"># Cards in hand</span>
+<span class="n">k_hand</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Calculate the total number of possible 5-card hands</span>
+<span class="n">total_hands</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="n">n_deck</span><span class="p">,</span> <span class="n">k_hand</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total possible 5-card poker hands: </span><span class="si">{</span><span class="n">total_hands</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total possible 5-card poker hands: 2,598,960
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Calculate the number of ways to get Four of a Kind</span>
+<span class="c1"># Step 1: Choose rank for the four cards (13 ranks: A, 2, ..., 10, J, Q, K)</span>
+<span class="n">ways_choose_rank4</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Step 2: Choose the 4 suits for that rank (only 1 way)</span>
+<span class="n">ways_choose_suits4</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Step 3: Choose the rank for the fifth card (12 remaining ranks)</span>
+<span class="n">ways_choose_rank1</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Step 4: Choose the suit for the fifth card (4 suits)</span>
+<span class="n">ways_choose_suit1</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">favorable_outcomes_4kind</span> <span class="o">=</span> <span class="n">ways_choose_rank4</span> <span class="o">*</span> <span class="n">ways_choose_suits4</span> <span class="o">*</span> <span class="n">ways_choose_rank1</span> <span class="o">*</span> <span class="n">ways_choose_suit1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of ways to get Four of a Kind: </span><span class="si">{</span><span class="n">favorable_outcomes_4kind</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of ways to get Four of a Kind: 624
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Calculate the probability</span>
+<span class="n">prob_4kind</span> <span class="o">=</span> <span class="n">favorable_outcomes_4kind</span> <span class="o">/</span> <span class="n">total_hands</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of being dealt Four of a Kind: </span><span class="si">{</span><span class="n">prob_4kind</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approximately 1 in </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">prob_4kind</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Probability of being dealt Four of a Kind: 0.00024010
+Approximately 1 in 4,165
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hands-on-using-python-for-counting">
+<h2>Hands-on: Using Python for Counting<a class="headerlink" href="#hands-on-using-python-for-counting" title="Link to this heading">#</a></h2>
+<p>We’ve already seen how <code class="docutils literal notranslate"><span class="pre">math.factorial</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy.special.perm</span></code>, and <code class="docutils literal notranslate"><span class="pre">scipy.special.comb</span></code> can be used. Let’s solidify this.</p>
+<p><strong>Key Functions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">math.factorial(n)</span></code>: Computes <span class="math notranslate nohighlight">\(n!\)</span>. Requires <code class="docutils literal notranslate"><span class="pre">n</span></code> to be a non-negative integer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scipy.special.perm(n,</span> <span class="pre">k,</span> <span class="pre">exact=True)</span></code>: Computes <span class="math notranslate nohighlight">\(P(n, k) = \frac{n!}{(n-k)!}\)</span>. <code class="docutils literal notranslate"><span class="pre">exact=True</span></code> is recommended for integer results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scipy.special.comb(n,</span> <span class="pre">k,</span> <span class="pre">exact=True,</span> <span class="pre">repetition=False)</span></code>: Computes <span class="math notranslate nohighlight">\(C(n, k) = \binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span>. <code class="docutils literal notranslate"><span class="pre">exact=True</span></code> is recommended. Set <code class="docutils literal notranslate"><span class="pre">repetition=True</span></code> for combinations with repetition.</p></li>
+</ul>
+<p><strong>Remember to import them:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">perm</span><span class="p">,</span> <span class="n">comb</span>
+</pre></div>
+</div>
+<p><strong>Exercise Idea:</strong> Calculate the probability of getting a “Full House” (three cards of one rank, two cards of another rank) in a 5-card poker hand.</p>
+<p><em>Hint:</em></p>
+<ol class="arabic simple">
+<li><p>Total hands: <span class="math notranslate nohighlight">\(C(52, 5)\)</span> (calculated above).</p></li>
+<li><p>Favorable outcomes:</p>
+<ul class="simple">
+<li><p>Choose the rank for the three cards: <span class="math notranslate nohighlight">\(C(13, 1)\)</span> ways.</p></li>
+<li><p>Choose 3 suits for that rank: <span class="math notranslate nohighlight">\(C(4, 3)\)</span> ways.</p></li>
+<li><p>Choose the rank for the two cards: <span class="math notranslate nohighlight">\(C(12, 1)\)</span> ways (must be different from the first rank).</p></li>
+<li><p>Choose 2 suits for that second rank: <span class="math notranslate nohighlight">\(C(4, 2)\)</span> ways.</p></li>
+<li><p>Use the Multiplication Principle.*</p></li>
+</ul>
+</li>
+</ol>
+<p>Exercise: Calculate probability of a Full House</p>
+<p>Total hands (already calculated)
+total_hands = comb(52, 5, exact=True)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Favorable outcomes for Full House</span>
+<span class="c1"># Step 1: Choose rank for the three cards</span>
+<span class="n">ways_choose_rank3</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Step 2: Choose 3 suits for that rank</span>
+<span class="n">ways_choose_suits3</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Step 3: Choose rank for the pair (from remaining 12 ranks)</span>
+<span class="n">ways_choose_rank2</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Step 4: Choose 2 suits for that rank</span>
+<span class="n">ways_choose_suits2</span> <span class="o">=</span> <span class="n">comb</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">favorable_outcomes_fullhouse</span> <span class="o">=</span> <span class="n">ways_choose_rank3</span> <span class="o">*</span> <span class="n">ways_choose_suits3</span> <span class="o">*</span> <span class="n">ways_choose_rank2</span> <span class="o">*</span> <span class="n">ways_choose_suits2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of ways to get a Full House: </span><span class="si">{</span><span class="n">favorable_outcomes_fullhouse</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of ways to get a Full House: 3744
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the probability</span>
+<span class="n">prob_fullhouse</span> <span class="o">=</span> <span class="n">favorable_outcomes_fullhouse</span> <span class="o">/</span> <span class="n">total_hands</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of being dealt a Full House: </span><span class="si">{</span><span class="n">prob_fullhouse</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approximately 1 in </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">prob_fullhouse</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Probability of being dealt a Full House: 0.00144058
+Approximately 1 in 694
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>In this chapter, we learned the fundamental counting techniques essential for calculating probabilities in many situations:</p>
+<ul class="simple">
+<li><p><strong>Multiplication Principle:</strong> If a task has sequential steps, multiply the number of ways to do each step to get the total number of ways.</p></li>
+<li><p><strong>Permutations (<span class="math notranslate nohighlight">\(P(n, k)\)</span>):</strong> Used when selecting <span class="math notranslate nohighlight">\(k\)</span> items from <span class="math notranslate nohighlight">\(n\)</span> <strong>where order matters</strong> and there is no repetition. Formula: <span class="math notranslate nohighlight">\(\frac{n!}{(n-k)!}\)</span>.</p></li>
+<li><p><strong>Combinations (<span class="math notranslate nohighlight">\(C(n, k)\)</span> or <span class="math notranslate nohighlight">\(\binom{n}{k}\)</span>):</strong> Used when selecting <span class="math notranslate nohighlight">\(k\)</span> items from <span class="math notranslate nohighlight">\(n\)</span> <strong>where order does not matter</strong> and there is no repetition. Formula: <span class="math notranslate nohighlight">\(\frac{n!}{k!(n-k)!}\)</span>.</p></li>
+<li><p>We also briefly touched upon permutations and combinations <strong>with repetition</strong>.</p></li>
+<li><p>These techniques are crucial for calculating probabilities of the form <span class="math notranslate nohighlight">\(P(E) = \frac{|E|}{|S|}\)</span> where outcomes are equally likely.</p></li>
+</ul>
+<p>We saw how to apply these concepts to practical examples like meal combinations, race outcomes, committee selections, lottery odds, and poker hands. We also leveraged Python’s <code class="docutils literal notranslate"><span class="pre">math.factorial</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy.special.perm</span></code>/<code class="docutils literal notranslate"><span class="pre">comb</span></code> functions to perform these calculations efficiently.</p>
+<p>Mastering these counting techniques provides a powerful toolkit for tackling a wide range of probability problems. In the next chapter, we will move on to exploring probabilities when events are not independent, introducing the concept of Conditional Probability.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_02.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_04.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 4: Conditional Probability</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multiplication-principle">The Multiplication Principle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permutations-when-order-matters">Permutations: When Order Matters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#permutations-without-repetition">Permutations without Repetition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#permutations-with-repetition-multinomial-coefficients">Permutations with Repetition (Multinomial Coefficients)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combinations-when-order-doesn-t-matter">Combinations: When Order Doesn’t Matter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combinations-without-repetition">Combinations without Repetition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combinations-with-repetition">Combinations with Repetition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-to-probability-problems">Applications to Probability Problems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-using-python-for-counting">Hands-on: Using Python for Counting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

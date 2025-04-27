@@ -1,0 +1,100 @@
+Traceback (most recent call last):
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/chris.snow/.pyenv/versions/3.10.14/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+
+# Set parameters for the simulation
+# We'll use the Exponential distribution
+# Lambda (rate parameter) for Exponential
+lambda_param = 1.0 
+# Theoretical mean (mu) = 1/lambda
+theo_mean = 1 / lambda_param
+# Theoretical variance (sigma^2) = 1/lambda^2
+theo_var = 1 / (lambda_param**2)
+# Theoretical standard deviation (sigma)
+theo_std_dev = np.sqrt(theo_var) 
+
+# Number of simulations (number of sample means to generate)
+num_simulations = 10000 
+
+# Sample sizes (n) to test
+sample_sizes = [1, 2, 5, 10, 30, 100] 
+
+print(f"Original Distribution: Exponential(lambda={lambda_param})")
+print(f"Theoretical Mean (mu): {theo_mean:.4f}")
+print(f"Theoretical Variance (sigma^2): {theo_var:.4f}")
+print(f"Theoretical Std Dev (sigma): {theo_std_dev:.4f}\n")
+
+# Create subplots
+fig, axes = plt.subplots(2, 3, figsize=(15, 8))
+# Flatten axes array for easy iteration
+axes = axes.ravel() 
+
+# --- Simulation Loop ---
+for i, n in enumerate(sample_sizes):
+    # Store the means of samples
+    sample_means = [] 
+    for _ in range(num_simulations):
+        # 1. Draw n samples from the Exponential distribution
+        samples = np.random.exponential(scale=1/lambda_param, size=n)
+        # 2. Calculate the mean of these n samples
+        current_mean = np.mean(samples)
+        # 3. Store the mean
+        sample_means.append(current_mean)
+    
+    # --- Plotting ---
+    ax = axes[i]
+    # Plot histogram of the sample means
+    ax.hist(sample_means, bins=50, density=True, alpha=0.7, label='Sample Means Hist')
+    
+    # Calculate theoretical mean and std dev for the sample mean distribution (CLT prediction)
+    clt_mean = theo_mean
+    clt_std_dev = theo_std_dev / np.sqrt(n)
+    
+    # Generate points for the theoretical Normal PDF curve
+    x_values = np.linspace(min(sample_means), max(sample_means), 200)
+    clt_pdf = stats.norm.pdf(x_values, loc=clt_mean, scale=clt_std_dev)
+    
+    # Plot the theoretical Normal PDF
+    ax.plot(x_values, clt_pdf, 'r-', lw=2, label='CLT Normal PDF')
+    
+    ax.set_title(f'Distribution of Sample Means (n={n})')
+    ax.set_xlabel('Sample Mean Value')
+    ax.set_ylabel('Density')
+    ax.legend()
+
+plt.tight_layout()
+plt.show()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 3[0m
+[1;32m      1[0m [38;5;66;03m# Import necessary libraries[39;00m
+[1;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[0;32m----> 3[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mscipy[39;00m[38;5;21;01m.[39;00m[38;5;21;01mstats[39;00m [38;5;28;01mas[39;00m [38;5;21;01mstats[39;00m
+[1;32m      6[0m [38;5;66;03m# Set parameters for the simulation[39;00m
+[1;32m      7[0m [38;5;66;03m# We'll use the Exponential distribution[39;00m
+[1;32m      8[0m [38;5;66;03m# Lambda (rate parameter) for Exponential[39;00m
+
+[0;31mModuleNotFoundError[0m: No module named 'matplotlib'
+

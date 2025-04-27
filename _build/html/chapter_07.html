@@ -1,0 +1,1768 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 7: Common Discrete Distributions &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_07';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 8: Continuous Random Variables" href="chapter_08.html" />
+    <link rel="prev" title="Chapter 6: Discrete Random Variables" href="chapter_06.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_07.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_07.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 7: Common Discrete Distributions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution">1. Bernoulli Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution">2. Binomial Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-distribution">3. Geometric Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-distribution">4. Negative Binomial Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution">5. Poisson Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hypergeometric-distribution">6. Hypergeometric Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relationships-between-distributions">7. Relationships Between Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-exercises">8. Hands-on Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-7-common-discrete-distributions">
+<h1>Chapter 7: Common Discrete Distributions<a class="headerlink" href="#chapter-7-common-discrete-distributions" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we defined discrete random variables and learned how to describe their behavior using Probability Mass Functions (PMFs), Cumulative Distribution Functions (CDFs), expected value, and variance. While we can define custom PMFs for any situation, several specific discrete distributions appear so frequently in practice that they have been studied extensively and given names.</p>
+<p>These “common” distributions serve as powerful models for a wide variety of real-world processes. Understanding their properties and when to apply them is crucial for probabilistic modeling. In this chapter, we will explore the most important discrete distributions: Bernoulli, Binomial, Geometric, Negative Binomial, Poisson, and Hypergeometric.</p>
+<p>We’ll examine the scenarios each distribution models, their key characteristics (PMF, mean, variance), and how to work with them efficiently using Python’s <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> library. This library provides tools to calculate probabilities (PMF, CDF), generate random samples, and more, significantly simplifying our practical work.</p>
+<p>Let’s import the necessary libraries first.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;scipy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure plots</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="bernoulli-distribution">
+<h2>1. Bernoulli Distribution<a class="headerlink" href="#bernoulli-distribution" title="Link to this heading">#</a></h2>
+<p>The Bernoulli distribution is the simplest discrete distribution. It models a single trial with only two possible outcomes, often labeled “success” (usually encoded as 1) and “failure” (usually encoded as 0).</p>
+<ul class="simple">
+<li><p><strong>Scenario</strong>: A single coin flip (Heads/Tails), a single product inspection (Defective/Not Defective), a single customer interaction (Purchase/No Purchase).</p></li>
+<li><p><strong>Parameter</strong>: <span class="math notranslate nohighlight">\(p\)</span>, the probability of success (<span class="math notranslate nohighlight">\(0 \le p \le 1\)</span>). The probability of failure is then <span class="math notranslate nohighlight">\(q = 1-p\)</span>.</p></li>
+<li><p><strong>Random Variable</strong>: <span class="math notranslate nohighlight">\(X\)</span> takes value 1 (success) with probability <span class="math notranslate nohighlight">\(p\)</span>, and 0 (failure) with probability <span class="math notranslate nohighlight">\(1-p\)</span>.</p></li>
+</ul>
+<p><strong>PMF:</strong>
+$<span class="math notranslate nohighlight">\( P(X=k) = \begin{cases} p &amp; \text{if } k=1 \\ 1-p &amp; \text{if } k=0 \\ 0 &amp; \text{otherwise} \end{cases} \)</span><span class="math notranslate nohighlight">\(
+This can be written concisely as:
+\)</span><span class="math notranslate nohighlight">\( P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} \)</span>$</p>
+<p><strong>Mean (Expected Value):</strong> <span class="math notranslate nohighlight">\(E[X] = p\)</span>
+<strong>Variance:</strong> <span class="math notranslate nohighlight">\(Var(X) = p(1-p)\)</span></p>
+<p><strong>Example:</strong> Modeling the outcome of a single customer purchase where the probability of purchase (<span class="math notranslate nohighlight">\(p\)</span>) is 0.1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.stats.bernoulli</span>
+<span class="n">p_purchase</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">bernoulli_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p_purchase</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PMF: Probability of success (k=1) and failure (k=0)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X=1) (Purchase): </span><span class="si">{</span><span class="n">bernoulli_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X=0) (No Purchase): </span><span class="si">{</span><span class="n">bernoulli_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X=1) (Purchase): 0.10
+P(X=0) (No Purchase): 0.90
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean (Expected Value): </span><span class="si">{</span><span class="n">bernoulli_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance: </span><span class="si">{</span><span class="n">bernoulli_rv</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean (Expected Value): 0.10
+Variance: 0.09
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">bernoulli_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> simulated customer outcomes (1=Purchase, 0=No Purchase): </span><span class="si">{</span><span class="n">samples</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 simulated customer outcomes (1=Purchase, 0=No Purchase): [0 0 0 0 0 0 0 0 0 0]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the PMF</span>
+<span class="n">k_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">pmf_values</span> <span class="o">=</span> <span class="n">bernoulli_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_values</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">,</span> <span class="n">tick_label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No Purchase (0)&quot;</span><span class="p">,</span> <span class="s2">&quot;Purchase (1)&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bernoulli PMF (p=</span><span class="si">{</span><span class="n">p_purchase</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Outcome&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/45c04a9db467983c268d955a4141b237b7c6b9cca56acc323ff2ce5eff155198.png" src="_images/45c04a9db467983c268d955a4141b237b7c6b9cca56acc323ff2ce5eff155198.png" />
+</div>
+</div>
+</section>
+<section id="binomial-distribution">
+<h2>2. Binomial Distribution<a class="headerlink" href="#binomial-distribution" title="Link to this heading">#</a></h2>
+<p>The Binomial distribution models the number of successes in a <em>fixed number</em> of independent Bernoulli trials, where each trial has the same probability of success.</p>
+<ul class="simple">
+<li><p><strong>Scenario</strong>: The number of heads in 10 coin flips, the number of defective items in a batch of 50, the number of successful sales calls out of 20 made.</p></li>
+<li><p><strong>Parameters</strong>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(n\)</span>: the number of independent trials.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p\)</span>: the probability of success on each trial (<span class="math notranslate nohighlight">\(0 \le p \le 1\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Random Variable</strong>: <span class="math notranslate nohighlight">\(X\)</span>, the total number of successes in <span class="math notranslate nohighlight">\(n\)</span> trials. <span class="math notranslate nohighlight">\(X\)</span> can take values <span class="math notranslate nohighlight">\(k = 0, 1, 2, ..., n\)</span>.</p></li>
+</ul>
+<p><strong>PMF:</strong>
+The probability of getting exactly <span class="math notranslate nohighlight">\(k\)</span> successes in <span class="math notranslate nohighlight">\(n\)</span> trials is given by:
+$<span class="math notranslate nohighlight">\( P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n \)</span><span class="math notranslate nohighlight">\(
+where \)</span>\binom{n}{k} = \frac{n!}{k!(n-k)!}<span class="math notranslate nohighlight">\( is the binomial coefficient, representing the number of ways to choose \)</span>k<span class="math notranslate nohighlight">\( successes from \)</span>n$ trials.</p>
+<p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(E[X] = np\)</span>
+<strong>Variance:</strong> <span class="math notranslate nohighlight">\(Var(X) = np(1-p)\)</span></p>
+<p><strong>Example:</strong> Modeling the number of successful sales calls out of <span class="math notranslate nohighlight">\(n=20\)</span>, if the probability of success (<span class="math notranslate nohighlight">\(p\)</span>) for each call is 0.15.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.stats.binom</span>
+<span class="n">n_calls</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">p_success_call</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="n">binomial_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_calls</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_success_call</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PMF: Probability of exactly k successes</span>
+<span class="n">k_successes</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X=</span><span class="si">{</span><span class="n">k_successes</span><span class="si">}</span><span class="s2"> successes out of </span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_successes</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X=5 successes out of 20): 0.1028
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CDF: Probability of k or fewer successes</span>
+<span class="n">k_or_fewer</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &lt;= </span><span class="si">{</span><span class="n">k_or_fewer</span><span class="si">}</span><span class="s2"> successes out of </span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_fewer</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Probability of more than k successes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &gt; </span><span class="si">{</span><span class="n">k_or_fewer</span><span class="si">}</span><span class="s2"> successes out of </span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_fewer</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Or using the survival function (sf): P(X &gt; k)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &gt; </span><span class="si">{</span><span class="n">k_or_fewer</span><span class="si">}</span><span class="s2"> successes out of </span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">) (using sf): </span><span class="si">{</span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">k_or_fewer</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X &lt;= 3 successes out of 20): 0.6477
+P(X &gt; 3 successes out of 20): 0.3523
+P(X &gt; 3 successes out of 20) (using sf): 0.3523
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean (Expected number of successes): </span><span class="si">{</span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance: </span><span class="si">{</span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard Deviation: </span><span class="si">{</span><span class="n">binomial_rv</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean (Expected number of successes): 3.00
+Variance: 2.55
+Standard Deviation: 1.60
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples</span>
+<span class="n">n_simulations</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">binomial_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_simulations</span><span class="p">)</span>
+<span class="c1"># print(f&quot;\nSimulated number of successes in {n_calls} calls ({n_simulations} simulations): {samples[:20]}...&quot;) # Print first 20</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the PMF</span>
+<span class="n">k_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_calls</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">pmf_values</span> <span class="o">=</span> <span class="n">binomial_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_values</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Binomial PMF (n=</span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_success_call</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Successes (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6d3322689f0481e44c8de267e098fc233dc82e0619023637ec9766162da72014.png" src="_images/6d3322689f0481e44c8de267e098fc233dc82e0619023637ec9766162da72014.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the CDF</span>
+<span class="n">cdf_values</span> <span class="o">=</span> <span class="n">binomial_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">k_values</span><span class="p">,</span> <span class="n">cdf_values</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Binomial CDF (n=</span><span class="si">{</span><span class="n">n_calls</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_success_call</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Successes (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cumulative Probability P(X &lt;= k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/848fa7688c799e549c876158a6ea1e353491f16b9cd5d5f6ec5805c7d5384ece.png" src="_images/848fa7688c799e549c876158a6ea1e353491f16b9cd5d5f6ec5805c7d5384ece.png" />
+</div>
+</div>
+</section>
+<section id="geometric-distribution">
+<h2>3. Geometric Distribution<a class="headerlink" href="#geometric-distribution" title="Link to this heading">#</a></h2>
+<p>The Geometric distribution models the number of independent Bernoulli trials needed to get the <em>first</em> success.</p>
+<ul class="simple">
+<li><p><strong>Scenario</strong>: The number of coin flips until the first Head appears, the number of job applications until the first interview offer, the number of attempts needed to pass a certification exam.</p></li>
+<li><p><strong>Parameter</strong>: <span class="math notranslate nohighlight">\(p\)</span>, the probability of success on each trial (<span class="math notranslate nohighlight">\(0 &lt; p \le 1\)</span>).</p></li>
+<li><p><strong>Random Variable</strong>: <span class="math notranslate nohighlight">\(X\)</span>, the number of trials required to achieve the first success. <span class="math notranslate nohighlight">\(X\)</span> can take values <span class="math notranslate nohighlight">\(k = 1, 2, 3, ...\)</span>.</p></li>
+</ul>
+<p><strong>PMF:</strong>
+The probability that the first success occurs on the <span class="math notranslate nohighlight">\(k\)</span>-th trial is:
+$<span class="math notranslate nohighlight">\( P(X=k) = (1-p)^{k-1} p \quad \text{for } k = 1, 2, 3, \dots \)</span><span class="math notranslate nohighlight">\(
+This means we have \)</span>k-1$ failures followed by one success.</p>
+<p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(E[X] = \frac{1}{p}\)</span>
+<strong>Variance:</strong> <span class="math notranslate nohighlight">\(Var(X) = \frac{1-p}{p^2}\)</span></p>
+<p><em>Note</em>: <code class="docutils literal notranslate"><span class="pre">scipy.stats.geom</span></code> defines <span class="math notranslate nohighlight">\(k\)</span> as the number of <em>failures before</em> the first success (<span class="math notranslate nohighlight">\(k=0, 1, 2, ...\)</span>). This shifts the distribution by 1 compared to the definition above where <span class="math notranslate nohighlight">\(k\)</span> is the trial number (<span class="math notranslate nohighlight">\(k=1, 2, 3, ...\)</span>). We’ll use the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> definition (<span class="math notranslate nohighlight">\(k=0, 1, 2, ...\)</span>) in the code examples, but state results in terms of the trial number (<span class="math notranslate nohighlight">\(k+1\)</span>).</p>
+<p><strong>Example:</strong> Modeling the number of attempts needed to pass a certification exam, where the probability of passing (<span class="math notranslate nohighlight">\(p\)</span>) on any given attempt is 0.6.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.stats.geom</span>
+<span class="n">p_pass</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">geom_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">geom</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p_pass</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PMF: Probability that the first success occurs on trial k (k=1, 2, ...)</span>
+<span class="c1"># Using scipy: geom_rv.pmf(k-1)</span>
+<span class="n">k_trial</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># Third attempt</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(First pass on attempt </span><span class="si">{</span><span class="n">k_trial</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">geom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_trial</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(First pass on attempt 3): 0.2400
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CDF: Probability that the first success occurs on or before trial k</span>
+<span class="c1"># Using scipy: geom_rv.cdf(k-1)</span>
+<span class="n">k_or_before</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(First pass on or before attempt </span><span class="si">{</span><span class="n">k_or_before</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">geom_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_before</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Probability it takes more than k trials</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(First pass takes more than </span><span class="si">{</span><span class="n">k_or_before</span><span class="si">}</span><span class="s2"> attempts): </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">geom_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_before</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(First pass takes more than </span><span class="si">{</span><span class="n">k_or_before</span><span class="si">}</span><span class="s2"> attempts) (using sf): </span><span class="si">{</span><span class="n">geom_rv</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">k_or_before</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(First pass on or before attempt 2): 0.6000
+P(First pass takes more than 2 attempts): 0.4000
+P(First pass takes more than 2 attempts) (using sf): 0.4000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance (based on scipy&#39;s definition k=0, 1, 2...)</span>
+<span class="c1"># E[Failures before success] = (1-p)/p</span>
+<span class="c1"># Var[Failures before success] = (1-p)/p^2</span>
+<span class="n">mean_scipy</span> <span class="o">=</span> <span class="n">geom_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">var_scipy</span> <span class="o">=</span> <span class="n">geom_rv</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean number of failures before success (scipy): </span><span class="si">{</span><span class="n">mean_scipy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of failures before success (scipy): </span><span class="si">{</span><span class="n">var_scipy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean number of failures before success (scipy): 1.67
+Variance of failures before success (scipy): 1.11
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance (based on our definition k=1, 2, 3...)</span>
+<span class="c1"># E[Trial number of first success] = 1/p = E[Failures] + 1</span>
+<span class="c1"># Var[Trial number of first success] = (1-p)/p^2 = Var[Failures]</span>
+<span class="n">mean_trials</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">p_pass</span>
+<span class="n">var_trials</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_pass</span><span class="p">)</span> <span class="o">/</span> <span class="n">p_pass</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean number of attempts until first pass: </span><span class="si">{</span><span class="n">mean_trials</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of number of attempts: </span><span class="si">{</span><span class="n">var_trials</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean number of attempts until first pass: 1.67
+Variance of number of attempts: 1.11
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples (number of failures before first success)</span>
+<span class="n">n_simulations</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">samples_failures</span> <span class="o">=</span> <span class="n">geom_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_simulations</span><span class="p">)</span>
+<span class="c1"># Convert to trial number (failures + 1)</span>
+<span class="n">samples_trials</span> <span class="o">=</span> <span class="n">samples_failures</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c1"># print(f&quot;\nSimulated number of attempts until first pass ({n_simulations} simulations): {samples_trials[:20]}...&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the PMF (using trial number k=1, 2, ...)</span>
+<span class="n">k_values_trials</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="c1"># Plot first 10 trials</span>
+<span class="n">pmf_values</span> <span class="o">=</span> <span class="n">geom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_values_trials</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># Adjust k for scipy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_values_trials</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometric PMF (p=</span><span class="si">{</span><span class="n">p_pass</span><span class="si">}</span><span class="s2">) - Trial number of first success&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Trial Number (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(X=k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">k_values_trials</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/902940c8dcc00ce19b4bcececed643ed51c1213311ce52456433f95b035e3b26.png" src="_images/902940c8dcc00ce19b4bcececed643ed51c1213311ce52456433f95b035e3b26.png" />
+</div>
+</div>
+</section>
+<section id="negative-binomial-distribution">
+<h2>4. Negative Binomial Distribution<a class="headerlink" href="#negative-binomial-distribution" title="Link to this heading">#</a></h2>
+<p>The Negative Binomial distribution models the number of independent Bernoulli trials needed to achieve a <em>fixed number</em> of successes (<span class="math notranslate nohighlight">\(r\)</span>). It generalizes the Geometric distribution (where <span class="math notranslate nohighlight">\(r=1\)</span>).</p>
+<ul class="simple">
+<li><p><strong>Scenario</strong>: The number of coin flips needed to get 5 Heads, the number of products to inspect to find 3 defective items, the number of sales calls needed to achieve 5 successful sales.</p></li>
+<li><p><strong>Parameters</strong>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(r\)</span>: the target number of successes (<span class="math notranslate nohighlight">\(r \ge 1\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(p\)</span>: the probability of success on each trial (<span class="math notranslate nohighlight">\(0 &lt; p \le 1\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Random Variable</strong>: <span class="math notranslate nohighlight">\(X\)</span>, the total number of trials required to achieve <span class="math notranslate nohighlight">\(r\)</span> successes. <span class="math notranslate nohighlight">\(X\)</span> can take values <span class="math notranslate nohighlight">\(k = r, r+1, r+2, ...\)</span>.</p></li>
+</ul>
+<p><strong>PMF:</strong>
+The probability that the <span class="math notranslate nohighlight">\(r\)</span>-th success occurs on the <span class="math notranslate nohighlight">\(k\)</span>-th trial is:
+$<span class="math notranslate nohighlight">\( P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, \dots \)</span><span class="math notranslate nohighlight">\(
+This means we have \)</span>r-1<span class="math notranslate nohighlight">\( successes in the first \)</span>k-1<span class="math notranslate nohighlight">\( trials, and the \)</span>k<span class="math notranslate nohighlight">\(-th trial is the \)</span>r$-th success.</p>
+<p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(E[X] = \frac{r}{p}\)</span>
+<strong>Variance:</strong> <span class="math notranslate nohighlight">\(Var(X) = \frac{r(1-p)}{p^2}\)</span></p>
+<p><em>Note</em>: Like <code class="docutils literal notranslate"><span class="pre">geom</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy.stats.nbinom</span></code> defines the variable differently: it counts the number of <em>failures</em> (<span class="math notranslate nohighlight">\(k\)</span>) that occur before the <span class="math notranslate nohighlight">\(r\)</span>-th success. So, the total number of trials in our definition is <span class="math notranslate nohighlight">\(k + r\)</span> in SciPy’s terms. We’ll use the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> definition (<span class="math notranslate nohighlight">\(k=0, 1, 2, ...\)</span> failures) in the code, stating results in terms of the total number of trials.</p>
+<p><strong>Example:</strong> Modeling the number of sales calls needed to achieve <span class="math notranslate nohighlight">\(r=5\)</span> successful sales, if the probability of success (<span class="math notranslate nohighlight">\(p\)</span>) per call is 0.15.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.stats.nbinom</span>
+<span class="n">r_successes_target</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">p_success_call</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="n">nbinom_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">nbinom</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">r_successes_target</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_success_call</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PMF: Probability of needing k trials to get r successes.</span>
+<span class="c1"># This means k-r failures before the r-th success.</span>
+<span class="c1"># Using scipy: nbinom_rv.pmf(k-r)</span>
+<span class="n">k_trials</span> <span class="o">=</span> <span class="mi">30</span> <span class="c1"># Total trials</span>
+<span class="n">num_failures</span> <span class="o">=</span> <span class="n">k_trials</span> <span class="o">-</span> <span class="n">r_successes_target</span>
+<span class="k">if</span> <span class="n">num_failures</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">prob_k_trials</span> <span class="o">=</span> <span class="n">nbinom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">num_failures</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(Need exactly </span><span class="si">{</span><span class="n">k_trials</span><span class="si">}</span><span class="s2"> trials for </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes): </span><span class="si">{</span><span class="n">prob_k_trials</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot achieve </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes in fewer than </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> trials.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(Need exactly 30 trials for 5 successes): 0.0310
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CDF: Probability of needing k or fewer trials to get r successes.</span>
+<span class="c1"># This means k-r or fewer failures before the r-th success.</span>
+<span class="c1"># Using scipy: nbinom_rv.cdf(k-r)</span>
+<span class="n">k_or_fewer_trials</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">num_failures_max</span> <span class="o">=</span> <span class="n">k_or_fewer_trials</span> <span class="o">-</span> <span class="n">r_successes_target</span>
+<span class="k">if</span> <span class="n">num_failures_max</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">prob_k_or_fewer</span> <span class="o">=</span> <span class="n">nbinom_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">num_failures_max</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(Need </span><span class="si">{</span><span class="n">k_or_fewer_trials</span><span class="si">}</span><span class="s2"> or fewer trials for </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes): </span><span class="si">{</span><span class="n">prob_k_or_fewer</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot achieve </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes in fewer than </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> trials.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(Need 40 or fewer trials for 5 successes): 0.7367
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance (based on scipy&#39;s definition: number of failures)</span>
+<span class="c1"># E[Failures before r successes] = r*(1-p)/p</span>
+<span class="c1"># Var[Failures before r successes] = r*(1-p)/p^2</span>
+<span class="n">mean_failures_scipy</span> <span class="o">=</span> <span class="n">nbinom_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">var_failures_scipy</span> <span class="o">=</span> <span class="n">nbinom_rv</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean number of failures before </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes (scipy): </span><span class="si">{</span><span class="n">mean_failures_scipy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of failures before </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes (scipy): </span><span class="si">{</span><span class="n">var_failures_scipy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean number of failures before 5 successes (scipy): 28.33
+Variance of failures before 5 successes (scipy): 188.89
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance (based on our definition: total trials)</span>
+<span class="c1"># E[Trials for r successes] = r/p = E[Failures] + r</span>
+<span class="c1"># Var[Trials for r successes] = r(1-p)/p^2 = Var[Failures]</span>
+<span class="n">mean_trials_nb</span> <span class="o">=</span> <span class="n">r_successes_target</span> <span class="o">/</span> <span class="n">p_success_call</span>
+<span class="n">var_trials_nb</span> <span class="o">=</span> <span class="n">r_successes_target</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_success_call</span><span class="p">)</span> <span class="o">/</span> <span class="n">p_success_call</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean number of trials for </span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2"> successes: </span><span class="si">{</span><span class="n">mean_trials_nb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance of number of trials: </span><span class="si">{</span><span class="n">var_trials_nb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean number of trials for 5 successes: 33.33
+Variance of number of trials: 188.89
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples (number of failures before r successes)</span>
+<span class="n">n_simulations</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">samples_failures_nb</span> <span class="o">=</span> <span class="n">nbinom_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_simulations</span><span class="p">)</span>
+<span class="c1"># Convert to total trials (failures + r)</span>
+<span class="n">samples_trials_nb</span> <span class="o">=</span> <span class="n">samples_failures_nb</span> <span class="o">+</span> <span class="n">r_successes_target</span>
+<span class="c1"># print(f&quot;\nSimulated trials needed for {r_successes_target} successes ({n_simulations} sims): {samples_trials_nb[:20]}...&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the PMF (using total trial number k = r, r+1, ...)</span>
+<span class="n">k_values_trials_nb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r_successes_target</span><span class="p">,</span> <span class="n">r_successes_target</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span> <span class="c1"># Plot a range of trials</span>
+<span class="n">pmf_values_nb</span> <span class="o">=</span> <span class="n">nbinom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_values_trials_nb</span> <span class="o">-</span> <span class="n">r_successes_target</span><span class="p">)</span> <span class="c1"># Adjust k for scipy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_values_trials_nb</span><span class="p">,</span> <span class="n">pmf_values_nb</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Negative Binomial PMF (r=</span><span class="si">{</span><span class="n">r_successes_target</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_success_call</span><span class="si">}</span><span class="s2">) - Total trials&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Total Number of Trials (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(X=k)&quot;</span><span class="p">)</span>
+<span class="c1"># plt.xticks(k_values_trials_nb[::5]) # Show fewer ticks if crowded</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/701cbd207ff00e4f0dcc2f955956f5b1f641f7837a9769274f476adbf1ca2ba3.png" src="_images/701cbd207ff00e4f0dcc2f955956f5b1f641f7837a9769274f476adbf1ca2ba3.png" />
+</div>
+</div>
+</section>
+<section id="poisson-distribution">
+<h2>5. Poisson Distribution<a class="headerlink" href="#poisson-distribution" title="Link to this heading">#</a></h2>
+<p>The Poisson distribution models the number of events occurring in a fixed interval of time or space, given the average rate of occurrence, assuming events happen independently and at a constant average rate.</p>
+<ul class="simple">
+<li><p><strong>Scenario</strong>: Number of emails received per hour, number of customer arrivals at a store per day, number of typos per page of a book, number of mutations in a DNA strand of a certain length.</p></li>
+<li><p><strong>Parameter</strong>: <span class="math notranslate nohighlight">\(\lambda\)</span> (lambda), the average number of events in the interval (<span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>).</p></li>
+<li><p><strong>Random Variable</strong>: <span class="math notranslate nohighlight">\(X\)</span>, the number of events in the interval. <span class="math notranslate nohighlight">\(X\)</span> can take values <span class="math notranslate nohighlight">\(k = 0, 1, 2, ...\)</span>.</p></li>
+</ul>
+<p><strong>PMF:</strong>
+$<span class="math notranslate nohighlight">\( P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!} \quad \text{for } k = 0, 1, 2, \dots \)</span><span class="math notranslate nohighlight">\(
+where \)</span>e \approx 2.71828$ is Euler’s number.</p>
+<p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(E[X] = \lambda\)</span>
+<strong>Variance:</strong> <span class="math notranslate nohighlight">\(Var(X) = \lambda\)</span>
+Note: The mean and variance are equal in a Poisson distribution.</p>
+<p><strong>Example:</strong> Modeling the number of emails received per hour, if the average rate (<span class="math notranslate nohighlight">\(\lambda\)</span>) is 5 emails/hour.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.stats.poisson</span>
+<span class="n">lambda_rate</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># Average emails per hour</span>
+<span class="n">poisson_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">lambda_rate</span><span class="p">)</span> <span class="c1"># mu is the symbol for lambda in scipy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PMF: Probability of exactly k events</span>
+<span class="n">k_events</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X=</span><span class="si">{</span><span class="n">k_events</span><span class="si">}</span><span class="s2"> emails in an hour | lambda=</span><span class="si">{</span><span class="n">lambda_rate</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">poisson_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_events</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X=3 emails in an hour | lambda=5): 0.1404
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CDF: Probability of k or fewer events</span>
+<span class="n">k_or_fewer_events</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &lt;= </span><span class="si">{</span><span class="n">k_or_fewer_events</span><span class="si">}</span><span class="s2"> emails in an hour): </span><span class="si">{</span><span class="n">poisson_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_fewer_events</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Probability of more than k events</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &gt; </span><span class="si">{</span><span class="n">k_or_fewer_events</span><span class="si">}</span><span class="s2"> emails in an hour): </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">poisson_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_fewer_events</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &gt; </span><span class="si">{</span><span class="n">k_or_fewer_events</span><span class="si">}</span><span class="s2"> emails in an hour) (using sf): </span><span class="si">{</span><span class="n">poisson_rv</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">k_or_fewer_events</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X &lt;= 6 emails in an hour): 0.7622
+P(X &gt; 6 emails in an hour): 0.2378
+P(X &gt; 6 emails in an hour) (using sf): 0.2378
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean (Expected number of emails): </span><span class="si">{</span><span class="n">poisson_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance: </span><span class="si">{</span><span class="n">poisson_rv</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean (Expected number of emails): 5.00
+Variance: 5.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples</span>
+<span class="n">n_simulations</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">poisson_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_simulations</span><span class="p">)</span>
+<span class="c1"># print(f&quot;\nSimulated number of emails per hour ({n_simulations} simulations): {samples[:20]}...&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the PMF</span>
+<span class="n">k_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="c1"># Plot for k=0 to 15</span>
+<span class="n">pmf_values</span> <span class="o">=</span> <span class="n">poisson_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_values</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Poisson PMF (lambda=</span><span class="si">{</span><span class="n">lambda_rate</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Events (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(X=k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0bccad8551de0e36772546f5222c06f4a4b162df15cde9aaad372cf75865556c.png" src="_images/0bccad8551de0e36772546f5222c06f4a4b162df15cde9aaad372cf75865556c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the CDF</span>
+<span class="n">cdf_values</span> <span class="o">=</span> <span class="n">poisson_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">k_values</span><span class="p">,</span> <span class="n">cdf_values</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Poisson CDF (lambda=</span><span class="si">{</span><span class="n">lambda_rate</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Events (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cumulative Probability P(X &lt;= k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1e416e0de4102fa829331b84672be4de425e0ccbad98e1432441680ad1423cfd.png" src="_images/1e416e0de4102fa829331b84672be4de425e0ccbad98e1432441680ad1423cfd.png" />
+</div>
+</div>
+</section>
+<section id="hypergeometric-distribution">
+<h2>6. Hypergeometric Distribution<a class="headerlink" href="#hypergeometric-distribution" title="Link to this heading">#</a></h2>
+<p>The Hypergeometric distribution models the number of successes in a sample drawn <em>without replacement</em> from a finite population containing a known number of successes. Contrast this with the Binomial, which assumes independence (sampling <em>with</em> replacement or from a very large population).</p>
+<ul class="simple">
+<li><p><strong>Scenario</strong>: Number of winning lottery tickets in a handful drawn from a box, number of defective items in a sample taken from a small batch, number of Aces drawn in a 5-card poker hand from a standard deck.</p></li>
+<li><p><strong>Parameters</strong>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(N\)</span>: the total size of the population.</p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span>: the total number of success items in the population.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span>: the size of the sample drawn from the population (<span class="math notranslate nohighlight">\(n \le N\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Random Variable</strong>: <span class="math notranslate nohighlight">\(X\)</span>, the number of successes in the sample of size <span class="math notranslate nohighlight">\(n\)</span>. <span class="math notranslate nohighlight">\(X\)</span> can take values <span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(\max(0, n - (N-K)) \le k \le \min(n, K)\)</span>.</p></li>
+</ul>
+<p><strong>PMF:</strong>
+$<span class="math notranslate nohighlight">\( P(X=k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}} \)</span><span class="math notranslate nohighlight">\(
+This represents (ways to choose \)</span>k<span class="math notranslate nohighlight">\( successes from \)</span>K<span class="math notranslate nohighlight">\() * (ways to choose \)</span>n-k<span class="math notranslate nohighlight">\( failures from \)</span>N-K<span class="math notranslate nohighlight">\() / (total ways to choose \)</span>n<span class="math notranslate nohighlight">\( items from \)</span>N$).</p>
+<p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(E[X] = n \frac{K}{N}\)</span>
+<strong>Variance:</strong> <span class="math notranslate nohighlight">\(Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)\)</span>
+The term <span class="math notranslate nohighlight">\(\frac{N-n}{N-1}\)</span> is the <em>finite population correction factor</em>. As <span class="math notranslate nohighlight">\(N \to \infty\)</span>, this factor approaches 1, and the Hypergeometric distribution approaches the Binomial distribution with <span class="math notranslate nohighlight">\(p = K/N\)</span>.</p>
+<p><strong>Example:</strong> Modeling the number of winning lottery tickets (<span class="math notranslate nohighlight">\(k\)</span>) in a sample of <span class="math notranslate nohighlight">\(n=10\)</span> tickets drawn from a box containing <span class="math notranslate nohighlight">\(N=100\)</span> tickets, where <span class="math notranslate nohighlight">\(K=20\)</span> are winners.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using scipy.stats.hypergeom</span>
+<span class="n">N_population</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># Total tickets</span>
+<span class="n">K_successes_pop</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Total winning tickets</span>
+<span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Sample size drawn</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># M = N, n = K, N = n (in scipy&#39;s notation: M=population size, n=successes in pop, N=sample size)</span>
+<span class="n">hypergeom_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">hypergeom</span><span class="p">(</span><span class="n">M</span><span class="o">=</span><span class="n">N_population</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">K_successes_pop</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">n_sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PMF: Probability of exactly k successes in the sample</span>
+<span class="n">k_successes_sample</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X=</span><span class="si">{</span><span class="n">k_successes_sample</span><span class="si">}</span><span class="s2"> winning tickets in sample of </span><span class="si">{</span><span class="n">n_sample</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_successes_sample</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X=3 winning tickets in sample of 10): 0.2092
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CDF: Probability of k or fewer successes in the sample</span>
+<span class="n">k_or_fewer_sample</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &lt;= </span><span class="si">{</span><span class="n">k_or_fewer_sample</span><span class="si">}</span><span class="s2"> winning tickets in sample): </span><span class="si">{</span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_fewer_sample</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Probability of more than k successes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &gt; </span><span class="si">{</span><span class="n">k_or_fewer_sample</span><span class="si">}</span><span class="s2"> winning tickets in sample): </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k_or_fewer_sample</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(X &gt; </span><span class="si">{</span><span class="n">k_or_fewer_sample</span><span class="si">}</span><span class="s2"> winning tickets in sample) (using sf): </span><span class="si">{</span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">k_or_fewer_sample</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(X &lt;= 2 winning tickets in sample): 0.6812
+P(X &gt; 2 winning tickets in sample): 0.3188
+P(X &gt; 2 winning tickets in sample) (using sf): 0.3188
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean and Variance</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean (Expected number of winning tickets in sample): </span><span class="si">{</span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance: </span><span class="si">{</span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">var</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard Deviation: </span><span class="si">{</span><span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean (Expected number of winning tickets in sample): 2.00
+Variance: 1.45
+Standard Deviation: 1.21
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Theoretical mean calculation for comparison</span>
+<span class="n">mean_theory</span> <span class="o">=</span> <span class="n">n_sample</span> <span class="o">*</span> <span class="p">(</span><span class="n">K_successes_pop</span> <span class="o">/</span> <span class="n">N_population</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical Mean: </span><span class="si">{</span><span class="n">mean_theory</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Theoretical Mean: 2.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples</span>
+<span class="n">n_simulations</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_simulations</span><span class="p">)</span>
+<span class="c1"># print(f&quot;\nSimulated number of winning tickets ({n_simulations} simulations): {samples[:20]}...&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the PMF</span>
+<span class="c1"># Determine possible k values: max(0, n-(N-K)) &lt;= k &lt;= min(n, K)</span>
+<span class="n">min_k</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_sample</span> <span class="o">-</span> <span class="p">(</span><span class="n">N_population</span> <span class="o">-</span> <span class="n">K_successes_pop</span><span class="p">))</span>
+<span class="n">max_k</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">K_successes_pop</span><span class="p">)</span>
+<span class="n">k_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_k</span><span class="p">,</span> <span class="n">max_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">pmf_values</span> <span class="o">=</span> <span class="n">hypergeom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_values</span><span class="p">,</span> <span class="n">pmf_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hypergeometric PMF (N=</span><span class="si">{</span><span class="n">N_population</span><span class="si">}</span><span class="s2">, K=</span><span class="si">{</span><span class="n">K_successes_pop</span><span class="si">}</span><span class="s2">, n=</span><span class="si">{</span><span class="n">n_sample</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Successes in Sample (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(X=k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">k_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9a468c2c64882f5ec4ab423e788b050835576571752d95891d48268ac65459b0.png" src="_images/9a468c2c64882f5ec4ab423e788b050835576571752d95891d48268ac65459b0.png" />
+</div>
+</div>
+</section>
+<section id="relationships-between-distributions">
+<h2>7. Relationships Between Distributions<a class="headerlink" href="#relationships-between-distributions" title="Link to this heading">#</a></h2>
+<p>Understanding the connections between these distributions can deepen insight and provide useful approximations.</p>
+<ol class="arabic simple">
+<li><p><strong>Bernoulli as a special case of Binomial</strong>: A Binomial distribution with <span class="math notranslate nohighlight">\(n=1\)</span> trial (<span class="math notranslate nohighlight">\(Binomial(1, p)\)</span>) is equivalent to a Bernoulli distribution (<span class="math notranslate nohighlight">\(Bernoulli(p)\)</span>).</p></li>
+<li><p><strong>Geometric as a special case of Negative Binomial</strong>: A Negative Binomial distribution modeling the number of trials until the first success (<span class="math notranslate nohighlight">\(r=1\)</span>) (<span class="math notranslate nohighlight">\(NegativeBinomial(1, p)\)</span>) is equivalent to a Geometric distribution (<span class="math notranslate nohighlight">\(Geometric(p)\)</span>).</p></li>
+<li><p><strong>Binomial Approximation to Hypergeometric</strong>: If the population size <span class="math notranslate nohighlight">\(N\)</span> is much larger than the sample size <span class="math notranslate nohighlight">\(n\)</span> (e.g., <span class="math notranslate nohighlight">\(N &gt; 20n\)</span>), then drawing without replacement (Hypergeometric) is very similar to drawing with replacement. In this case, the Hypergeometric(<span class="math notranslate nohighlight">\(N, K, n\)</span>) distribution can be well-approximated by the Binomial(<span class="math notranslate nohighlight">\(n, p=K/N\)</span>) distribution. The finite population correction factor <span class="math notranslate nohighlight">\(\frac{N-n}{N-1}\)</span> approaches 1.</p></li>
+<li><p><strong>Poisson Approximation to Binomial</strong>: If the number of trials <span class="math notranslate nohighlight">\(n\)</span> in a Binomial distribution is large, and the success probability <span class="math notranslate nohighlight">\(p\)</span> is small, such that the mean <span class="math notranslate nohighlight">\(\lambda = np\)</span> is moderate, then the Binomial(<span class="math notranslate nohighlight">\(n, p\)</span>) distribution can be well-approximated by the Poisson(<span class="math notranslate nohighlight">\(\lambda = np\)</span>) distribution. This is useful because the Poisson PMF is often easier to compute than the Binomial PMF when <span class="math notranslate nohighlight">\(n\)</span> is large. A common rule of thumb is to use this approximation if <span class="math notranslate nohighlight">\(n \ge 20\)</span> and <span class="math notranslate nohighlight">\(p \le 0.05\)</span>, or <span class="math notranslate nohighlight">\(n \ge 100\)</span> and <span class="math notranslate nohighlight">\(np \le 10\)</span>.</p></li>
+</ol>
+<p><strong>Example: Poisson approximation to Binomial</strong>
+Consider <span class="math notranslate nohighlight">\(Binomial(n=1000, p=0.005)\)</span>. Here <span class="math notranslate nohighlight">\(n\)</span> is large, <span class="math notranslate nohighlight">\(p\)</span> is small. The mean is <span class="math notranslate nohighlight">\(\lambda = np = 1000 \times 0.005 = 5\)</span>. We can approximate this with <span class="math notranslate nohighlight">\(Poisson(\lambda=5)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_binom_approx</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">p_binom_approx</span> <span class="o">=</span> <span class="mf">0.005</span>
+<span class="n">lambda_approx</span> <span class="o">=</span> <span class="n">n_binom_approx</span> <span class="o">*</span> <span class="n">p_binom_approx</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binom_rv_approx</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_binom_approx</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_binom_approx</span><span class="p">)</span>
+<span class="n">poisson_rv_approx</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">lambda_approx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare PMFs for a few values of k</span>
+<span class="n">k_vals_compare</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">binom_pmf</span> <span class="o">=</span> <span class="n">binom_rv_approx</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_vals_compare</span><span class="p">)</span>
+<span class="n">poisson_pmf</span> <span class="o">=</span> <span class="n">poisson_rv_approx</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_vals_compare</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Comparing Binomial(n=</span><span class="si">{</span><span class="n">n_binom_approx</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_binom_approx</span><span class="si">}</span><span class="s2">) and Poisson(lambda=</span><span class="si">{</span><span class="n">lambda_approx</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;k</span><span class="se">\t</span><span class="s2">Binomial P(X=k)</span><span class="se">\t</span><span class="s2">Poisson P(X=k)</span><span class="se">\t</span><span class="s2">Difference&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">k_vals_compare</span><span class="p">,</span> <span class="n">binom_pmf</span><span class="p">,</span> <span class="n">poisson_pmf</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">bp</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">pp</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">bp</span><span class="o">-</span><span class="n">pp</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Comparing Binomial(n=1000, p=0.005) and Poisson(lambda=5.0)
+k	Binomial P(X=k)	Poisson P(X=k)	Difference
+0	0.006654	0.006738	0.000084
+1	0.033437	0.033690	0.000253
+2	0.083929	0.084224	0.000296
+3	0.140303	0.140374	0.000071
+4	0.175731	0.175467	0.000264
+5	0.175908	0.175467	0.000440
+6	0.146590	0.146223	0.000367
+7	0.104602	0.104445	0.000157
+8	0.065245	0.065278	0.000033
+9	0.036138	0.036266	0.000128
+10	0.017996	0.018133	0.000137
+11	0.008139	0.008242	0.000103
+12	0.003371	0.003434	0.000063
+13	0.001287	0.001321	0.000034
+14	0.000456	0.000472	0.000016
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting the comparison</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_vals_compare</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">binom_pmf</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Binomial(n=</span><span class="si">{</span><span class="n">n_binom_approx</span><span class="si">}</span><span class="s1">, p=</span><span class="si">{</span><span class="n">p_binom_approx</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">k_vals_compare</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">poisson_pmf</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Poisson(lambda=</span><span class="si">{</span><span class="n">lambda_approx</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Poisson Approximation to Binomial&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Successes (k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">k_vals_compare</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/01c003a8b8081d485efe4e860abde6b91c50ebda64db1bfbbc2936b1110d45b2.png" src="_images/01c003a8b8081d485efe4e860abde6b91c50ebda64db1bfbbc2936b1110d45b2.png" />
+</div>
+</div>
+</section>
+<section id="hands-on-exercises">
+<h2>8. Hands-on Exercises<a class="headerlink" href="#hands-on-exercises" title="Link to this heading">#</a></h2>
+<p>Now, let’s apply what we’ve learned using <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code>.</p>
+<p><strong>Exercise 1: Customer Arrivals</strong>
+The average number of customers arriving at a small cafe is 10 per hour. Assume arrivals follow a Poisson distribution.
+a) What is the probability that exactly 8 customers arrive in a given hour?
+b) What is the probability that 12 or fewer customers arrive in a given hour?
+c) What is the probability that more than 15 customers arrive in a given hour?
+d) Simulate 1000 hours of customer arrivals and plot a histogram of the results. Compare it to the theoretical PMF.</p>
+<p><strong>Exercise 2: Quality Control</strong>
+A batch contains 50 items, of which 5 are defective. You randomly sample 8 items without replacement.
+a) What distribution models the number of defective items in your sample? State the parameters.
+b) What is the probability that exactly 1 item in your sample is defective?
+c) What is the probability that at most 2 items in your sample are defective?
+d) What is the expected number of defective items in your sample?</p>
+<p><strong>Exercise 3: Website Success</strong>
+A new website feature has a 3% chance of being used by a visitor (<span class="math notranslate nohighlight">\(p=0.03\)</span>). Assume visitors are independent.
+a) If 100 visitors come to the site, what is the probability that exactly 3 visitors use the feature? What distribution applies?
+b) What is the probability that 5 or fewer visitors use the feature out of 100?
+c) What is the expected number of users out of 100 visitors?
+d) A developer tests the feature repeatedly until the first user successfully uses it. What is the probability that the first success occurs on the 20th visitor? What distribution applies?
+e) What is the expected number of visitors needed to see the first success?
+f) How many visitors are expected until the 5th user is observed? What distribution applies?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exercise 1: Customer Arrivals (Poisson)</span>
+<span class="n">lambda_cafe</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">cafe_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">lambda_cafe</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># a) P(X=8)</span>
+<span class="n">prob_8</span> <span class="o">=</span> <span class="n">cafe_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;1a) P(Exactly 8 customers) = </span><span class="si">{</span><span class="n">prob_8</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1a) P(Exactly 8 customers) = 0.1126
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># b) P(X &lt;= 12)</span>
+<span class="n">prob_12_or_fewer</span> <span class="o">=</span> <span class="n">cafe_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;1b) P(12 or fewer customers) = </span><span class="si">{</span><span class="n">prob_12_or_fewer</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1b) P(12 or fewer customers) = 0.7916
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># c) P(X &gt; 15) = 1 - P(X &lt;= 15) or sf(15)</span>
+<span class="n">prob_over_15</span> <span class="o">=</span> <span class="n">cafe_rv</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;1c) P(More than 15 customers) = </span><span class="si">{</span><span class="n">prob_over_15</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1c) P(More than 15 customers) = 0.0487
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># d) Simulation</span>
+<span class="n">n_sim_hours</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">sim_arrivals</span> <span class="o">=</span> <span class="n">cafe_rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_sim_hours</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">max_observed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sim_arrivals</span><span class="p">)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_observed</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="c1"># Center bins on integers</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sim_arrivals</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Simulated Arrivals&#39;</span><span class="p">)</span>
+
+<span class="c1"># Overlay theoretical PMF</span>
+<span class="n">k_vals_cafe</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_observed</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">pmf_cafe</span> <span class="o">=</span> <span class="n">cafe_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k_vals_cafe</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_vals_cafe</span><span class="p">,</span> <span class="n">pmf_cafe</span><span class="p">,</span> <span class="s1">&#39;ro-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Theoretical PMF&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Simulated Customer Arrivals (n=</span><span class="si">{</span><span class="n">n_sim_hours</span><span class="si">}</span><span class="s1">) vs Poisson PMF (lambda=</span><span class="si">{</span><span class="n">lambda_cafe</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Customers per Hour&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability / Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_observed</span> <span class="o">+</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/52e2b3f94052c799fa65724531c6f62180620b13d0868143a535fc5b212d2d74.png" src="_images/52e2b3f94052c799fa65724531c6f62180620b13d0868143a535fc5b212d2d74.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exercise 2: Quality Control (Hypergeometric)</span>
+<span class="n">N_qc</span> <span class="o">=</span> <span class="mi">50</span> <span class="c1"># Population size</span>
+<span class="n">K_qc</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Successes in population (defectives)</span>
+<span class="n">n_qc</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># Sample size</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># a) Distribution: Hypergeometric(M=50, n=5, N=8) using scipy notation</span>
+<span class="n">qc_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">hypergeom</span><span class="p">(</span><span class="n">M</span><span class="o">=</span><span class="n">N_qc</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">K_qc</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">n_qc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2a) Distribution: Hypergeometric(N=</span><span class="si">{</span><span class="n">N_qc</span><span class="si">}</span><span class="s2">, K=</span><span class="si">{</span><span class="n">K_qc</span><span class="si">}</span><span class="s2">, n=</span><span class="si">{</span><span class="n">n_qc</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2a) Distribution: Hypergeometric(N=50, K=5, n=8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># b) P(X=1)</span>
+<span class="n">prob_1_defective</span> <span class="o">=</span> <span class="n">qc_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2b) P(Exactly 1 defective in sample) = </span><span class="si">{</span><span class="n">prob_1_defective</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2b) P(Exactly 1 defective in sample) = 0.4226
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># c) P(X &lt;= 2)</span>
+<span class="n">prob_at_most_2</span> <span class="o">=</span> <span class="n">qc_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2c) P(At most 2 defectives in sample) = </span><span class="si">{</span><span class="n">prob_at_most_2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2c) P(At most 2 defectives in sample) = 0.9758
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># d) Expected number of defectives E[X] = n * (K/N)</span>
+<span class="n">expected_defective</span> <span class="o">=</span> <span class="n">qc_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2d) Expected number of defectives in sample = </span><span class="si">{</span><span class="n">expected_defective</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Theoretical check: 8 * (5 / 50) = 8 * 0.1 = 0.8</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2d) Expected number of defectives in sample = 0.8000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exercise 3: Website Success (Binomial, Geometric, Negative Binomial)</span>
+<span class="n">p_ws</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c1"># Probability of success (using feature)</span>
+<span class="n">n_ws</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># Number of visitors (trials)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># a) P(X=3) out of 100. Distribution: Binomial(n=100, p=0.03)</span>
+<span class="n">ws_binom_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_ws</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p_ws</span><span class="p">)</span>
+<span class="n">prob_3_users</span> <span class="o">=</span> <span class="n">ws_binom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3a) Distribution: Binomial(n=</span><span class="si">{</span><span class="n">n_ws</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_ws</span><span class="si">}</span><span class="s2">). P(Exactly 3 users) = </span><span class="si">{</span><span class="n">prob_3_users</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3a) Distribution: Binomial(n=100, p=0.03). P(Exactly 3 users) = 0.2275
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># b) P(X &lt;= 5) out of 100</span>
+<span class="n">prob_5_or_fewer</span> <span class="o">=</span> <span class="n">ws_binom_rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3b) P(5 or fewer users) = </span><span class="si">{</span><span class="n">prob_5_or_fewer</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3b) P(5 or fewer users) = 0.9192
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># c) Expected users out of 100: E[X] = n*p</span>
+<span class="n">expected_users</span> <span class="o">=</span> <span class="n">ws_binom_rv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3c) Expected number of users = </span><span class="si">{</span><span class="n">expected_users</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3c) Expected number of users = 3.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># d) P(First success on 20th visitor). Distribution: Geometric(p=0.03)</span>
+<span class="c1"># Remember scipy.geom counts failures *before* first success. Trial 20 means 19 failures.</span>
+<span class="n">ws_geom_rv</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">geom</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p_ws</span><span class="p">)</span>
+<span class="n">prob_first_on_20</span> <span class="o">=</span> <span class="n">ws_geom_rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span> <span class="c1"># k=19 failures</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3d) Distribution: Geometric(p=</span><span class="si">{</span><span class="n">p_ws</span><span class="si">}</span><span class="s2">). P(First success on trial 20) = </span><span class="si">{</span><span class="n">prob_first_on_20</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3d) Distribution: Geometric(p=0.03). P(First success on trial 20) = 0.0173
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># e) Expected visitors for first success: E[X] = 1/p</span>
+<span class="n">expected_trials_geom</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">p_ws</span>
+<span class="c1"># Using scipy mean (failures) + 1: ws_geom_rv.mean() + 1</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3e) Expected visitors until first success = </span><span class="si">{</span><span class="n">expected_trials_geom</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3e) Expected visitors until first success = 33.33
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># f) Expected visitors for 5th success. Distribution: Negative Binomial(r=5, p=0.03)</span>
+<span class="c1"># Expected trials E[X] = r/p</span>
+<span class="n">r_ws</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">expected_trials_nbinom</span> <span class="o">=</span> <span class="n">r_ws</span> <span class="o">/</span> <span class="n">p_ws</span>
+<span class="c1"># Using scipy mean (failures) + r: stats.nbinom(n=r_ws, p=p_ws).mean() + r_ws</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3f) Distribution: Negative Binomial(r=</span><span class="si">{</span><span class="n">r_ws</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_ws</span><span class="si">}</span><span class="s2">). Expected visitors until 5th success = </span><span class="si">{</span><span class="n">expected_trials_nbinom</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3f) Distribution: Negative Binomial(r=5, p=0.03). Expected visitors until 5th success = 166.67
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>In this chapter, we explored six fundamental discrete probability distributions:</p>
+<ul class="simple">
+<li><p><strong>Bernoulli</strong>: Single trial, two outcomes (Success/Failure).</p></li>
+<li><p><strong>Binomial</strong>: Fixed number of independent trials, counts successes.</p></li>
+<li><p><strong>Geometric</strong>: Number of trials until the <em>first</em> success.</p></li>
+<li><p><strong>Negative Binomial</strong>: Number of trials until a <em>fixed number</em> (<span class="math notranslate nohighlight">\(r\)</span>) of successes.</p></li>
+<li><p><strong>Poisson</strong>: Number of events in a fixed interval of time/space, given an average rate.</p></li>
+<li><p><strong>Hypergeometric</strong>: Number of successes in a sample drawn <em>without</em> replacement from a finite population.</p></li>
+</ul>
+<p>We learned the scenarios each distribution models, their parameters, PMFs, means, and variances. Critically, we saw how to leverage <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> functions (<code class="docutils literal notranslate"><span class="pre">pmf</span></code>, <code class="docutils literal notranslate"><span class="pre">cdf</span></code>, <code class="docutils literal notranslate"><span class="pre">rvs</span></code>, <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">var</span></code>, <code class="docutils literal notranslate"><span class="pre">std</span></code>, <code class="docutils literal notranslate"><span class="pre">sf</span></code>) to perform calculations, generate simulations, and visualize these distributions. We also discussed important relationships, such as the Poisson approximation to the Binomial and the Binomial approximation to the Hypergeometric.</p>
+<p>Mastering these distributions provides a powerful toolkit for modeling various random phenomena encountered in data analysis, science, engineering, and business. In the next chapters, we will transition to continuous random variables and their corresponding common distributions.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_06.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 6: Discrete Random Variables</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_08.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 8: Continuous Random Variables</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution">1. Bernoulli Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution">2. Binomial Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-distribution">3. Geometric Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-distribution">4. Negative Binomial Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution">5. Poisson Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hypergeometric-distribution">6. Hypergeometric Distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relationships-between-distributions">7. Relationships Between Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-exercises">8. Hands-on Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

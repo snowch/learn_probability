@@ -1,0 +1,1209 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 10: Joint Distributions &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_10';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 11: Independence, Covariance, and Correlation" href="chapter_11.html" />
+    <link rel="prev" title="Chapter 9: Common Continuous Distributions" href="chapter_09.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_10.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_10.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 10: Joint Distributions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-probability-mass-functions-pmfs">Joint Probability Mass Functions (PMFs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-probability-density-functions-pdfs">Joint Probability Density Functions (PDFs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marginal-distributions">Marginal Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-distributions">Conditional Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-cumulative-distribution-functions-cdfs">Joint Cumulative Distribution Functions (CDFs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-simulation-and-visualization">Hands-on: Simulation and Visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-10-joint-distributions">
+<h1>Chapter 10: Joint Distributions<a class="headerlink" href="#chapter-10-joint-distributions" title="Link to this heading">#</a></h1>
+<p><strong>Part 4: Multiple Random Variables</strong></p>
+<p>Up until now, we’ve primarily focused on the behaviour of single random variables. However, real-world phenomena often involve observing and analysing multiple random quantities simultaneously. For instance:</p>
+<ul class="simple">
+<li><p>How does a person’s height relate to their weight?</p></li>
+<li><p>How does the temperature and humidity on a given day affect electricity consumption?</p></li>
+<li><p>In finance, how do the returns of different stocks move together?</p></li>
+</ul>
+<p>To answer such questions, we need to understand how to model the probabilities of multiple random variables occurring together. This leads us to the concept of <strong>joint distributions</strong>. In this chapter, we’ll explore how to describe the probabilistic relationship between two or more random variables, extending the concepts of PMFs, PDFs, and CDFs to multiple dimensions.</p>
+<section id="joint-probability-mass-functions-pmfs">
+<h2>Joint Probability Mass Functions (PMFs)<a class="headerlink" href="#joint-probability-mass-functions-pmfs" title="Link to this heading">#</a></h2>
+<p>Let’s start with the discrete case. Suppose we have two discrete random variables, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, defined on the same probability space. Their <strong>joint probability mass function (PMF)</strong> gives the probability that <span class="math notranslate nohighlight">\(X\)</span> takes a specific value <span class="math notranslate nohighlight">\(x\)</span> <em>and</em> <span class="math notranslate nohighlight">\(Y\)</span> takes a specific value <span class="math notranslate nohighlight">\(y\)</span>, simultaneously.</p>
+<div class="math notranslate nohighlight">
+\[ p_{X,Y}(x, y) = P(X=x, Y=y) \]</div>
+<p>The joint PMF must satisfy two conditions:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(p_{X,Y}(x, y) \ge 0\)</span> for all possible pairs <span class="math notranslate nohighlight">\((x, y)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1\)</span>, where the sum is over all possible pairs <span class="math notranslate nohighlight">\((x, y)\)</span>.</p></li>
+</ol>
+<p><strong>Example: Rolling Two Dice</strong></p>
+<p>Let <span class="math notranslate nohighlight">\(X\)</span> be the outcome of rolling a fair red die, and <span class="math notranslate nohighlight">\(Y\)</span> be the outcome of rolling a fair blue die. Both <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> can take values in <span class="math notranslate nohighlight">\(\{1, 2, 3, 4, 5, 6\}\)</span>. Assuming the rolls are independent, the probability of any specific pair <span class="math notranslate nohighlight">\((x, y)\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[ p_{X,Y}(x, y) = P(X=x, Y=y) = P(X=x) P(Y=y) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36} \]</div>
+<p>for all <span class="math notranslate nohighlight">\(x, y \in \{1, 2, 3, 4, 5, 6\}\)</span>.</p>
+<p>We can represent this joint PMF as a table or a 2D array:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>y\x</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+<th class="head"><p>6</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>1</strong></p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>2</strong></p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>3</strong></p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>4</strong></p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>5</strong></p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>6</strong></p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+<td><p>1/36</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The sum of all entries in the table is <span class="math notranslate nohighlight">\(36 \times \frac{1}{36} = 1\)</span>.</p>
+</section>
+<section id="joint-probability-density-functions-pdfs">
+<h2>Joint Probability Density Functions (PDFs)<a class="headerlink" href="#joint-probability-density-functions-pdfs" title="Link to this heading">#</a></h2>
+<p>For continuous random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, we use a <strong>joint probability density function (PDF)</strong>, denoted <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span>. This function describes the relative likelihood of the variables taking on a specific pair of values <span class="math notranslate nohighlight">\((x, y)\)</span>.</p>
+<p>Unlike the discrete case, <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> itself is not a probability. Instead, probabilities are found by integrating the joint PDF over a region in the <span class="math notranslate nohighlight">\(xy\)</span>-plane. The probability that the pair <span class="math notranslate nohighlight">\((X, Y)\)</span> falls within a region <span class="math notranslate nohighlight">\(A\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[ P((X, Y) \in A) = \iint_A f_{X,Y}(x, y) \,dx \,dy \]</div>
+<p>The joint PDF must satisfy:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(f_{X,Y}(x, y) \ge 0\)</span> for all <span class="math notranslate nohighlight">\((x, y)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \,dy = 1\)</span>.</p></li>
+</ol>
+<p><strong>Conceptual Example: Height and Weight</strong></p>
+<p>Let <span class="math notranslate nohighlight">\(X\)</span> represent the height (in meters) and <span class="math notranslate nohighlight">\(Y\)</span> represent the weight (in kilograms) of a randomly selected adult. We expect that taller people generally tend to weigh more, so these variables are likely not independent. Their joint distribution might be modelled by a <strong>bivariate normal distribution</strong>. The joint PDF <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> would be a bell-shaped surface over the <span class="math notranslate nohighlight">\(xy\)</span>-plane, likely centered around the average height and weight, and elongated along a diagonal line reflecting the positive relationship between height and weight. The volume under this entire surface must equal 1.</p>
+</section>
+<section id="marginal-distributions">
+<h2>Marginal Distributions<a class="headerlink" href="#marginal-distributions" title="Link to this heading">#</a></h2>
+<p>Often, we have the joint distribution of multiple variables, but we are interested in the distribution of just one of them, irrespective of the others. This is called the <strong>marginal distribution</strong>.</p>
+<p><strong>Discrete Case:</strong></p>
+<p>To find the marginal PMF of <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(p_X(x)\)</span>, we sum the joint PMF <span class="math notranslate nohighlight">\(p_{X,Y}(x, y)\)</span> over all possible values of <span class="math notranslate nohighlight">\(y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ p_X(x) = P(X=x) = \sum_{y} P(X=x, Y=y) = \sum_{y} p_{X,Y}(x, y) \]</div>
+<p>Similarly, for the marginal PMF of <span class="math notranslate nohighlight">\(Y\)</span>, <span class="math notranslate nohighlight">\(p_Y(y)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ p_Y(y) = P(Y=y) = \sum_{x} P(X=x, Y=y) = \sum_{x} p_{X,Y}(x, y) \]</div>
+<p>In the two-dice example, the marginal probability <span class="math notranslate nohighlight">\(P(X=3)\)</span> is found by summing the probabilities in the column corresponding to <span class="math notranslate nohighlight">\(x=3\)</span>:
+<span class="math notranslate nohighlight">\(P(X=3) = \sum_{y=1}^{6} p_{X,Y}(3, y) = \sum_{y=1}^{6} \frac{1}{36} = 6 \times \frac{1}{36} = \frac{1}{6}\)</span>. As expected for a single fair die.</p>
+<p><strong>Continuous Case:</strong></p>
+<p>To find the marginal PDF of <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(f_X(x)\)</span>, we integrate the joint PDF <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> over all possible values of <span class="math notranslate nohighlight">\(y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dy \]</div>
+<p>Similarly, for the marginal PDF of <span class="math notranslate nohighlight">\(Y\)</span>, <span class="math notranslate nohighlight">\(f_Y(y)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \]</div>
+<p>For the height (<span class="math notranslate nohighlight">\(X\)</span>) and weight (<span class="math notranslate nohighlight">\(Y\)</span>) example, integrating the bivariate normal PDF <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> with respect to <span class="math notranslate nohighlight">\(y\)</span> from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> would yield the marginal distribution of height, <span class="math notranslate nohighlight">\(f_X(x)\)</span>, which itself would typically be a normal distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Hands-on: Marginal PMFs from Joint PMF</strong></p>
+<p>Let’s represent the joint PMF for the two dice example and calculate the marginal PMFs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Joint PMF for two independent dice rolls</span>
+<span class="c1"># Rows represent Y (die 2), Columns represent X (die 1)</span>
+<span class="n">joint_pmf_dice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span> <span class="o">/</span> <span class="mi">36</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Joint PMF (P(X=x, Y=y)):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">joint_pmf_dice</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Sum of all joint probabilities: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">joint_pmf_dice</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joint PMF (P(X=x, Y=y)):
+[[0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]
+ [0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]
+ [0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]
+ [0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]
+ [0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]
+ [0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]]
+
+Sum of all joint probabilities: 1.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate marginal PMF for X (sum over rows for each column)</span>
+<span class="n">marginal_pmf_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">joint_pmf_dice</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># axis=0 sums over rows</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Marginal PMF for X (P(X=x)):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">marginal_pmf_X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum of marginal P(X=x): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">marginal_pmf_X</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Marginal PMF for X (P(X=x)):
+[0.16666667 0.16666667 0.16666667 0.16666667 0.16666667 0.16666667]
+Sum of marginal P(X=x): 1.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate marginal PMF for Y (sum over columns for each row)</span>
+<span class="n">marginal_pmf_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">joint_pmf_dice</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># axis=1 sums over columns</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Marginal PMF for Y (P(Y=y)):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">marginal_pmf_Y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum of marginal P(Y=y): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">marginal_pmf_Y</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Marginal PMF for Y (P(Y=y)):
+[0.16666667 0.16666667 0.16666667 0.16666667 0.16666667 0.16666667]
+Sum of marginal P(Y=y): 1.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify the results match the expected 1/6 for each outcome</span>
+<span class="n">dice_outcomes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">dice_outcomes</span><span class="p">,</span> <span class="n">marginal_pmf_X</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Outcome X (Die 1)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(X=x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Marginal PMF of X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">dice_outcomes</span><span class="p">,</span> <span class="n">marginal_pmf_Y</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Outcome Y (Die 2)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(Y=y)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Marginal PMF of Y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/20c482dc61d181b28218f7b9e2341009e3818d36be4a5fe6a65178fa3bc0fc1c.png" src="_images/20c482dc61d181b28218f7b9e2341009e3818d36be4a5fe6a65178fa3bc0fc1c.png" />
+</div>
+</div>
+</section>
+<section id="conditional-distributions">
+<h2>Conditional Distributions<a class="headerlink" href="#conditional-distributions" title="Link to this heading">#</a></h2>
+<p>The conditional distribution tells us the probability distribution of one variable <em>given</em> that the other variable has taken a specific value.</p>
+<p><strong>Definition:</strong></p>
+<p>The <strong>conditional PMF</strong> of <span class="math notranslate nohighlight">\(Y\)</span> given <span class="math notranslate nohighlight">\(X=x\)</span> is:
+$<span class="math notranslate nohighlight">\( p_{Y|X}(y|x) = P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)} = \frac{p_{X,Y}(x, y)}{p_X(x)} \)</span><span class="math notranslate nohighlight">\(
+provided that \)</span>p_X(x) &gt; 0$.</p>
+<p>The <strong>conditional PDF</strong> of <span class="math notranslate nohighlight">\(Y\)</span> given <span class="math notranslate nohighlight">\(X=x\)</span> is:
+$<span class="math notranslate nohighlight">\( f_{Y|X}(y|x) = \frac{f_{X,Y}(x, y)}{f_X(x)} \)</span><span class="math notranslate nohighlight">\(
+provided that \)</span>f_X(x) &gt; 0$.</p>
+<p>Note that for a fixed value of <span class="math notranslate nohighlight">\(x\)</span>, the conditional PMF <span class="math notranslate nohighlight">\(p_{Y|X}(y|x)\)</span> is a valid PMF in <span class="math notranslate nohighlight">\(y\)</span> (sums to 1), and the conditional PDF <span class="math notranslate nohighlight">\(f_{Y|X}(y|x)\)</span> is a valid PDF in <span class="math notranslate nohighlight">\(y\)</span> (integrates to 1).</p>
+<p><strong>Example: Two Dice (Conditional)</strong></p>
+<p>What is the probability distribution of the second die roll (<span class="math notranslate nohighlight">\(Y\)</span>) given that the first die roll (<span class="math notranslate nohighlight">\(X\)</span>) was a 3?
+Using the formula: <span class="math notranslate nohighlight">\(p_{Y|X}(y|3) = \frac{p_{X,Y}(3, y)}{p_X(3)}\)</span>.
+We know <span class="math notranslate nohighlight">\(p_{X,Y}(3, y) = 1/36\)</span> and <span class="math notranslate nohighlight">\(p_X(3) = 1/6\)</span>.
+So, <span class="math notranslate nohighlight">\(p_{Y|X}(y|3) = \frac{1/36}{1/6} = \frac{6}{36} = \frac{1}{6}\)</span> for <span class="math notranslate nohighlight">\(y \in \{1, 2, 3, 4, 5, 6\}\)</span>.
+This makes intuitive sense: knowing the outcome of the first fair die doesn’t change the probabilities for the second fair die because they are independent.</p>
+<p><strong>Example: Height and Weight (Conditional)</strong></p>
+<p>Consider the height (<span class="math notranslate nohighlight">\(X\)</span>) and weight (<span class="math notranslate nohighlight">\(Y\)</span>) example. The conditional distribution <span class="math notranslate nohighlight">\(f_{Y|X}(y|x=1.8)\)</span> would describe the distribution of weights specifically for people who are 1.8 meters tall. If height and weight are positively correlated, we’d expect the mean of this conditional distribution (the average weight for people 1.8m tall) to be higher than the mean of the marginal distribution of weight <span class="math notranslate nohighlight">\(f_Y(y)\)</span> (the average weight across all heights).</p>
+<p><strong>Hands-on: Conditional PMFs from Joint PMF</strong></p>
+<p>Let’s calculate the conditional PMF of <span class="math notranslate nohighlight">\(Y\)</span> given <span class="math notranslate nohighlight">\(X=3\)</span> for the dice example.</p>
+<p>We need the joint PMF and the marginal PMF of X
+joint_pmf_dice (calculated above)
+marginal_pmf_X (calculated above)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_condition</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># Condition on X=3</span>
+<span class="n">index_x</span> <span class="o">=</span> <span class="n">x_condition</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># Array index is value - 1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the probability P(X=3)</span>
+<span class="n">p_X_eq_3</span> <span class="o">=</span> <span class="n">marginal_pmf_X</span><span class="p">[</span><span class="n">index_x</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Marginal P(X=3) = </span><span class="si">{</span><span class="n">p_X_eq_3</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Marginal P(X=3) = 0.1667
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the joint probabilities P(X=3, Y=y) for y=1..6</span>
+<span class="c1"># This corresponds to the column where X=3 in the joint PMF table</span>
+<span class="n">joint_p_X3_Y</span> <span class="o">=</span> <span class="n">joint_pmf_dice</span><span class="p">[:,</span> <span class="n">index_x</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Joint P(X=3, Y=y) for y=1..6: </span><span class="se">\n</span><span class="si">{</span><span class="n">joint_p_X3_Y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joint P(X=3, Y=y) for y=1..6: 
+[0.02777778 0.02777778 0.02777778 0.02777778 0.02777778 0.02777778]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate conditional PMF P(Y=y | X=3) = P(X=3, Y=y) / P(X=3)</span>
+<span class="k">if</span> <span class="n">p_X_eq_3</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">conditional_pmf_Y_given_X3</span> <span class="o">=</span> <span class="n">joint_p_X3_Y</span> <span class="o">/</span> <span class="n">p_X_eq_3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Conditional P(Y=y | X=3) for y=1..6: </span><span class="se">\n</span><span class="si">{</span><span class="n">conditional_pmf_Y_given_X3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum of conditional probabilities: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">conditional_pmf_Y_given_X3</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Plot the conditional PMF</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">dice_outcomes</span><span class="p">,</span> <span class="n">conditional_pmf_Y_given_X3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Outcome Y (Die 2)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability P(Y=y | X=3)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Conditional PMF of Y given X=3&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Cannot calculate conditional PMF as P(X=3) is zero.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conditional P(Y=y | X=3) for y=1..6: 
+[0.16666667 0.16666667 0.16666667 0.16666667 0.16666667 0.16666667]
+Sum of conditional probabilities: 1.00
+</pre></div>
+</div>
+<img alt="_images/1735959c5eb302898290e61db4db85b26b33475f03e84332b51d873b14553799.png" src="_images/1735959c5eb302898290e61db4db85b26b33475f03e84332b51d873b14553799.png" />
+</div>
+</div>
+</section>
+<section id="joint-cumulative-distribution-functions-cdfs">
+<h2>Joint Cumulative Distribution Functions (CDFs)<a class="headerlink" href="#joint-cumulative-distribution-functions-cdfs" title="Link to this heading">#</a></h2>
+<p>The <strong>joint cumulative distribution function (CDF)</strong> <span class="math notranslate nohighlight">\(F_{X,Y}(x, y)\)</span> gives the probability that <span class="math notranslate nohighlight">\(X\)</span> is less than or equal to <span class="math notranslate nohighlight">\(x\)</span> <em>and</em> <span class="math notranslate nohighlight">\(Y\)</span> is less than or equal to <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ F_{X,Y}(x, y) = P(X \le x, Y \le y) \]</div>
+<p><strong>Discrete Case:</strong>
+$<span class="math notranslate nohighlight">\( F_{X,Y}(x, y) = \sum_{x_i \le x} \sum_{y_j \le y} p_{X,Y}(x_i, y_j) \)</span>$</p>
+<p><strong>Continuous Case:</strong>
+$<span class="math notranslate nohighlight">\( F_{X,Y}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u, v) \,dv \,du \)</span>$</p>
+<p><strong>Properties:</strong></p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(0 \le F_{X,Y}(x, y) \le 1\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(F_{X,Y}(x, y)\)</span> is non-decreasing in both <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x \to \infty, y \to \infty} F_{X,Y}(x, y) = 1\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x \to -\infty} F_{X,Y}(x, y) = 0\)</span> and <span class="math notranslate nohighlight">\(\lim_{y \to -\infty} F_{X,Y}(x, y) = 0\)</span>.</p></li>
+</ol>
+<p><strong>Example: Two Dice (CDF)</strong></p>
+<p>What is <span class="math notranslate nohighlight">\(F_{X,Y}(2, 3) = P(X \le 2, Y \le 3)\)</span>?
+This is the probability that the first die is 1 or 2, AND the second die is 1, 2, or 3.
+The pairs <span class="math notranslate nohighlight">\((x, y)\)</span> satisfying this are: (1,1), (1,2), (1,3), (2,1), (2,2), (2,3).
+There are <span class="math notranslate nohighlight">\(2 \times 3 = 6\)</span> such pairs. Since each pair has probability 1/36:
+<span class="math notranslate nohighlight">\(F_{X,Y}(2, 3) = 6 \times \frac{1}{36} = \frac{1}{6}\)</span>.</p>
+<p><strong>Example: Height and Weight (CDF)</strong></p>
+<p><span class="math notranslate nohighlight">\(F_{X,Y}(1.8, 75) = P(\text{Height} \le 1.8\text{m AND } \text{Weight} \le 75\text{kg})\)</span>. This represents the probability that a randomly selected person falls within this specific height and weight range (or below). This would be calculated by integrating the joint PDF <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> over the region where <span class="math notranslate nohighlight">\(x \le 1.8\)</span> and <span class="math notranslate nohighlight">\(y \le 75\)</span>.</p>
+</section>
+<section id="hands-on-simulation-and-visualization">
+<h2>Hands-on: Simulation and Visualization<a class="headerlink" href="#hands-on-simulation-and-visualization" title="Link to this heading">#</a></h2>
+<p>A powerful way to understand joint distributions is through simulation and visualization. We can generate random samples from a joint distribution and then use plots to visualize the relationship between the variables.</p>
+<p><strong>1. Simulating Independent Variables:</strong>
+If <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent, we can simulate them separately from their marginal distributions and then pair the results. For our two dice example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_simulations</span> <span class="o">=</span> <span class="mi">5000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate X (die 1)</span>
+<span class="n">simulated_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_simulations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate Y (die 2) - independently</span>
+<span class="n">simulated_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_simulations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine into pairs</span>
+<span class="n">simulated_pairs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">simulated_X</span><span class="p">,</span> <span class="n">simulated_Y</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="c1"># Transpose to get pairs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First 10 simulated pairs (X, Y):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">simulated_pairs</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First 10 simulated pairs (X, Y):
+[[5 2]
+ [4 1]
+ [6 4]
+ [4 3]
+ [3 3]
+ [5 1]
+ [2 5]
+ [3 5]
+ [3 2]
+ [3 2]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the simulated pairs using a scatter plot (with jitter)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">simulated_X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">simulated_Y</span><span class="p">,</span> <span class="n">jitter</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Outcome X (Die 1)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Outcome Y (Die 2)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scatter Plot of </span><span class="si">{</span><span class="n">num_simulations</span><span class="si">}</span><span class="s2"> Independent Dice Rolls&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d83416ea8c76d3475a5f6ed71289ed4f1d39f2b7294c5695fb73686b4863acb4.png" src="_images/d83416ea8c76d3475a5f6ed71289ed4f1d39f2b7294c5695fb73686b4863acb4.png" />
+</div>
+</div>
+<p>The scatter plot shows points distributed roughly evenly across all 36 possible outcomes, as expected for independent fair dice.</p>
+<p><strong>2. Simulating Dependent Variables (Bivariate Normal):</strong>
+Let’s simulate height and weight data assuming they follow a bivariate normal distribution. We need to specify means, standard deviations, and the correlation between them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_samples</span> <span class="o">=</span> <span class="mi">2000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters (example values)</span>
+<span class="n">mean_height</span> <span class="o">=</span> <span class="mf">1.75</span> <span class="c1"># meters</span>
+<span class="n">std_dev_height</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">mean_weight</span> <span class="o">=</span> <span class="mi">75</span> <span class="c1"># kg</span>
+<span class="n">std_dev_weight</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">correlation</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="c1"># Positive correlation between height and weight</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the mean vector and covariance matrix</span>
+<span class="n">mean_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">mean_height</span><span class="p">,</span> <span class="n">mean_weight</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Covariance = correlation * std_dev_X * std_dev_Y</span>
+<span class="n">covariance</span> <span class="o">=</span> <span class="n">correlation</span> <span class="o">*</span> <span class="n">std_dev_height</span> <span class="o">*</span> <span class="n">std_dev_weight</span>
+<span class="n">covariance_matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">std_dev_height</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">covariance</span><span class="p">],</span>
+                     <span class="p">[</span><span class="n">covariance</span><span class="p">,</span> <span class="n">std_dev_weight</span><span class="o">**</span><span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Vector:&quot;</span><span class="p">,</span> <span class="n">mean_vector</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Covariance Matrix:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">covariance_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean Vector: [1.75, 75]
+Covariance Matrix:
+ [[0.010000000000000002, 0.7], [0.7, 100]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the bivariate normal distribution object</span>
+<span class="n">bivariate_norm</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">mean_vector</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">covariance_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random samples</span>
+<span class="n">simulated_data</span> <span class="o">=</span> <span class="n">bivariate_norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">)</span>
+<span class="n">simulated_heights</span> <span class="o">=</span> <span class="n">simulated_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">simulated_weights</span> <span class="o">=</span> <span class="n">simulated_data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">First 5 simulated (Height, Weight) pairs:</span><span class="se">\n</span><span class="si">{</span><span class="n">simulated_data</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First 5 simulated (Height, Weight) pairs:
+[[ 1.86632847 85.80345591]
+ [ 1.62946241 63.64966567]
+ [ 1.64685035 74.48161178]
+ [ 1.91864207 84.64373005]
+ [ 1.70619876 58.89214844]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>3. Visualizing Joint Distributions:</strong></p>
+<ul class="simple">
+<li><p><strong>Scatter Plot:</strong> Good for showing the relationship and density of simulated points.</p></li>
+<li><p><strong>2D Histogram (Heatmap):</strong> Divides the space into bins and shows the count/density in each bin using color intensity.</p></li>
+<li><p><strong>Contour Plot:</strong> For continuous distributions, shows lines of constant probability density (like elevation lines on a map).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scatter Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">simulated_heights</span><span class="p">,</span> <span class="n">simulated_weights</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Simulated Height (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Simulated Weight (kg)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Scatter Plot of Simulated Height vs. Weight&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/60ef5453f2fef0f35435284349510bb78518c0c09424da8f97447a7730839782.png" src="_images/60ef5453f2fef0f35435284349510bb78518c0c09424da8f97447a7730839782.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2D Histogram</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="c1"># cmap=&#39;viridis&#39; is a common colormap, you can experiment with others</span>
+<span class="n">hist</span><span class="p">,</span> <span class="n">xedges</span><span class="p">,</span> <span class="n">yedges</span><span class="p">,</span> <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">simulated_heights</span><span class="p">,</span> <span class="n">simulated_weights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Counts per bin&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Simulated Height (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Simulated Weight (kg)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;2D Histogram of Simulated Height vs. Weight&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3cb6a40c0a037b74c5d3525df647dbf3a570e2b4ed2b06fabecdd4b5444d576c.png" src="_images/3cb6a40c0a037b74c5d3525df647dbf3a570e2b4ed2b06fabecdd4b5444d576c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seaborn offers jointplot for combined views</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">simulated_heights</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">simulated_weights</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hist&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Seaborn Jointplot (Histogram)&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span> <span class="c1"># Adjust title position</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d4456d512f099f15c897ffc293ea39f333e1889d85551594802d6a5d31272e1d.png" src="_images/d4456d512f099f15c897ffc293ea39f333e1889d85551594802d6a5d31272e1d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Contour Plot (overlayed on scatter or alone)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">simulated_heights</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">simulated_weights</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1">#plt.scatter(simulated_heights, simulated_weights, alpha=0.1, s=5, color=&#39;grey&#39;) # Optional: overlay scatter</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Simulated Height (m)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Simulated Weight (kg)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Contour Plot (Kernel Density Estimate)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f54b61558cb2729f0e4308be01abff97077ba3542d9954176bdbaec534d8afad.png" src="_images/f54b61558cb2729f0e4308be01abff97077ba3542d9954176bdbaec534d8afad.png" />
+</div>
+</div>
+<p>These plots clearly show the positive correlation – taller simulated individuals tend to be heavier. The 2D histogram and contour plot visualize the shape of the joint probability density, concentrated around the means and elongated along the diagonal due to the correlation.</p>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>This chapter introduced the fundamental concepts for dealing with multiple random variables:</p>
+<ul class="simple">
+<li><p><strong>Joint PMFs/PDFs:</strong> Describe the probability or density of multiple variables occurring together.</p></li>
+<li><p><strong>Marginal Distributions:</strong> Allow us to focus on the distribution of a single variable by summing or integrating out the others.</p></li>
+<li><p><strong>Conditional Distributions:</strong> Describe the distribution of one variable given a specific value of another.</p></li>
+<li><p><strong>Joint CDFs:</strong> Give the probability that all variables fall below certain thresholds.</p></li>
+</ul>
+<p>We saw how to represent these distributions mathematically and how to work with them in Python, particularly through simulation and visualization using NumPy, Matplotlib, and Seaborn. Understanding joint distributions is crucial for modeling complex systems where multiple factors interact, paving the way for concepts like covariance, correlation, and independence, which we will explore in the next chapter.</p>
+<hr class="docutils" />
+<p><strong>Exercises:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Coin Flips:</strong> Let <span class="math notranslate nohighlight">\(X\)</span> be the number of heads in 2 flips of a fair coin, and <span class="math notranslate nohighlight">\(Y\)</span> be the outcome of the first flip (0 for Tails, 1 for Heads).</p>
+<ul class="simple">
+<li><p>Determine the joint PMF <span class="math notranslate nohighlight">\(p_{X,Y}(x, y)\)</span>. Represent it as a table or a 2D array.</p></li>
+<li><p>Calculate the marginal PMFs <span class="math notranslate nohighlight">\(p_X(x)\)</span> and <span class="math notranslate nohighlight">\(p_Y(y)\)</span>.</p></li>
+<li><p>Calculate the conditional PMF <span class="math notranslate nohighlight">\(p_{X|Y}(x|1)\)</span> (distribution of total heads given the first flip was Heads).</p></li>
+</ul>
+</li>
+<li><p><strong>Uniform Distribution on a Square:</strong> Suppose <span class="math notranslate nohighlight">\((X, Y)\)</span> are uniformly distributed over the square defined by <span class="math notranslate nohighlight">\(0 \le x \le 2\)</span> and <span class="math notranslate nohighlight">\(0 \le y \le 2\)</span>.</p>
+<ul class="simple">
+<li><p>What is the joint PDF <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span>? (Remember it must integrate to 1 over the square).</p></li>
+<li><p>Find the marginal PDFs <span class="math notranslate nohighlight">\(f_X(x)\)</span> and <span class="math notranslate nohighlight">\(f_Y(y)\)</span>. Are <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> independent?</p></li>
+<li><p>Calculate <span class="math notranslate nohighlight">\(P(X \le 1, Y \le 1)\)</span>.</p></li>
+<li><p>Calculate <span class="math notranslate nohighlight">\(P(X+Y \le 1)\)</span>. (Hint: Visualize the region in the square).</p></li>
+</ul>
+</li>
+<li><p><strong>Simulation Visualization:</strong> Modify the bivariate normal simulation for height and weight.</p>
+<ul class="simple">
+<li><p>Set the <code class="docutils literal notranslate"><span class="pre">correlation</span></code> to -0.6. Regenerate the samples and the three plots (scatter, 2D histogram, contour). How do the plots change?</p></li>
+<li><p>Set the <code class="docutils literal notranslate"><span class="pre">correlation</span></code> to 0. Regenerate the samples and plots. What do the plots look like now? What does this imply about the relationship between height and weight in this simulated scenario?</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_09.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 9: Common Continuous Distributions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_11.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 11: Independence, Covariance, and Correlation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-probability-mass-functions-pmfs">Joint Probability Mass Functions (PMFs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-probability-density-functions-pdfs">Joint Probability Density Functions (PDFs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marginal-distributions">Marginal Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-distributions">Conditional Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-cumulative-distribution-functions-cdfs">Joint Cumulative Distribution Functions (CDFs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-simulation-and-visualization">Hands-on: Simulation and Visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

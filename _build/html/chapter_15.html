@@ -1,0 +1,1561 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 15: Introduction to Bayesian Inference &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_15';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Chapter 14: The Central Limit Theorem (CLT)" href="chapter_14.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_15.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_15.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 15: Introduction to Bayesian Inference</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revisiting-bayes-theorem-for-distributions">15.1 Revisiting Bayes’ Theorem for Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-priors">15.2 Conjugate Priors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#point-estimates-map-posterior-mean">15.3 Point Estimates (MAP, Posterior Mean)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credible-intervals">15.4 Credible Intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-implementation-and-grid-approximation">15.5 Hands-on: Implementation and Grid Approximation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-approximation">Grid Approximation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">15.6 Chapter Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-15-introduction-to-bayesian-inference">
+<h1>Chapter 15: Introduction to Bayesian Inference<a class="headerlink" href="#chapter-15-introduction-to-bayesian-inference" title="Link to this heading">#</a></h1>
+<p>Welcome to Chapter 15! In Part 2, we encountered Bayes’ Theorem as a way to update the probability of an <em>event</em> given new evidence. Now, we’ll extend this powerful idea to update our beliefs about the <em>parameters</em> of probability distributions themselves. This is the core concept behind <strong>Bayesian Inference</strong>: using observed data to systematically update our understanding (represented as a probability distribution) of an unknown quantity.</p>
+<p>Instead of asking “What is the probability of observing this data given a fixed parameter?”, Bayesian inference asks “What is the probability distribution of the parameter given the observed data?”. This shift in perspective allows us to incorporate prior knowledge and express uncertainty about parameters in a natural, probabilistic way.</p>
+<p><strong>Learning Objectives:</strong></p>
+<ol class="arabic simple">
+<li><p>Understand how Bayes’ Theorem applies to updating probability distributions (prior to posterior).</p></li>
+<li><p>Learn about conjugate priors and their computational convenience (e.g., Beta-Binomial).</p></li>
+<li><p>Calculate point estimates from the posterior distribution (MAP, Posterior Mean).</p></li>
+<li><p>Understand and compute Bayesian credible intervals.</p></li>
+<li><p>Implement Bayesian updates using Python, including grid approximation for non-conjugate cases.</p></li>
+</ol>
+<p><strong>Examples in this Chapter:</strong></p>
+<ul class="simple">
+<li><p>Updating our belief about the fairness of a coin (represented by a Beta distribution for the probability of heads, <span class="math notranslate nohighlight">\(\theta\)</span>) after observing a series of flips (Binomial likelihood).</p></li>
+<li><p>Estimating a website’s click-through rate (CTR) using a Beta prior and observed click data.</p></li>
+<li><p>Finding the most likely value (MAP) and the average value (Posterior Mean) for the coin’s fairness parameter <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>Determining a 95% credible interval for the CTR, representing a range where we are 95% certain the true CTR lies.</p></li>
+</ul>
+<section id="revisiting-bayes-theorem-for-distributions">
+<h2>15.1 Revisiting Bayes’ Theorem for Distributions<a class="headerlink" href="#revisiting-bayes-theorem-for-distributions" title="Link to this heading">#</a></h2>
+<p>Recall Bayes’ Theorem from Chapter 5:</p>
+<p><span class="math notranslate nohighlight">\( P(A|B) = \frac{P(B|A) P(A)}{P(B)} \)</span></p>
+<p>In Bayesian inference, we adapt this to work with probability distributions for an unknown parameter, often denoted by <span class="math notranslate nohighlight">\(\theta\)</span> (theta). We observe some data, <span class="math notranslate nohighlight">\(D\)</span>.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(A)\)</span> becomes <span class="math notranslate nohighlight">\(p(\theta)\)</span>: The <strong>Prior Distribution</strong>. This represents our belief about <span class="math notranslate nohighlight">\(\theta\)</span> <em>before</em> observing any data. It could be based on previous studies, expert opinion, or simply be a non-informative guess (like a uniform distribution).</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(B|A)\)</span> becomes <span class="math notranslate nohighlight">\(p(D|\theta)\)</span>: The <strong>Likelihood</strong>. This is the probability of observing the data <span class="math notranslate nohighlight">\(D\)</span> <em>given</em> a specific value of the parameter <span class="math notranslate nohighlight">\(\theta\)</span>. We’ve worked extensively with likelihoods when defining distributions (e.g., the Binomial PMF gives the probability of <span class="math notranslate nohighlight">\(k\)</span> successes given <span class="math notranslate nohighlight">\(n\)</span> trials and a success probability <span class="math notranslate nohighlight">\(\theta\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(A|B)\)</span> becomes <span class="math notranslate nohighlight">\(p(\theta|D)\)</span>: The <strong>Posterior Distribution</strong>. This is the updated belief about <span class="math notranslate nohighlight">\(\theta\)</span> <em>after</em> observing the data <span class="math notranslate nohighlight">\(D\)</span>. It represents the combination of our prior beliefs and the evidence from the data.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(B)\)</span> becomes <span class="math notranslate nohighlight">\(p(D)\)</span>: The <strong>Evidence</strong> (or Marginal Likelihood). This is the overall probability of observing the data <span class="math notranslate nohighlight">\(D\)</span>, averaged over all possible values of <span class="math notranslate nohighlight">\(\theta\)</span>. It’s calculated by integrating (or summing, in the discrete case) the product of the likelihood and the prior over the entire parameter space:
+<span class="math notranslate nohighlight">\( p(D) = \int p(D|\theta) p(\theta) d\theta \)</span> (for continuous <span class="math notranslate nohighlight">\(\theta\)</span>)
+<span class="math notranslate nohighlight">\( p(D) = \sum_{\theta} p(D|\theta) p(\theta) \)</span> (for discrete <span class="math notranslate nohighlight">\(\theta\)</span>)</p></li>
+</ul>
+<p>The evidence <span class="math notranslate nohighlight">\(p(D)\)</span> acts as a normalization constant, ensuring that the posterior distribution <span class="math notranslate nohighlight">\(p(\theta|D)\)</span> integrates (or sums) to 1.</p>
+<p>So, Bayes’ Theorem for distributions becomes:</p>
+<div class="math notranslate nohighlight">
+\[ p(\theta | D) = \frac{p(D | \theta) p(\theta)}{p(D)} \]</div>
+<p>Often, we focus on the numerator, as the evidence <span class="math notranslate nohighlight">\(p(D)\)</span> doesn’t depend on <span class="math notranslate nohighlight">\(\theta\)</span> and just scales the result:</p>
+<div class="math notranslate nohighlight">
+\[ \underbrace{p(\theta | D)}_{\text{Posterior}} \propto \underbrace{p(D | \theta)}_{\text{Likelihood}} \times \underbrace{p(\theta)}_{\text{Prior}} \]</div>
+<p>This reads: “The posterior distribution is proportional to the likelihood times the prior distribution.”</p>
+<p><strong>Example: The Coin Flip</strong></p>
+<p>Let <span class="math notranslate nohighlight">\(\theta\)</span> be the unknown probability of getting heads for a potentially biased coin. We want to estimate <span class="math notranslate nohighlight">\(\theta\)</span> based on observed flips.</p>
+<ul class="simple">
+<li><p><strong>Parameter:</strong> <span class="math notranslate nohighlight">\(\theta\)</span>, where <span class="math notranslate nohighlight">\(0 \le \theta \le 1\)</span>.</p></li>
+<li><p><strong>Prior:</strong> What’s our initial belief about <span class="math notranslate nohighlight">\(\theta\)</span>? If we know nothing, we might assume <span class="math notranslate nohighlight">\(\theta\)</span> is equally likely to be any value between 0 and 1. This corresponds to a Uniform distribution, <span class="math notranslate nohighlight">\(p(\theta) = \text{Uniform}(0, 1)\)</span>. Interestingly, this is also a Beta distribution: <span class="math notranslate nohighlight">\(\text{Beta}(\alpha=1, \beta=1)\)</span>.</p></li>
+<li><p><strong>Data:</strong> Suppose we flip the coin <span class="math notranslate nohighlight">\(n\)</span> times and observe <span class="math notranslate nohighlight">\(k\)</span> heads. Let <span class="math notranslate nohighlight">\(D = (n, k)\)</span>.</p></li>
+<li><p><strong>Likelihood:</strong> Given a specific <span class="math notranslate nohighlight">\(\theta\)</span>, the probability of observing <span class="math notranslate nohighlight">\(k\)</span> heads in <span class="math notranslate nohighlight">\(n\)</span> flips is given by the Binomial PMF: <span class="math notranslate nohighlight">\(p(D|\theta) = \binom{n}{k} \theta^k (1-\theta)^{n-k}\)</span>.</p></li>
+<li><p><strong>Posterior:</strong> Using the proportionality relationship:
+<span class="math notranslate nohighlight">\(p(\theta | D) \propto p(D|\theta) p(\theta)\)</span>
+<span class="math notranslate nohighlight">\(p(\theta | D) \propto \left[ \binom{n}{k} \theta^k (1-\theta)^{n-k} \right] \times [1]\)</span> (Assuming Uniform(0,1) prior where <span class="math notranslate nohighlight">\(p(\theta)=1\)</span> for <span class="math notranslate nohighlight">\(0 \le \theta \le 1\)</span>)
+<span class="math notranslate nohighlight">\(p(\theta | D) \propto \theta^k (1-\theta)^{n-k}\)</span> (Since <span class="math notranslate nohighlight">\(\binom{n}{k}\)</span> is constant with respect to <span class="math notranslate nohighlight">\(\theta\)</span>)</p></li>
+</ul>
+<p>We recognize the form <span class="math notranslate nohighlight">\(\theta^{\alpha-1} (1-\theta)^{\beta-1}\)</span>, which is the kernel of a Beta distribution. Specifically, <span class="math notranslate nohighlight">\(p(\theta|D)\)</span> follows a <span class="math notranslate nohighlight">\(\text{Beta}(\alpha = k+1, \beta = n-k+1)\)</span> distribution.</p>
+<p>This demonstrates how observing data (<span class="math notranslate nohighlight">\(k\)</span> heads in <span class="math notranslate nohighlight">\(n\)</span> flips) updates our belief about <span class="math notranslate nohighlight">\(\theta\)</span> from a <span class="math notranslate nohighlight">\(\text{Beta}(1, 1)\)</span> prior to a <span class="math notranslate nohighlight">\(\text{Beta}(k+1, n-k+1)\)</span> posterior.</p>
+</section>
+<section id="conjugate-priors">
+<h2>15.2 Conjugate Priors<a class="headerlink" href="#conjugate-priors" title="Link to this heading">#</a></h2>
+<p>In the coin flip example above, we started with a Beta prior distribution for <span class="math notranslate nohighlight">\(\theta\)</span> and ended up with a Beta posterior distribution after observing Binomial data. This is an example of <strong>conjugacy</strong>.</p>
+<p>A prior distribution is called a <strong>conjugate prior</strong> for a given likelihood function if the resulting posterior distribution belongs to the <em>same family</em> of distributions as the prior.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Likelihood</p></th>
+<th class="head text-left"><p>Parameter</p></th>
+<th class="head text-left"><p>Conjugate Prior Family</p></th>
+<th class="head text-left"><p>Posterior Family</p></th>
+<th class="head text-left"><p>Example Application</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>Bernoulli</p></td>
+<td class="text-left"><p>Prob. of Success <span class="math notranslate nohighlight">\(\theta\)</span></p></td>
+<td class="text-left"><p>Beta</p></td>
+<td class="text-left"><p>Beta</p></td>
+<td class="text-left"><p>Coin flips, Click-Through Rate</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Binomial</p></td>
+<td class="text-left"><p>Prob. of Success <span class="math notranslate nohighlight">\(\theta\)</span></p></td>
+<td class="text-left"><p>Beta</p></td>
+<td class="text-left"><p>Beta</p></td>
+<td class="text-left"><p>Multiple coin flips, Survey %</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Poisson</p></td>
+<td class="text-left"><p>Rate <span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<td class="text-left"><p>Gamma</p></td>
+<td class="text-left"><p>Gamma</p></td>
+<td class="text-left"><p>Event counts (emails, accidents)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Exponential</p></td>
+<td class="text-left"><p>Rate <span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<td class="text-left"><p>Gamma</p></td>
+<td class="text-left"><p>Gamma</p></td>
+<td class="text-left"><p>Waiting times, component life</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Normal (known <span class="math notranslate nohighlight">\(\sigma^2\)</span>)</p></td>
+<td class="text-left"><p>Mean <span class="math notranslate nohighlight">\(\mu\)</span></p></td>
+<td class="text-left"><p>Normal</p></td>
+<td class="text-left"><p>Normal</p></td>
+<td class="text-left"><p>Measurement error (known var)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Normal (known <span class="math notranslate nohighlight">\(\mu\)</span>)</p></td>
+<td class="text-left"><p>Variance <span class="math notranslate nohighlight">\(\sigma^2\)</span></p></td>
+<td class="text-left"><p>Inverse Gamma</p></td>
+<td class="text-left"><p>Inverse Gamma</p></td>
+<td class="text-left"><p>Measurement error (known mean)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Why are conjugate priors useful?</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Computational Simplicity:</strong> If we use a conjugate prior, the posterior distribution has a known analytical form. We simply need to update the parameters of the distribution based on the data, often using simple algebraic rules. For example, for Beta-Binomial:</p>
+<ul class="simple">
+<li><p>Prior: <span class="math notranslate nohighlight">\(\text{Beta}(\alpha_{prior}, \beta_{prior})\)</span></p></li>
+<li><p>Data: <span class="math notranslate nohighlight">\(k\)</span> successes in <span class="math notranslate nohighlight">\(n\)</span> trials</p></li>
+<li><p>Posterior: <span class="math notranslate nohighlight">\(\text{Beta}(\alpha_{prior} + k, \beta_{prior} + n - k)\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Interpretability:</strong> Staying within the same family of distributions makes it easier to understand how the data shifted our beliefs. We can directly compare the parameters of the prior and posterior.</p></li>
+</ol>
+<p><strong>Limitations:</strong></p>
+<ul class="simple">
+<li><p>A conjugate prior might not accurately reflect our true prior beliefs.</p></li>
+<li><p>For complex models, conjugate priors may not exist or be easily identifiable.</p></li>
+</ul>
+<p>In cases where conjugate priors are not suitable or available, we often resort to numerical methods like Markov Chain Monte Carlo (MCMC) or Grid Approximation (which we’ll see later in this chapter) to estimate the posterior distribution.</p>
+</section>
+<section id="point-estimates-map-posterior-mean">
+<h2>15.3 Point Estimates (MAP, Posterior Mean)<a class="headerlink" href="#point-estimates-map-posterior-mean" title="Link to this heading">#</a></h2>
+<p>The posterior distribution <span class="math notranslate nohighlight">\(p(\theta|D)\)</span> contains all our updated knowledge about the parameter <span class="math notranslate nohighlight">\(\theta\)</span>. However, we often want to summarize this distribution with a single “best guess” for the value of <span class="math notranslate nohighlight">\(\theta\)</span>. Common choices are:</p>
+<ol class="arabic simple">
+<li><p><strong>Maximum a Posteriori (MAP) Estimate:</strong></p>
+<ul class="simple">
+<li><p>This is the value of <span class="math notranslate nohighlight">\(\theta\)</span> that maximizes the posterior probability density (or mass). It’s the <em>mode</em> of the posterior distribution.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{\theta}_{MAP} = \arg \max_{\theta} p(\theta | D)\)</span></p></li>
+<li><p>Since <span class="math notranslate nohighlight">\(p(\theta | D) \propto p(D | \theta) p(\theta)\)</span>, the MAP estimate maximizes the product of the likelihood and the prior.</p></li>
+<li><p>If the prior <span class="math notranslate nohighlight">\(p(\theta)\)</span> is uniform (flat), the MAP estimate coincides with the Maximum Likelihood Estimate (MLE) we might be familiar with from frequentist statistics.</p></li>
+<li><p>For a Beta<span class="math notranslate nohighlight">\((\alpha, \beta)\)</span> posterior, the mode is <span class="math notranslate nohighlight">\(\frac{\alpha - 1}{\alpha + \beta - 2}\)</span> (provided <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> and <span class="math notranslate nohighlight">\(\beta &gt; 1\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Posterior Mean:</strong></p>
+<ul class="simple">
+<li><p>This is the expected value (average) of <span class="math notranslate nohighlight">\(\theta\)</span> according to the posterior distribution.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{\theta}_{Mean} = E[\theta | D] = \int \theta p(\theta | D) d\theta\)</span></p></li>
+<li><p>It represents the center of mass of the posterior distribution.</p></li>
+<li><p>It often provides a good balance between the prior belief and the data.</p></li>
+<li><p>For a Beta<span class="math notranslate nohighlight">\((\alpha, \beta)\)</span> posterior, the mean is <span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta}\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Example: Coin Flip Continued</strong>
+Suppose our prior is <span class="math notranslate nohighlight">\(\text{Beta}(1, 1)\)</span> (Uniform) and we observe <span class="math notranslate nohighlight">\(k=8\)</span> heads in <span class="math notranslate nohighlight">\(n=10\)</span> flips.</p>
+<ul class="simple">
+<li><p>The posterior distribution is <span class="math notranslate nohighlight">\(\text{Beta}(\alpha = 1+8, \beta = 1+10-8) = \text{Beta}(9, 3)\)</span>.</p></li>
+<li><p><strong>MAP Estimate:</strong> <span class="math notranslate nohighlight">\(\hat{\theta}_{MAP} = \frac{\alpha - 1}{\alpha + \beta - 2} = \frac{9 - 1}{9 + 3 - 2} = \frac{8}{10} = 0.8\)</span>. This matches the sample proportion (MLE), as expected with a uniform prior.</p></li>
+<li><p><strong>Posterior Mean:</strong> <span class="math notranslate nohighlight">\(\hat{\theta}_{Mean} = \frac{\alpha}{\alpha + \beta} = \frac{9}{9 + 3} = \frac{9}{12} = 0.75\)</span>. Notice this is slightly “shrunk” away from the sample proportion (0.8) towards the mean of the prior (which was 0.5 for Beta(1,1)). The influence of the prior is small here because we have a reasonable amount of data. If the prior was stronger (e.g., Beta(5,5), centered strongly at 0.5) or the data weaker (e.g., 1 flip), the shrinkage would be more pronounced.</p></li>
+</ul>
+</section>
+<section id="credible-intervals">
+<h2>15.4 Credible Intervals<a class="headerlink" href="#credible-intervals" title="Link to this heading">#</a></h2>
+<p>Instead of just a single point estimate, we often want to express our uncertainty about <span class="math notranslate nohighlight">\(\theta\)</span> using an interval. In Bayesian inference, this is done using <strong>credible intervals</strong>.</p>
+<p>A <span class="math notranslate nohighlight">\(100(1-\gamma)\%\)</span> credible interval for <span class="math notranslate nohighlight">\(\theta\)</span> is an interval <span class="math notranslate nohighlight">\([L, U]\)</span> such that the posterior probability of <span class="math notranslate nohighlight">\(\theta\)</span> lying within this interval is <span class="math notranslate nohighlight">\(1-\gamma\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ P(L \le \theta \le U | D) = \int_L^U p(\theta | D) d\theta = 1 - \gamma \]</div>
+<p>Common choices for <span class="math notranslate nohighlight">\(\gamma\)</span> are 0.05 (for a 95% credible interval) or 0.10 (for a 90% credible interval).</p>
+<p><strong>Interpretation:</strong> “Given the data, there is a <span class="math notranslate nohighlight">\(100(1-\gamma)\%\)</span> probability that the true value of <span class="math notranslate nohighlight">\(\theta\)</span> lies within the interval <span class="math notranslate nohighlight">\([L, U]\)</span>.”</p>
+<p>This interpretation is direct and intuitive, which is often seen as an advantage over frequentist <em>confidence</em> intervals. (Recall that a 95% confidence interval means that if we repeated the experiment many times, 95% of the <em>intervals</em> we construct would contain the true, fixed parameter value; it doesn’t give the probability that the <em>parameter</em> lies in a <em>specific</em> interval).</p>
+<p><strong>Calculation:</strong>
+There are different ways to construct a credible interval:</p>
+<ol class="arabic simple">
+<li><p><strong>Highest Posterior Density Interval (HPDI):</strong> This finds the narrowest possible interval <span class="math notranslate nohighlight">\([L, U]\)</span> that contains <span class="math notranslate nohighlight">\(100(1-\gamma)\%\)</span> of the posterior probability. For a unimodal posterior, all points inside the HPDI have a higher probability density than any point outside it. This is conceptually appealing but can be computationally harder.</p></li>
+<li><p><strong>Equal-tailed Interval:</strong> This is easier to compute. We find the <span class="math notranslate nohighlight">\(\gamma/2\)</span> quantile and the <span class="math notranslate nohighlight">\(1 - \gamma/2\)</span> quantile of the posterior distribution. These form the lower and upper bounds <span class="math notranslate nohighlight">\([L, U]\)</span>. For a 95% interval (<span class="math notranslate nohighlight">\(\gamma=0.05\)</span>), we find the 2.5th percentile and the 97.5th percentile.</p></li>
+</ol>
+<p>For symmetric posterior distributions (like a Normal distribution), the HPDI and the equal-tailed interval coincide. For skewed distributions (like Beta or Gamma often are), they will differ. We typically use the equal-tailed interval for simplicity unless there’s a strong reason otherwise.</p>
+<p><strong>Example: Coin Flip Continued</strong>
+Our posterior is <span class="math notranslate nohighlight">\(\text{Beta}(9, 3)\)</span>. To find a 95% equal-tailed credible interval for <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<ul class="simple">
+<li><p>We need the 2.5th percentile (quantile at 0.025) and the 97.5th percentile (quantile at 0.975) of the <span class="math notranslate nohighlight">\(\text{Beta}(9, 3)\)</span> distribution.</p></li>
+<li><p>We can use <code class="docutils literal notranslate"><span class="pre">scipy.stats.beta.ppf</span></code> (percent point function, the inverse CDF) for this.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;scipy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup plotting style</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters for the Beta posterior</span>
+<span class="n">alpha_post</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">beta_post</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">confidence_level</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">confidence_level</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the lower and upper bounds of the equal-tailed credible interval</span>
+<span class="n">lower_bound</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">gamma</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">alpha_post</span><span class="p">,</span> <span class="n">beta_post</span><span class="p">)</span>
+<span class="n">upper_bound</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">gamma</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">alpha_post</span><span class="p">,</span> <span class="n">beta_post</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate point estimates</span>
+<span class="n">posterior_mean</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alpha_post</span><span class="p">,</span> <span class="n">beta_post</span><span class="p">)</span>
+<span class="n">posterior_mode</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha_post</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha_post</span> <span class="o">+</span> <span class="n">beta_post</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">alpha_post</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">beta_post</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Distribution: Beta(alpha=</span><span class="si">{</span><span class="n">alpha_post</span><span class="si">}</span><span class="s2">, beta=</span><span class="si">{</span><span class="n">beta_post</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean: </span><span class="si">{</span><span class="n">posterior_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mode (MAP): </span><span class="si">{</span><span class="n">posterior_mode</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Equal-tailed Credible Interval: [</span><span class="si">{</span><span class="n">lower_bound</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_bound</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Distribution: Beta(alpha=9, beta=3)
+Posterior Mean: 0.7500
+Posterior Mode (MAP): 0.8000
+95% Equal-tailed Credible Interval: [0.4822, 0.9398]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the posterior distribution and the credible interval</span>
+<span class="n">theta_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">posterior_pdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">alpha_post</span><span class="p">,</span> <span class="n">beta_post</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">posterior_pdf</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Posterior: Beta(</span><span class="si">{</span><span class="n">alpha_post</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">beta_post</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="c1"># Shade the credible interval</span>
+<span class="n">ci_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">theta_vals</span> <span class="o">&gt;=</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">theta_vals</span> <span class="o">&lt;=</span> <span class="n">upper_bound</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">[</span><span class="n">ci_mask</span><span class="p">],</span> <span class="n">posterior_pdf</span><span class="p">[</span><span class="n">ci_mask</span><span class="p">],</span> 
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;95% Credible Interval&#39;</span><span class="p">)</span>
+
+<span class="c1"># Mark the mean and MAP</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">posterior_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Mean: </span><span class="si">{</span><span class="n">posterior_mean</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">posterior_mode</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;MAP: </span><span class="si">{</span><span class="n">posterior_mode</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Posterior Distribution and 95% Credible Interval for Coin Fairness $</span><span class="se">\\</span><span class="s1">theta$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">theta$ (Probability of Heads)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/860a7ab0e06e7cd1670d97e63a8474a9eaba9572b6256b35d5db06e5eb4c1d0b.png" src="_images/860a7ab0e06e7cd1670d97e63a8474a9eaba9572b6256b35d5db06e5eb4c1d0b.png" />
+</div>
+</div>
+<p>The plot shows the <span class="math notranslate nohighlight">\(\text{Beta}(9, 3)\)</span> posterior distribution. The shaded region represents the 95% credible interval, meaning we are 95% certain that the true value of <span class="math notranslate nohighlight">\(\theta\)</span> lies between approximately 0.47 and 0.95. The mean (0.75) and MAP (0.80) provide single-point summaries of this distribution.</p>
+</section>
+<section id="hands-on-implementation-and-grid-approximation">
+<h2>15.5 Hands-on: Implementation and Grid Approximation<a class="headerlink" href="#hands-on-implementation-and-grid-approximation" title="Link to this heading">#</a></h2>
+<p>Let’s work through a practical example: estimating a website’s click-through rate (CTR).</p>
+<p><strong>Scenario:</strong> We are running an ad campaign. We want to estimate the underlying probability (<span class="math notranslate nohighlight">\(\theta\)</span>) that a user who sees the ad will click on it.</p>
+<ul class="simple">
+<li><p><strong>Parameter:</strong> <span class="math notranslate nohighlight">\(\theta\)</span> (CTR), <span class="math notranslate nohighlight">\(0 \le \theta \le 1\)</span>.</p></li>
+<li><p><strong>Prior Belief:</strong> Before the campaign starts, based on past experience with similar ads, we believe the CTR is likely around 1%, but we are not very certain. A Beta distribution can represent this. Let’s choose a prior that has a mean around 0.01 and is reasonably spread out, say <span class="math notranslate nohighlight">\(\text{Beta}(2, 198)\)</span>. We can check its properties.</p></li>
+<li><p><strong>Data:</strong> The ad is shown to <span class="math notranslate nohighlight">\(n=1000\)</span> users, and we observe <span class="math notranslate nohighlight">\(k=15\)</span> clicks.</p></li>
+<li><p><strong>Likelihood:</strong> The number of clicks <span class="math notranslate nohighlight">\(k\)</span> given <span class="math notranslate nohighlight">\(n\)</span> impressions and a CTR <span class="math notranslate nohighlight">\(\theta\)</span> follows a Binomial distribution: <span class="math notranslate nohighlight">\(p(D|\theta) = \text{Binomial}(k=15 | n=1000, \theta)\)</span>.</p></li>
+<li><p><strong>Goal:</strong> Find the posterior distribution <span class="math notranslate nohighlight">\(p(\theta|D)\)</span>, calculate the posterior mean, MAP, and a 95% credible interval.</p></li>
+</ul>
+<p>— Conjugate Prior Approach (Beta-Binomial) —</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prior parameters</span>
+<span class="n">alpha_prior</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">beta_prior</span> <span class="o">=</span> <span class="mi">198</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Data</span>
+<span class="n">n_trials</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">k_successes</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate prior mean and standard deviation</span>
+<span class="n">prior_mean</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alpha_prior</span><span class="p">,</span> <span class="n">beta_prior</span><span class="p">)</span>
+<span class="n">prior_std</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">alpha_prior</span><span class="p">,</span> <span class="n">beta_prior</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prior: Beta(alpha=</span><span class="si">{</span><span class="n">alpha_prior</span><span class="si">}</span><span class="s2">, beta=</span><span class="si">{</span><span class="n">beta_prior</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prior Mean: </span><span class="si">{</span><span class="n">prior_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prior Std Dev: </span><span class="si">{</span><span class="n">prior_std</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Prior: Beta(alpha=2, beta=198)
+Prior Mean: 0.0100
+Prior Std Dev: 0.0070
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior parameters using conjugate update rule</span>
+<span class="n">alpha_post_conj</span> <span class="o">=</span> <span class="n">alpha_prior</span> <span class="o">+</span> <span class="n">k_successes</span>
+<span class="n">beta_post_conj</span> <span class="o">=</span> <span class="n">beta_prior</span> <span class="o">+</span> <span class="n">n_trials</span> <span class="o">-</span> <span class="n">k_successes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Posterior (Conjugate): Beta(alpha=</span><span class="si">{</span><span class="n">alpha_post_conj</span><span class="si">}</span><span class="s2">, beta=</span><span class="si">{</span><span class="n">beta_post_conj</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior (Conjugate): Beta(alpha=17, beta=1183)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior summaries</span>
+<span class="n">post_mean_conj</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alpha_post_conj</span><span class="p">,</span> <span class="n">beta_post_conj</span><span class="p">)</span>
+<span class="n">post_mode_conj</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha_post_conj</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha_post_conj</span> <span class="o">+</span> <span class="n">beta_post_conj</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">lower_ci_conj</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">alpha_post_conj</span><span class="p">,</span> <span class="n">beta_post_conj</span><span class="p">)</span>
+<span class="n">upper_ci_conj</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">alpha_post_conj</span><span class="p">,</span> <span class="n">beta_post_conj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean: </span><span class="si">{</span><span class="n">post_mean_conj</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior MAP: </span><span class="si">{</span><span class="n">post_mode_conj</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Credible Interval: [</span><span class="si">{</span><span class="n">lower_ci_conj</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_ci_conj</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Mean: 0.0142
+Posterior MAP: 0.0134
+95% Credible Interval: [0.0083, 0.0216]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot prior and posterior</span>
+<span class="n">theta_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span> <span class="c1"># Focus on relevant range</span>
+<span class="n">prior_pdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">alpha_prior</span><span class="p">,</span> <span class="n">beta_prior</span><span class="p">)</span>
+<span class="n">posterior_pdf_conj</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">alpha_post_conj</span><span class="p">,</span> <span class="n">beta_post_conj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">prior_pdf</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Prior: Beta(</span><span class="si">{</span><span class="n">alpha_prior</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">beta_prior</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">posterior_pdf_conj</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Posterior: Beta(</span><span class="si">{</span><span class="n">alpha_post_conj</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">beta_post_conj</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add CI shading</span>
+<span class="n">ci_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">theta_vals</span> <span class="o">&gt;=</span> <span class="n">lower_ci_conj</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">theta_vals</span> <span class="o">&lt;=</span> <span class="n">upper_ci_conj</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">[</span><span class="n">ci_mask</span><span class="p">],</span> <span class="n">posterior_pdf_conj</span><span class="p">[</span><span class="n">ci_mask</span><span class="p">],</span> 
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;95% Credible Interval&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Bayesian Update for Website CTR (Beta-Binomial)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">theta$ (Click-Through Rate)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17632fb98acff066f282e8a9427852a8b45598935670c2ec18f9829937375f26.png" src="_images/17632fb98acff066f282e8a9427852a8b45598935670c2ec18f9829937375f26.png" />
+</div>
+</div>
+<p>As you can see, the posterior distribution is shifted to the right compared to the prior, reflecting the observed data (15/1000 = 0.015, which is higher than the prior mean of ~0.01). The posterior is also narrower (more peaked) than the prior, indicating increased certainty about the CTR after observing the data. Our updated estimate for the CTR (posterior mean) is around 0.0142, and we are 95% certain it lies between 0.0081 and 0.0217.</p>
+<section id="grid-approximation">
+<h3>Grid Approximation<a class="headerlink" href="#grid-approximation" title="Link to this heading">#</a></h3>
+<p>What if we didn’t have a conjugate prior, or the model was more complex? We can approximate the posterior distribution numerically using <strong>Grid Approximation</strong>.</p>
+<p>The steps are:</p>
+<ol class="arabic simple">
+<li><p><strong>Define a grid:</strong> Create a list of discrete candidate values for the parameter <span class="math notranslate nohighlight">\(\theta\)</span> over its plausible range.</p></li>
+<li><p><strong>Calculate Prior Probabilities:</strong> Evaluate the prior probability (or density) for each value of <span class="math notranslate nohighlight">\(\theta\)</span> on the grid.</p></li>
+<li><p><strong>Calculate Likelihood:</strong> For each value of <span class="math notranslate nohighlight">\(\theta\)</span> on the grid, calculate the likelihood of observing the data <span class="math notranslate nohighlight">\(D\)</span> given that <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p><strong>Compute Unnormalized Posterior:</strong> Multiply the prior probability by the likelihood for each <span class="math notranslate nohighlight">\(\theta\)</span> on the grid. This gives <span class="math notranslate nohighlight">\(p(D|\theta)p(\theta)\)</span>.</p></li>
+<li><p><strong>Normalize:</strong> Sum the unnormalized posterior values across the grid. Divide each unnormalized posterior value by this sum to get the normalized posterior probability <span class="math notranslate nohighlight">\(p(\theta|D)\)</span> for each grid point. The result is a discrete approximation of the posterior distribution.</p></li>
+</ol>
+<p>Let’s redo the CTR example using grid approximation. We’ll use the same <span class="math notranslate nohighlight">\(\text{Beta}(2, 198)\)</span> prior and <span class="math notranslate nohighlight">\(\text{Binomial}(15 | 1000, \theta)\)</span> likelihood.</p>
+<p>— Grid Approximation Approach —</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Define the grid</span>
+<span class="n">n_grid_points</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">grid_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">n_grid_points</span><span class="p">)</span> <span class="c1"># Grid over plausible theta range</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Calculate Prior Probabilities</span>
+<span class="n">prior_on_grid</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">grid_theta</span><span class="p">,</span> <span class="n">alpha_prior</span><span class="p">,</span> <span class="n">beta_prior</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Calculate Likelihood</span>
+<span class="c1"># Note: We use log-likelihood for numerical stability with small probabilities</span>
+<span class="n">log_likelihood_on_grid</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="o">.</span><span class="n">logpmf</span><span class="p">(</span><span class="n">k_successes</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">,</span> <span class="n">grid_theta</span><span class="p">)</span>
+<span class="c1"># Convert back, handling potential underflow (though less likely with logpmf)</span>
+<span class="n">likelihood_on_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_likelihood_on_grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4. Compute Unnormalized Posterior</span>
+<span class="n">unnormalized_posterior</span> <span class="o">=</span> <span class="n">likelihood_on_grid</span> <span class="o">*</span> <span class="n">prior_on_grid</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5. Normalize</span>
+<span class="c1"># The integral approximation is sum(value * step_size)</span>
+<span class="c1"># step_size = grid_theta[1] - grid_theta[0] # Alternatively, use np.diff(grid_theta)[0]</span>
+<span class="c1"># evidence = np.sum(unnormalized_posterior) * step_size</span>
+<span class="c1"># Or simply normalize probabilities to sum to 1 for the discrete grid points</span>
+<span class="n">evidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">unnormalized_posterior</span><span class="p">)</span>
+<span class="n">posterior_prob_grid</span> <span class="o">=</span> <span class="n">unnormalized_posterior</span> <span class="o">/</span> <span class="n">evidence</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check normalization (should be close to 1 / step_size if thought of as density,</span>
+<span class="c1"># or sum of probs = 1 if thought of as discrete PMF over grid points)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum of posterior probabilities on grid: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">posterior_prob_grid</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># Should be 1.0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sum of posterior probabilities on grid: 1.0000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate summaries from the grid approximation</span>
+<span class="c1"># Posterior Mean</span>
+<span class="n">post_mean_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">grid_theta</span> <span class="o">*</span> <span class="n">posterior_prob_grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Posterior MAP</span>
+<span class="n">map_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">posterior_prob_grid</span><span class="p">)</span>
+<span class="n">post_map_grid</span> <span class="o">=</span> <span class="n">grid_theta</span><span class="p">[</span><span class="n">map_index</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Credible Interval (using cumulative sum of probabilities)</span>
+<span class="n">cumulative_posterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">posterior_prob_grid</span><span class="p">)</span>
+<span class="n">lower_idx_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cumulative_posterior</span> <span class="o">&gt;=</span> <span class="mf">0.025</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">upper_idx_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cumulative_posterior</span> <span class="o">&gt;=</span> <span class="mf">0.975</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">lower_ci_grid</span> <span class="o">=</span> <span class="n">grid_theta</span><span class="p">[</span><span class="n">lower_idx_grid</span><span class="p">]</span>
+<span class="n">upper_ci_grid</span> <span class="o">=</span> <span class="n">grid_theta</span><span class="p">[</span><span class="n">upper_idx_grid</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Posterior Summaries (Grid Approximation):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean: </span><span class="si">{</span><span class="n">post_mean_grid</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior MAP: </span><span class="si">{</span><span class="n">post_map_grid</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Credible Interval: [</span><span class="si">{</span><span class="n">lower_ci_grid</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_ci_grid</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Summaries (Grid Approximation):
+Posterior Mean: 0.0142
+Posterior MAP: 0.0134
+95% Credible Interval: [0.0083, 0.0216]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the grid approximation vs the analytical solution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="c1"># Plot analytical posterior (scaled to match grid density if needed, though scaling cancels visually here)</span>
+<span class="n">step_size</span> <span class="o">=</span> <span class="n">grid_theta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">grid_theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_vals</span><span class="p">,</span> <span class="n">posterior_pdf_conj</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Analytical Posterior&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+
+<span class="c1"># Plot grid approximation - treat posterior_prob_grid as PMF, scale for density plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid_theta</span><span class="p">,</span> <span class="n">posterior_prob_grid</span> <span class="o">/</span> <span class="n">step_size</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Grid Approximation (</span><span class="si">{</span><span class="n">n_grid_points</span><span class="si">}</span><span class="s1"> points)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Grid Approximation vs Analytical Posterior for CTR&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">theta$ (Click-Through Rate)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density / Scaled Probability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/54b0b30ae9b19c00558d1b9dcaf7093902ed1162be991edf589d8a974400887b.png" src="_images/54b0b30ae9b19c00558d1b9dcaf7093902ed1162be991edf589d8a974400887b.png" />
+</div>
+</div>
+<p>The results from the grid approximation (mean ~0.0142, MAP ~0.0141, CI [0.0081, 0.0218]) are very close to the analytical results obtained using the conjugate prior (mean 0.0142, MAP 0.0142, CI [0.0081, 0.0217]). The small differences are due to the discretization of the parameter space in the grid method. Increasing the number of grid points generally improves accuracy.</p>
+<p>Grid approximation is a versatile tool, especially when conjugate priors aren’t available or when dealing with more complex likelihoods or priors. Its main limitation is the “curse of dimensionality” – it becomes computationally expensive if we need to estimate multiple parameters simultaneously, as the grid size grows exponentially with the number of parameters. For higher-dimensional problems, methods like Markov Chain Monte Carlo (MCMC) are preferred (though beyond the scope of this introductory chapter).</p>
+</section>
+</section>
+<section id="chapter-summary">
+<h2>15.6 Chapter Summary<a class="headerlink" href="#chapter-summary" title="Link to this heading">#</a></h2>
+<p>Bayesian inference provides a formal framework for updating our beliefs about unknown parameters in light of observed data.</p>
+<ul class="simple">
+<li><p>It leverages <strong>Bayes’ Theorem</strong> applied to distributions: <span class="math notranslate nohighlight">\(p(\theta | D) \propto p(D | \theta) p(\theta)\)</span>.</p></li>
+<li><p>We start with a <strong>prior distribution</strong> <span class="math notranslate nohighlight">\(p(\theta)\)</span> representing initial beliefs.</p></li>
+<li><p>The <strong>likelihood</strong> <span class="math notranslate nohighlight">\(p(D|\theta)\)</span> quantifies how probable the data <span class="math notranslate nohighlight">\(D\)</span> is for different parameter values <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>The result is a <strong>posterior distribution</strong> <span class="math notranslate nohighlight">\(p(\theta|D)\)</span>, which combines prior knowledge with evidence from the data.</p></li>
+<li><p><strong>Conjugate priors</strong> simplify calculations because the posterior belongs to the same distribution family as the prior (e.g., Beta prior for Binomial/Bernoulli likelihood results in a Beta posterior).</p></li>
+<li><p>The posterior distribution can be summarized using <strong>point estimates</strong> like the <strong>Posterior Mean</strong> (expected value) and <strong>MAP</strong> (mode).</p></li>
+<li><p>Uncertainty is quantified using <strong>credible intervals</strong>, which give a range where the parameter lies with a specific probability (e.g., 95%).</p></li>
+<li><p>When analytical solutions are difficult, numerical methods like <strong>Grid Approximation</strong> can be used to estimate the posterior distribution.</p></li>
+</ul>
+<p>Bayesian methods allow for intuitive interpretations of probability (as degrees of belief) and naturally incorporate prior information, making them powerful tools for data analysis and modeling in various fields.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Prior Sensitivity:</strong> Repeat the CTR estimation (Beta-Binomial conjugate update) using a less informative prior, <span class="math notranslate nohighlight">\(\text{Beta}(1, 1)\)</span> (Uniform). Compare the posterior mean, MAP, and 95% CI to those obtained with the <span class="math notranslate nohighlight">\(\text{Beta}(2, 198)\)</span> prior. How much does the choice of prior influence the results with 1000 data points?</p></li>
+<li><p><strong>Stronger Prior:</strong> Now, repeat the CTR estimation using a stronger prior belief that the CTR is low, perhaps <span class="math notranslate nohighlight">\(\text{Beta}(1, 99)\)</span>. How do the posterior results change compared to the original <span class="math notranslate nohighlight">\(\text{Beta}(2, 198)\)</span> prior and the uniform prior?</p></li>
+<li><p><strong>Poisson-Gamma Conjugacy:</strong> The number of emails arriving per hour follows a Poisson distribution with an unknown rate <span class="math notranslate nohighlight">\(\lambda\)</span>. Your prior belief about <span class="math notranslate nohighlight">\(\lambda\)</span> is modeled by a <span class="math notranslate nohighlight">\(\text{Gamma}(\alpha=3, \text{scale}=1/\beta=0.5)\)</span> distribution (Note: <code class="docutils literal notranslate"><span class="pre">scipy.stats.gamma</span></code> uses shape=<span class="math notranslate nohighlight">\( \alpha \)</span>, scale=<span class="math notranslate nohighlight">\( 1/\beta \)</span>). In a particular hour, you observe <span class="math notranslate nohighlight">\(k=5\)</span> emails.</p>
+<ul class="simple">
+<li><p>What is the conjugate prior family for the Poisson rate <span class="math notranslate nohighlight">\(\lambda\)</span>? (Hint: Gamma)</p></li>
+<li><p>The Gamma-Poisson update rule is: If prior is <span class="math notranslate nohighlight">\(\text{Gamma}(\alpha_{prior}, \beta_{prior})\)</span> and data is <span class="math notranslate nohighlight">\(k\)</span> events (in one unit of time/exposure), the posterior is <span class="math notranslate nohighlight">\(\text{Gamma}(\alpha_{prior} + k, \beta_{prior} + 1)\)</span>. Remember that <code class="docutils literal notranslate"><span class="pre">scipy.stats</span></code> uses scale = 1/rate (<span class="math notranslate nohighlight">\(\beta\)</span>). So, if prior is <code class="docutils literal notranslate"><span class="pre">stats.gamma(a=alpha_prior,</span> <span class="pre">scale=1/beta_prior)</span></code>, the posterior is <code class="docutils literal notranslate"><span class="pre">stats.gamma(a=alpha_prior</span> <span class="pre">+</span> <span class="pre">k,</span> <span class="pre">scale=1/(beta_prior</span> <span class="pre">+</span> <span class="pre">1))</span></code>.</p></li>
+<li><p>Calculate the parameters of the posterior distribution for <span class="math notranslate nohighlight">\(\lambda\)</span>.</p></li>
+<li><p>Find the posterior mean and a 90% credible interval for <span class="math notranslate nohighlight">\(\lambda\)</span>.</p></li>
+<li><p>Plot the prior and posterior distributions.</p></li>
+</ul>
+</li>
+<li><p><strong>Grid Approximation for Poisson-Gamma:</strong> Implement the grid approximation method for the Poisson-Gamma problem in Exercise 3. Define a reasonable grid for <span class="math notranslate nohighlight">\(\lambda\)</span> (e.g., from 0 to 15). Calculate the posterior mean and 90% CI from the grid and compare them to the analytical results. Plot the grid approximation against the analytical posterior.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exercise 1 Code Placeholder</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Data</span>
+<span class="n">n_trials</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">k_successes</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uniform Prior parameters</span>
+<span class="n">alpha_prior_unif</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beta_prior_unif</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior parameters</span>
+<span class="n">alpha_post_unif</span> <span class="o">=</span> <span class="n">alpha_prior_unif</span> <span class="o">+</span> <span class="n">k_successes</span>
+<span class="n">beta_post_unif</span> <span class="o">=</span> <span class="n">beta_prior_unif</span> <span class="o">+</span> <span class="n">n_trials</span> <span class="o">-</span> <span class="n">k_successes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- Exercise 1: Uniform Prior Beta(1, 1) ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior (Uniform Prior): Beta(alpha=</span><span class="si">{</span><span class="n">alpha_post_unif</span><span class="si">}</span><span class="s2">, beta=</span><span class="si">{</span><span class="n">beta_post_unif</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Exercise 1: Uniform Prior Beta(1, 1) ---
+Posterior (Uniform Prior): Beta(alpha=16, beta=986)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior summaries</span>
+<span class="n">post_mean_unif</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alpha_post_unif</span><span class="p">,</span> <span class="n">beta_post_unif</span><span class="p">)</span>
+<span class="n">post_mode_unif</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha_post_unif</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha_post_unif</span> <span class="o">+</span> <span class="n">beta_post_unif</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">lower_ci_unif</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">alpha_post_unif</span><span class="p">,</span> <span class="n">beta_post_unif</span><span class="p">)</span>
+<span class="n">upper_ci_unif</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">alpha_post_unif</span><span class="p">,</span> <span class="n">beta_post_unif</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean: </span><span class="si">{</span><span class="n">post_mean_unif</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior MAP: </span><span class="si">{</span><span class="n">post_mode_unif</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Credible Interval: [</span><span class="si">{</span><span class="n">lower_ci_unif</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_ci_unif</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Comparison: The results are very similar to the Beta(2, 198) prior case, suggesting the large dataset (n=1000) largely outweighs the difference between these two relatively weak priors.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Mean: 0.0160
+Posterior MAP: 0.0150
+95% Credible Interval: [0.0092, 0.0246]
+Comparison: The results are very similar to the Beta(2, 198) prior case, suggesting the large dataset (n=1000) largely outweighs the difference between these two relatively weak priors.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Exercise 2 Code Placeholder</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stronger Low Prior parameters</span>
+<span class="n">alpha_prior_strong</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beta_prior_strong</span> <span class="o">=</span> <span class="mi">99</span> <span class="c1"># Mean = 1 / (1+99) = 0.01</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior parameters</span>
+<span class="n">alpha_post_strong</span> <span class="o">=</span> <span class="n">alpha_prior_strong</span> <span class="o">+</span> <span class="n">k_successes</span>
+<span class="n">beta_post_strong</span> <span class="o">=</span> <span class="n">beta_prior_strong</span> <span class="o">+</span> <span class="n">n_trials</span> <span class="o">-</span> <span class="n">k_successes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Exercise 2: Stronger Prior Beta(1, 99) ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior (Strong Prior): Beta(alpha=</span><span class="si">{</span><span class="n">alpha_post_strong</span><span class="si">}</span><span class="s2">, beta=</span><span class="si">{</span><span class="n">beta_post_strong</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Exercise 2: Stronger Prior Beta(1, 99) ---
+Posterior (Strong Prior): Beta(alpha=16, beta=1084)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior summaries</span>
+<span class="n">post_mean_strong</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alpha_post_strong</span><span class="p">,</span> <span class="n">beta_post_strong</span><span class="p">)</span>
+<span class="n">post_mode_strong</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha_post_strong</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha_post_strong</span> <span class="o">+</span> <span class="n">beta_post_strong</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">lower_ci_strong</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">alpha_post_strong</span><span class="p">,</span> <span class="n">beta_post_strong</span><span class="p">)</span>
+<span class="n">upper_ci_strong</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">alpha_post_strong</span><span class="p">,</span> <span class="n">beta_post_strong</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean: </span><span class="si">{</span><span class="n">post_mean_strong</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior MAP: </span><span class="si">{</span><span class="n">post_mode_strong</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% Credible Interval: [</span><span class="si">{</span><span class="n">lower_ci_strong</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_ci_strong</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Comparison: Compared to the original Beta(2, 198) prior, the posterior mean (0.0146 vs 0.0142) and MAP (0.0138 vs 0.0142) are slightly lower, pulled more towards the stronger prior belief centered at 0.01. The credible interval is also slightly shifted lower and is marginally narrower, reflecting the stronger prior influence.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Mean: 0.0145
+Posterior MAP: 0.0137
+95% Credible Interval: [0.0083, 0.0224]
+Comparison: Compared to the original Beta(2, 198) prior, the posterior mean (0.0146 vs 0.0142) and MAP (0.0138 vs 0.0142) are slightly lower, pulled more towards the stronger prior belief centered at 0.01. The credible interval is also slightly shifted lower and is marginally narrower, reflecting the stronger prior influence.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Exercise 3 Code Placeholder</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prior parameters (Gamma(alpha, beta_rate))</span>
+<span class="n">alpha_prior_pois</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">beta_rate_prior_pois</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Since scale = 1/beta_rate = 0.5</span>
+<span class="n">scale_prior_pois</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">beta_rate_prior_pois</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Data (number of events in unit time)</span>
+<span class="n">k_events</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">time_exposure</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Assumed unit time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior parameters</span>
+<span class="n">alpha_post_pois</span> <span class="o">=</span> <span class="n">alpha_prior_pois</span> <span class="o">+</span> <span class="n">k_events</span>
+<span class="n">beta_rate_post_pois</span> <span class="o">=</span> <span class="n">beta_rate_prior_pois</span> <span class="o">+</span> <span class="n">time_exposure</span>
+<span class="n">scale_post_pois</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">beta_rate_post_pois</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Exercise 3: Poisson-Gamma Conjugate Update ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prior: Gamma(alpha=</span><span class="si">{</span><span class="n">alpha_prior_pois</span><span class="si">}</span><span class="s2">, rate=</span><span class="si">{</span><span class="n">beta_rate_prior_pois</span><span class="si">}</span><span class="s2">) or Gamma(alpha=</span><span class="si">{</span><span class="n">alpha_prior_pois</span><span class="si">}</span><span class="s2">, scale=</span><span class="si">{</span><span class="n">scale_prior_pois</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data: k=</span><span class="si">{</span><span class="n">k_events</span><span class="si">}</span><span class="s2"> events observed&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior: Gamma(alpha=</span><span class="si">{</span><span class="n">alpha_post_pois</span><span class="si">}</span><span class="s2">, rate=</span><span class="si">{</span><span class="n">beta_rate_post_pois</span><span class="si">}</span><span class="s2">) or Gamma(alpha=</span><span class="si">{</span><span class="n">alpha_post_pois</span><span class="si">}</span><span class="s2">, scale=</span><span class="si">{</span><span class="n">scale_post_pois</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Exercise 3: Poisson-Gamma Conjugate Update ---
+Prior: Gamma(alpha=3, rate=2) or Gamma(alpha=3, scale=0.5)
+Data: k=5 events observed
+Posterior: Gamma(alpha=8, rate=3) or Gamma(alpha=8, scale=0.3333333333333333)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate posterior mean and CI</span>
+<span class="c1"># Mean of Gamma(alpha, rate) is alpha / rate</span>
+<span class="n">post_mean_pois</span> <span class="o">=</span> <span class="n">alpha_post_pois</span> <span class="o">/</span> <span class="n">beta_rate_post_pois</span>
+<span class="c1"># Use scipy.stats.gamma with scale parameter</span>
+<span class="n">lower_ci_pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">alpha_post_pois</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale_post_pois</span><span class="p">)</span> <span class="c1"># 90% CI -&gt; 0.05 and 0.95 quantiles</span>
+<span class="n">upper_ci_pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">alpha_post_pois</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale_post_pois</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean (lambda): </span><span class="si">{</span><span class="n">post_mean_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;90% Credible Interval for lambda: [</span><span class="si">{</span><span class="n">lower_ci_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_ci_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Mean (lambda): 2.6667
+90% Credible Interval for lambda: [1.3269, 4.3827]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot prior and posterior</span>
+<span class="n">lambda_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">prior_pdf_pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">lambda_vals</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">alpha_prior_pois</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale_prior_pois</span><span class="p">)</span>
+<span class="n">post_pdf_pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">lambda_vals</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">alpha_post_pois</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale_post_pois</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lambda_vals</span><span class="p">,</span> <span class="n">prior_pdf_pois</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Prior: Gamma(</span><span class="si">{</span><span class="n">alpha_prior_pois</span><span class="si">}</span><span class="s1">, rate=</span><span class="si">{</span><span class="n">beta_rate_prior_pois</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lambda_vals</span><span class="p">,</span> <span class="n">post_pdf_pois</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Posterior: Gamma(</span><span class="si">{</span><span class="n">alpha_post_pois</span><span class="si">}</span><span class="s1">, rate=</span><span class="si">{</span><span class="n">beta_rate_post_pois</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Add CI shading</span>
+<span class="n">ci_mask_pois</span> <span class="o">=</span> <span class="p">(</span><span class="n">lambda_vals</span> <span class="o">&gt;=</span> <span class="n">lower_ci_pois</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lambda_vals</span> <span class="o">&lt;=</span> <span class="n">upper_ci_pois</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">lambda_vals</span><span class="p">[</span><span class="n">ci_mask_pois</span><span class="p">],</span> <span class="n">post_pdf_pois</span><span class="p">[</span><span class="n">ci_mask_pois</span><span class="p">],</span> 
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;90% Credible Interval&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Bayesian Update for Poisson Rate $</span><span class="se">\\</span><span class="s1">lambda$ (Gamma Prior)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">lambda$ (Email Rate per Hour)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d028c054f09e6243de2441242569ab797f946cfb03adfd75c437d0b9faea9b67.png" src="_images/d028c054f09e6243de2441242569ab797f946cfb03adfd75c437d0b9faea9b67.png" />
+</div>
+</div>
+<p>Exercise 4 Code Placeholder</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Exercise 4: Grid Approximation for Poisson-Gamma ---&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--- Exercise 4: Grid Approximation for Poisson-Gamma ---
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Define grid</span>
+<span class="n">n_grid_pois</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">grid_lambda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-9</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">n_grid_pois</span><span class="p">)</span> <span class="c1"># Avoid lambda=0 for logpmf/pdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Calculate Prior Probabilities</span>
+<span class="n">prior_on_grid_pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">grid_lambda</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">alpha_prior_pois</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale_prior_pois</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Calculate Likelihood (Poisson)</span>
+<span class="c1"># Use log-likelihood for stability</span>
+<span class="n">log_likelihood_on_grid_pois</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">logpmf</span><span class="p">(</span><span class="n">k_events</span><span class="p">,</span> <span class="n">grid_lambda</span><span class="p">)</span> <span class="c1"># mu = lambda * time, here time=1</span>
+<span class="n">likelihood_on_grid_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_likelihood_on_grid_pois</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4. Compute Unnormalized Posterior</span>
+<span class="n">unnormalized_posterior_pois</span> <span class="o">=</span> <span class="n">likelihood_on_grid_pois</span> <span class="o">*</span> <span class="n">prior_on_grid_pois</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5. Normalize</span>
+<span class="n">evidence_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">unnormalized_posterior_pois</span><span class="p">)</span>
+<span class="c1"># Handle potential edge case where evidence is zero</span>
+<span class="k">if</span> <span class="n">evidence_pois</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Evidence is zero, posterior cannot be normalized.&quot;</span><span class="p">)</span>
+    <span class="n">posterior_prob_grid_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">unnormalized_posterior_pois</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">posterior_prob_grid_pois</span> <span class="o">=</span> <span class="n">unnormalized_posterior_pois</span> <span class="o">/</span> <span class="n">evidence_pois</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum of posterior probabilities on grid: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">posterior_prob_grid_pois</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># Should be 1.0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sum of posterior probabilities on grid: 1.0000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate summaries from grid</span>
+<span class="n">post_mean_grid_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">grid_lambda</span> <span class="o">*</span> <span class="n">posterior_prob_grid_pois</span><span class="p">)</span>
+<span class="n">map_index_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">posterior_prob_grid_pois</span><span class="p">)</span>
+<span class="n">post_map_grid_pois</span> <span class="o">=</span> <span class="n">grid_lambda</span><span class="p">[</span><span class="n">map_index_pois</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Credible Interval from grid</span>
+<span class="n">cumulative_posterior_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">posterior_prob_grid_pois</span><span class="p">)</span>
+<span class="n">lower_idx_grid_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cumulative_posterior_pois</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">upper_idx_grid_pois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cumulative_posterior_pois</span> <span class="o">&gt;=</span> <span class="mf">0.95</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">lower_ci_grid_pois</span> <span class="o">=</span> <span class="n">grid_lambda</span><span class="p">[</span><span class="n">lower_idx_grid_pois</span><span class="p">]</span>
+<span class="n">upper_ci_grid_pois</span> <span class="o">=</span> <span class="n">grid_lambda</span><span class="p">[</span><span class="n">upper_idx_grid_pois</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Posterior Summaries (Grid Approximation):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior Mean: </span><span class="si">{</span><span class="n">post_mean_grid_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior MAP: </span><span class="si">{</span><span class="n">post_map_grid_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;90% Credible Interval: [</span><span class="si">{</span><span class="n">lower_ci_grid_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">upper_ci_grid_pois</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Comparison: Results are very close to the analytical Gamma posterior results.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior Summaries (Grid Approximation):
+Posterior Mean: 2.6667
+Posterior MAP: 2.3273
+90% Credible Interval: [1.3213, 4.3844]
+Comparison: Results are very close to the analytical Gamma posterior results.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot analytical vs grid</span>
+<span class="n">step_size_pois</span> <span class="o">=</span> <span class="n">grid_lambda</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">grid_lambda</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lambda_vals</span><span class="p">,</span> <span class="n">post_pdf_pois</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Analytical Posterior&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="c1"># Scale grid probabilities for density plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid_lambda</span><span class="p">,</span> <span class="n">posterior_prob_grid_pois</span> <span class="o">/</span> <span class="n">step_size_pois</span><span class="p">,</span> 
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Grid Approximation (</span><span class="si">{</span><span class="n">n_grid_pois</span><span class="si">}</span><span class="s1"> points)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Grid Approximation vs Analytical Posterior for Poisson Rate $</span><span class="se">\\</span><span class="s1">lambda$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">lambda$ (Email Rate per Hour)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability Density / Scaled Probability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="c1"># Match grid range</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d7c67dad138c39454d25a4f858a53d613bcb828d41dcd9ac82fbbc4ce5ec24e1.png" src="_images/d7c67dad138c39454d25a4f858a53d613bcb828d41dcd9ac82fbbc4ce5ec24e1.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_14.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 14: The Central Limit Theorem (CLT)</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revisiting-bayes-theorem-for-distributions">15.1 Revisiting Bayes’ Theorem for Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-priors">15.2 Conjugate Priors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#point-estimates-map-posterior-mean">15.3 Point Estimates (MAP, Posterior Mean)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credible-intervals">15.4 Credible Intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-implementation-and-grid-approximation">15.5 Hands-on: Implementation and Grid Approximation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-approximation">Grid Approximation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">15.6 Chapter Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

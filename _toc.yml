@@ -1,9 +1,56 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
+# _toc.yml for "Probability in Practice: A Hands-On Journey with Python"
 
 format: jb-book
-root: intro
-chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+root: index # Assuming index.md or index.ipynb contains the Preface content
+
+parts:
+  - caption: Preface
+    chapters:
+    # Content for Preface sections (Who this book is for?, Why Python?, Structure, Setup, How to use)
+    # should ideally be in the root 'index.md' or 'index.ipynb' file.
+    # If you create a separate file like preface.md, add '- file: preface.md' here.
+    - file: _preface.md 
+
+  - caption: Part 1 - Foundations of Probability
+    chapters:
+      - file: chapter_01.ipynb # Introduction to Probability and Python Setup
+      - file: chapter_02.ipynb # The Language of Probability: Sets, Sample Spaces, and Events
+      - file: chapter_03.ipynb # Counting Techniques: Permutations and Combinations
+
+  - caption: Part 2 - Conditional Probability and Independence
+    chapters:
+      - file: chapter_04.ipynb # Conditional Probability
+      - file: chapter_05.ipynb # Bayes' Theorem and Independence
+
+  - caption: Part 3 - Random Variables and Distributions
+    chapters:
+      - file: chapter_06.ipynb # Discrete Random Variables
+      - file: chapter_07.ipynb # Common Discrete Distributions
+      - file: chapter_08.ipynb # Continuous Random Variables
+      - file: chapter_09.ipynb # Common Continuous Distributions
+
+  - caption: Part 4 - Multiple Random Variables
+    chapters:
+      - file: chapter_10.ipynb # Joint Distributions
+      - file: chapter_11.ipynb # Independence, Covariance, and Correlation
+      - file: chapter_12.ipynb # Functions of Multiple Random Variables
+
+  - caption: Part 5 - Limit Theorems and Their Significance
+    chapters:
+      - file: chapter_13.ipynb # The Law of Large Numbers (LLN)
+      - file: chapter_14.ipynb # The Central Limit Theorem (CLT)
+
+  - caption: Part 6 - Advanced Topics and Applications
+    chapters:
+      - file: chapter_15.ipynb # Introduction to Bayesian Inference
+#      - file: chapter_16.ipynb # Introduction to Markov Chains (You need to create this file)
+#      - file: chapter_17.ipynb # Monte Carlo Methods (You need to create this file)
+#      - file: chapter_18.ipynb # (Optional) Further Explorations (You need to create this file)
+#
+#  - caption: Appendices
+#    chapters:
+#      - file: appendix_a.md # Python/Jupyter Setup Deep Dive (Create as .md or .ipynb)
+#      - file: appendix_b.md # Essential Library Reference (Create as .md or .ipynb)
+#      - file: appendix_c.md # Mathematical Notation Summary (Create as .md or .ipynb)
+#      - file: appendix_d.md # Solutions/Hints to Selected Exercises (Create as .md or .ipynb)
+#      - file: appendix_e.md # Further Reading and Resources (Create as .md or .ipynb)

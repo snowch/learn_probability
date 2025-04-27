@@ -1,0 +1,1007 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 5: Bayes’ Theorem and Independence &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapter_05';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 6: Discrete Random Variables" href="chapter_06.html" />
+    <link rel="prev" title="Chapter 4: Conditional Probability" href="chapter_04.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Probability in Practice: A Hands-On Journey with Python
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="_preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1 - Foundations of Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">Chapter 1: Introduction to Probability and Python Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">Chapter 3: Counting Techniques: Permutations and Combinations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2 - Conditional Probability and Independence</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">Chapter 4: Conditional Probability</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 5: Bayes’ Theorem and Independence</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3 - Random Variables and Distributions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">Chapter 6: Discrete Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">Chapter 7: Common Discrete Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_08.html">Chapter 8: Continuous Random Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_09.html">Chapter 9: Common Continuous Distributions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4 - Multiple Random Variables</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_10.html">Chapter 10: Joint Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_11.html">Chapter 11: Independence, Covariance, and Correlation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_12.html">Chapter 12: Functions of Multiple Random Variables</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5 - Limit Theorems and Their Significance</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_13.html">Chapter 13: The Law of Large Numbers (LLN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_14.html">Chapter 14: The Central Limit Theorem (CLT)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fchapter_05.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chapter_05.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 5: Bayes’ Theorem and Independence</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-theorem-derivation-and-interpretation">1. Bayes’ Theorem: Derivation and Interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-beliefs-prior-and-posterior-probabilities">2. Updating Beliefs: Prior and Posterior Probabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-the-diagnostic-test-example">3. Applications: The Diagnostic Test Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#independence-of-events">4. Independence of Events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-independence">5. Conditional Independence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-exercises">6. Hands-on Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-1-implementing-bayes-theorem-for-disease-test">Exercise 5.1: Implementing Bayes’ Theorem for Disease Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-2-simulating-bayesian-updates">Exercise 5.2: Simulating Bayesian Updates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-3-testing-independence-from-data">Exercise 5.3: Testing Independence from Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">Chapter Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-5-bayes-theorem-and-independence">
+<h1>Chapter 5: Bayes’ Theorem and Independence<a class="headerlink" href="#chapter-5-bayes-theorem-and-independence" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we explored conditional probability – how the probability of an event changes given that another event has occurred. Now, we’ll delve into one of the most powerful and widely applicable results stemming from conditional probability: <strong>Bayes’ Theorem</strong>. This theorem provides a formal way to update our beliefs (probabilities) in light of new evidence. We will also formally define and explore the concept of <strong>independence</strong> between events, a crucial idea for simplifying probability calculations.</p>
+<section id="learning-objectives">
+<h2>Learning Objectives:<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Understand the derivation and interpretation of Bayes’ Theorem.</p></li>
+<li><p>Distinguish between prior and posterior probabilities.</p></li>
+<li><p>Apply Bayes’ Theorem to solve problems, particularly diagnostic testing scenarios.</p></li>
+<li><p>Define and test for the independence of events.</p></li>
+<li><p>Understand the concept of conditional independence.</p></li>
+<li><p>Implement Bayesian updates and independence checks using Python simulations.</p></li>
+</ul>
+</section>
+<section id="bayes-theorem-derivation-and-interpretation">
+<h2>1. Bayes’ Theorem: Derivation and Interpretation<a class="headerlink" href="#bayes-theorem-derivation-and-interpretation" title="Link to this heading">#</a></h2>
+<p>Bayes’ Theorem provides a way to “reverse” conditional probabilities. If we know <span class="math notranslate nohighlight">\(P(B|A)\)</span>, Bayes’ Theorem helps us find <span class="math notranslate nohighlight">\(P(A|B)\)</span>. It’s named after Reverend Thomas Bayes (1701-1761), who first provided an equation that allows new evidence to update beliefs.</p>
+<p><strong>Derivation:</strong></p>
+<p>Recall the definition of conditional probability:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(P(A|B) = \frac{P(A \cap B)}{P(B)}\)</span>, provided <span class="math notranslate nohighlight">\(P(B) &gt; 0\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(B|A) = \frac{P(B \cap A)}{P(A)}\)</span>, provided <span class="math notranslate nohighlight">\(P(A) &gt; 0\)</span>.</p></li>
+</ol>
+<p>Since <span class="math notranslate nohighlight">\(P(A \cap B) = P(B \cap A)\)</span>, we can rearrange these equations:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(P(A \cap B) = P(A|B) P(B)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(B \cap A) = P(B|A) P(A)\)</span></p></li>
+</ol>
+<p>Setting them equal gives:</p>
+<p><span class="math notranslate nohighlight">\(P(A|B) P(B) = P(B|A) P(A)\)</span></p>
+<p>Dividing by <span class="math notranslate nohighlight">\(P(B)\)</span> (assuming <span class="math notranslate nohighlight">\(P(B) &gt; 0\)</span>), we get <strong>Bayes’ Theorem</strong>:</p>
+<div class="math notranslate nohighlight">
+\[P(A|B) = \frac{P(B|A) P(A)}{P(B)}\]</div>
+<p><strong>Interpretation:</strong></p>
+<p>Let’s think of A as an event or hypothesis we are interested in (e.g., “a patient has a specific disease,” “a coin is biased”) and B as new evidence or data observed (e.g., “the patient tested positive,” “we observed 8 heads in 10 flips”).</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(A)\)</span>: <strong>Prior Probability</strong>. Our initial belief about the probability of A <em>before</em> seeing the evidence B.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(B|A)\)</span>: <strong>Likelihood</strong>. The probability of observing the evidence B <em>given</em> that our hypothesis A is true.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(B)\)</span>: <strong>Probability of Evidence</strong>. The overall probability of observing the evidence B, regardless of whether A is true or not. This often requires using the Law of Total Probability (from Chapter 4): <span class="math notranslate nohighlight">\(P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(A|B)\)</span>: <strong>Posterior Probability</strong>. Our updated belief about the probability of A <em>after</em> observing the evidence B.</p></li>
+</ul>
+<p>Bayes’ Theorem tells us how to update our prior belief <span class="math notranslate nohighlight">\(P(A)\)</span> to a posterior belief <span class="math notranslate nohighlight">\(P(A|B)\)</span> based on the likelihood of the evidence <span class="math notranslate nohighlight">\(P(B|A)\)</span> and the overall probability of the evidence <span class="math notranslate nohighlight">\(P(B)\)</span>.</p>
+</section>
+<section id="updating-beliefs-prior-and-posterior-probabilities">
+<h2>2. Updating Beliefs: Prior and Posterior Probabilities<a class="headerlink" href="#updating-beliefs-prior-and-posterior-probabilities" title="Link to this heading">#</a></h2>
+<p>The core idea of Bayesian thinking is updating beliefs. We start with a prior belief, gather data (evidence), and update our belief to a posterior. This posterior can then become the prior for the next piece of evidence.</p>
+<p><strong>Example:</strong> Imagine you have a website and you’re testing a new ad banner.</p>
+<ul class="simple">
+<li><p><strong>Hypothesis (A):</strong> The new ad banner is effective (e.g., has a click-through rate &gt; 5%).</p></li>
+<li><p><strong>Prior (<span class="math notranslate nohighlight">\(P(A)\)</span>):</strong> Based on previous ad campaigns, you might initially believe there’s a 30% chance the new ad is effective. So, <span class="math notranslate nohighlight">\(P(A) = 0.30\)</span>.</p></li>
+<li><p><strong>Evidence (B):</strong> You observe a visitor’s Browse history (e.g., they previously visited related product pages).</p></li>
+<li><p><strong>Likelihood (<span class="math notranslate nohighlight">\(P(B|A)\)</span>):</strong> The probability that a visitor has this Browse history <em>given</em> the ad is effective. Perhaps effective ads are better targeted, so this might be high, say <span class="math notranslate nohighlight">\(P(B|A) = 0.70\)</span>.</p></li>
+<li><p><strong>Likelihood (<span class="math notranslate nohighlight">\(P(B|A^c)\)</span>):</strong> The probability that a visitor has this Browse history <em>given</em> the ad is <em>not</em> effective. This might be lower, say <span class="math notranslate nohighlight">\(P(B|A^c) = 0.20\)</span>.</p></li>
+<li><p><strong>Probability of Evidence (<span class="math notranslate nohighlight">\(P(B)\)</span>):</strong> Using the Law of Total Probability:
+<span class="math notranslate nohighlight">\(P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)\)</span>
+<span class="math notranslate nohighlight">\(P(B) = (0.70)(0.30) + (0.20)(1 - 0.30)\)</span>
+<span class="math notranslate nohighlight">\(P(B) = 0.21 + (0.20)(0.70) = 0.21 + 0.14 = 0.35\)</span></p></li>
+<li><p><strong>Posterior (<span class="math notranslate nohighlight">\(P(A|B)\)</span>):</strong> Now apply Bayes’ Theorem:
+<span class="math notranslate nohighlight">\(P(A|B) = \frac{P(B|A) P(A)}{P(B)} = \frac{(0.70)(0.30)}{0.35} = \frac{0.21}{0.35} = 0.60\)</span></p></li>
+</ul>
+<p>After observing the visitor’s Browse history, your belief that the ad is effective increased from 30% (prior) to 60% (posterior).</p>
+</section>
+<section id="applications-the-diagnostic-test-example">
+<h2>3. Applications: The Diagnostic Test Example<a class="headerlink" href="#applications-the-diagnostic-test-example" title="Link to this heading">#</a></h2>
+<p>One of the most classic and intuitive applications of Bayes’ Theorem is in interpreting the results of medical diagnostic tests.</p>
+<p><strong>Scenario:</strong></p>
+<ul class="simple">
+<li><p>A certain disease affects 1% of the population. (Prevalence)</p></li>
+<li><p>A test for the disease has 95% accuracy:</p>
+<ul>
+<li><p>If a person <em>has</em> the disease, the test correctly identifies it 95% of the time. (Sensitivity)</p></li>
+<li><p>If a person <em>does not have</em> the disease, the test correctly identifies it 95% of the time. (Specificity)</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Question:</strong> If a randomly selected person tests positive, what is the probability they actually have the disease?</p>
+<p><strong>Let’s define the events:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(D\)</span>: The person has the disease.</p></li>
+<li><p><span class="math notranslate nohighlight">\(D^c\)</span>: The person does not have the disease.</p></li>
+<li><p><span class="math notranslate nohighlight">\(Pos\)</span>: The person tests positive.</p></li>
+<li><p><span class="math notranslate nohighlight">\(Neg\)</span>: The person tests negative.</p></li>
+</ul>
+<p><strong>What we know:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(D) = 0.01\)</span> (Prior probability of having the disease - Prevalence)</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(D^c) = 1 - P(D) = 0.99\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(Pos|D) = 0.95\)</span> (Probability of testing positive <em>given</em> you have the disease - Sensitivity)</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(Neg|D) = 1 - P(Pos|D) = 0.05\)</span> (False Negative Rate)</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(Neg|D^c) = 0.95\)</span> (Probability of testing negative <em>given</em> you don’t have the disease - Specificity)</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(Pos|D^c) = 1 - P(Neg|D^c) = 0.05\)</span> (False Positive Rate)</p></li>
+</ul>
+<p><strong>What we want to find:</strong> <span class="math notranslate nohighlight">\(P(D|Pos)\)</span> (The probability of having the disease <em>given</em> a positive test result).</p>
+<p><strong>Apply Bayes’ Theorem:</strong>
+$<span class="math notranslate nohighlight">\(P(D|Pos) = \frac{P(Pos|D) P(D)}{P(Pos)}\)</span>$</p>
+<p>We need to find <span class="math notranslate nohighlight">\(P(Pos)\)</span>. Use the Law of Total Probability:
+<span class="math notranslate nohighlight">\(P(Pos) = P(Pos|D)P(D) + P(Pos|D^c)P(D^c)\)</span>
+<span class="math notranslate nohighlight">\(P(Pos) = (0.95)(0.01) + (0.05)(0.99)\)</span>
+<span class="math notranslate nohighlight">\(P(Pos) = 0.0095 + 0.0495 = 0.0590\)</span></p>
+<p>Now substitute into Bayes’ Theorem:
+<span class="math notranslate nohighlight">\(P(D|Pos) = \frac{(0.95)(0.01)}{0.0590} = \frac{0.0095}{0.0590} \approx 0.161\)</span></p>
+<p><strong>Interpretation:</strong> Even with a positive test result from a 95% accurate test, the probability of actually having the disease is only about 16.1%! This seems counter-intuitive but highlights the strong influence of the low prior probability (prevalence) of the disease. Most positive tests come from the large group of healthy people who receive a false positive, rather than the small group of sick people who receive a true positive.</p>
+</section>
+<section id="independence-of-events">
+<h2>4. Independence of Events<a class="headerlink" href="#independence-of-events" title="Link to this heading">#</a></h2>
+<p>Two events A and B are said to be <strong>independent</strong> if the occurrence (or non-occurrence) of one event does not affect the probability of the other event occurring.</p>
+<p><strong>Formal Definition:</strong>
+Events A and B are independent if and only if:
+$<span class="math notranslate nohighlight">\(P(A \cap B) = P(A) P(B)\)</span>$</p>
+<p><strong>Alternative Definition (using conditional probability):</strong>
+If <span class="math notranslate nohighlight">\(P(B) &gt; 0\)</span>, A and B are independent if and only if:
+$<span class="math notranslate nohighlight">\(P(A|B) = P(A)\)</span><span class="math notranslate nohighlight">\(
+Similarly, if \)</span>P(A) &gt; 0<span class="math notranslate nohighlight">\(, independence means:
+\)</span><span class="math notranslate nohighlight">\(P(B|A) = P(B)\)</span>$
+This definition aligns with the intuition: knowing B occurred doesn’t change the probability of A.</p>
+<p><strong>Example: Fair Die Roll</strong></p>
+<ul class="simple">
+<li><p>Let A be the event “rolling an even number” = {2, 4, 6}. <span class="math notranslate nohighlight">\(P(A) = 3/6 = 1/2\)</span>.</p></li>
+<li><p>Let B be the event “rolling a number &gt; 4” = {5, 6}. <span class="math notranslate nohighlight">\(P(B) = 2/6 = 1/3\)</span>.</p></li>
+<li><p>The intersection is <span class="math notranslate nohighlight">\(A \cap B\)</span> = “rolling an even number greater than 4” = {6}. <span class="math notranslate nohighlight">\(P(A \cap B) = 1/6\)</span>.</p></li>
+</ul>
+<p>Let’s check for independence: Is <span class="math notranslate nohighlight">\(P(A \cap B) = P(A) P(B)\)</span>?
+<span class="math notranslate nohighlight">\(1/6 \stackrel{?}{=} (1/2) \times (1/3)\)</span>
+<span class="math notranslate nohighlight">\(1/6 = 1/6\)</span>
+Yes, the events A and B are independent. Knowing the roll is greater than 4 doesn’t change the probability that it’s even (it’s still 1/2: <span class="math notranslate nohighlight">\(P(A|B) = P(A \cap B) / P(B) = (1/6) / (1/3) = 1/2 = P(A)\)</span>).</p>
+<p><strong>Example: Drawing Cards (Without Replacement)</strong></p>
+<ul class="simple">
+<li><p>Let A be the event “the first card drawn is an Ace”. <span class="math notranslate nohighlight">\(P(A) = 4/52\)</span>.</p></li>
+<li><p>Let B be the event “the second card drawn is an Ace”.
+Are A and B independent?
+Intuitively, no. If the first card was an Ace, the probability the second is an Ace changes.
+Let’s calculate <span class="math notranslate nohighlight">\(P(B)\)</span>. Using the Law of Total Probability:
+<span class="math notranslate nohighlight">\(P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)\)</span>
+<span class="math notranslate nohighlight">\(P(B) = (3/51)(4/52) + (4/51)(48/52) = (12 + 192) / (51 \times 52) = 204 / 2652 = 4/52\)</span>.
+So, <span class="math notranslate nohighlight">\(P(B) = 4/52\)</span>.
+Now let’s calculate the intersection: <span class="math notranslate nohighlight">\(P(A \cap B) = P(\text{first is Ace AND second is Ace})\)</span>
+<span class="math notranslate nohighlight">\(P(A \cap B) = P(B|A)P(A) = (3/51)(4/52) = 12 / 2652 = 1 / 221\)</span>.
+Check for independence: Is <span class="math notranslate nohighlight">\(P(A \cap B) = P(A)P(B)\)</span>?
+<span class="math notranslate nohighlight">\(1/221 \stackrel{?}{=} (4/52) \times (4/52) = (1/13) \times (1/13) = 1/169\)</span>.
+<span class="math notranslate nohighlight">\(1/221 \neq 1/169\)</span>.
+As expected, the events are <strong>not</strong> independent.</p></li>
+</ul>
+<p><strong>Important Note:</strong> Do not confuse independence with mutual exclusivity.</p>
+<ul class="simple">
+<li><p><strong>Mutually exclusive</strong> events cannot happen together (<span class="math notranslate nohighlight">\(A \cap B = \emptyset\)</span>, so <span class="math notranslate nohighlight">\(P(A \cap B) = 0\)</span>).</p></li>
+<li><p><strong>Independent</strong> events <em>can</em> happen together, but one doesn’t affect the other’s probability.
+If two events A and B have non-zero probabilities, they <em>cannot</em> be both mutually exclusive and independent. If they were mutually exclusive, <span class="math notranslate nohighlight">\(P(A \cap B) = 0\)</span>. If they were independent, <span class="math notranslate nohighlight">\(P(A \cap B) = P(A)P(B) &gt; 0\)</span>. This is a contradiction.</p></li>
+</ul>
+</section>
+<section id="conditional-independence">
+<h2>5. Conditional Independence<a class="headerlink" href="#conditional-independence" title="Link to this heading">#</a></h2>
+<p>Sometimes, two events A and B might not be independent overall, but they become independent <em>given</em> some other event C. This is called <strong>conditional independence</strong>.</p>
+<p><strong>Formal Definition:</strong>
+Events A and B are conditionally independent given event C (where <span class="math notranslate nohighlight">\(P(C) &gt; 0\)</span>) if:
+$<span class="math notranslate nohighlight">\(P(A \cap B | C) = P(A|C) P(B|C)\)</span>$</p>
+<p><strong>Alternative Definition:</strong>
+If <span class="math notranslate nohighlight">\(P(B|C) &gt; 0\)</span>, conditional independence means:
+$<span class="math notranslate nohighlight">\(P(A | B \cap C) = P(A|C)\)</span>$
+Knowing B occurred provides no additional information about A <em>if we already know C occurred</em>.</p>
+<p><strong>Example:</strong> Consider two different coins, one fair (Coin F) and one biased to land heads 75% of the time (Coin B).</p>
+<ul class="simple">
+<li><p>Let <span class="math notranslate nohighlight">\(H_1\)</span> be the event “the first flip is Heads”.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(H_2\)</span> be the event “the second flip is Heads”.</p></li>
+</ul>
+<p>Are <span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(H_2\)</span> independent? It depends on whether we know which coin we are flipping!</p>
+<p><strong>Scenario 1: We pick a coin at random (50% chance each) and flip it twice.</strong>
+Let’s find <span class="math notranslate nohighlight">\(P(H_1)\)</span> and <span class="math notranslate nohighlight">\(P(H_2)\)</span>.
+<span class="math notranslate nohighlight">\(P(H_1) = P(H_1|\text{Fair})P(\text{Fair}) + P(H_1|\text{Biased})P(\text{Biased})\)</span>
+<span class="math notranslate nohighlight">\(P(H_1) = (0.5)(0.5) + (0.75)(0.5) = 0.25 + 0.375 = 0.625\)</span>.
+By symmetry, <span class="math notranslate nohighlight">\(P(H_2) = 0.625\)</span>.</p>
+<p>Now, let’s find <span class="math notranslate nohighlight">\(P(H_1 \cap H_2) = P(\text{HH})\)</span>.
+<span class="math notranslate nohighlight">\(P(\text{HH}) = P(\text{HH}|\text{Fair})P(\text{Fair}) + P(\text{HH}|\text{Biased})P(\text{Biased})\)</span>
+Assuming flips are independent <em>given</em> the coin:
+<span class="math notranslate nohighlight">\(P(\text{HH}) = (0.5 \times 0.5)(0.5) + (0.75 \times 0.75)(0.5)\)</span>
+<span class="math notranslate nohighlight">\(P(\text{HH}) = (0.25)(0.5) + (0.5625)(0.5) = 0.125 + 0.28125 = 0.40625\)</span>.</p>
+<p>Check for independence: Is <span class="math notranslate nohighlight">\(P(H_1 \cap H_2) = P(H_1) P(H_2)\)</span>?
+<span class="math notranslate nohighlight">\(0.40625 \stackrel{?}{=} (0.625) \times (0.625) = 0.390625\)</span>.
+They are <strong>not</strong> equal. <span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(H_2\)</span> are <strong>not</strong> independent overall. If the first flip is heads, it slightly increases our belief we have the biased coin, thus increasing the probability the second flip is also heads.</p>
+<p><strong>Scenario 2: We know we are flipping the Fair coin (Event C = “Fair coin chosen”).</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(H_1 | C) = 0.5\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(H_2 | C) = 0.5\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(H_1 \cap H_2 | C) = P(\text{HH} | \text{Fair}) = 0.5 \times 0.5 = 0.25\)</span> (assuming flips are independent for a given coin).
+Check for conditional independence: Is <span class="math notranslate nohighlight">\(P(H_1 \cap H_2 | C) = P(H_1|C) P(H_2|C)\)</span>?
+<span class="math notranslate nohighlight">\(0.25 \stackrel{?}{=} (0.5) \times (0.5)\)</span>
+<span class="math notranslate nohighlight">\(0.25 = 0.25\)</span>. Yes. <span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(H_2\)</span> are <strong>conditionally independent given</strong> we chose the fair coin.</p></li>
+</ul>
+<p><strong>Scenario 3: We know we are flipping the Biased coin (Event C’ = “Biased coin chosen”).</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(H_1 | C') = 0.75\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(H_2 | C') = 0.75\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P(H_1 \cap H_2 | C') = P(\text{HH} | \text{Biased}) = 0.75 \times 0.75 = 0.5625\)</span>.
+Check for conditional independence: Is <span class="math notranslate nohighlight">\(P(H_1 \cap H_2 | C') = P(H_1|C') P(H_2|C')\)</span>?
+<span class="math notranslate nohighlight">\(0.5625 \stackrel{?}{=} (0.75) \times (0.75)\)</span>
+<span class="math notranslate nohighlight">\(0.5625 = 0.5625\)</span>. Yes. <span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(H_2\)</span> are also <strong>conditionally independent given</strong> we chose the biased coin.</p></li>
+</ul>
+<p><strong>Intuition:</strong> Fuel efficiency might depend on tire pressure and engine size. These two factors might seem correlated overall (cars with bigger engines might tend to have specific tire pressure recommendations). However, <em>given a specific car model</em>, the effect of tire pressure on fuel efficiency might be independent of the effect of engine size (assuming the model already fixes the engine size).</p>
+</section>
+<section id="hands-on-exercises">
+<h2>6. Hands-on Exercises<a class="headerlink" href="#hands-on-exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-5-1-implementing-bayes-theorem-for-disease-test">
+<h3>Exercise 5.1: Implementing Bayes’ Theorem for Disease Test<a class="headerlink" href="#exercise-5-1-implementing-bayes-theorem-for-disease-test" title="Link to this heading">#</a></h3>
+<p>Let’s verify the disease test calculation using Python. Define variables for the prior probability, sensitivity, and specificity, then implement the calculation for <span class="math notranslate nohighlight">\(P(D|Pos)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters</span>
+<span class="n">p_disease</span> <span class="o">=</span> <span class="mf">0.01</span>        <span class="c1"># P(D) - Prior probability (prevalence)</span>
+<span class="n">p_pos_given_disease</span> <span class="o">=</span> <span class="mf">0.95</span> <span class="c1"># P(Pos|D) - Sensitivity</span>
+<span class="n">p_neg_given_no_disease</span> <span class="o">=</span> <span class="mf">0.95</span> <span class="c1"># P(Neg|D^c) - Specificity</span>
+
+<span class="c1"># Derived probabilities</span>
+<span class="n">p_no_disease</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_disease</span>                 <span class="c1"># P(D^c)</span>
+<span class="n">p_pos_given_no_disease</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_neg_given_no_disease</span> <span class="c1"># P(Pos|D^c) - False Positive Rate</span>
+
+<span class="c1"># Calculate P(Pos) using Law of Total Probability</span>
+<span class="n">p_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_pos_given_disease</span> <span class="o">*</span> <span class="n">p_disease</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">p_pos_given_no_disease</span> <span class="o">*</span> <span class="n">p_no_disease</span><span class="p">)</span>
+
+<span class="c1"># Calculate P(D|Pos) using Bayes&#39; Theorem</span>
+<span class="n">p_disease_given_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_pos_given_disease</span> <span class="o">*</span> <span class="n">p_disease</span><span class="p">)</span> <span class="o">/</span> <span class="n">p_pos</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prior P(Disease): </span><span class="si">{</span><span class="n">p_disease</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sensitivity P(Pos|Disease): </span><span class="si">{</span><span class="n">p_pos_given_disease</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Specificity P(Neg|No Disease): </span><span class="si">{</span><span class="n">p_neg_given_no_disease</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;False Positive Rate P(Pos|No Disease): </span><span class="si">{</span><span class="n">p_pos_given_no_disease</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall P(Pos): </span><span class="si">{</span><span class="n">p_pos</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior P(Disease|Pos): </span><span class="si">{</span><span class="n">p_disease_given_pos</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># What if the test is *negative*? Calculate P(Disease | Neg)</span>
+<span class="c1"># P(Neg) = P(Neg|D)P(D) + P(Neg|D^c)P(D^c)</span>
+<span class="n">p_neg_given_disease</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_pos_given_disease</span> <span class="c1"># P(Neg|D) - False Negative Rate</span>
+<span class="n">p_neg</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_neg_given_disease</span> <span class="o">*</span> <span class="n">p_disease</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">p_neg_given_no_disease</span> <span class="o">*</span> <span class="n">p_no_disease</span><span class="p">)</span>
+
+<span class="c1"># P(D|Neg) = P(Neg|D)P(D) / P(Neg)</span>
+<span class="n">p_disease_given_neg</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_neg_given_disease</span> <span class="o">*</span> <span class="n">p_disease</span><span class="p">)</span> <span class="o">/</span> <span class="n">p_neg</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall P(Neg): </span><span class="si">{</span><span class="n">p_neg</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior P(Disease|Neg): </span><span class="si">{</span><span class="n">p_disease_given_neg</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior P(No Disease|Neg) = </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p_disease_given_neg</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Prior P(Disease): 0.0100
+Sensitivity P(Pos|Disease): 0.9500
+Specificity P(Neg|No Disease): 0.9500
+False Positive Rate P(Pos|No Disease): 0.0500
+------------------------------
+Overall P(Pos): 0.0590
+Posterior P(Disease|Pos): 0.1610
+------------------------------
+Overall P(Neg): 0.9410
+Posterior P(Disease|Neg): 0.0005
+Posterior P(No Disease|Neg) = 0.9995
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-5-2-simulating-bayesian-updates">
+<h3>Exercise 5.2: Simulating Bayesian Updates<a class="headerlink" href="#exercise-5-2-simulating-bayesian-updates" title="Link to this heading">#</a></h3>
+<p>Let’s simulate the disease test scenario to build intuition. We’ll create a population reflecting the disease prevalence, simulate their test results based on sensitivity/specificity, and then calculate the conditional probability directly from the simulated data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">population_size</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="n">p_disease</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">p_pos_given_disease</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="n">p_pos_given_no_disease</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># 1 - specificity</span>
+
+<span class="c1"># Create population</span>
+<span class="c1"># Assign actual disease status</span>
+<span class="n">has_disease</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">population_size</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p_disease</span>
+<span class="n">num_diseased</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">has_disease</span><span class="p">)</span>
+<span class="n">num_healthy</span> <span class="o">=</span> <span class="n">population_size</span> <span class="o">-</span> <span class="n">num_diseased</span>
+
+<span class="c1"># Simulate test results</span>
+<span class="c1"># Initialize test results array</span>
+<span class="n">tests_positive</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">population_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+<span class="c1"># For those WITH the disease</span>
+<span class="n">tests_positive</span><span class="p">[</span><span class="n">has_disease</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num_diseased</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p_pos_given_disease</span>
+
+<span class="c1"># For those WITHOUT the disease</span>
+<span class="n">tests_positive</span><span class="p">[</span><span class="o">~</span><span class="n">has_disease</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num_healthy</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p_pos_given_no_disease</span>
+
+<span class="c1"># Create a DataFrame for easier analysis</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Has_Disease&#39;</span><span class="p">:</span> <span class="n">has_disease</span><span class="p">,</span> <span class="s1">&#39;Tests_Positive&#39;</span><span class="p">:</span> <span class="n">tests_positive</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Calculate counts from the simulation</span>
+<span class="n">true_positives</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Has_Disease&#39;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Tests_Positive&#39;</span><span class="p">])</span>
+<span class="n">false_positives</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Has_Disease&#39;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Tests_Positive&#39;</span><span class="p">])</span>
+<span class="n">total_positives</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Tests_Positive&#39;</span><span class="p">])</span>
+
+<span class="c1"># Calculate P(Disease | Positive) from simulation data</span>
+<span class="n">simulated_p_disease_given_pos</span> <span class="o">=</span> <span class="n">true_positives</span> <span class="o">/</span> <span class="n">total_positives</span>
+
+<span class="c1"># Compare with theoretical calculation</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Simulation Results ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Population Size: </span><span class="si">{</span><span class="n">population_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number Actually Diseased: </span><span class="si">{</span><span class="n">num_diseased</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number Actually Healthy: </span><span class="si">{</span><span class="n">num_healthy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number Testing Positive: </span><span class="si">{</span><span class="n">total_positives</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - True Positives: </span><span class="si">{</span><span class="n">true_positives</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - False Positives: </span><span class="si">{</span><span class="n">false_positives</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulated P(Disease | Positive): </span><span class="si">{</span><span class="n">simulated_p_disease_given_pos</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Theoretical P(Disease | Positive): </span><span class="si">{</span><span class="n">p_disease_given_pos</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Has_Disease  Tests_Positive
+0        False           False
+1        False           False
+2        False           False
+3        False           False
+4        False           False
+
+--- Simulation Results ---
+Population Size: 1000000
+Number Actually Diseased: 10020
+Number Actually Healthy: 989980
+Number Testing Positive: 58889
+  - True Positives: 9529
+  - False Positives: 49360
+------------------------------
+Simulated P(Disease | Positive): 0.1618
+Theoretical P(Disease | Positive): 0.1610
+</pre></div>
+</div>
+</div>
+</div>
+<p>As the <code class="docutils literal notranslate"><span class="pre">population_size</span></code> increases, the simulated probability should converge to the theoretical probability calculated using Bayes’ Theorem. This demonstrates how the theorem accurately reflects the underlying frequencies in a large population.</p>
+</section>
+<section id="exercise-5-3-testing-independence-from-data">
+<h3>Exercise 5.3: Testing Independence from Data<a class="headerlink" href="#exercise-5-3-testing-independence-from-data" title="Link to this heading">#</a></h3>
+<p>Let’s simulate rolling two fair dice and check if the events “first die is even” and “sum is 7” are independent.</p>
+<ul class="simple">
+<li><p>Event A: First die is even. <span class="math notranslate nohighlight">\(P(A) = 1/2\)</span>.</p></li>
+<li><p>Event B: Sum is 7. The pairs are (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). <span class="math notranslate nohighlight">\(P(B) = 6/36 = 1/6\)</span>.</p></li>
+<li><p>Event <span class="math notranslate nohighlight">\(A \cap B\)</span>: First die is even AND sum is 7. The pairs are (2,5), (4,3), (6,1). <span class="math notranslate nohighlight">\(P(A \cap B) = 3/36 = 1/12\)</span>.</p></li>
+</ul>
+<p>Theoretical Check: Is <span class="math notranslate nohighlight">\(P(A \cap B) = P(A)P(B)\)</span>?
+<span class="math notranslate nohighlight">\(1/12 \stackrel{?}{=} (1/2) \times (1/6)\)</span>
+<span class="math notranslate nohighlight">\(1/12 = 1/12\)</span>. Yes, they are theoretically independent.</p>
+<p>Now, let’s check using simulation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">num_rolls</span> <span class="o">=</span> <span class="mi">100000</span>
+
+<span class="c1"># Simulate rolls</span>
+<span class="n">die1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_rolls</span><span class="p">)</span>
+<span class="n">die2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_rolls</span><span class="p">)</span>
+<span class="n">sums</span> <span class="o">=</span> <span class="n">die1</span> <span class="o">+</span> <span class="n">die2</span>
+
+<span class="c1"># Define events</span>
+<span class="n">event_A</span> <span class="o">=</span> <span class="p">(</span><span class="n">die1</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># First die is even</span>
+<span class="n">event_B</span> <span class="o">=</span> <span class="p">(</span><span class="n">sums</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>     <span class="c1"># Sum is 7</span>
+
+<span class="c1"># Create DataFrame</span>
+<span class="n">rolls_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Die1&#39;</span><span class="p">:</span> <span class="n">die1</span><span class="p">,</span> <span class="s1">&#39;Die2&#39;</span><span class="p">:</span> <span class="n">die2</span><span class="p">,</span> <span class="s1">&#39;Sum&#39;</span><span class="p">:</span> <span class="n">sums</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="n">event_A</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="n">event_B</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rolls_data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Calculate probabilities from simulation</span>
+<span class="n">p_A_sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">event_A</span><span class="p">)</span>
+<span class="n">p_B_sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">event_B</span><span class="p">)</span>
+<span class="n">p_A_intersect_B_sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">event_A</span> <span class="o">&amp;</span> <span class="n">event_B</span><span class="p">)</span>
+
+<span class="c1"># Check independence condition</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Independence Check from Simulation ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulated P(A): </span><span class="si">{</span><span class="n">p_A_sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (Theoretical: 0.5000)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulated P(B): </span><span class="si">{</span><span class="n">p_B_sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (Theoretical: </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulated P(A intersect B): </span><span class="si">{</span><span class="n">p_A_intersect_B_sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (Theoretical: </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="mi">12</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P(A) * P(B) = </span><span class="si">{</span><span class="n">p_A_sim</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p_B_sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is P(A intersect B) approx equal to P(A) * P(B)? </span><span class="si">{</span><span class="s1">&#39;Yes&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">p_A_intersect_B_sim</span><span class="p">,</span><span class="w"> </span><span class="n">p_A_sim</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p_B_sim</span><span class="p">,</span><span class="w"> </span><span class="n">atol</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;No&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># Use np.isclose for floating point comparison</span>
+
+<span class="c1"># Alternative check: Is P(A|B) approx equal to P(A)?</span>
+<span class="c1"># P(A|B) = P(A intersect B) / P(B)</span>
+<span class="k">if</span> <span class="n">p_B_sim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">p_A_given_B_sim</span> <span class="o">=</span> <span class="n">p_A_intersect_B_sim</span> <span class="o">/</span> <span class="n">p_B_sim</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Simulated P(A|B): </span><span class="si">{</span><span class="n">p_A_given_B_sim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is P(A|B) approx equal to P(A)? </span><span class="si">{</span><span class="s1">&#39;Yes&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">p_A_given_B_sim</span><span class="p">,</span><span class="w"> </span><span class="n">p_A_sim</span><span class="p">,</span><span class="w"> </span><span class="n">atol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;No&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Cannot calculate P(A|B) as P(B) is zero in simulation.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Die1  Die2  Sum      A      B
+0     4     6   10   True  False
+1     5     3    8  False  False
+2     1     5    6  False  False
+3     3     2    5  False  False
+4     4     4    8   True  False
+
+--- Independence Check from Simulation ---
+Simulated P(A): 0.4994 (Theoretical: 0.5000)
+Simulated P(B): 0.1683 (Theoretical: 0.1667)
+Simulated P(A intersect B): 0.0850 (Theoretical: 0.0833)
+------------------------------
+P(A) * P(B) = 0.0840
+Is P(A intersect B) approx equal to P(A) * P(B)? Yes
+
+Simulated P(A|B): 0.5051
+Is P(A|B) approx equal to P(A)? Yes
+</pre></div>
+</div>
+</div>
+</div>
+<p>The simulation results should be close to the theoretical values, confirming the independence of these events. Small discrepancies are expected due to random sampling variation.</p>
+</section>
+</section>
+<section id="chapter-summary">
+<h2>Chapter Summary<a class="headerlink" href="#chapter-summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Bayes’ Theorem</strong> <span class="math notranslate nohighlight">\(P(A|B) = \frac{P(B|A) P(A)}{P(B)}\)</span> provides a fundamental rule for updating probabilities (beliefs) based on new evidence.</p></li>
+<li><p>It relates the <strong>posterior probability</strong> <span class="math notranslate nohighlight">\(P(A|B)\)</span> to the <strong>prior probability</strong> <span class="math notranslate nohighlight">\(P(A)\)</span> and the <strong>likelihood</strong> <span class="math notranslate nohighlight">\(P(B|A)\)</span>.</p></li>
+<li><p>The term <span class="math notranslate nohighlight">\(P(B)\)</span> acts as a normalizing constant and can often be calculated using the <strong>Law of Total Probability</strong>.</p></li>
+<li><p>Bayes’ Theorem is crucial in fields like medical diagnosis, machine learning (spam filtering, classification), and scientific reasoning.</p></li>
+<li><p>Two events A and B are <strong>independent</strong> if <span class="math notranslate nohighlight">\(P(A \cap B) = P(A)P(B)\)</span>, or equivalently, <span class="math notranslate nohighlight">\(P(A|B) = P(A)\)</span> (assuming <span class="math notranslate nohighlight">\(P(B)&gt;0\)</span>). The occurrence of one does not change the probability of the other.</p></li>
+<li><p>Events A and B are <strong>conditionally independent</strong> given C if <span class="math notranslate nohighlight">\(P(A \cap B | C) = P(A|C)P(B|C)\)</span>. They become independent once the outcome of C is known.</p></li>
+<li><p>Simulation is a valuable tool for building intuition about Bayes’ Theorem and independence by observing frequencies in generated data.</p></li>
+</ul>
+<p>In the next part of the book, we will shift our focus from events to <strong>Random Variables</strong> – numerical outcomes of random phenomena – and explore their distributions. This will allow us to model and analyze probabilistic situations in a more structured way.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chapter_04.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Chapter 4: Conditional Probability</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chapter_06.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 6: Discrete Random Variables</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-theorem-derivation-and-interpretation">1. Bayes’ Theorem: Derivation and Interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-beliefs-prior-and-posterior-probabilities">2. Updating Beliefs: Prior and Posterior Probabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-the-diagnostic-test-example">3. Applications: The Diagnostic Test Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#independence-of-events">4. Independence of Events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-independence">5. Conditional Independence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on-exercises">6. Hands-on Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-1-implementing-bayes-theorem-for-disease-test">Exercise 5.1: Implementing Bayes’ Theorem for Disease Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-2-simulating-bayesian-updates">Exercise 5.2: Simulating Bayesian Updates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-3-testing-independence-from-data">Exercise 5.3: Testing Independence from Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-summary">Chapter Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
