@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
@@ -550,9 +550,9 @@ The probability is approximately 1.79%.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary libraries</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
 
 <span class="c1"># Set parameters for the simulation</span>
 <span class="c1"># We&#39;ll use the Exponential distribution</span>
@@ -620,20 +620,13 @@ The probability is approximately 1.79%.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Import necessary libraries</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># Set parameters for the simulation</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># We&#39;ll use the Exponential distribution</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># Lambda (rate parameter) for Exponential</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Original Distribution: Exponential(lambda=1.0)
+Theoretical Mean (mu): 1.0000
+Theoretical Variance (sigma^2): 1.0000
+Theoretical Std Dev (sigma): 1.0000
 </pre></div>
 </div>
+<img alt="_images/aa5cba63620b48af601ac71bcc0370c83ed0bde834bd1b88124d4e3e2021b9b7.png" src="_images/aa5cba63620b48af601ac71bcc0370c83ed0bde834bd1b88124d4e3e2021b9b7.png" />
 </div>
 </div>
 <p><strong>Observation:</strong>
@@ -673,7 +666,7 @@ Notice how the histogram of sample means starts highly skewed (similar to the or
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/93fd091a92e53dfc07b28ce4f32c15a9e9857dbb0d8357b607dc0ab5344d572e.png" src="_images/93fd091a92e53dfc07b28ce4f32c15a9e9857dbb0d8357b607dc0ab5344d572e.png" />
+<img alt="_images/9cd5e220c2ad8234fa8a544d1820dbd61cbb75f7cf04b5bcd841bc9439e41531.png" src="_images/9cd5e220c2ad8234fa8a544d1820dbd61cbb75f7cf04b5bcd841bc9439e41531.png" />
 </div>
 </div>
 <p><strong>Observation:</strong>

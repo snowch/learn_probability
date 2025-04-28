@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
@@ -704,8 +704,8 @@ Posterior P(No Disease|Neg) = 0.9995
 <p>Let’s simulate the disease test scenario to build intuition. We’ll create a population reflecting the disease prevalence, simulate their test results based on sensitivity/specificity, and then calculate the conditional probability directly from the simulated data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="c1"># Parameters</span>
 <span class="n">population_size</span> <span class="o">=</span> <span class="mi">1000000</span>
@@ -758,20 +758,20 @@ Posterior P(No Disease|Neg) = 0.9995
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Has_Disease  Tests_Positive
 0        False           False
-1        False           False
+1        False            True
 2        False           False
 3        False           False
 4        False           False
 
 --- Simulation Results ---
 Population Size: 1000000
-Number Actually Diseased: 10036
-Number Actually Healthy: 989964
-Number Testing Positive: 59215
-  - True Positives: 9569
-  - False Positives: 49646
+Number Actually Diseased: 9840
+Number Actually Healthy: 990160
+Number Testing Positive: 58746
+  - True Positives: 9390
+  - False Positives: 49356
 ------------------------------
-Simulated P(Disease | Positive): 0.1616
+Simulated P(Disease | Positive): 0.1598
 Theoretical P(Disease | Positive): 0.1610
 </pre></div>
 </div>
@@ -793,8 +793,8 @@ Theoretical P(Disease | Positive): 0.1610
 <p>Now, let’s check using simulation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">num_rolls</span> <span class="o">=</span> <span class="mi">100000</span>
 
@@ -838,21 +838,21 @@ Theoretical P(Disease | Positive): 0.1610
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Die1  Die2  Sum      A      B
-0     1     2    3  False  False
-1     4     2    6   True  False
-2     1     2    3  False  False
-3     4     1    5   True  False
-4     3     2    5  False  False
+0     6     5   11   True  False
+1     3     5    8  False  False
+2     6     5   11   True  False
+3     6     4   10   True  False
+4     5     5   10  False  False
 
 --- Independence Check from Simulation ---
-Simulated P(A): 0.4993 (Theoretical: 0.5000)
-Simulated P(B): 0.1658 (Theoretical: 0.1667)
-Simulated P(A intersect B): 0.0835 (Theoretical: 0.0833)
+Simulated P(A): 0.5002 (Theoretical: 0.5000)
+Simulated P(B): 0.1681 (Theoretical: 0.1667)
+Simulated P(A intersect B): 0.0842 (Theoretical: 0.0833)
 ------------------------------
-P(A) * P(B) = 0.0828
+P(A) * P(B) = 0.0841
 Is P(A intersect B) approx equal to P(A) * P(B)? Yes
 
-Simulated P(A|B): 0.5033
+Simulated P(A|B): 0.5007
 Is P(A|B) approx equal to P(A)? Yes
 </pre></div>
 </div>

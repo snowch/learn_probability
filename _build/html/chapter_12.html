@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
@@ -533,9 +533,9 @@ $<span class="math notranslate nohighlight">\( f_Z(z) = \begin{cases} z &amp; 0 
 Let’s simulate this and compare the histogram of the simulated sums to the theoretical PDF.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
 
 <span class="c1"># --- Simulation Parameters ---</span>
 <span class="n">num_simulations</span> <span class="o">=</span> <span class="mi">100000</span>
@@ -549,7 +549,7 @@ Let’s simulate this and compare the histogram of the simulated sums to the the
 <span class="n">Z</span> <span class="o">=</span> <span class="n">X</span> <span class="o">+</span> <span class="n">Y</span>
 
 <span class="c1"># --- Define the Theoretical PDF ---</span>
-<span class="k">def</span> <span class="nf">triangular_pdf</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">triangular_pdf</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
     <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">z</span>
     <span class="k">elif</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
@@ -581,17 +581,7 @@ Let’s simulate this and compare the histogram of the simulated sums to the the
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># --- Simulation Parameters ---</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
-</pre></div>
-</div>
+<img alt="_images/df936d8c26dfdfddd1a1098b668c38de82396977073c5e76c4597ed262f5a6a6.png" src="_images/df936d8c26dfdfddd1a1098b668c38de82396977073c5e76c4597ed262f5a6a6.png" />
 </div>
 </div>
 </section>
@@ -600,9 +590,9 @@ Let’s simulate this and compare the histogram of the simulated sums to the the
 <p>Let’s simulate the minimum of <span class="math notranslate nohighlight">\(n=5\)</span> independent <span class="math notranslate nohighlight">\(Exponential(\lambda=1)\)</span> random variables. We derived theoretically that <span class="math notranslate nohighlight">\(X_{(1)} \sim Exponential(n\lambda = 5)\)</span>. Let’s verify this visually.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
 
 <span class="c1"># --- Simulation Parameters ---</span>
 <span class="n">num_simulations</span> <span class="o">=</span> <span class="mi">100000</span>
@@ -643,7 +633,13 @@ Let’s simulate this and compare the histogram of the simulated sums to the the
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7a483e80949f0f26608c6dd19232b0a057fe2a721bcf131f9cf283c3c4821aba.png" src="_images/7a483e80949f0f26608c6dd19232b0a057fe2a721bcf131f9cf283c3c4821aba.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:27: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+&lt;&gt;:27: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+/var/folders/j6/195rqgcs37z88kmyck3fqg_h0000gn/T/ipykernel_45952/778905310.py:27: SyntaxWarning: invalid escape sequence &#39;\l&#39;
+  plt.hist(X_min, bins=50, density=True, alpha=0.7, label=f&#39;Simulated Minima (n={n_variables}, $\lambda$={lambda_rate})&#39;)
+</pre></div>
+</div>
+<img alt="_images/bf68ce1bd8dc74cb8b8d8ce9306f007c882c9ee91eb97ea987cea4bce2af3b96.png" src="_images/bf68ce1bd8dc74cb8b8d8ce9306f007c882c9ee91eb97ea987cea4bce2af3b96.png" />
 </div>
 </div>
 </section>

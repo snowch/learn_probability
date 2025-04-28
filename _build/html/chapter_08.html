@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
@@ -558,11 +558,11 @@ $<span class="math notranslate nohighlight">\(E[Y] = E[g(X)] = \int_{-\infty}^{\
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Essential imports</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
 <span class="c1"># Configure plots for better visualization</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
@@ -575,14 +575,14 @@ $<span class="math notranslate nohighlight">\(E[Y] = E[g(X)] = \int_{-\infty}^{\
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Essential imports</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">integrate</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># Configure plots for better visualization</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
 </pre></div>
 </div>
 </div>
@@ -633,8 +633,10 @@ $<span class="math notranslate nohighlight">\(E[Y] = E[g(X)] = \int_{-\infty}^{\
 </div>
 </div>
 <div class="cell_output docutils container">
-<a class="reference internal image-reference" href="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png"><img alt="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png" src="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png" style="width: 855px; height: 546px;" /></a>
-<a class="reference internal image-reference" href="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png"><img alt="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png" src="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png" style="width: 846px; height: 546px;" /></a>
+<a class="reference internal image-reference" href="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png"><img alt="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png" src="_images/460cb0e436f6637ed5aec8866a124a619b147bac5977fd1d95058883152c1b46.png" style="width: 855px; height: 546px;" />
+</a>
+<a class="reference internal image-reference" href="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png"><img alt="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png" src="_images/03f93b683c4b8b6ba8226cbe042fd79bc58810f3fbc849b314fd5d32908c3278.png" style="width: 846px; height: 546px;" />
+</a>
 </div>
 </div>
 </section>
@@ -668,7 +670,8 @@ $<span class="math notranslate nohighlight">\(E[Y] = E[g(X)] = \int_{-\infty}^{\
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(170 &lt; Height &lt;= 185) using CDF: 0.7148
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png"><img alt="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png" src="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png" style="width: 855px; height: 546px;" /></a>
+<a class="reference internal image-reference" href="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png"><img alt="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png" src="_images/c3d4dd01b877621f1f7845712f2ffaa3298cec7d854eca7a097af10ae5f040eb.png" style="width: 855px; height: 546px;" />
+</a>
 </div>
 </div>
 <p><strong>Method 2: Using Numerical Integration of the PDF</strong>
@@ -743,11 +746,11 @@ Median Height (Q2): 177.00 cm
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define functions representing x*f(x) and x^2*f(x)</span>
-<span class="k">def</span> <span class="nf">integrand_mean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">integrand_mean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Function x * pdf(x) for calculating E[X]&quot;&quot;&quot;</span>
   <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">integrand_mean_square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">integrand_mean_square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Function x^2 * pdf(x) for calculating E[X^2]&quot;&quot;&quot;</span>
   <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">height_dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -816,7 +819,8 @@ Var(X) via integration (E[X^2] - E[X]^2): 49.00
 Theoretical Std Dev: 7.00, Empirical Std Dev (from 10000 samples): 7.02
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png"><img alt="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png" src="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png" style="width: 855px; height: 546px;" /></a>
+<a class="reference internal image-reference" href="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png"><img alt="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png" src="_images/cb711bac9f4b5a7160fde98de05e6223e9d2ffa22b7a0a237d84235a90577337.png" style="width: 855px; height: 546px;" />
+</a>
 </div>
 </div>
 <p>As the plot shows, the histogram of the randomly generated samples closely follows the shape of the theoretical Probability Density Function. Furthermore, the calculated sample mean and standard deviation are very close to the theoretical parameters (<span class="math notranslate nohighlight">\(\mu=177\)</span>, <span class="math notranslate nohighlight">\(\sigma=7\)</span>) of the distribution we sampled from.</p>

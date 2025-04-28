@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
@@ -516,19 +516,8 @@ $<span class="math notranslate nohighlight">\( P(8, 3) = \frac{8!}{(8-3)!} = \fr
 <p>Let’s calculate this using Python.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">perm</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">math</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">perm</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;scipy&#39;
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">perm</span>
 </pre></div>
 </div>
 </div>
@@ -604,7 +593,7 @@ $<span class="math notranslate nohighlight">\( \frac{n!}{n_1! n_2! \dots n_k!} \
 $<span class="math notranslate nohighlight">\( \frac{11!}{1! 4! 4! 2!} \)</span>$</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 </pre></div>
 </div>
 </div>
@@ -666,8 +655,8 @@ $<span class="math notranslate nohighlight">\( C(10, 3) = \binom{10}{3} = \frac{
 <p>Let’s calculate this using Python.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span>
 </pre></div>
 </div>
 </div>
@@ -735,7 +724,7 @@ $<span class="math notranslate nohighlight">\( \binom{n+k-1}{k} = \frac{(n+k-1)!
 $<span class="math notranslate nohighlight">\( \binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12!(15-12)!} = \frac{15!}{12!3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} \)</span>$</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span>
 </pre></div>
 </div>
 </div>
@@ -812,7 +801,7 @@ In the UK National Lottery’s main “Lotto” game (as of early 2020s), a play
 <p>The probability is <span class="math notranslate nohighlight">\(P(\text{Jackpot}) = \frac{1}{C(59, 6)}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span>
 </pre></div>
 </div>
 </div>
@@ -876,7 +865,7 @@ Total favorable outcomes = <span class="math notranslate nohighlight">\(13 \time
 <p>The probability is <span class="math notranslate nohighlight">\(P(\text{Four of a Kind}) = \frac{13 \times 1 \times 12 \times 4}{C(52, 5)}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">comb</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span>
 </pre></div>
 </div>
 </div>
@@ -960,8 +949,8 @@ Approximately 1 in 4,165
 <li><p><code class="docutils literal notranslate"><span class="pre">scipy.special.comb(n,</span> <span class="pre">k,</span> <span class="pre">exact=True,</span> <span class="pre">repetition=False)</span></code>: Computes <span class="math notranslate nohighlight">\(C(n, k) = \binom{n}{k} = \frac{n!}{k!(n-k)!}\)</span>. <code class="docutils literal notranslate"><span class="pre">exact=True</span></code> is recommended. Set <code class="docutils literal notranslate"><span class="pre">repetition=True</span></code> for combinations with repetition.</p></li>
 </ul>
 <p><strong>Remember to import them:</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">perm</span><span class="p">,</span> <span class="n">comb</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">perm</span><span class="p">,</span> <span class="n">comb</span>
 </pre></div>
 </div>
 <p><strong>Exercise Idea:</strong> Calculate the probability of getting a “Full House” (three cards of one rank, two cards of another rank) in a 5-card poker hand.</p>
