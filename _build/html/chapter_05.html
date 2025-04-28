@@ -765,13 +765,13 @@ Posterior P(No Disease|Neg) = 0.9995
 
 --- Simulation Results ---
 Population Size: 1000000
-Number Actually Diseased: 10152
-Number Actually Healthy: 989848
-Number Testing Positive: 59172
-  - True Positives: 9626
-  - False Positives: 49546
+Number Actually Diseased: 10036
+Number Actually Healthy: 989964
+Number Testing Positive: 59215
+  - True Positives: 9569
+  - False Positives: 49646
 ------------------------------
-Simulated P(Disease | Positive): 0.1627
+Simulated P(Disease | Positive): 0.1616
 Theoretical P(Disease | Positive): 0.1610
 </pre></div>
 </div>
@@ -838,21 +838,21 @@ Theoretical P(Disease | Positive): 0.1610
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Die1  Die2  Sum      A      B
-0     4     6   10   True  False
-1     1     5    6  False  False
-2     4     4    8   True  False
+0     1     2    3  False  False
+1     4     2    6   True  False
+2     1     2    3  False  False
 3     4     1    5   True  False
-4     2     6    8   True  False
+4     3     2    5  False  False
 
 --- Independence Check from Simulation ---
-Simulated P(A): 0.4990 (Theoretical: 0.5000)
-Simulated P(B): 0.1660 (Theoretical: 0.1667)
-Simulated P(A intersect B): 0.0832 (Theoretical: 0.0833)
+Simulated P(A): 0.4993 (Theoretical: 0.5000)
+Simulated P(B): 0.1658 (Theoretical: 0.1667)
+Simulated P(A intersect B): 0.0835 (Theoretical: 0.0833)
 ------------------------------
 P(A) * P(B) = 0.0828
 Is P(A intersect B) approx equal to P(A) * P(B)? Yes
 
-Simulated P(A|B): 0.5012
+Simulated P(A|B): 0.5033
 Is P(A|B) approx equal to P(A)? Yes
 </pre></div>
 </div>
