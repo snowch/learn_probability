@@ -44,7 +44,7 @@ parts:
     chapters:
       - file: chapter_15.ipynb # Introduction to Bayesian Inference
       - file: chapter_16.ipynb # Introduction to Markov Chains
-#      - file: chapter_17.ipynb # Monte Carlo Methods (You need to create this file)
+      - file: chapter_17.ipynb # Monte Carlo Methods
 #      - file: chapter_18.ipynb # (Optional) Further Explorations (You need to create this file)
 #
 #  - caption: Appendices
