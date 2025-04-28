@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -217,6 +217,9 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 6 - Advanced Topics and Applications</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="chapter_15.html">Chapter 15: Introduction to Bayesian Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_16.html">Chapter 16: Introduction to Markov Chains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_17.html">Chapter 17: Monte Carlo Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_18.html">Chapter 18: (Optional) Further Explorations</a></li>
 </ul>
 
     </div>
@@ -762,13 +765,13 @@ Posterior P(No Disease|Neg) = 0.9995
 
 --- Simulation Results ---
 Population Size: 1000000
-Number Actually Diseased: 10020
-Number Actually Healthy: 989980
-Number Testing Positive: 58889
-  - True Positives: 9529
-  - False Positives: 49360
+Number Actually Diseased: 10152
+Number Actually Healthy: 989848
+Number Testing Positive: 59172
+  - True Positives: 9626
+  - False Positives: 49546
 ------------------------------
-Simulated P(Disease | Positive): 0.1618
+Simulated P(Disease | Positive): 0.1627
 Theoretical P(Disease | Positive): 0.1610
 </pre></div>
 </div>
@@ -836,20 +839,20 @@ Theoretical P(Disease | Positive): 0.1610
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Die1  Die2  Sum      A      B
 0     4     6   10   True  False
-1     5     3    8  False  False
-2     1     5    6  False  False
-3     3     2    5  False  False
-4     4     4    8   True  False
+1     1     5    6  False  False
+2     4     4    8   True  False
+3     4     1    5   True  False
+4     2     6    8   True  False
 
 --- Independence Check from Simulation ---
-Simulated P(A): 0.4994 (Theoretical: 0.5000)
-Simulated P(B): 0.1683 (Theoretical: 0.1667)
-Simulated P(A intersect B): 0.0850 (Theoretical: 0.0833)
+Simulated P(A): 0.4990 (Theoretical: 0.5000)
+Simulated P(B): 0.1660 (Theoretical: 0.1667)
+Simulated P(A intersect B): 0.0832 (Theoretical: 0.0833)
 ------------------------------
-P(A) * P(B) = 0.0840
+P(A) * P(B) = 0.0828
 Is P(A intersect B) approx equal to P(A) * P(B)? Yes
 
-Simulated P(A|B): 0.5051
+Simulated P(A|B): 0.5012
 Is P(A|B) approx equal to P(A)? Yes
 </pre></div>
 </div>
