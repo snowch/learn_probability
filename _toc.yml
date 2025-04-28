@@ -4,12 +4,6 @@ format: jb-book
 root: index # Assuming index.md or index.ipynb contains the Preface content
 
 parts:
-  - caption: Preface
-    chapters:
-    # Content for Preface sections (Who this book is for?, Why Python?, Structure, Setup, How to use)
-    # should ideally be in the root 'index.md' or 'index.ipynb' file.
-    # If you create a separate file like preface.md, add '- file: preface.md' here.
-    - file: _preface.md 
 
   - caption: Part 1 - Foundations of Probability
     chapters:
