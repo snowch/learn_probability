@@ -8,7 +8,7 @@ Problem 1: Probability of Drawing a Specific Card First
  * Calculation:
    * Probability (A♠) = 1 / 52
  * Result: The probability of drawing the Ace of Spades first is 1 in 52, or about 1.92%.
- * 
+  
 Problem 2: Probability of Drawing Any Card of a Specific Rank First
  * Question: If you draw just one card from a standard 52-card deck, what is the probability that it is any Ace?
  * Thinking Process:
