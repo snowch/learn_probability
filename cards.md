@@ -1,6 +1,5 @@
 Problem 1: Probability of Drawing a Specific Card First
- * Question: If you shuffle a standard 52-card deck and draw just one card, what is the probability that it is the Ace of Spades (A♠)?
- * Thinking Process:
+* Question: If you shuffle a standard 52-card deck and draw just one card, what is the probability that it is the Ace of Spades (A♠)? * Thinking Process:
    * How many possible outcomes are there? (How many different cards could you draw?)
      * There are 52 cards in the deck, so there are 52 possible outcomes.
    * How many of those outcomes match what we want (the Ace of Spades)?
@@ -9,6 +8,7 @@ Problem 1: Probability of Drawing a Specific Card First
  * Calculation:
    * Probability (A♠) = 1 / 52
  * Result: The probability of drawing the Ace of Spades first is 1 in 52, or about 1.92%.
+ * 
 Problem 2: Probability of Drawing Any Card of a Specific Rank First
  * Question: If you draw just one card from a standard 52-card deck, what is the probability that it is any Ace?
  * Thinking Process:
@@ -20,6 +20,7 @@ Problem 2: Probability of Drawing Any Card of a Specific Rank First
    * Probability (Any Ace) = 4 / 52
  * Simplifying: The fraction 4/52 simplifies to 1/13.
  * Result: The probability of drawing any Ace first is 4 in 52 (or 1 in 13), which is about 7.69%.
+   
 Problem 3: Probability of Getting a Pair in a 2-Card Hand
  * Question: Now, let's draw just two cards from the deck. What is the probability that those two cards form a pair (e.g., two Kings, two 3s)?
  * Thinking Process: This requires combinations.
@@ -54,6 +55,7 @@ Problem 3: Probability of Getting a Pair in a 2-Card Hand
      * Probability = 78 / 1326
  * Simplifying: The fraction simplifies to 1 / 17.
  * Result: The probability of drawing a pair when you draw just two cards is 1 in 17, or about 5.88%.
+   
 Problem 4: Probability of Getting Four of a Kind (in a 5-card hand)
  * Question: Let's go back to 5-card hands. What is the probability of being dealt Four of a Kind (e.g., four Jacks and a Seven)?
  * Thinking Process: We use the same principles: combinations and the multiplication principle, but now for a 5-card hand.
@@ -75,3 +77,4 @@ Problem 4: Probability of Getting Four of a Kind (in a 5-card hand)
      * Probability = 624 / 2,598,960
  * Simplifying: This fraction simplifies to 1 / 4165.
  * Result: The probability of getting Four of a Kind is 624 in 2,598,960 (or 1 in 4,165), which is about 0.024%.
+We've successfully calculated the probability for a simple pair in a 2-card draw, and for the much rarer Four of a Kind in a 5-card hand. Both used the ideas of choosing ranks and choosing specific cards. The Full House calculation will combine these ideas. Are you ready to tackle the Full House problem now?
