@@ -1,5 +1,12 @@
 Okay, here is the mixed set of problems covering combinations and permutations, formatted as Markdown text. For each problem, you first need to identify whether order matters, if repetition is allowed, and if any items are non-distinct, then apply the appropriate formula or reasoning. Solutions follow each problem.
 
+Generic Definitions:
+ * n: Generally represents the size or scope of the set you are choosing from.
+   * This could be the total number of distinct items available.
+   * It could also represent the number of distinct categories or types of items available when replacement is allowed or items are non-distinct.
+ * k: Generally represents the number of items being selected, arranged, or positions being filled.
+   * This is the size of the subgroup or the length of the sequence you are forming.
+
 **Key Formulas Reminder:**
 * Permutation without Replacement: $P(n, k) = \frac{n!}{(n-k)!}$
 * Permutation with Replacement: $n^k$
