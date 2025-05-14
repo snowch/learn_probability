@@ -41,6 +41,10 @@ parts:
       - file: chapter_17.ipynb # Monte Carlo Methods
       - file: chapter_18.ipynb # (Optional) Further Explorations
 
+  - caption: Part 7 - Exercises
+    chapters:
+      - file: chapter_04_exercises.ipynb # Conditional Probability
+
   - caption: Appendices
     chapters:
       - file: appendix_a.ipynb # Python/Jupyter Setup Deep Dive (Create as .md or .ipynb)
