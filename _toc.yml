@@ -43,7 +43,8 @@ parts:
 
   - caption: Part 7 - Exercises
     chapters:
-      - file: chapter_04_exercises.ipynb # Conditional Probability
+      # - file: chapter_04_exercises.ipynb # Conditional Probability
+      - file: chapter_04_exercises.md # Conditional Probability
 
   - caption: Appendices
     chapters:
