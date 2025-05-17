@@ -515,3 +515,140 @@ For a sequence of i.i.d. random variables $X_1, X_2, \dots, X_n$ with common mea
 * **Statement:**
     $$P\left(\lim_{n \to \infty} \bar{X}_n = \mu\right) = 1$$
     (The sample mean converges almost surely to the population mean).
+
+## Chapter 14: The Central Limit Theorem (CLT)
+
+* **Statement of CLT (Lindeberg-Lévy CLT):**
+    Let $X_1, X_2, \dots, X_n$ be i.i.d. random variables with mean $\mu$ and variance $\sigma^2$. Let $\bar{X}_n$ be the sample mean.
+    $$Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0, 1)$$
+    (where $\xrightarrow{d}$ denotes convergence in distribution)
+
+* **Convergence in Distribution (for $Z_n$):**
+    $$\lim_{n \to \infty} P(Z_n \le z) = \Phi(z)$$
+    where $\Phi(z)$ is the CDF of the standard Normal distribution $N(0, 1)$.
+
+* **Approximation for Sample Mean $\bar{X}_n$:**
+    $$P(\bar{X}_n \le x) \approx \Phi\left(\frac{x - \mu}{\sigma/\sqrt{n}}\right)$$
+
+* **CLT for Sums ($S_n = \sum_{i=1}^{n} X_i$):**
+    $E[S_n] = n\mu$, $Var(S_n) = n\sigma^2$.
+    $$\frac{S_n - n\mu}{\sqrt{n}\sigma} \xrightarrow{d} N(0, 1)$$
+
+* **Normal Approximation to Binomial Distribution:**
+    For $X \sim \text{Binomial}(n, p)$:
+    * Mean: $E[X] = np$
+    * Variance: $Var(X) = np(1-p)$
+    * Approximation: $X \approx N(np, np(1-p))$ (if $np \ge 5$ and $n(1-p) \ge 5$ is a common rule of thumb).
+
+* **Continuity Correction (for approximating discrete with continuous):**
+    * To approximate $P(X \le k)$, use $P(Y \le k + 0.5)$
+    * To approximate $P(X \ge k)$, use $P(Y \ge k - 0.5)$
+    * To approximate $P(X = k)$, use $P(k - 0.5 \le Y \le k + 0.5)$
+    * To approximate $P(a \le X \le b)$, use $P(a - 0.5 \le Y \le b + 0.5)$
+
+## Chapter 15: Introduction to Bayesian Inference
+
+* **Bayes' Theorem for Distributions:**
+    $$p(\theta | D) = \frac{p(D | \theta) p(\theta)}{p(D)}$$
+    Where:
+    * $p(\theta | D)$ is the **posterior probability** of parameter $\theta$ given data $D$.
+    * $p(D | \theta)$ is the **likelihood** of data $D$ given parameter $\theta$.
+    * $p(\theta)$ is the **prior probability** of parameter $\theta$.
+    * $p(D)$ is the **evidence** (or marginal likelihood of data).
+
+* **Proportionality Form:**
+    $$\text{Posterior} \propto \text{Likelihood} \times \text{Prior}$$
+
+* **Evidence Calculation:**
+    * For continuous $\theta$: $p(D) = \int p(D|\theta) p(\theta) d\theta$
+    * For discrete $\theta$: $p(D) = \sum_{\theta} p(D|\theta) p(\theta)$
+
+* **Beta-Binomial Conjugate Prior Update:**
+    If prior is $\text{Beta}(\alpha_{prior}, \beta_{prior})$ and data is $k$ successes in $n$ trials (Binomial likelihood):
+    * Posterior is $\text{Beta}(\alpha_{posterior}, \beta_{posterior}) = \text{Beta}(\alpha_{prior} + k, \beta_{prior} + n - k)$
+
+* **Point Estimates from Posterior:**
+    * **Maximum a Posteriori (MAP) Estimate:**
+        $$\hat{\theta}_{MAP} = \arg \max_{\theta} p(\theta | D)$$
+        For a Beta$(\alpha, \beta)$ posterior (if $\alpha > 1, \beta > 1$):
+        $$\hat{\theta}_{MAP} = \frac{\alpha - 1}{\alpha + \beta - 2}$$
+    * **Posterior Mean:**
+        $$\hat{\theta}_{Mean} = E[\theta | D] = \int \theta p(\theta | D) d\theta$$
+        For a Beta$(\alpha, \beta)$ posterior:
+        $$\hat{\theta}_{Mean} = \frac{\alpha}{\alpha + \beta}$$
+
+* **Credible Interval:**
+    An interval $[L, U]$ such that:
+    $$P(L \le \theta \le U | D) = \int_L^U p(\theta | D) d\theta = 1 - \gamma$$
+    (where $1-\gamma$ is the credibility level, e.g., 95%)
+
+## Chapter 16: Introduction to Markov Chains
+
+* **Transition Probability (from state $i$ to state $j$):**
+    $$P_{ij} = P(X_{t+1} = s_j | X_t = s_i)$$
+
+* **n-Step Transition Probability:**
+    The $(i, j)$-th entry of the matrix $P^n$ (the transition matrix $P$ raised to the power of $n$):
+    $$P^{(n)}_{ij} = P(X_{t+n} = s_j | X_t = s_i) = (P^n)_{ij}$$
+
+* **Stationary Distribution ($\pi$):**
+    A row vector $\pi = [\pi_1, \pi_2, ..., \pi_k]$ such that:
+    $$\pi P = \pi$$
+    and
+    $$\sum_{j=1}^{k} \pi_j = 1$$
+
+## Chapter 17: Monte Carlo Methods
+
+* **Estimating Probability $P(A)$:**
+    $$P(A) \approx \frac{N_A}{N}$$
+    (where $N_A$ is the number of times event A occurred in $N$ simulations)
+
+* **Estimating Expected Value $E[g(X)]$:**
+    $$E[g(X)] \approx \frac{1}{N} \sum_{i=1}^{N} g(X_i)$$
+    (where $X_i$ are samples from the distribution of $X$)
+
+* **Monte Carlo Integration (Hit-or-Miss for Area):**
+    $$\text{Area}(A) \approx \text{Area}(B) \times \frac{N_{hit}}{N}$$
+
+* **Monte Carlo Integration (Using Expected Values for $I = \int_a^b g(x) dx$):**
+    If $X \sim \text{Uniform}(a, b)$:
+    $$I \approx (b-a) \times \frac{1}{N} \sum_{i=1}^{N} g(X_i)$$
+
+* **Inverse Transform Method for Generating Random Variables:**
+    If $U \sim \text{Uniform}(0, 1)$, then $X = F^{-1}(U)$ has CDF $F(x)$.
+    * For Exponential($\lambda$): $F^{-1}(u) = -\frac{1}{\lambda} \ln(1 - u)$ or $F^{-1}(u) = -\frac{1}{\lambda} \ln(u)$.
+
+* **Acceptance-Rejection Method:**
+    To sample from target PDF $f(x)$ using proposal PDF $g(x)$ where $f(x) \le c \cdot g(x)$:
+    1.  Sample $y$ from $g(x)$.
+    2.  Sample $u$ from $\text{Uniform}(0, 1)$.
+    3.  Accept $y$ if $u \le \frac{f(y)}{c \cdot g(y)}$.
+
+* **Buffon's Needle Problem ($L \le D$):**
+    Probability of needle crossing a line:
+    $$P(\text{cross}) = \frac{2L}{\pi D}$$
+    For $L=1, D=2$:
+    $$\pi \approx \frac{1}{P(\text{cross})}$$
+
+## Chapter 18: (Optional) Further Explorations
+
+* **Entropy $H(X)$ (for discrete random variable $X$ with PMF $p(x)$):**
+    $$H(X) = - \sum_{x} p(x) \log_b p(x)$$
+    (Base $b$ is often 2 for bits, or $e$ for nats)
+
+* **Kullback-Leibler (KL) Divergence (for discrete distributions $P$ and $Q$):**
+    $$D_{KL}(P || Q) = \sum_{x} P(x) \log_b \frac{P(x)}{Q(x)}$$
+
+* **Geometric Brownian Motion (GBM) $S(t)$:**
+    * Stochastic Differential Equation: $dS(t) = \mu S(t) dt + \sigma S(t) dW(t)$
+    * Solution: $S(t) = S(0) \exp\left( \left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W(t) \right)$
+
+* **Probability Generating Function (PGF) $G_X(z)$ (for non-negative integer-valued RV $X$):**
+    $$G_X(z) = E[z^X] = \sum_{k=0}^{\infty} P(X=k) z^k$$
+    * $E[X] = G'_X(1)$
+    * $Var(X) = G''_X(1) + G'_X(1) - [G'_X(1)]^2$
+
+* **Moment Generating Function (MGF) $M_X(t)$:**
+    $$M_X(t) = E[e^{tX}]$$
+    * $E[X^n] = M_X^{(n)}(0)$ (n-th derivative evaluated at $t=0$)
+    * For independent $X, Y$: $M_{X+Y}(t) = M_X(t) M_Y(t)$
