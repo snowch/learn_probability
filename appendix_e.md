@@ -311,3 +311,207 @@ The Beta function is B(α,β)=∫01​tα−1(1−t)β−1dt=Γ(α+β)Γ(α)Γ(�
 * **PDF (Probability Density Function):** $$ f(x; \\alpha, \\beta) \= \\frac{1}{B(\\alpha, \\beta)} x^{\\alpha-1} (1-x)^{\\beta-1} \= \\frac{\\Gamma(\\alpha+\\beta)}{\\Gamma(\\alpha)\\Gamma(\\beta)} x^{\\alpha-1} (1-x)^{\\beta-1} $$ for 0≤x≤1.  
 * **Expected Value:** E\[X\]=α+βα​  
 * **Variance:** Var(X)=(α+β)2(α+β+1)αβ​
+
+## Chapter 10: Joint Distributions
+
+### Joint Probability Mass Functions (PMFs)
+
+For two discrete random variables $X$ and $Y$:
+* **Joint PMF Definition:**
+    $$p_{X,Y}(x, y) = P(X=x, Y=y)$$
+* **Conditions:**
+    1.  $p_{X,Y}(x, y) \ge 0$ for all $(x, y)$
+    2.  $\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1$
+
+### Joint Probability Density Functions (PDFs)
+
+For two continuous random variables $X$ and $Y$:
+* **Probability over a Region A:**
+    $$P((X, Y) \in A) = \iint_A f_{X,Y}(x, y) \,dx \,dy$$
+* **Conditions:**
+    1.  $f_{X,Y}(x, y) \ge 0$ for all $(x, y)$
+    2.  $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \,dy = 1$
+
+### Marginal Distributions
+
+* **Marginal PMF of X (Discrete):**
+    $$p_X(x) = P(X=x) = \sum_{y} P(X=x, Y=y) = \sum_{y} p_{X,Y}(x, y)$$
+* **Marginal PMF of Y (Discrete):**
+    $$p_Y(y) = P(Y=y) = \sum_{x} P(X=x, Y=y) = \sum_{x} p_{X,Y}(x, y)$$
+* **Marginal PDF of X (Continuous):**
+    $$f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dy$$
+* **Marginal PDF of Y (Continuous):**
+    $$f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx$$
+
+### Conditional Distributions
+
+* **Conditional PMF of Y given X=x (Discrete):**
+    $$p_{Y|X}(y|x) = P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)} = \frac{p_{X,Y}(x, y)}{p_X(x)}$$
+    (provided $p_X(x) > 0$)
+* **Conditional PDF of Y given X=x (Continuous):**
+    $$f_{Y|X}(y|x) = \frac{f_{X,Y}(x, y)}{f_X(x)}$$
+    (provided $f_X(x) > 0$)
+
+### Joint Cumulative Distribution Functions (CDFs)
+
+* **Joint CDF Definition:**
+    $$F_{X,Y}(x, y) = P(X \le x, Y \le y)$$
+* **Discrete Case:**
+    $$F_{X,Y}(x, y) = \sum_{x_i \le x} \sum_{y_j \le y} p_{X,Y}(x_i, y_j)$$
+* **Continuous Case:**
+    $$F_{X,Y}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u, v) \,dv \,du$$
+* **Properties:**
+    1.  $0 \le F_{X,Y}(x, y) \le 1$
+    2.  $F_{X,Y}(x, y)$ is non-decreasing in both $x$ and $y$.
+    3.  $\lim_{x \to \infty, y \to \infty} F_{X,Y}(x, y) = 1$
+    4.  $\lim_{x \to -\infty} F_{X,Y}(x, y) = 0$ and $\lim_{y \to -\infty} F_{X,Y}(x, y) = 0$
+
+## Chapter 11: Independence, Covariance, and Correlation
+
+### Independence of Random Variables
+
+Two random variables $X$ and $Y$ are **independent** if for any sets $A$ and $B$:
+$$P(X \in A, Y \in B) = P(X \in A) P(Y \in B)$$
+
+This is equivalent to:
+
+* **Discrete:**
+    $$P(X=x, Y=y) = P(X=x) P(Y=y)$$
+    (Joint PMF = Product of Marginal PMFs)
+
+* **Continuous:**
+    $$f_{X,Y}(x,y) = f_X(x) f_Y(y)$$
+    (Joint PDF = Product of Marginal PDFs)
+
+### Covariance
+
+The **covariance** between two random variables $X$ and $Y$:
+* **Definition:**
+    $$\mathrm{Cov}(X, Y) = E[(X - E[X])(Y - E[Y])]$$
+* **Computational Formula:**
+    $$\mathrm{Cov}(X, Y) = E[XY] - E[X]E[Y]$$
+* **Properties:**
+    1.  $\mathrm{Cov}(X, X) = \mathrm{Var}(X)$
+    2.  $\mathrm{Cov}(X, Y) = \mathrm{Cov}(Y, X)$
+    3.  $\mathrm{Cov}(aX + b, cY + d) = ac \mathrm{Cov}(X, Y)$
+    4.  $\mathrm{Cov}(X+Y, Z) = \mathrm{Cov}(X, Z) + \mathrm{Cov}(Y, Z)$
+    5.  If $X$ and $Y$ are independent, then $\mathrm{Cov}(X, Y) = 0$.
+
+### Correlation Coefficient
+
+The **Pearson correlation coefficient** between two random variables $X$ and $Y$:
+* **Definition:**
+    $$\rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y} = \frac{\mathrm{Cov}(X, Y)}{\sqrt{\mathrm{Var}(X) \mathrm{Var}(Y)}}$$
+* **Properties:**
+    1.  $-1 \le \rho(X, Y) \le 1$
+    2.  $\rho(aX + b, cY + d) = \mathrm{sign}(ac) \rho(X, Y)$, (assuming $a \ne 0, c \ne 0$)
+
+### Variance of Sums of Random Variables
+
+For any two random variables $X$ and $Y$, and constants $a$ and $b$:
+* **General Formula:**
+    $$\mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y)$$
+* **Sum of Variables ($a=1, b=1$):**
+    $$\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y)$$
+* **Difference of Variables ($a=1, b=-1$):**
+    $$\mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) - 2 \mathrm{Cov}(X, Y)$$
+* **If $X$ and $Y$ are independent ($\mathrm{Cov}(X, Y) = 0$):**
+    $$\mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y)$$   $$\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)$$   $$\mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)$$
+* **Extension to Multiple Variables ($X_1, X_2, ..., X_n$):**
+    $$\mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + \sum_{i \ne j} a_i a_j \mathrm{Cov}(X_i, X_j)$$
+    or
+    $$\mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + 2 \sum_{i < j} a_i a_j \mathrm{Cov}(X_i, X_j)$$
+* **If all $X_i$ are independent:**
+    $$\mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i)$$
+
+## Chapter 12: Functions of Multiple Random Variables
+
+### Sums of Independent Random Variables (Convolution)
+
+Let $X$ and $Y$ be two random variables, and $Z = X+Y$.
+
+* **Discrete Case (PMF of Z):**
+    $$P(Z=z) = \sum_{k} P(X=k, Y=z-k)$$
+    If $X$ and $Y$ are independent:
+    $$P(Z=z) = \sum_{k} P(X=k)P(Y=z-k)$$
+    This is the discrete convolution of the PMFs.
+
+* **Continuous Case (PDF of Z):**
+    $$f_Z(z) = \int_{-\infty}^{\infty} f_{X,Y}(x, z-x)dx$$
+    If $X$ and $Y$ are independent:
+    $$f_Z(z) = \int_{-\infty}^{\infty} f_X(x)f_Y(z-x)dx = (f_X * f_Y)(z)$$
+    This is the convolution of the PDFs.
+
+### General Transformations (Jacobian Method for PDFs)
+
+If $Y_1 = g_1(X_1, X_2)$ and $Y_2 = g_2(X_1, X_2)$ are transformations of random variables $X_1, X_2$, and these transformations are invertible such that $X_1 = h_1(Y_1, Y_2)$ and $X_2 = h_2(Y_1, Y_2)$.
+
+* **Joint PDF of $Y_1, Y_2$:**
+    $$f_{Y_1,Y_2}(y_1, y_2) = f_{X_1,X_2}(h_1(y_1,y_2), h_2(y_1,y_2)) |J|$$
+    Where $|J|$ is the absolute value of the determinant of the Jacobian matrix.
+
+* **Jacobian Determinant (J):**
+    $$
+    J = \det \begin{pmatrix}
+    \frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2} \\
+    \frac{\partial x_2}{\partial y_1} & \frac{\partial x_2}{\partial y_2}
+    \end{pmatrix}
+    $$
+
+### Order Statistics
+
+Let $X_1, X_2, \dots, X_n$ be $n$ independent and identically distributed (i.i.d.) random variables with CDF $F_X(x)$ and PDF $f_X(x)$. Let $X_{(1)}, X_{(2)}, \dots, X_{(n)}$ be the order statistics (sorted values).
+
+* **CDF of the Maximum ($Y_n = X_{(n)}$):**
+    $$F_{Y_n}(y) = P(X_{(n)} \le y) = [F_X(y)]^n$$
+
+* **PDF of the Maximum ($Y_n = X_{(n)}$):**
+    $$f_{Y_n}(y) = n[F_X(y)]^{n-1}f_X(y)$$
+
+* **CDF of the Minimum ($Y_1 = X_{(1)}$):**
+    $$F_{Y_1}(y) = P(X_{(1)} \le y) = 1 - [1-F_X(y)]^n$$
+
+* **PDF of the Minimum ($Y_1 = X_{(1)}$):**
+    $$f_{Y_1}(y) = n[1-F_X(y)]^{n-1}f_X(y)$$
+
+* **PDF of the $k$-th Order Statistic ($Y_k = X_{(k)}$):**
+    $$f_{Y_k}(y) = \frac{n!}{(k-1)!(n-k)!} [F_X(y)]^{k-1} [1-F_X(y)]^{n-k} f_X(y)$$
+
+## Chapter 13: The Law of Large Numbers (LLN)
+
+### Chebyshev's Inequality
+
+For a random variable $X$ with mean $\mu$ and finite variance $\sigma^2$:
+
+* **Form 1:**
+    $$P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}$$
+    (where $k$ is the number of standard deviations)
+
+* **Form 2:**
+    $$P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}$$
+    (where $\epsilon > 0$ is any positive number)
+
+### Weak Law of Large Numbers (WLLN)
+
+For a sequence of i.i.d. random variables $X_1, X_2, \dots, X_n$ with common mean $E[X_i] = \mu$ and common finite variance $Var(X_i) = \sigma^2$. Let $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ be the sample mean.
+
+* **Statement:** For any $\epsilon > 0$,
+    $$\lim_{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0$$
+    or equivalently,
+    $$\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1$$
+
+* **Formulas used in WLLN proof via Chebyshev's Inequality:**
+    * Expected Value of Sample Mean:
+        $$E[\bar{X}_n] = \mu$$
+    * Variance of Sample Mean (for i.i.d. variables):
+        $$Var(\bar{X}_n) = \frac{\sigma^2}{n}$$
+    * Application of Chebyshev's Inequality to $\bar{X}_n$:
+        $$P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{Var(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}$$
+
+### Strong Law of Large Numbers (SLLN)
+
+For a sequence of i.i.d. random variables $X_1, X_2, \dots, X_n$ with common mean $E[X_i] = \mu$.
+
+* **Statement:**
+    $$P\left(\lim_{n \to \infty} \bar{X}_n = \mu\right) = 1$$
+    (The sample mean converges almost surely to the population mean).
