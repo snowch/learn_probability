@@ -53,3 +53,4 @@ parts:
       - file: appendix_c.ipynb # Mathematical Notation Summary (Create as .md or .ipynb)
 #      - file: appendix_d.ipynb  # Solutions/Hints to Selected Exercises (Create as .md or .ipynb)
       - file: appendix_d.ipynb  # Further Reading and Resources (Create as .md or .ipynb)
+      - file: appendix_e.md
