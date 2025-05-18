@@ -1,5 +1,35 @@
 # Exercises for Chapter 4.
 
+```{note}
+It can definitely be tricky to tell the difference between $P(A \cap B)$ and $P(A | B)$ just from the wording of a problem! Let's break down how to identify each one.
+
+**$P(A \cap B)$ (The Probability of A and B)**
+
+This represents the probability that **both** event A **and** event B occur. Keywords and phrases that often indicate $P(A \cap B)$ include:
+
+* "the probability that someone is a [characteristic A] **and** [characteristic B]"
+* "the proportion of items that are [type A] **and** [have property B]"
+* "the chance of [event A] **and at the same time** [event B]"
+* Statements that directly give you a count or proportion of the overlap between two categories.
+
+**Example:** "The probability that a student studies engineering **and** is female is 0.05." This directly tells you $P(\text{Engineering} \cap \text{Female}) = 0.05$.
+
+**$P(A | B)$ (The Probability of A Given B)**
+
+This represents the probability that event A occurs **given that** event B has already occurred. It's a *conditional* probability. Keywords and phrases that often indicate $P(A | B)$ include:
+
+* "the probability that someone is [characteristic A] **given that** they are [characteristic B]"
+* "the proportion of [type B] items that **are also** [type A]"
+* "if a [characteristic B] is selected, what is the probability they are also [characteristic A]?"
+* Statements that provide information about a subset of the population.
+
+**Example:** "Of the students who study engineering, 20% are female." This tells you $P(\text{Female} | \text{Engineering}) = 0.20$. Notice how the focus is on the subset of engineering students.
+
+**Key Takeaway:**
+
+Pay close attention to the phrasing that indicates a condition or a restriction to a specific group. "Of those who...", "given that...", and "among the..." are strong indicators of conditional probability $P(A | B)$. Phrases using "and" or describing an overlap between two characteristics often point towards the probability of the intersection $P(A \cap B)$.
+```
+
 1.  **Single Die Roll Variance:** You roll a fair six-sided die.
 
       * What is the probability of rolling an even number?
