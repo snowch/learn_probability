@@ -341,7 +341,7 @@
     We are given:
     $P(A) = 0.4$
     $P(B) = 0.5$
-    $P(A \cup B) = 0.7$
+    $P(A \\cup B) = 0.7$
     So,
 
     $$
