@@ -325,9 +325,9 @@
     $$
     ```
 
-7.  **Checking Independence of Events:** Let A and B be two events. Suppose $P(A) = 0.4$, $P(B) = 0.5$, and $P(A \\cup B) = 0.7$.
+7.  **Checking Independence of Events:** Let A and B be two events. Suppose $P(A) = 0.4$, $P(B) = 0.5$, and $P(A \cup B) = 0.7$.
 
-      * Find $P(A \\cap B)$.
+      * Find $P(A \cap B)$.
       * Are events A and B independent?
 
     <!-- end list -->
@@ -375,15 +375,22 @@
     $S = \{\text{BB, BG, GB, GG}\}$. Each outcome has a probability of $0.5 \times 0.5 = 0.25$.
 
     **Part 1: Probability that both children are boys.**
+    
     Let E be the event that both children are boys. The outcome is {BB}.
     $P(E) = P(\text{BB}) = 0.25$.
 
     **Part 2: Given that at least one child is a boy, what is the probability that both children are boys?**
+    
     Let A be the event that at least one child is a boy.
+    
     The outcomes for A are $\{\text{BB, BG, GB}\}$. So $P(A) = \frac{3}{4} = 0.75$.
+    
     Let B be the event that both children are boys. The outcome for B is $\{\text{BB}\}$. So $P(B) = \frac{1}{4} = 0.25$.
+    
     We want to find $P(B | A) = P(\text{both boys } | \text{ at least one boy})$.
+    
     The event "B and A" (both boys AND at least one boy) is simply the event "both boys", which is $\{\text{BB}\}$.
+    
     So, $P(B \cap A) = P(\text{BB}) = 0.25$.
 
     Using the formula for conditional probability:
@@ -397,7 +404,11 @@
     $$
 
     Alternatively, using the reduced sample space:
-    The event "at least one child is a boy" means the possible outcomes are $\{\text{BB, BG, GB}\}$. This is our new sample space, with 3 equally likely outcomes.
+    
+    The event "at least one child is a boy" means the possible outcomes are $\{\text{BB, BG, GB}\}$.
+
+    This is our new sample space, with 3 equally likely outcomes.
+    
     Out of these 3 outcomes, only 1 outcome is "both children are boys" (BB).
     So, the conditional probability is $\frac{1}{3}$.
     ```
