@@ -1,4 +1,4 @@
-# Exercises for Chapter 4 (part A).
+# Exercises for Chapter 4 (Part A).
 
 Here are 30 questions designed to test a student's ability to distinguish between $P(A \cap B)$ and $P(A | B)$.
 
