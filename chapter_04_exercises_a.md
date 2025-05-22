@@ -1,245 +1,275 @@
-# Exercises for Chapter 4 (Part A).
+# Exercises for Chapter 4 (Part A)
 
-Here are 30 questions designed to test a student's ability to distinguish between $P(A \cap B)$ and $P(A | B)$.
+Here are 30 questions designed to assess a student's ability to differentiate between joint probability, $P(A \cap B)$, and conditional probability, $P(A | B)$, based on contextual information.
 
 ---
 
-1.  **University Students:** In a university, 30% of all students are business majors, and 10% of all students are both business majors and female.
-    * What formula does "10% of all students are both business majors and female" represent, $P(A \cap B)$ or $P(A | B)$?
+1.  **University Demographics:** At a certain university, 30% of students major in business. It's also noted that 10% of the total student population are female business majors.
+    * Let $B$ be the event that a student is a business major, and $F$ be the event that a student is female.
+    * The statement "10% of the total student population are female business majors" translates to which probability expression: $P(B \cap F)$ or $P(F | B)$? Justify your choice.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Business Major} \cap \text{Female}) = 0.10$. The phrasing "both...and" indicates an intersection.
+    This represents $P(B \cap F) = 0.10$. The phrase "10% of the total student population are female business majors" indicates the intersection of the two events – students who belong to *both* categories out of the entire population.
     ```
 
-2.  **Product Sales:** A shop sells two types of items: electronics and apparel. 45% of all sales are electronics, and 15% of all sales are both electronics and discounted.
-    * What formula does "15% of all sales are both electronics and discounted" represent, $P(A \cap B)$ or $P(A | B)$?
+2.  **Retail Discounts:** A retail outlet notes that 45% of its sales are for electronic items. Among all sales, 15% consist of discounted electronics.
+    * Let $E$ be the event that a sale is for electronics, and $D$ be the event that a sale is discounted.
+    * The figure "15% of all sales consist of discounted electronics" relates to which probability: $P(E \cap D)$ or $P(D|E)$? Provide the notation and the value.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Electronics} \cap \text{Discounted}) = 0.15$. The phrasing "both...and" indicates an intersection.
+    This represents $P(E \cap D)$, specifically $P(\text{Electronics} \cap \text{Discounted}) = 0.15$. The phrasing "15% of all sales consist of discounted electronics" implies these sales meet both criteria simultaneously out of all possible sales.
     ```
 
-3.  **Customer Surveys:** In a customer satisfaction survey, 60% of respondents were satisfied with the service. Of those who were satisfied, 90% said they would recommend the company.
-    * What formula does "Of those who were satisfied, 90% said they would recommend the company" represent, $P(A \cap B)$ or $P(A | B)$?
+3.  **Customer Loyalty:** A recent survey indicated that 60% of customers were satisfied with a particular service. Among the group of satisfied customers, 90% stated they would recommend the company.
+    * Let $S$ be the event that a customer was satisfied, and $R$ be the event that a customer would recommend the company.
+    * The information "Among the group of satisfied customers, 90% stated they would recommend the company" is an example of what type of probability? Express this as $P(A \cap B)$ or $P(A | B)$ using the defined events.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Recommend} | \text{Satisfied}) = 0.90$. The phrase "Of those who were satisfied" indicates a condition.
+    This represents a conditional probability, $P(R | S) = 0.90$. The phrase "Among the group of satisfied customers" restricts the sample space to only those who were satisfied, which is the hallmark of conditional probability.
     ```
 
-4.  **Weather Patterns:** In a certain region, there's a 70% chance of rain on any given day. If it rains, there's an 80% chance of high humidity.
-    * What formula does "If it rains, there's an 80% chance of high humidity" represent, $P(A \cap B)$ or $P(A | B)$?
+4.  **Regional Climate:** For a specific region, the probability of rain on any day is 0.70. Given that it is raining, the probability of experiencing high humidity is 0.80.
+    * Define events for Rain (R) and High Humidity (H).
+    * Express the information "Given that it is raining, the probability of experiencing high humidity is 0.80" using your defined events and the correct probability notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{High Humidity} | \text{Rain}) = 0.80$. The phrase "If it rains" indicates a condition.
+    This represents $P(H | R) = 0.80$. The phrase "Given that it is raining" explicitly states a condition for the probability of high humidity.
     ```
 
-5.  **Online Course Completion:** A study found that 40% of students enroll in an online course. Among those who enroll, 60% complete the course successfully.
-    * What formula does "Among those who enroll, 60% complete the course successfully" represent, $P(A \cap B)$ or $P(A | B)$?
+5.  **E-Learning Success:** A study on online education found that 40% of students choose to enroll in a particular online course. Of the students who enroll, 60% go on to complete the course successfully.
+    * Let $E$ be the event a student enrolls and $C$ be the event a student completes the course.
+    * The statement "Of the students who enroll, 60% go on to complete the course successfully" describes what kind of probability? Write it using the events $E$ and $C$.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Complete Course} | \text{Enroll}) = 0.60$. The phrase "Among those who enroll" indicates a condition.
+    This represents $P(C | E) = 0.60$. The phrase "Of the students who enroll" indicates that the 60% is conditioned on enrollment.
     ```
 
-6.  **Car Ownership:** In a town, 70% of households own a car. 35% of all households own a car and have a garage.
-    * What formula does "35% of all households own a car and have a garage" represent, $P(A \cap B)$ or $P(A | B)$?
+6.  **Household Assets:** In a certain town, 70% of households own a car. It is also known that 35% of all households in this town own both a car and have a garage.
+    * Consider the events $C$: a household owns a car, and $G$: a household has a garage.
+    * Translate the statement "35% of all households in this town own both a car and have a garage" into probability notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Own Car} \cap \text{Have Garage}) = 0.35$. The phrasing "own a car and have a garage" indicates an intersection.
+    This represents $P(C \cap G) = 0.35$. The phrasing "own both a car and have a garage" points to the intersection of the two events relative to all households.
     ```
 
-7.  **Voting Behavior:** In a recent election, 55% of the population voted. 30% of the population voted and were over 65 years old.
-    * What formula does "30% of the population voted and were over 65 years old" represent, $P(A \cap B)$ or $P(A | B)$?
+7.  **Electoral Demographics:** Data from a recent election shows that 55% of the eligible population cast a vote. Furthermore, 30% of the total eligible population both voted and were aged over 65.
+    * Let $V$ represent the event that a person voted and $O$ represent the event that a person is over 65.
+    * The information "30% of the total eligible population both voted and were aged over 65" is an example of $P(V \cap O)$ or $P(O|V)$? Specify the correct notation and its value.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Voted} \cap \text{Over 65}) = 0.30$. The phrasing "voted and were over 65 years old" indicates an intersection.
+    This represents $P(V \cap O) = 0.30$. The wording "both voted and were aged over 65" out of the "total eligible population" indicates an intersection.
     ```
 
-8.  **Job Interviews:** A company conducted interviews. 80% of candidates had a college degree. Of those with a college degree, 70% had previous work experience.
-    * What formula does "Of those with a college degree, 70% had previous work experience" represent, $P(A \cap B)$ or $P(A | B)$?
+8.  **Candidate Screening:** A company is reviewing job applications. They find that 80% of applicants possess a college degree. Among those applicants who have a college degree, 70% also have relevant previous work experience.
+    * Let $D$ be the event an applicant has a college degree, and $W$ be the event an applicant has previous work experience.
+    * Which probability does the statement "Among those applicants who have a college degree, 70% also have relevant previous work experience" describe: a joint probability or a conditional probability? Provide the specific notation and value.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Previous Work Experience} | \text{College Degree}) = 0.70$. The phrase "Of those with a college degree" indicates a condition.
+    This describes a conditional probability, specifically $P(W | D) = 0.70$. The phrase "Among those applicants who have a college degree" sets a condition for the 70%.
     ```
 
-9.  **Restaurant Patronage:** At a popular restaurant, 90% of customers order a main course. If a customer orders a main course, there is a 50% chance they also order an appetizer.
-    * What formula does "If a customer orders a main course, there is a 50% chance they also order an appetizer" represent, $P(A \cap B)$ or $P(A | B)$?
+9.  **Dining Habits:** At a bustling restaurant, 90% of diners select a main course. For diners who order a main course, there's a 0.50 probability that they will also order an appetizer.
+    * Identify suitable events M (Main Course) and A (Appetizer).
+    * Express the information "For diners who order a main course, there's a 0.50 probability that they will also order an appetizer" using probability notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Appetizer} | \text{Main Course}) = 0.50$. The phrase "If a customer orders a main course" indicates a condition.
+    This represents $P(A | M) = 0.50$. The condition "For diners who order a main course" clearly indicates a conditional probability.
     ```
 
-10. **Smart Device Usage:** 60% of people own a smartphone. 25% of all people own a smartphone and a tablet.
-    * What formula does "25% of all people own a smartphone and a tablet" represent, $P(A \cap B)$ or $P(A | B)$?
+10. **Tech Ownership:** Surveys show that 60% of individuals own a smartphone. It is also found that 25% of all individuals own both a smartphone and a tablet.
+    * Let $S$ be the event of owning a smartphone and $T$ be the event of owning a tablet.
+    * The statistic "25% of all individuals own both a smartphone and a tablet" corresponds to which of the following: $P(S \cap T)$, $P(S|T)$, or $P(T|S)$? Explain your choice.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Smartphone} \cap \text{Tablet}) = 0.25$. The phrasing "own a smartphone and a tablet" indicates an intersection.
+    This corresponds to $P(S \cap T) = 0.25$. The phrase "25% of all individuals own both a smartphone and a tablet" means these individuals possess both devices out of the entire population, indicating an intersection.
     ```
 
-11. **Software Updates:** 75% of users have updated to the latest software version. Among those who updated, 85% reported no issues.
-    * What formula does "Among those who updated, 85% reported no issues" represent, $P(A \cap B)$ or $P(A | B)$?
+11. **Software Adoption:** Data indicates that 75% of users have installed the latest software update. Within the group of users who have updated, 85% report satisfaction with the new version.
+    * Let $U$ be the event a user updated and $S$ be the event a user reported satisfaction.
+    * The value 85% refers to $P(S \cap U)$ or $P(S|U)$? Write the full expression.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{No Issues} | \text{Updated}) = 0.85$. The phrase "Among those who updated" indicates a condition.
+    This represents $P(S | U) = 0.85$. The phrase "Within the group of users who have updated" establishes a condition.
     ```
 
-12. **Garden Plants:** A nursery has various plants. 20% of its plants are perennial flowers, and 8% of all its plants are both perennial flowers and resistant to deer.
-    * What formula does "8% of all its plants are both perennial flowers and resistant to deer" represent, $P(A \cap B)$ or $P(A | B)$?
+12. **Horticulture:** A plant nursery stocks various plants. Twenty percent of its inventory consists of perennial flowers. Out of all plants in the nursery, 8% are perennial flowers that are also deer-resistant.
+    * Define events $P$: plant is a perennial flower, and $D$: plant is deer-resistant.
+    * Which piece of information allows you to write a joint probability? State this probability using your defined events.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Perennial Flowers} \cap \text{Deer Resistant}) = 0.08$. The phrasing "both...and" indicates an intersection.
+    The statement "8% of all its plants are perennial flowers that are also deer-resistant" allows us to write the joint probability $P(P \cap D) = 0.08$. The key is "also" or "and" applied to the entire stock.
     ```
 
-13. **Commute Methods:** In a survey, 40% of commuters use public transport. If a commuter uses public transport, there is a 60% chance they also own a private car.
-    * What formula does "If a commuter uses public transport, there is a 60% chance they also own a private car" represent, $P(A \cap B)$ or $P(A | B)$?
+13. **Commuting Choices:** A survey on commuting habits finds that 40% of commuters utilize public transport. If a commuter is known to use public transport, there is a 60% likelihood they also own a personal vehicle.
+    * Let $PT$ be the event a commuter uses public transport and $PV$ be the event a commuter owns a personal vehicle.
+    * How should the 60% likelihood be expressed in probability notation?
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Own Private Car} | \text{Public Transport}) = 0.60$. The phrase "If a commuter uses public transport" indicates a condition.
+    This should be expressed as $P(PV | PT) = 0.60$. The condition "If a commuter is known to use public transport" signals a conditional probability.
     ```
 
-14. **Library Users:** 50% of library cardholders visit the library at least once a month. 20% of all library cardholders visit at least once a month and borrow fiction books.
-    * What formula does "20% of all library cardholders visit at least once a month and borrow fiction books" represent, $P(A \cap B)$ or $P(A | B)$?
+14. **Library Engagement:** Statistics show 50% of library cardholders visit the library at least monthly. Among all cardholders, 20% are monthly visitors who primarily borrow fiction books.
+    * Consider $M$: cardholder visits monthly, and $F$: cardholder borrows fiction.
+    * Identify which percentage represents $P(M \cap F)$ and provide its value.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Visit Monthly} \cap \text{Borrow Fiction}) = 0.20$. The phrasing "...and..." indicates an intersection.
+    The statement "20% of all library cardholders are monthly visitors who primarily borrow fiction books" represents $P(M \cap F) = 0.20$. The phrasing indicates both conditions are met by this 20% of the total cardholder population.
     ```
 
-15. **Energy Consumption:** In a household, 80% of electricity usage comes from appliances. Of the electricity used by appliances, 30% is from the refrigerator.
-    * What formula does "Of the electricity used by appliances, 30% is from the refrigerator" represent, $P(A \cap B)$ or $P(A | B)$?
+15. **Household Energy:** In a typical household, appliances account for 80% of electricity consumption. Considering only the electricity used by appliances, 30% of that amount is consumed by the refrigerator.
+    * Let $A$ be the event that electricity is used by an appliance, and $R$ be the event that electricity is used by the refrigerator.
+    * The 30% figure refers to $P(R \cap A)$ or $P(R|A)$? Explain your reasoning.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Refrigerator} | \text{Appliances}) = 0.30$. The phrase "Of the electricity used by appliances" indicates a condition.
+    This represents $P(R | A) = 0.30$. The phrase "Considering only the electricity used by appliances" restricts the context to appliance usage, hence it's a conditional probability.
     ```
 
-16. **Internet Connectivity:** 90% of homes have internet access. 70% of all homes have internet access and have a fiber optic connection.
-    * What formula does "70% of all homes have internet access and have a fiber optic connection" represent, $P(A \cap B)$ or $P(A | B)$?
+16. **Digital Access:** It's reported that 90% of homes have an internet connection. Furthermore, 70% of all homes possess both internet access and a fiber optic connection.
+    * Let $I$ be having internet access and $F$ be having a fiber optic connection.
+    * Translate "70% of all homes possess both internet access and a fiber optic connection" into a probability statement.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Internet Access} \cap \text{Fiber Optic}) = 0.70$. The phrasing "...and..." indicates an intersection.
+    This translates to $P(I \cap F) = 0.70$. The term "both...and" applied to "all homes" indicates an intersection.
     ```
 
-17. **Student Clubs:** In a school, 25% of students are in the debate club. Among those in the debate club, 40% are also in the drama club.
-    * What formula does "Among those in the debate club, 40% are also in the drama club" represent, $P(A \cap B)$ or $P(A | B)$?
+17. **Extracurricular Activities:** At a high school, 25% of students are members of the debate club. For those students who are in the debate club, 40% also participate in the drama club.
+    * Let $Debate$ be the event a student is in the debate club, and $Drama$ be the event a student is in the drama club.
+    * Which probability notation accurately describes the statement "For those students who are in the debate club, 40% also participate in the drama club"?
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Drama Club} | \text{Debate Club}) = 0.40$. The phrase "Among those in the debate club" indicates a condition.
+    This is $P(\text{Drama} | \text{Debate}) = 0.40$. The condition "For those students who are in the debate club" is key.
     ```
 
-18. **Investment Types:** An investor allocates their portfolio. 60% of their investments are in stocks. 20% of their entire portfolio is in both stocks and international markets.
-    * What formula does "20% of their entire portfolio is in both stocks and international markets" represent, $P(A \cap B)$ or $P(A | B)$?
+18. **Investment Portfolio:** An investor's portfolio consists of 60% stocks. Twenty percent of the investor's total portfolio value is comprised of stocks from international markets.
+    * Let $S$ be the event an investment is a stock, and $I$ be the event an investment is in an international market.
+    * The value "20% of the investor's total portfolio value is comprised of stocks from international markets" represents which probability: $P(S \cap I)$ or $P(I|S)$?
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Stocks} \cap \text{International Markets}) = 0.20$. The phrasing "both...and" indicates an intersection.
+    This represents $P(S \cap I) = 0.20$. The phrasing "20% of the investor's total portfolio... stocks from international markets" (implying stocks AND international) refers to a portion of the entire portfolio satisfying both conditions.
     ```
 
-19. **Vaccination Rates:** In a community, 70% of the population has received a vaccine. Of those who received a vaccine, 95% have not experienced severe symptoms from the illness.
-    * What formula does "Of those who received a vaccine, 95% have not experienced severe symptoms from the illness" represent, $P(A \cap B)$ or $P(A | B)$?
+19. **Public Health:** In a specific community, 70% of the adult population has received a flu vaccine. Of the vaccinated adults, 95% did not contract the flu during the subsequent season.
+    * Define appropriate events for being vaccinated (V) and contracting the flu (F).
+    * How would you express the information "Of the vaccinated adults, 95% did not contract the flu" using probability notation? (Hint: consider the event "not contracting the flu").
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{No Severe Symptoms} | \text{Received Vaccine}) = 0.95$. The phrase "Of those who received a vaccine" indicates a condition.
+    Let $F^c$ be the event of not contracting the flu. The information represents $P(F^c | V) = 0.95$. The phrase "Of the vaccinated adults" sets the condition.
     ```
 
-20. **Device Malfunctions:** A manufacturer finds that 5% of its devices fail within the first year. 2% of all devices fail within the first year and require a full replacement.
-    * What formula does "2% of all devices fail within the first year and require a full replacement" represent, $P(A \cap B)$ or $P(A | B)$?
+20. **Product Reliability:** A manufacturer observes that 5% of their electronic devices experience a failure within the first year of use. Data also shows that 2% of all devices sold fail in the first year and necessitate a complete replacement.
+    * Let $F1$ be the event a device fails in the first year, and $R$ be the event it requires full replacement.
+    * Translate the statement "2% of all devices sold fail in the first year and necessitate a complete replacement" into probability notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Fail in Year 1} \cap \text{Full Replacement}) = 0.02$. The phrasing "...and..." indicates an intersection.
+    This is $P(F1 \cap R) = 0.02$. The phrasing "...fail in the first year and require a full replacement" applied to "all devices" signifies an intersection.
     ```
 
-21. **Home Appliances:** 85% of households own a washing machine. Among households with a washing machine, 70% also own a dryer.
-    * What formula does "Among households with a washing machine, 70% also own a dryer" represent, $P(A \cap B)$ or $P(A | B)$?
+21. **Home Conveniences:** In a survey, 85% of households reported owning a washing machine. Among these households (those with a washing machine), 70% also own a clothes dryer.
+    * Let $W$ be owning a washing machine and $D$ be owning a dryer.
+    * The 70% figure is an instance of which type of probability? Write the specific probability statement.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Own Dryer} | \text{Own Washing Machine}) = 0.70$. The phrase "Among households with a washing machine" indicates a condition.
+    This is a conditional probability: $P(D | W) = 0.70$. The context "Among these households (those with a washing machine)" indicates the condition.
     ```
 
-22. **Magazine Subscriptions:** 40% of adults subscribe to a magazine. 15% of all adults subscribe to a magazine and read it cover-to-cover.
-    * What formula does "15% of all adults subscribe to a magazine and read it cover-to-cover" represent, $P(A \cap B)$ or $P(A | B)$?
+22. **Reading Habits:** Forty percent of adults subscribe to at least one magazine. Out of all adults, 15% subscribe to a magazine and report reading it thoroughly from cover to cover.
+    * Let $S$ be subscribing to a magazine, and $R$ be reading it cover-to-cover.
+    * What does "15% of all adults subscribe to a magazine and report reading it thoroughly" represent in terms of probability notation?
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Subscribe to Magazine} \cap \text{Read Cover-to-Cover}) = 0.15$. The phrasing "...and..." indicates an intersection.
+    This represents $P(S \cap R) = 0.15$. The phrasing "...subscribe...and read..." out of "all adults" indicates an intersection.
     ```
 
-23. **Public Transportation:** In a city, 60% of daily commutes involve public transportation. If a commute involves public transportation, there is a 20% chance it also involves a transfer.
-    * What formula does "If a commute involves public transportation, there is a 20% chance it also involves a transfer" represent, $P(A \cap B)$ or $P(A | B)$?
+23. **Urban Transit:** In a metropolitan area, 60% of daily commutes are made using public transportation. If a given commute is by public transportation, there's a 20% chance that it involves at least one transfer.
+    * Define events $PT$: commute by public transport, and $T$: commute involves a transfer.
+    * Express the 20% chance using these events and the correct probability notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Transfer} | \text{Public Transportation}) = 0.20$. The phrase "If a commute involves public transportation" indicates a condition.
+    This is $P(T | PT) = 0.20$. The condition "If a given commute is by public transportation" is explicitly stated.
     ```
 
-24. **Smartphone Features:** 90% of smartphones have a camera. 80% of all smartphones have a camera and facial recognition.
-    * What formula does "80% of all smartphones have a camera and facial recognition" represent, $P(A \cap B)$ or $P(A | B)$?
+24. **Mobile Technology:** Current smartphones are advanced: 90% of them include a camera. Looking at the entire market, 80% of all smartphones sold have both a camera and facial recognition capabilities.
+    * Let $C$ denote having a camera and $FR$ denote having facial recognition.
+    * Which piece of information represents $P(C \cap FR)$? State its value.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Camera} \cap \text{Facial Recognition}) = 0.80$. The phrasing "...and..." indicates an intersection.
+    The information "80% of all smartphones sold have both a camera and facial recognition capabilities" represents $P(C \cap FR) = 0.80$.
     ```
 
-25. **Conference Attendance:** At a large conference, 50% of attendees are from out-of-state. Of those from out-of-state, 70% stayed in a hotel.
-    * What formula does "Of those from out-of-state, 70% stayed in a hotel" represent, $P(A \cap B)$ or $P(A | B)$?
+25. **Event Logistics:** At a major professional conference, 50% of attendees traveled from out-of-state. For those attendees who came from out-of-state, 70% chose to stay in one of the officially recommended conference hotels.
+    * Let $OOS$ be the event an attendee is from out-of-state, and $H$ be the event an attendee stayed in a recommended hotel.
+    * The statement "For those attendees who came from out-of-state, 70% chose to stay..." is an example of what? Provide the probability notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Stayed in Hotel} | \text{Out-of-State}) = 0.70$. The phrase "Of those from out-of-state" indicates a condition.
+    This is an example of conditional probability, $P(H | OOS) = 0.70$. The phrase "For those attendees who came from out-of-state" clearly defines the condition.
     ```
 
-26. **Online Content:** A website finds that 70% of its visitors view video content. 30% of all visitors view video content and subscribe to the newsletter.
-    * What formula does "30% of all visitors view video content and subscribe to the newsletter" represent, $P(A \cap B)$ or $P(A | B)$?
+26. **Website Analytics:** A popular content website observes that 70% of its daily visitors engage with video content. Across all visitors, 30% both view video content and are subscribed to the site's newsletter.
+    * Let $V$ be viewing video content and $N$ be subscribing to the newsletter.
+    * Determine whether "30% across all visitors both view video content and are subscribed" is $P(V \cap N)$ or $P(N|V)$, and provide the value.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{View Video} \cap \text{Subscribe Newsletter}) = 0.30$. The phrasing "...and..." indicates an intersection.
+    This is $P(V \cap N) = 0.30$. "Across all visitors" and "both...and" indicate an intersection of events.
     ```
 
-27. **Consumer Habits:** 65% of consumers use online banking. Among those who use online banking, 40% also use a mobile banking app.
-    * What formula does "Among those who use online banking, 40% also use a mobile banking app" represent, $P(A \cap B)$ or $P(A | B)$?
+27. **Digital Banking:** A survey on banking preferences found that 65% of consumers utilize online banking services. Of this group who use online banking, 40% also frequently use a mobile banking application.
+    * Consider $OB$: uses online banking, and $MB$: uses a mobile banking app.
+    * Interpret "Of this group who use online banking, 40% also frequently use a mobile banking application" as a probability statement.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Mobile Banking App} | \text{Online Banking}) = 0.40$. The phrase "Among those who use online banking" indicates a condition.
+    This is $P(MB | OB) = 0.40$. The condition is "Of this group who use online banking."
     ```
 
-28. **Food Preferences:** In a survey, 70% of people like chocolate. 25% of all people like chocolate and prefer dark chocolate.
-    * What formula does "25% of all people like chocolate and prefer dark chocolate" represent, $P(A \cap B)$ or $P(A | B)$?
+28. **Culinary Preferences:** A food survey reveals that 70% of respondents enjoy chocolate. Among all respondents, 25% both enjoy chocolate and specifically prefer dark chocolate.
+    * Let $C$ be liking chocolate and $D$ be preferring dark chocolate.
+    * Translate the statement "25% of all respondents both enjoy chocolate and specifically prefer dark chocolate" into the language of probability.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Likes Chocolate} \cap \text{Prefers Dark}) = 0.25$. The phrasing "...and..." indicates an intersection.
+    This translates to $P(C \cap D) = 0.25$. "Both...and" applied to "all respondents" indicates an intersection.
     ```
 
-29. **Educational Paths:** 80% of high school graduates go on to higher education. If a graduate goes on to higher education, there is a 60% chance they attend a university.
-    * What formula does "If a graduate goes on to higher education, there is a 60% chance they attend a university" represent, $P(A \cap B)$ or $P(A | B)$?
+29. **Academic Progression:** Statistics show that 80% of high school graduates pursue some form of higher education. If a graduate decides to pursue higher education, there is a 60% probability they will enroll in a four-year university program.
+    * Let $HE$ be pursuing higher education and $U$ be enrolling in a university.
+    * The 60% probability refers to $P(U \cap HE)$ or $P(U|HE)$? Provide the expression.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A | B)$, specifically $P(\text{Attend University} | \text{Higher Education}) = 0.60$. The phrase "If a graduate goes on to higher education" indicates a condition.
+    This refers to $P(U | HE) = 0.60$. The condition "If a graduate decides to pursue higher education" is key.
     ```
 
-30. **Website Usage:** 95% of a website's users visit the homepage. 50% of all users visit the homepage and click on a featured article.
-    * What formula does "50% of all users visit the homepage and click on a featured article" represent, $P(A \cap B)$ or $P(A | B)$?
+30. **Online User Behavior:** On a specific e-commerce website, 95% of users visit the homepage during their session. Overall, 50% of all users to the site visit the homepage and also click on a featured promotional banner.
+    * Define $H$: user visits homepage, and $B$: user clicks promotional banner.
+    * The figure "50% of all users to the site visit the homepage and also click on a featured promotional banner" is an example of which probability type (joint or conditional)? Write the notation.
 
     ```{admonition} Answer
     :class: dropdown
-    This represents $P(A \cap B)$, specifically $P(\text{Visit Homepage} \cap \text{Click Featured Article}) = 0.50$. The phrasing "...and..." indicates an intersection.
+    This is an example of a joint probability, $P(H \cap B) = 0.50$. The phrasing "visit the homepage and also click" applied to "all users" indicates an intersection.
     ```
