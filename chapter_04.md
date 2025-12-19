@@ -40,7 +40,7 @@ where:
 
 ```{code-cell} python3
 :label: venn-dice-a-given-b
-:tags: [remove-input, remove-output]
+:tags: [remove-input]
 
 from pathlib import Path
 import matplotlib.pyplot as plt
