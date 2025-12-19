@@ -34,7 +34,12 @@ where:
 * $P(A \cap B)$ is the probability that both events $A$ and $B$ occur.
 * $P(B)$ is the probability that event $B$ occurs.
 
-```{code-cell} ipython3
+%
+% Example code
+%
+
+```{code-cell} python3
+:label: venn-dice-a-given-b
 :tags: [remove-input, remove-output]
 
 from pathlib import Path
@@ -73,6 +78,11 @@ plt.tight_layout()
 plt.show()
 plt.close(fig)
 ```
+
+%
+% Example
+% 
+
 
 :::{admonition} Example Two Dice — “At least one 3” given “sum is 9”
 :class: tip
