@@ -160,7 +160,8 @@ This rule can be extended to more than two events. For three events $A, B, C$:
 
 $$ P(A \cap B \cap C) = P(C | A \cap B) P(B | A) P(A) $$
 
-```{toggle}
+:::{dropdown} Derivation
+:closed:
 The formula for the joint probability of three events \( A \), \( B \), and \( C \) is derived using the **chain rule of probability**:
 
 1. **Conditional Probability Definition:**
@@ -180,7 +181,7 @@ The formula for the joint probability of three events \( A \), \( B \), and \( C
    $$
    P(A \cap B \cap C) = P(C | A \cap B) \cdot P(B | A) \cdot P(A)
    $$
-```
+:::
 
 +++
 
