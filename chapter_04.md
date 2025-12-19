@@ -163,27 +163,24 @@ The multiplication rule can be extended to more than two events. For three event
 
 $$ P(A \cap B \cap C) = P(C | A \cap B) P(B | A) P(A) $$
 
-:::{dropdown} Derivation
+:::{admonition} Derivation: The Chain Rule for Three Events
 :closed:
-The formula for the joint probability of three events \( A \), \( B \), and \( C \) is derived using the **chain rule of probability**:
+:class: tip dropdown
 
-1. **Conditional Probability Definition:**
-   The joint probability of \( A \), \( B \), and \( C \) can be written as:
-   $$
-   P(A \cap B \cap C) = P(C | A \cap B) \cdot P(A \cap B)
-   $$
+To find $P(A \cap B \cap C)$, we apply the multiplication rule in two stages:
 
-2. **Apply the Chain Rule Again:**
-   The joint probability of \( A \) and \( B \) is:
-   $$
-   P(A \cap B) = P(B | A) \cdot P(A)
-   $$
+**Step 1: Treat $(A \cap B)$ as a single event** Think of the first two events as one block. According to the standard multiplication rule:
+$$P((A \cap B) \cap C) = P(A \cap B) \cdot P(C | A \cap B)$$
+*(Logic: For all three to occur, the first two must happen, and then $C$ must happen given that $A$ and $B$ already occurred.)*
 
-3. **Combine the Results:**
-   Substitute the expression for \( P(A \cap B) \) into the first equation:
-   $$
-   P(A \cap B \cap C) = P(C | A \cap B) \cdot P(B | A) \cdot P(A)
-   $$
+**Step 2: Break down the first block $P(A \cap B)$** Now, we apply the multiplication rule again to just the $A$ and $B$ part:
+$$P(A \cap B) = P(A) \cdot P(B | A)$$
+
+**Step 3: Combine the parts** Substitute the expression from Step 2 into the equation from Step 1:
+$$P(A \cap B \cap C) = \underbrace{P(A) \cdot P(B | A)}_{P(A \cap B)} \cdot P(C | A \cap B)$$
+
+**Final Result:**
+$$P(A \cap B \cap C) = P(A) \cdot P(B | A) \cdot P(C | A \cap B)$$
 :::
 
 +++
