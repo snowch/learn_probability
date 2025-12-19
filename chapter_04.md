@@ -130,6 +130,11 @@ $$ P(A \cap B) = P(B|A) P(A) $$
 
 This rule is particularly helpful when dealing with sequential events, where the outcome of the first event affects the probability of the second.
 
+
+:::{admonition} Example
+:class: tip
+## Example: Probability of drawing two Kings
+
 **Example:** Probability of drawing two Kings from a standard 52-card deck without replacement.
 Let $A$ be the event "the first card drawn is a King" and $B$ be the event "the second card drawn is a King".
 We want to find $P(A \cap B)$.
@@ -148,6 +153,8 @@ P(\text{Draw 2 Kings}) &= P(A \cap B) \\
 &\approx 0.0045
 \end{align*}
 $$
+
+:::
 
 This rule can be extended to more than two events. For three events $A, B, C$:
 
