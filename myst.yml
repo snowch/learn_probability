@@ -25,7 +25,6 @@ project:
         - file: chapter_03.ipynb
     - title: Part 2 - Conditional Probability and Independence
       children:
-        - file: chapter_04md.md
         - file: chapter_04.md
         - file: chapter_05.ipynb
     - title: Part 3 - Random Variables and Distributions
