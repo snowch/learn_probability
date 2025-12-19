@@ -83,8 +83,9 @@ fig.savefig("venn-dice-a-given-b.svg", format="svg", bbox_inches="tight")
 % 
 
 
-:::{admonition} Example Two Dice — “At least one 3” given “sum is 9”
+:::{admonition} Example
 :class: tip
+## Example: Two Dice — “At least one 3” given “sum is 9”
 
 Roll two fair six‑sided dice.
 
