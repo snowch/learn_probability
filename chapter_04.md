@@ -17,7 +17,6 @@ In the previous chapters, we laid the groundwork for probability, exploring samp
 
 Often, we are interested in the probability of an event occurring *given that* another event has already happened. Our knowledge or assumptions about one event can change our assessment of the probability of another. This is the essence of conditional probability. It allows us to update our beliefs in the face of new information.
 
-+++
 
 ## 1. Definition and Intuition
 
@@ -34,13 +33,14 @@ where:
 * $P(A \cap B)$ is the probability that both events $A$ and $B$ occur.
 * $P(B)$ is the probability that event $B$ occurs.
 
++++
+
 %
 % Example code
 %
 
 ```{code-cell} python3
-:label: venn-dice-a-given-b
-:tags: [remove-input]
+:tags: [remove-input, remove-output]
 
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -72,11 +72,10 @@ plt.annotate(
 )
 plt.tight_layout()
 
-# fig.savefig(out, format="svg", bbox_inches="tight")
-# glue("venn_dice_A_given_B", fig, display=False)
+fig.savefig("venn-dice-a-given-b.svg", format="svg", bbox_inches="tight")
 
-plt.show()
-plt.close(fig)
+# plt.show()
+# plt.close(fig)
 ```
 
 %
@@ -109,7 +108,9 @@ $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 
 **Intuition:** once we’re told $B$ happened, the “new sample space” is just the 4 outcomes in $B$. In that restricted space, 2 of the 4 outcomes satisfy $A$, so $P(A\mid B)=2/4=1/2$.
 
-![](#venn-dice-a-given-b)
+
+```{figure} venn-dice-a-given-b.svg
+```
 
 :::
 
