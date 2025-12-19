@@ -6,6 +6,12 @@ project:
   github: snowch/learn_probability
   bibliography:
     - references.bib
+  execution:
+    timeout: 30
+    allow_errors: false
+    method: cache  # 'cache' or 'force'
+  execute:
+    execute_notebooks: true
   exports:
     - format: pdf
       template: plain_latex_book
@@ -19,7 +25,8 @@ project:
         - file: chapter_03.ipynb
     - title: Part 2 - Conditional Probability and Independence
       children:
-        - file: chapter_04.ipynb
+        - file: chapter_04md.md
+        - file: chapter_04.md
         - file: chapter_05.ipynb
     - title: Part 3 - Random Variables and Distributions
       children:
