@@ -53,6 +53,9 @@ project:
       children:
         - file: chapter_04_exercises_a.md
         - file: chapter_04_exercises_b.md
+    - title: Lab
+      children:
+        - file: chapter_04_lab.md
     - title: Appendices
       children:
         - file: appendix_a.ipynb
