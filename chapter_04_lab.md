@@ -12,7 +12,7 @@ kernelspec:
 ---
 
 
-## Conditional Probability
+# Conditional Probability
 
 Let's use Python to explore the concepts of conditional probability. We'll need libraries like `numpy` for numerical operations and random sampling, and potentially `pandas` for handling data.
 
