@@ -70,18 +70,8 @@ plt.tight_layout()
 # fig.savefig(out, format="svg", bbox_inches="tight")
 # glue("venn_dice_A_given_B", fig, display=False)
 
-# plt.show()
-# plt.close(fig)
-```
-
-```{code-cell} ipython3
-:tags: [remove-input]
-
-#| label: venn-dice-a-given-b
-#| tags: [hide-cell]
-
-import matplotlib.pyplot as plt
-plt.show(fig)
+plt.show()
+plt.close(fig)
 ```
 
 :::{admonition} Example Two Dice — “At least one 3” given “sum is 9”
@@ -110,8 +100,6 @@ $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 **Intuition:** once we’re told $B$ happened, the “new sample space” is just the 4 outcomes in $B$. In that restricted space, 2 of the 4 outcomes satisfy $A$, so $P(A\mid B)=2/4=1/2$.
 
 ![](#venn-dice-a-given-b)
-
-{eval}`print('hw')`
 
 :::
 
