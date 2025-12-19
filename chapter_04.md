@@ -135,7 +135,7 @@ This rule is particularly helpful when dealing with sequential events, where the
 :class: tip
 ## Example: Probability of drawing two Kings
 
-**Example:** Probability of drawing two Kings from a standard 52-card deck without replacement.
+Probability of drawing two Kings from a standard 52-card deck without replacement.
 Let $A$ be the event "the first card drawn is a King" and $B$ be the event "the second card drawn is a King".
 We want to find $P(A \cap B)$.
 Using the multiplication rule: $P(A \cap B) = P(B|A) P(A)$.
