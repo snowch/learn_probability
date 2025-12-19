@@ -11,6 +11,7 @@ project:
     allow_errors: false
     method: cache  # 'cache' or 'force'
   execute:
+    enabled: true
     execute_notebooks: true
   exports:
     - format: pdf
@@ -63,6 +64,7 @@ project:
 site:
   options:
     logo: logo.png
+    logo_dark: logo-dark.png
     folders: true
   template: book-theme
 
