@@ -84,8 +84,10 @@ fig.savefig("venn-dice-a-given-b.svg", format="svg", bbox_inches="tight")
 
 
 :::{admonition} Example
-:class: tip
-## Example: Two Dice — “At least one 3” given “sum is 9”
+:closed:
+:class: tip dropdown
+
+**Two Dice — “At least one 3” given “sum is 9”**
 
 Roll two fair six‑sided dice.
 
@@ -94,17 +96,17 @@ Roll two fair six‑sided dice.
 
 We want the conditional probability $P(A\mid B)$.
 
-### Step 1 — List the outcomes in $B$
+**Step 1 — List the outcomes in $B$**
 The outcomes (ordered pairs) that sum to 9 are:
 $$B = \{(3,6),(4,5),(5,4),(6,3)\}.$$
 So $|B|=4$ and therefore $P(B)=4/36$.
 
-### Step 2 — Find which of those outcomes also lie in $A$
+**Step 2 — Find which of those outcomes also lie in $A$**
 Within $B$, the outcomes that include a 3 are:
 $$A\cap B = \{(3,6),(6,3)\}.$$
 So $|A\cap B|=2$ and therefore $P(A\cap B)=2/36$.
 
-### Step 3 — Apply the definition
+**Step 3 — Apply the definition**
 $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 
 **Intuition:** once we’re told $B$ happened, the “new sample space” is just the 4 outcomes in $B$. In that restricted space, 2 of the 4 outcomes satisfy $A$, so $P(A\mid B)=2/4=1/2$.
@@ -132,8 +134,9 @@ This rule is particularly helpful when dealing with sequential events, where the
 
 
 :::{admonition} Example
-:class: tip
-## Example: Probability of drawing two Kings
+:closed:
+:class: tip dropdown
+**Probability of drawing two Kings**
 
 Probability of drawing two Kings from a standard 52-card deck without replacement.
 Let $A$ be the event "the first card drawn is a King" and $B$ be the event "the second card drawn is a King".
@@ -156,7 +159,7 @@ $$
 
 :::
 
-This rule can be extended to more than two events. For three events $A, B, C$:
+The multiplication rule can be extended to more than two events. For three events $A, B, C$:
 
 $$ P(A \cap B \cap C) = P(C | A \cap B) P(B | A) P(A) $$
 
@@ -209,7 +212,10 @@ $$
 
 **Intuition:** The overall probability of $A$ is a weighted average of its conditional probabilities under each scenario ($B_i$), where the weights are the probabilities of those scenarios ($P(B_i)$) themselves.
 
-**Example:** Finding the overall probability a randomly selected person has COVID, considering different testing rates and infection probabilities in different age groups.
+:::{admonition} Example
+:closed:
+:class: tip dropdown
+Finding the overall probability a randomly selected person has COVID, considering different testing rates and infection probabilities in different age groups.
 Let $A$ be the event "a person has COVID".
 Let $B_1$ be the event "person is in Age Group 1", $B_2$ be "person is in Age Group 2", ..., $B_n$ be "person is in Age Group n". These age groups form a partition of the population.
 We might know:
@@ -227,6 +233,8 @@ P(A) ={}& P(A|B_1)P(B_1) \\
 \end{align*}
 $$
 
+:::
+
 +++
 
 ## 4. Tree Diagrams
@@ -239,18 +247,37 @@ Tree diagrams are a useful visualization tool for problems involving sequences o
 * The probability of reaching a specific endpoint (a sequence of events) is found by multiplying the probabilities along the path leading to that endpoint (using the Multiplication Rule).
 * The probability of an event that can occur via multiple paths is found by summing the probabilities of those paths (related to the Law of Total Probability).
 
-**Example:** Visualizing the probabilities of outcomes in a sequence of two potentially biased coin flips.
+
+:::{admonition} Example
+:closed:
+:class: tip dropdown
+Visualizing the probabilities of outcomes in a sequence of two potentially biased coin flips.
 Suppose a coin has $P(\text{Heads}) = 0.6$ and $P(\text{Tails}) = 0.4$. We flip it twice. The outcomes are independent.
 
-```
-             Start
-          /        \
-      0.6/          \0.4
-        H            T       <-- Flip 1
-      /   \        /   \
-  0.6/  0.4\   0.6/  0.4\
-    H       T   H        T   <-- Flip 2
-
+```{mermaid}
+graph TD
+    Start((Start))
+    
+    Start -- 0.6 --> H1(H)
+    Start -- 0.4 --> T1(T)
+    
+    H1 -- 0.6 --> H2(H)
+    H1 -- 0.4 --> T2(T)
+    
+    T1 -- 0.6 --> H3(H)
+    T1 -- 0.4 --> T3(T)
+    
+    subgraph Flip 1
+    H1
+    T1
+    end
+    
+    subgraph Flip 2
+    H2
+    T2
+    H3
+    T3
+    end
 ```
 
 * **Path 1 (HH):** 
@@ -281,6 +308,8 @@ P(\text{Exactly one Head}) &= P(HT) + P(TH) \\
 &= 0.48
 \end{align*}
 $$
+
+:::
 
 +++
 
