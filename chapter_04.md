@@ -113,10 +113,8 @@ $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 
 {eval}`print('hw')`
 
-
 :::
 
-{eval}`print('hw')`
 
 +++
 
