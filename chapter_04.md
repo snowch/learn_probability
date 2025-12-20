@@ -707,7 +707,7 @@ The key distinction lies in whether the problem describes the likelihood of two 
 
     **(Optional check using counting)**
     - Total 2-card hands: (binomial coefficient) $\binom{52}{2}$.
-    - Favourable: choose the rank (13 ways), then choose 2 suits out of 4: binomial - $\binom{4}{2}$.
+    - Favourable: choose the rank (13 ways), then choose 2 suits out of 4: $\binom{4}{2}$.
 
     $$
     P(A)=\frac{13\binom{4}{2}}{\binom{52}{2}}
