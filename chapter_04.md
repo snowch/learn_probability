@@ -691,18 +691,18 @@ The key distinction lies in whether the problem describes the likelihood of two 
     ```{admonition} Answer
     :class: dropdown
 
-    Let \(A\) be the event “the two cards have the same rank.”
-
+    Let $M$ be the event “the two cards have the same rank.”
+    
     **Conditional probability approach (matches the hint):**
     - The first card can be anything; after drawing it, its rank is fixed.
     - In a 52-card deck there are 4 cards of each rank.
     - After drawing the first card, there are **3** remaining cards of that same rank.
     - There are **51** cards left in total.
-
+    
     So,
     
     $$
-    P(A)=P(\text{2nd card has same rank as 1st}\mid \text{1st card drawn}).
+    P(M)=P(\text{2nd card has same rank as 1st}\mid \text{1st card drawn}).
     $$
     
     Recall the definition of conditional probability:
@@ -711,37 +711,34 @@ The key distinction lies in whether the problem describes the likelihood of two 
     P(A\mid B)=\frac{P(A\cap B)}{P(B)} \quad (P(B)>0).
     $$
     
-    To make this concrete, let $B$ be the event “the first card is an Ace” and let $A$ be the event “the second card is an Ace”.
-    Then $A\cap B$ is the event “the first two cards are both Aces”.
+    To make this concrete, let $B$ be the event “the first card is an Ace” and let $C$ be the event “the second card is an Ace”.
+    Then $C\cap B$ is the event “the first two cards are both Aces”.
     
     We have:
     - $P(B)=\frac{4}{52}=\frac{1}{13}$.
-    - $P(A\cap B)=\frac{4}{52}\cdot\frac{3}{51}$ (4 ways to draw an Ace first, then 3 Aces remain out of 51 cards).
+    - $P(C\cap B)=\frac{4}{52}\cdot\frac{3}{51}$.
     
     So,
     
     $$
-    P(A\mid B)=\frac{P(A\cap B)}{P(B)}
+    P(C\mid B)=\frac{P(C\cap B)}{P(B)}
     =\frac{\frac{4}{52}\cdot\frac{3}{51}}{\frac{4}{52}}
     =\frac{3}{51}
     =\frac{1}{17}\approx 0.0588.
     $$
     
-    By symmetry, this is the probability that the second card matches the rank of the first card.
-
-
-
-
+    By symmetry (the same calculation works for any rank), this equals $P(M)$.
+    
     **(Optional check using counting)**
-    - Total 2-card hands: (binomial coefficient) $\binom{52}{2}$.
-    - Favourable: choose the rank (13 ways), then choose 2 suits out of 4: $\binom{4}{2}$.
+    - Total 2-card hands: $\binom{52}{2}$.
+    - Favourable hands: choose the rank (13 ways), then choose 2 suits out of 4: $13\binom{4}{2}$.
+    
+    $$
+    P(M)=\frac{13\binom{4}{2}}{\binom{52}{2}}
+    =\frac{13\cdot 6}{1326}
+    =\frac{1}{17}.
+    $$
 
-    $$
-    P(A)=\frac{13\binom{4}{2}}{\binom{52}{2}}
-        =\frac{13\cdot 6}{1326}
-        =\frac{78}{1326}
-        =\frac{1}{17}.
-    $$
 
     ```
 
