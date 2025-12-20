@@ -711,6 +711,13 @@ The key distinction lies in whether the problem describes the likelihood of two 
     P(A\mid B)=\frac{P(A\cap B)}{P(B)} \quad (P(B)>0).
     $$
 
+    Therefore,
+    
+    $$
+    P(A)=\frac{3}{51}=\frac{1}{17}\approx 0.0588.
+    $$
+
+
 
     **(Optional check using counting)**
     - Total 2-card hands: (binomial coefficient) $\binom{52}{2}$.
