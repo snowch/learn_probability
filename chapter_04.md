@@ -686,72 +686,85 @@ The key distinction lies in whether the problem describes the likelihood of two 
     So, the overall probability that a randomly selected person tests positive is 0.02097, or about 2.097%.
     ```
 
-3.  **Card Simulation:** Modify the card drawing simulation to calculate the probability of drawing two cards of the *same rank* (e.g., two 7s, two Kings, etc.). Compare the simulation result to the theoretical probability. (Hint: The first card can be anything. What's the probability the second matches its rank?).
+3.  **Two Cards — Same Rank (theory only):** Draw two cards from a standard 52-card deck **without replacement**. What is the probability that the two cards have the **same rank** (e.g., two 7s, two Kings)?
 
     ```{admonition} Answer
     :class: dropdown
 
-    **Theoretical Probability:**
-    We want to find the probability of drawing two cards of the *same rank* from a standard 52-card deck without replacement.
+    Let \(A\) be the event “the two cards have the same rank.”
 
-    * Consider the first card drawn. It can be any card, and its rank is now fixed.
-    * For the second card to match the rank of the first, it must be one of the remaining 3 cards of that same rank.
-    * There are 51 cards remaining in the deck after the first draw.
-    * So, the probability that the second card's rank matches the first card's rank is $3/51$.
-    * $3/51 = 1/17$.
+    **Conditional probability approach (matches the hint):**
+    - The first card can be anything; after drawing it, its rank is fixed.
+    - In a 52-card deck there are 4 cards of each rank.
+    - After drawing the first card, there are **3** remaining cards of that same rank.
+    - There are **51** cards left in total.
 
-    The theoretical probability is $1/17 \approx 0.0588$.
+    So,
+    \[
+    P(A)=\frac{3}{51}=\frac{1}{17}\approx 0.0588.
+    \]
 
-    **Modifying a Card Drawing Simulation:**
-    To calculate this probability via simulation:
-    1.  **Represent Deck and Cards:** Create a representation of a 52-card deck where each card has a suit and a rank (e.g., 'King of Hearts', '7 of Spades'). Ensure you can easily extract the rank (e.g., 'King', '7').
-    2.  **Simulation Loop:** Repeat the following steps for a large number of trials (e.g., 10,000 or 100,000 times):
-        a.  **Shuffle and Draw:** Shuffle the deck and draw two cards without replacement.
-        b.  **Extract Ranks:** Get the rank of the first card and the rank of the second card.
-        c.  **Compare Ranks:** Check if the two ranks are identical.
-        d.  **Count Successes:** If the ranks are the same, increment a counter for successful trials.
-    3.  **Calculate Simulated Probability:** After all trials are complete, the simulated probability is the number of successful trials divided by the total number of trials.
-        $P(\text{same rank}) \approx \text{count of same ranks} / \text{total trials}$
-    4.  **Compare:** Compare this simulated result to the theoretical probability of $1/17$. As the number of trials increases, the simulated probability should converge towards the theoretical one.
+    **(Optional check using counting)**
+    - Total 2-card hands: \(\binom{52}{2}\).
+    - Favourable: choose the rank (13 ways), then choose 2 suits out of 4: \(13\binom{4}{2}\).
+
+    \[
+    P(A)=\frac{13\binom{4}{2}}{\binom{52}{2}}
+        =\frac{13\cdot 6}{1326}
+        =\frac{78}{1326}
+        =\frac{1}{17}.
+    \]
     ```
 
-4.  **Data Analysis:** Load a real dataset (e.g., the Titanic dataset often used in machine learning introductions) using Pandas. Calculate the conditional probability of survival given the passenger's class (e.g., P(Survived | Class=1st), P(Survived | Class=3rd)). What do these probabilities tell you?
+4.  **Choosing a Coin — Total Probability:** A bag contains **two fair coins** and **one biased coin**.  
+    - If a coin is fair, \(P(H)=0.5\).  
+    - If a coin is biased, \(P(H)=0.8\).  
+    You randomly pick **one** coin from the bag and flip it **twice**. What is the probability of getting **exactly one Head**?
 
     ```{admonition} Answer
     :class: dropdown
 
-    This exercise involves using a dataset like the Titanic dataset to calculate conditional probabilities with Pandas.
+    Let:
+    - \(A\) be the event “exactly one Head in two flips.”
+    - \(B_1\) be “a fair coin was chosen.”
+    - \(B_2\) be “the biased coin was chosen.”
 
-    **Steps:**
-    1.  **Load Data:**
-        * Import the Pandas library: `import pandas as pd`
-        * Load the Titanic dataset. This dataset is often available in libraries like Seaborn (`import seaborn as sns; df = sns.load_dataset('titanic')`) or can be loaded from a CSV file (`df = pd.read_csv('path_to_titanic.csv')`).
-        * The DataFrame (`df`) typically contains columns like 'survived' (0 = No, 1 = Yes) and 'pclass' (passenger class: 1, 2, 3).
+    These form a partition: you choose either a fair coin or the biased coin.
 
-    2.  **Calculate P(Survived | Class=1st):**
-        * This is the probability of a passenger surviving, given they were in 1st class.
-        * **Filter for 1st Class:** Create a subset of the DataFrame containing only 1st class passengers:
-            `df_class1 = df[df['pclass'] == 1]`
-        * **Calculate Survival Rate:** Within this subset, find the proportion of passengers who survived. If 'survived' is coded as 1 for survived and 0 for not, the mean of the 'survived' column gives this probability:
-            `P_survived_given_class1 = df_class1['survived'].mean()`
-            Alternatively, count survivors and divide by the total in that class:
-            `survived_class1_count = df_class1['survived'].sum()`
-            `total_class1_count = len(df_class1)`
-            `P_survived_given_class1 = survived_class1_count / total_class1_count`
+    **Step 1 — Probabilities of the scenarios**
+    There are 3 coins total, 2 are fair:
+    \[
+    P(B_1)=\frac{2}{3}, \qquad P(B_2)=\frac{1}{3}.
+    \]
 
-    3.  **Calculate P(Survived | Class=3rd):**
-        * This is the probability of a passenger surviving, given they were in 3rd class.
-        * **Filter for 3rd Class:** Create a subset for 3rd class passengers:
-            `df_class3 = df[df['pclass'] == 3]`
-        * **Calculate Survival Rate:**
-            `P_survived_given_class3 = df_class3['survived'].mean()`
-            (Or using the count and divide method as above).
+    **Step 2 — Compute the conditional probabilities**
+    - Given a fair coin, exactly one Head can happen as HT or TH:
+      \[
+      P(A\mid B_1)=P(HT)+P(TH)=(0.5)(0.5)+(0.5)(0.5)=0.5.
+      \]
+    - Given the biased coin, \(P(H)=0.8\) and \(P(T)=0.2\):
+      \[
+      P(A\mid B_2)=P(HT)+P(TH)=(0.8)(0.2)+(0.2)(0.8)=0.32.
+      \]
 
-    **What do these probabilities tell you?**
-    * $P(\text{Survived} | \text{Class=1st})$ tells you the likelihood (or proportion) of survival specifically for passengers who travelled in first class.
-    * $P(\text{Survived} | \text{Class=3rd})$ tells you the likelihood of survival specifically for passengers who travelled in third class.
-    * **Comparison is Key:** By comparing these two probabilities, you can infer the impact of passenger class on survival chances during the Titanic disaster. Historically, one would expect $P(\text{Survived} | \text{Class=1st})$ to be significantly higher than $P(\text{Survived} | \text{Class=3rd})$. This difference would highlight the socio-economic disparities of the era, as first-class passengers generally had better accommodations, were located on higher decks closer to lifeboats, and potentially received preferential treatment during the evacuation.
-    * These conditional probabilities provide quantitative evidence of how different subgroups within a population (passengers in this case) experienced different outcomes based on a specific condition (their travel class).
+    **Step 3 — Apply the Law of Total Probability**
+    \[
+    P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)
+        =(0.5)\left(\frac{2}{3}\right)+(0.32)\left(\frac{1}{3}\right).
+    \]
+
+    Compute:
+    \[
+    (0.5)\left(\frac{2}{3}\right)=\frac{1}{3}, \qquad
+    (0.32)\left(\frac{1}{3}\right)=\frac{0.32}{3}=\frac{8}{75}.
+    \]
+
+    So,
+    \[
+    P(A)=\frac{1}{3}+\frac{8}{75}=\frac{25}{75}+\frac{8}{75}=\frac{33}{75}=\frac{11}{25}=0.44.
+    \]
+
+    **Answer:** \(P(\text{exactly one Head})=\frac{11}{25}=0.44\).
     ```
 
 +++
