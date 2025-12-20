@@ -710,12 +710,25 @@ The key distinction lies in whether the problem describes the likelihood of two 
     $$
     P(A\mid B)=\frac{P(A\cap B)}{P(B)} \quad (P(B)>0).
     $$
-
-    Therefore,
+    
+    To make this concrete, let $B$ be the event “the first card is an Ace” and let $A$ be the event “the second card is an Ace”.
+    Then $A\cap B$ is the event “the first two cards are both Aces”.
+    
+    We have:
+    - $P(B)=\frac{4}{52}=\frac{1}{13}$.
+    - $P(A\cap B)=\frac{4}{52}\cdot\frac{3}{51}$ (4 ways to draw an Ace first, then 3 Aces remain out of 51 cards).
+    
+    So,
     
     $$
-    P(A)=\frac{3}{51}=\frac{1}{17}\approx 0.0588.
+    P(A\mid B)=\frac{P(A\cap B)}{P(B)}
+    =\frac{\frac{4}{52}\cdot\frac{3}{51}}{\frac{4}{52}}
+    =\frac{3}{51}
+    =\frac{1}{17}\approx 0.0588.
     $$
+    
+    By symmetry, this is the probability that the second card matches the rank of the first card.
+
 
 
 
