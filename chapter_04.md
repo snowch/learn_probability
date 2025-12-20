@@ -515,10 +515,12 @@ Suppose:
 Then:
 
 $$
-P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)
-=0.02\cdot 0.6 + 0.05\cdot 0.4
-=0.012+0.020
-=0.032.
+\begin{align*}
+P(A) &= P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2) \\
+     &= 0.02\cdot 0.6 + 0.05\cdot 0.4 \\
+     &= 0.012 + 0.020 \\
+     &= 0.032.
+\end{align*}
 $$
 
 So about **3.2%** of all parts are defective overall.
