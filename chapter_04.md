@@ -686,7 +686,7 @@ The key distinction lies in whether the problem describes the likelihood of two 
     So, the overall probability that a randomly selected person tests positive is 0.02097, or about 2.097%.
     ```
 
-3.  **Two Cards — Same Rank (theory only):** Draw two cards from a standard 52-card deck **without replacement**. What is the probability that the two cards have the **same rank** (e.g., two 7s, two Kings)?
+3.  **Two Cards — Same Rank:** Draw two cards from a standard 52-card deck **without replacement**. What is the probability that the two cards have the **same rank** (e.g., two 7s, two Kings)?
 
     ```{admonition} Answer
     :class: dropdown
@@ -700,20 +700,22 @@ The key distinction lies in whether the problem describes the likelihood of two 
     - There are **51** cards left in total.
 
     So,
-    \[
+
+    $$
     P(A)=\frac{3}{51}=\frac{1}{17}\approx 0.0588.
-    \]
+    $$
 
     **(Optional check using counting)**
-    - Total 2-card hands: \(\binom{52}{2}\).
-    - Favourable: choose the rank (13 ways), then choose 2 suits out of 4: \(13\binom{4}{2}\).
+    - Total 2-card hands: (binomial coefficient) $\binom{52}{2}$.
+    - Favourable: choose the rank (13 ways), then choose 2 suits out of 4: binomial - $\binom{4}{2}$.
 
-    \[
+    $$
     P(A)=\frac{13\binom{4}{2}}{\binom{52}{2}}
         =\frac{13\cdot 6}{1326}
         =\frac{78}{1326}
         =\frac{1}{17}.
-    \]
+    $$
+
     ```
 
 4.  **Choosing a Coin — Total Probability:** A bag contains **two fair coins** and **one biased coin**.  
