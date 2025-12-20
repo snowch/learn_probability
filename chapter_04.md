@@ -84,7 +84,6 @@ fig.savefig("venn-dice-a-given-b.svg", format="svg", bbox_inches="tight")
 
 
 :::{admonition} Example
-:closed:
 :class: tip dropdown
 
 **Two Dice — “At least one 3” given “sum is 9”**
@@ -134,7 +133,6 @@ This rule is particularly helpful when dealing with sequential events, where the
 
 
 :::{admonition} Example
-:closed:
 :class: tip dropdown
 **Probability of drawing two Kings**
 
@@ -164,7 +162,6 @@ The multiplication rule can be extended to more than two events. For three event
 $$ P(A \cap B \cap C) = P(C | A \cap B) P(B | A) P(A) $$
 
 :::{admonition} Derivation: The Chain Rule for Three Events
-:closed:
 :class: tip dropdown
 
 To find $P(A \cap B \cap C)$, we apply the multiplication rule in two stages:
@@ -209,8 +206,245 @@ $$
 
 **Intuition:** The overall probability of $A$ is a weighted average of its conditional probabilities under each scenario ($B_i$), where the weights are the probabilities of those scenarios ($P(B_i)$) themselves.
 
+```{code-cell} python3
+:tags: [remove-input, remove-output]
+
+# create and save visualisation total-probability-area.svg
+
+from pathlib import Path
+import random
+
+def save_total_probability_svg(
+    filename="total-probability-area.svg",
+    n=6,
+    p_B=None,
+    p_A_given_B=None,
+    magnify=8.0,
+    font_scale=2.0,
+    line_gap=2.0,
+    jitter=True,
+    jitter_seed=7,
+):
+    if p_B is None:
+        p_B = [1/n] * n
+    if p_A_given_B is None:
+        p_A_given_B = [0.10, 0.35, 0.18, 0.06, 0.28, 0.12][:n]
+
+    if len(p_B) != n or len(p_A_given_B) != n:
+        raise ValueError("p_B and p_A_given_B must have length n.")
+
+    # normalise widths
+    s = sum(p_B)
+    p_B = [x / s for x in p_B]
+
+    def fmt(x):
+        return f"{x:.3f}".rstrip("0").rstrip(".")
+
+    pA = sum(pb * pab for pb, pab in zip(p_B, p_A_given_B))
+
+    # ---------- sizing ----------
+    W = 1600
+    L = 60
+    box_w, box_h = 1320, 330
+
+    outline = "#111827"
+    strip_fill = "#f8fafc"
+    shade_fill = "#ef4444"
+    shade_stroke = "#b91c1c"
+
+    # fonts
+    title_sz = int(22 * font_scale)
+    note_sz  = int(15 * font_scale)
+    B_sz     = int(14 * font_scale)
+    num_sz   = int(14 * font_scale)   # "smallest" numbers
+    inside_sz = int(15 * font_scale)
+    center1  = int(20 * font_scale)
+    center2  = int(15 * font_scale)
+
+    # helper: line spacing in px (baseline-to-baseline)
+    def dy(px): 
+        return int(px * line_gap)
+
+    # ---------- top-down layout (prevents overlaps) ----------
+    title_y = 60
+    note1_y = title_y + dy(title_sz)
+    note2_y = note1_y + dy(note_sz)
+
+    header_bottom = note2_y + int(note_sz * 0.9)
+
+    # Put B-label band BELOW header
+    y_B  = header_bottom + dy(B_sz)        # B_i
+    y_PB = y_B + dy(num_sz)                # P(B_i)
+
+    # Put box BELOW B-label band
+    y0 = y_PB + int(num_sz * 1.8)
+    x0 = L
+    y1 = y0 + box_h
+
+    # Bottom labels below box
+    y_bottom1 = y1 + int(num_sz * 1.8)
+    y_bottom2 = y_bottom1 + dy(num_sz)
+
+    # Total height
+    H = y_bottom2 + int(num_sz * 4.0)
+
+    # ---------- SVG ----------
+    parts = []
+    parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">')
+    parts.append('<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/>')
+
+    # Header as separate text lines (cleaner than giant tspans at huge spacing)
+    parts.append(f'''
+<text x="{L}" y="{title_y}"
+      font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
+      font-size="{title_sz}" font-weight="700" fill="{outline}">
+  Law of Total Probability — area model
+</text>
+<text x="{L}" y="{note1_y}"
+      font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
+      font-size="{note_sz}" fill="{outline}">
+  Widths are to scale (P(Bᵢ)). Shaded height is ×{magnify:g} for visibility (not to scale).
+</text>
+<text x="{L}" y="{note2_y}"
+      font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
+      font-size="{note_sz}" fill="{outline}">
+  P(A)=Σᵢ P(A|Bᵢ)P(Bᵢ) (example numbers here give P(A)={fmt(pA)})
+</text>
+'''.strip())
+
+    # Box
+    parts.append(f'<rect x="{x0}" y="{y0}" width="{box_w}" height="{box_h}" fill="none" stroke="{outline}" stroke-width="2"/>')
+
+    # Inside label
+    parts.append(f'''
+<text x="{x0+14}" y="{y0+int(inside_sz*1.2)}" text-anchor="start"
+      font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
+      font-size="{inside_sz}" font-weight="800" fill="{outline}">S</text>
+<text x="{x0+34}" y="{y0+int(inside_sz*1.2)}" text-anchor="start"
+      font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
+      font-size="{inside_sz-1}" font-weight="600" fill="{outline}">partitioned into Bᵢ</text>
+'''.strip())
+
+    rng = random.Random(jitter_seed)
+
+    x = x0
+    for i, (pb, pab) in enumerate(zip(p_B, p_A_given_B), start=1):
+        w = box_w * pb
+        h_mag = min(box_h, box_h * pab * magnify)
+        contrib = pb * pab
+        cx = x + w/2
+
+        if i == 1:
+            lab = "B₁"
+        elif i == n:
+            lab = "Bₙ"
+        else:
+            lab = f"B{i}"
+
+        # strip
+        parts.append(
+            f'<rect x="{x:.2f}" y="{y0}" width="{w:.2f}" height="{box_h}" '
+            f'fill="{strip_fill}" stroke="{outline}" stroke-width="1"/>'
+        )
+
+        # shaded piece y-position (jittered)
+        if jitter:
+            max_top = y0
+            max_bottom = y1 - h_mag
+            y_shade = rng.uniform(max_top, max_bottom) if max_bottom > max_top else (y1 - h_mag)
+        else:
+            y_shade = y1 - h_mag
+
+        parts.append(
+            f'<rect x="{x:.2f}" y="{y_shade:.2f}" width="{w:.2f}" height="{h_mag:.2f}" '
+            f'fill="{shade_fill}" fill-opacity="0.18" stroke="{shade_stroke}" stroke-width="1"/>'
+        )
+
+        # top labels (now safely below header)
+        parts.append(
+            f'<text x="{cx:.2f}" y="{y_B}" text-anchor="middle" '
+            f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+            f'font-size="{B_sz}" font-weight="800" fill="{outline}">{lab}</text>'
+        )
+        parts.append(
+            f'<text x="{cx:.2f}" y="{y_PB}" text-anchor="middle" '
+            f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+            f'font-size="{num_sz}" fill="{outline}">P({lab})={fmt(pb)}</text>'
+        )
+
+        # bottom two lines with your requested bigger spacing
+        parts.append(
+            f'<text x="{cx:.2f}" y="{y_bottom1}" text-anchor="middle" '
+            f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+            f'font-size="{num_sz}" fill="{shade_stroke}">P(A|{lab})={fmt(pab)}</text>'
+        )
+        parts.append(
+            f'<text x="{cx:.2f}" y="{y_bottom2}" text-anchor="middle" '
+            f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+            f'font-size="{num_sz}" fill="{outline}">P(A∩{lab})={fmt(contrib)}</text>'
+        )
+
+        x += w
+
+    # Center red explanation
+    center_x = x0 + box_w/2
+    center_y = y0 + box_h/2
+    parts.append(
+        f'<text x="{center_x:.2f}" y="{center_y-10:.2f}" text-anchor="middle" '
+        f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+        f'font-size="{center1}" font-weight="900" fill="{shade_stroke}">P(A) = total shaded area</text>'
+    )
+    parts.append(
+        f'<text x="{center_x:.2f}" y="{center_y + dy(center2):.2f}" text-anchor="middle" '
+        f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+        f'font-size="{center2}" font-weight="800" fill="{shade_stroke}">= Σᵢ P(A|Bᵢ)P(Bᵢ)</text>'
+    )
+
+    # Note for jitter placement (inside box, bottom-left)
+    if jitter:
+        parts.append(
+            f'<text x="{x0+12}" y="{y1-12}" text-anchor="start" '
+            f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+            f'font-size="{num_sz}" fill="{outline}">'
+            f'Note: vertical placement of shaded pieces is arbitrary — only the areas matter.</text>'
+        )
+
+    parts.append("</svg>")
+    Path(filename).write_text("\n".join(parts), encoding="utf-8")
+    return filename
+
+# Your call (works now without overlaps even at huge spacing):
+save_total_probability_svg(
+    "total-probability-area.svg",
+    n=6,
+    magnify=8.0,
+    jitter=True,
+    line_gap=2.0,
+    font_scale=2.0
+)
+```
+
+```{figure} total-probability-area.svg
+---
+width: 100%
+---
+```
+
+
+```{mermaid}
+graph TD
+    S((Start))
+    S --> B1["B1<br/>P(B1)"]
+    S --> B2["B2<br/>P(B2)"]
+
+    B1 --> A1["A<br/>P(A|B1)"]
+    B1 --> NA1["not A<br/>1 - P(A|B1)"]
+
+    B2 --> A2["A<br/>P(A|B2)"]
+    B2 --> NA2["not A<br/>1 - P(A|B2)"]
+```
+
 :::{admonition} Example
-:closed:
 :class: tip dropdown
 Finding the overall probability a randomly selected person has COVID, considering different testing rates and infection probabilities in different age groups.
 Let $A$ be the event "a person has COVID".
@@ -246,7 +480,6 @@ Tree diagrams are a useful visualization tool for problems involving sequences o
 
 
 :::{admonition} Example
-:closed:
 :class: tip dropdown
 Visualizing the probabilities of outcomes in a sequence of two potentially biased coin flips.
 Suppose a coin has $P(\text{Heads}) = 0.6$ and $P(\text{Tails}) = 0.4$. We flip it twice. The outcomes are independent.
