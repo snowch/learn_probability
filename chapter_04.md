@@ -700,10 +700,17 @@ The key distinction lies in whether the problem describes the likelihood of two 
     - There are **51** cards left in total.
 
     So,
+    
+    $$
+    P(A)=P(\text{2nd card has same rank as 1st}\mid \text{1st card drawn}).
+    $$
+    
+    Recall the definition of conditional probability:
+    
+    $$
+    P(A\mid B)=\frac{P(A\cap B)}{P(B)} \quad (P(B)>0).
+    $$
 
-    $$
-    P(A)=\frac{3}{51}=\frac{1}{17}\approx 0.0588.
-    $$
 
     **(Optional check using counting)**
     - Total 2-card hands: (binomial coefficient) $\binom{52}{2}$.
