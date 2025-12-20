@@ -6,13 +6,6 @@ project:
   github: snowch/learn_probability
   bibliography:
     - references.bib
-  execution:
-    timeout: 30
-    allow_errors: false
-    method: cache  # 'cache' or 'force'
-  execute:
-    enabled: true
-    execute_notebooks: true
   exports:
     - format: pdf
       template: plain_latex_book
@@ -68,6 +61,7 @@ site:
   options:
     logo: logo.png
     logo_dark: logo-dark.png
+    favicon: favicon.ico
     folders: true
   template: book-theme
 
