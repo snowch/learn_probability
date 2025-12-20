@@ -735,38 +735,44 @@ The key distinction lies in whether the problem describes the likelihood of two 
 
     **Step 1 — Probabilities of the scenarios**
     There are 3 coins total, 2 are fair:
-    \[
+    
+    $$
     P(B_1)=\frac{2}{3}, \qquad P(B_2)=\frac{1}{3}.
-    \]
+    $$
 
     **Step 2 — Compute the conditional probabilities**
     - Given a fair coin, exactly one Head can happen as HT or TH:
-      \[
+    
+      $$
       P(A\mid B_1)=P(HT)+P(TH)=(0.5)(0.5)+(0.5)(0.5)=0.5.
-      \]
-    - Given the biased coin, \(P(H)=0.8\) and \(P(T)=0.2\):
-      \[
+      $$
+      
+    - Given the biased coin, $P(H)=0.8$ and $P(T)=0.2$:
+      
+      $$
       P(A\mid B_2)=P(HT)+P(TH)=(0.8)(0.2)+(0.2)(0.8)=0.32.
-      \]
+      $$
 
     **Step 3 — Apply the Law of Total Probability**
-    \[
+    
+    $$
     P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)
         =(0.5)\left(\frac{2}{3}\right)+(0.32)\left(\frac{1}{3}\right).
-    \]
+    $$
 
     Compute:
-    \[
+    $$
     (0.5)\left(\frac{2}{3}\right)=\frac{1}{3}, \qquad
     (0.32)\left(\frac{1}{3}\right)=\frac{0.32}{3}=\frac{8}{75}.
-    \]
+    $$
 
     So,
-    \[
+    
+    $$
     P(A)=\frac{1}{3}+\frac{8}{75}=\frac{25}{75}+\frac{8}{75}=\frac{33}{75}=\frac{11}{25}=0.44.
-    \]
+    $$
 
-    **Answer:** \(P(\text{exactly one Head})=\frac{11}{25}=0.44\).
+    **Answer:** $P(\text{exactly one Head})=\frac{11}{25}=0.44$.
     ```
 
 +++
