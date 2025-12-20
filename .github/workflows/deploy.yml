@@ -44,12 +44,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Jupyter Book (via myst)
-        run: npm install -g jupyter-book
-
-      # ✅ Execute notebooks during the build
+      - name: Install MyST Markdown
+        run: npm install -g mystmd
+      
       - name: Build HTML Assets (execute)
-        run: jupyter book build --html --execute
+        run: myst build --execute --html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
