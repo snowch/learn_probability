@@ -503,8 +503,9 @@ On the branch $S \to B_i \to A$, the probability is the product $P(B_i),P(A\mid 
 
 A factory makes parts on two lines:
 
-* $B_1$: the part came from Line 1
-* $B_2$: the part came from Line 2
+- Let $A$ be the event *“the part is defective”*.
+- Let $B_1$ be the event *“the part came from Line 1”*.
+- Let $B_2$ be the event *“the part came from Line 2”*.
 
 Suppose:
 
