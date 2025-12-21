@@ -1,3 +1,16 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.18.1
+kernelspec:
+  display_name: Python 3 (ipykernel)
+  language: python
+  name: python3
+---
+
 # Chapter 5: Bayes' Theorem and Independence
 
 +++
@@ -52,6 +65,188 @@ Let's think of A as an event or hypothesis we are interested in (e.g., "a patien
 * $P(A|B)$: **Posterior Probability**. Our updated belief about the probability of A *after* observing the evidence B.
 
 Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior belief $P(A|B)$ based on the likelihood of the evidence $P(B|A)$ and the overall probability of the evidence $P(B)$.
+
+### Visual intuition: Bayes’ Theorem (area model)
+
+Bayes’ theorem can be read as an **area ratio**:
+
+$$
+P(A\mid B)=\frac{P(A\cap B)}{P(B)}
+=\frac{P(B\mid A)P(A)}{P(B\mid A)P(A)+P(B\mid A^c)P(A^c)}.
+$$
+
+- The **numerator** is the shaded area inside $A$ (that is, $A\cap B$).
+- The **denominator** is the total shaded area (that is, all of $B$).
+
+```{code-cell} python3
+:tags: [remove-input, remove-output]
+
+from pathlib import Path
+
+def save_bayes_area_svg(
+    filename="bayes-area.svg",
+    pA=0.35,
+    pB_given_A=0.70,
+    pB_given_Ac=0.20,
+    font_scale=2.0,
+):
+    pAc = 1 - pA
+    pB = pB_given_A * pA + pB_given_Ac * pAc
+    pA_given_B = (pB_given_A * pA) / pB
+
+    def fmt(x):
+        return f"{x:.4f}".rstrip("0").rstrip(".")
+
+    # --- sizing ---
+    L = 70
+    box_w, box_h = 1200, 340
+    W = box_w + 2 * L
+
+    outline = "#111827"
+    strip_fill = "#f8fafc"
+    shade_fill = "#ef4444"
+    shade_stroke = "#b91c1c"
+    accentA = "#2563eb"
+    accentAc = "#64748b"
+
+    title_sz = int(22 * font_scale)
+    text_sz  = int(14 * font_scale)
+    num_sz   = int(13 * font_scale)
+    big_sz   = int(18 * font_scale)
+
+    def gap(sz, mult=1.25):
+        return int(sz * mult)
+
+    # layout
+    y = 70
+    title_y = y; y += gap(title_sz, 1.10)
+    sub1_y  = y; y += gap(text_sz, 1.15)
+
+    y0 = y + int(24 * font_scale)
+    x0 = L
+    y1 = y0 + box_h
+
+    bottom1_y = y1 + int(44 * font_scale)
+    bottom2_y = bottom1_y + gap(num_sz, 1.35)
+    bottom3_y = bottom2_y + gap(big_sz, 1.10)
+    bottom4_y = bottom3_y + gap(text_sz, 1.20)
+    H = bottom4_y + int(40 * font_scale)
+
+    # widths (to scale)
+    wA  = box_w * pA
+    wAc = box_w * pAc
+
+    # heights (to scale)
+    hA  = box_h * pB_given_A
+    hAc = box_h * pB_given_Ac
+    yA_shade  = y1 - hA
+    yAc_shade = y1 - hAc
+
+    cxA  = x0 + wA / 2
+    cxAc = x0 + wA + wAc / 2
+
+    area_A_and_B  = pB_given_A  * pA
+    area_Ac_and_B = pB_given_Ac * pAc
+
+    def txt(x, y, s, size, weight=400, fill=outline, anchor="middle", opacity=1.0):
+        return (f'<text x="{x}" y="{y}" text-anchor="{anchor}" '
+                f'font-family="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" '
+                f'font-size="{size}" font-weight="{weight}" fill="{fill}" opacity="{opacity}">{s}</text>')
+
+    parts = []
+    parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">')
+    parts.append('<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/>')
+
+    # header
+    parts.append(txt(L, title_y, "Bayes’ theorem — area model", title_sz, 800, outline, "start"))
+    parts.append(txt(L, sub1_y,
+                     "A is the entire vertical strip (including shaded). B is the shaded overlay.",
+                     text_sz, 400, outline, "start"))
+
+    # outer box
+    parts.append(f'<rect x="{x0}" y="{y0}" width="{box_w}" height="{box_h}" fill="none" stroke="{outline}" stroke-width="2"/>')
+
+    # strips
+    parts.append(f'<rect x="{x0}" y="{y0}" width="{wA}" height="{box_h}" fill="{strip_fill}" stroke="{outline}" stroke-width="1"/>')
+    parts.append(f'<rect x="{x0+wA}" y="{y0}" width="{wAc}" height="{box_h}" fill="{strip_fill}" stroke="{outline}" stroke-width="1"/>')
+
+    # watermarks (smaller + lighter)
+    parts.append(txt(cxA,  y0 + box_h*0.56, "A",  int(52*font_scale), 800, outline, opacity=0.05))
+    parts.append(txt(cxAc, y0 + box_h*0.56, "Aᶜ", int(52*font_scale), 800, outline, opacity=0.05))
+
+    # shaded B overlay
+    parts.append(f'<rect x="{x0}" y="{yA_shade}" width="{wA}" height="{hA}" fill="{shade_fill}" fill-opacity="0.16" stroke="{shade_stroke}" stroke-width="1"/>')
+    parts.append(f'<rect x="{x0+wA}" y="{yAc_shade}" width="{wAc}" height="{hAc}" fill="{shade_fill}" fill-opacity="0.16" stroke="{shade_stroke}" stroke-width="1"/>')
+
+    # strong outlines for full strips (clarifies inclusion)
+    parts.append(f'<rect x="{x0}" y="{y0}" width="{wA}" height="{box_h}" fill="none" stroke="{accentA}" stroke-width="3"/>')
+    parts.append(f'<rect x="{x0+wA}" y="{y0}" width="{wAc}" height="{box_h}" fill="none" stroke="{accentAc}" stroke-width="3"/>')
+
+    # corner labels (instead of big bold top labels)
+    pad = int(14 * font_scale)
+    parts.append(txt(x0 + wA - pad, y0 + int(26*font_scale), "A", int(15*font_scale), 800, outline, "end"))
+    parts.append(txt(x0 + wA - pad, y0 + int(45*font_scale), f"P(A) = {fmt(pA)}", num_sz, 400, outline, "end"))
+
+    parts.append(txt(x0 + box_w - pad, y0 + int(26*font_scale), "Aᶜ", int(15*font_scale), 800, outline, "end"))
+    parts.append(txt(x0 + box_w - pad, y0 + int(45*font_scale), f"P(Aᶜ) = {fmt(pAc)}", num_sz, 400, outline, "end"))
+
+    y_anchor = y1 - int(22 * font_scale)   # move up/down by changing 90
+    
+    line1_y = y_anchor
+    line2_y = y_anchor + int(18 * font_scale)
+    
+    parts.append(txt(cxA,  line1_y, "A ∩ B", num_sz, 900, shade_stroke))
+    parts.append(txt(cxA,  line2_y, f"P(B|A) = {fmt(pB_given_A)}", num_sz, 500, shade_stroke))
+    
+    parts.append(txt(cxAc, line1_y, "Aᶜ ∩ B", num_sz, 900, shade_stroke))
+    parts.append(txt(cxAc, line2_y, f"P(B|Aᶜ) = {fmt(pB_given_Ac)}", num_sz, 500, shade_stroke))
+
+
+    # bottom explanations
+    parts.append(txt(cxA,  bottom1_y, f"area(A∩B) = P(B|A)·P(A) = {fmt(area_A_and_B)}", num_sz, 400, outline))
+    parts.append(txt(cxAc, bottom1_y, f"area(Aᶜ∩B) = P(B|Aᶜ)·P(Aᶜ) = {fmt(area_Ac_and_B)}", num_sz, 400, outline))
+
+    parts.append(txt(x0 + box_w/2, bottom3_y,
+                     f"P(A|B) = area(A∩B) / area(B) = {fmt(pA_given_B)}",
+                     big_sz, 900, accentA))
+    parts.append(txt(x0 + box_w/2, bottom4_y,
+                     f"area(B) = area(A∩B) + area(Aᶜ∩B) = P(B) = {fmt(pB)}",
+                     text_sz, 400, outline))
+
+    parts.append("</svg>")
+    Path(filename).write_text("\n".join(parts), encoding="utf-8")
+    return filename
+
+save_bayes_area_svg("bayes-area.svg", pA=0.35, pB_given_A=0.70, pB_given_Ac=0.20, font_scale=2.0)
+```
+
+```{figure} bayes-area.svg
+---
+
+width: 100%
+figclass: full-width
+--------------------
+
+Area model: $P(A|B)$ is “the fraction of $B$ that lies inside $A$”.
+```
+
+**How to read the diagram**
+
+- The rectangle is the sample space $S$ (everything that can happen).
+- The vertical strips split $S$ into two disjoint cases: $A$ and $A^c$ (exactly one of them is true).
+  - Strip widths are to scale: width$(A)=P(A)$ and width$(A^c)=P(A^c)$.
+- The shaded region represents the evidence $B$.
+  - Inside the $A$ strip, the shaded height is $P(B\mid A)$, so the shaded area there is
+    $$\text{area}(A\cap B)=P(B\mid A)\,P(A).$$
+  - Inside the $A^c$ strip, the shaded height is $P(B\mid A^c)$, so
+    $$\text{area}(A^c\cap B)=P(B\mid A^c)\,P(A^c).$$
+- The **total shaded area** is all of $B$:
+  $$\text{area}(B)=\text{area}(A\cap B)+\text{area}(A^c\cap B)=P(B).$$
+  This is exactly the **Law of Total Probability** with the partition $\{A, A^c\}$ (see Chapter 4’s area model).
+- Bayes’ theorem is then a **ratio of areas**:
+  $$P(A\mid B)=\frac{\text{area}(A\cap B)}{\text{area}(B)}.$$
+  Read it as: *“of all the shaded $B$ area, what fraction lies inside the $A$ strip?”*
+
 
 +++
 
