@@ -57,13 +57,18 @@ $$P(A|B) = \frac{P(B|A) P(A)}{P(B)}$$
 
 **Interpretation:**
 
-Let's think of A as an event or hypothesis we are interested in (e.g., "a patient has a specific disease," "a coin is biased") and B as new evidence or data observed (e.g., "the patient tested positive," "we observed 8 heads in 10 flips").
+Let's think of $A$ as an event or hypothesis we are interested in (e.g., "a patient has a specific disease," "a coin is biased") and $B$ as new evidence or data observed (e.g., "the patient tested positive," "we observed 8 heads in 10 flips").
 
-* $P(A)$: **Prior Probability**. Our initial belief about the probability of A *before* seeing the evidence B.
-* $P(B|A)$: **Likelihood**. The probability of observing the evidence B *given* that our hypothesis A is true.
-* $P(B)$: **Probability of Evidence**. The overall probability of observing the evidence B, regardless of whether A is true or not. This often requires using the Law of Total Probability (from Chapter 4): $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$.
-* $P(A|B)$: **Posterior Probability**. Our updated belief about the probability of A *after* observing the evidence B.
-
+- $P(A)$: **Prior probability** — our belief about $A$ *before* seeing the evidence $B$.
+- $P(B\mid A)$: **Likelihood** — the probability of observing the evidence $B$ *given that* $A$ is true.
+- $P(B)$: **Probability of the evidence** — the overall probability of observing $B$, regardless of whether $A$ is true or not.  
+  Using the Law of Total Probability with the partition $\{A, A^c\}$:
+  
+$$
+P(B)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
+$$
+  
+- $P(A\mid B)$: **Posterior probability** — our updated belief about $A$ *after* observing the evidence $B$.
 Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior belief $P(A|B)$ based on the likelihood of the evidence $P(B|A)$ and the overall probability of the evidence $P(B)$.
 
 ### Visual intuition: Bayes’ Theorem (area model)
@@ -259,15 +264,15 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
 **Example:** Imagine you have a website and you're testing a new ad banner.
 
 * **Hypothesis (A):** The new ad banner is effective (e.g., has a click-through rate > 5%).
-* **Prior ($P(A)$):** Based on previous ad campaigns, you might initially believe there's a 30% chance the new ad is effective. So, $P(A) = 0.30$.
+* **Prior ( $P(A)$ ):** Based on previous ad campaigns, you might initially believe there's a 30% chance the new ad is effective. So, $P(A) = 0.30$.
 * **Evidence (B):** You observe a visitor's Browse history (e.g., they previously visited related product pages).
-* **Likelihood ($P(B|A)$):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
-* **Likelihood ($P(B|A^c)$):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
-* **Probability of Evidence ($P(B)$):** Using the Law of Total Probability:
+* **Likelihood ( $P(B|A) $):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
+* **Likelihood ( $P(B|A^c)$ ):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
+* **Probability of Evidence ( $P(B)$ ):** Using the Law of Total Probability:
     $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$
     $P(B) = (0.70)(0.30) + (0.20)(1 - 0.30)$
     $P(B) = 0.21 + (0.20)(0.70) = 0.21 + 0.14 = 0.35$
-* **Posterior ($P(A|B)$):** Now apply Bayes' Theorem:
+* **Posterior ( $P(A|B)$ ):** Now apply Bayes' Theorem:
     $P(A|B) = \frac{P(B|A) P(A)}{P(B)} = \frac{(0.70)(0.30)}{0.35} = \frac{0.21}{0.35} = 0.60$
 
 After observing the visitor's Browse history, your belief that the ad is effective increased from 30% (prior) to 60% (posterior).
