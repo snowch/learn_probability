@@ -73,15 +73,41 @@ Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior bel
 
 ### Visual intuition: Bayes’ Theorem (area model)
 
-Bayes’ theorem can be read as an **area ratio**:
+You can read Bayes’ theorem directly from the picture below as an **area ratio**:
+
+- **Numerator** = the shaded overlap area \(A \cap B\)
+- **Denominator** = the total shaded \(B\) area
+
+So by the definition of conditional probability:
 
 $$
-P(A\mid B)=\frac{P(A\cap B)}{P(B)}
+P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
+$$
+
+Now rewrite the overlap using the multiplication rule:
+
+$$
+P(A\cap B)=P(B\mid A)\,P(A),
+$$
+
+which gives the compact “Bayes form”:
+
+$$
+P(A\mid B)=\frac{P(B\mid A)\,P(A)}{P(B)}.
+$$
+
+To connect this *directly* to the area model, expand the denominator by splitting \(B\) into the part inside \(A\) and the part inside \(A^c\):
+
+$$
+P(B)=P(B\cap A)+P(B\cap A^c)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
+$$
+
+Substitute into the Bayes form:
+
+$$
+P(A\mid B)
 =\frac{P(B\mid A)P(A)}{P(B\mid A)P(A)+P(B\mid A^c)P(A^c)}.
 $$
-
-- The **numerator** is the shaded area inside $A$ (that is, $A\cap B$).
-- The **denominator** is the total shaded area (that is, all of $B$).
 
 ```{code-cell} python3
 :tags: [remove-input, remove-output]
@@ -227,31 +253,39 @@ save_bayes_area_svg("bayes-area.svg", pA=0.35, pB_given_A=0.70, pB_given_Ac=0.20
 
 ```{figure} bayes-area.svg
 ---
-
 width: 100%
 figclass: full-width
---------------------
-
-Area model: $P(A|B)$ is “the fraction of $B$ that lies inside $A$”.
+---
+Area model: $P(A\mid B)$ is “the share of the shaded $B$ region that falls inside the $A$ strip”.
 ```
 
 **How to read the diagram**
 
-- The rectangle is the sample space $S$ (everything that can happen).
-- The vertical strips split $S$ into two disjoint cases: $A$ and $A^c$ (exactly one of them is true).
-  - Strip widths are to scale: width$(A)=P(A)$ and width$(A^c)=P(A^c)$.
-- The shaded region represents the evidence $B$.
-  - Inside the $A$ strip, the shaded height is $P(B\mid A)$, so the shaded area there is
-    $$\text{area}(A\cap B)=P(B\mid A)\,P(A).$$
-  - Inside the $A^c$ strip, the shaded height is $P(B\mid A^c)$, so
-    $$\text{area}(A^c\cap B)=P(B\mid A^c)\,P(A^c).$$
-- The **total shaded area** is all of $B$:
-  $$\text{area}(B)=\text{area}(A\cap B)+\text{area}(A^c\cap B)=P(B).$$
-  This is exactly the **Law of Total Probability** with the partition $\{A, A^c\}$ (see Chapter 4’s area model).
-- Bayes’ theorem is then a **ratio of areas**:
-  $$P(A\mid B)=\frac{\text{area}(A\cap B)}{\text{area}(B)}.$$
-  Read it as: *“of all the shaded $B$ area, what fraction lies inside the $A$ strip?”*
+* The outer rectangle is the sample space $S$ (all possible outcomes).
+* The two vertical strips form a partition of $S$: either you are in $A$ or in $A^c$ (never both, and no gaps).
 
+  * The strip widths are proportional to their probabilities: width$(A)=P(A)$ and width$(A^c)=P(A^c)$.
+* The shaded overlay represents the evidence event $B$.
+* Within each strip, the **shaded height** encodes the conditional probability of $B$ in that case:
+
+  * In the $A$ strip the height is $P(B\mid A)$, so the shaded area is
+    $$
+    \text{area}(A\cap B)=P(B\mid A)\,P(A).
+    $$
+  * In the $A^c$ strip the height is $P(B\mid A^c)$, so the shaded area is
+    $$
+    \text{area}(A^c\cap B)=P(B\mid A^c)\,P(A^c).
+    $$
+* Adding the two shaded areas gives the total shaded region:
+  $$
+  \text{area}(B)=\text{area}(A\cap B)+\text{area}(A^c\cap B)=P(B).
+  $$
+  This is the **Law of Total Probability** using the partition $\{A, A^c\}$.
+* Bayes’ theorem is the corresponding **area ratio**:
+  $$
+  P(A\mid B)=\frac{\text{area}(A\cap B)}{\text{area}(B)}.
+  $$
+  Read it as: *“given that we are in the shaded $B$ region, what fraction of that region lies inside $A$?”*
 
 +++
 
