@@ -44,13 +44,18 @@ $$P(A|B) = \frac{P(B|A) P(A)}{P(B)}$$
 
 **Interpretation:**
 
-Let's think of A as an event or hypothesis we are interested in (e.g., "a patient has a specific disease," "a coin is biased") and B as new evidence or data observed (e.g., "the patient tested positive," "we observed 8 heads in 10 flips").
+Let's think of $A$ as an event or hypothesis we are interested in (e.g., "a patient has a specific disease," "a coin is biased") and $B$ as new evidence or data observed (e.g., "the patient tested positive," "we observed 8 heads in 10 flips").
 
-* $P(A)$: **Prior Probability**. Our initial belief about the probability of A *before* seeing the evidence B.
-* $P(B|A)$: **Likelihood**. The probability of observing the evidence B *given* that our hypothesis A is true.
-* $P(B)$: **Probability of Evidence**. The overall probability of observing the evidence B, regardless of whether A is true or not. This often requires using the Law of Total Probability (from Chapter 4): $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$.
-* $P(A|B)$: **Posterior Probability**. Our updated belief about the probability of A *after* observing the evidence B.
-
+- $P(A)$: **Prior probability** — our belief about $A$ *before* seeing the evidence $B$.
+- $P(B\mid A)$: **Likelihood** — the probability of observing the evidence $B$ *given that* $A$ is true.
+- $P(B)$: **Probability of the evidence** — the overall probability of observing $B$, regardless of whether $A$ is true or not.  
+  Using the Law of Total Probability with the partition $\{A, A^c\}$:
+  
+$$
+P(B)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
+$$
+  
+- $P(A\mid B)$: **Posterior probability** — our updated belief about $A$ *after* observing the evidence $B$.
 Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior belief $P(A|B)$ based on the likelihood of the evidence $P(B|A)$ and the overall probability of the evidence $P(B)$.
 
 +++
