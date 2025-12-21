@@ -75,8 +75,8 @@ Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior bel
 
 You can read Bayes’ theorem directly from the picture below as an **area ratio**:
 
-- **Numerator** = the shaded overlap area \(A \cap B\)
-- **Denominator** = the total shaded \(B\) area
+- **Numerator** = the shaded overlap area $A \cap B$
+- **Denominator** = the total shaded $B$ area
 
 So by the definition of conditional probability:
 
