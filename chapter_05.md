@@ -69,15 +69,15 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
 **Example:** Imagine you have a website and you're testing a new ad banner.
 
 * **Hypothesis (A):** The new ad banner is effective (e.g., has a click-through rate > 5%).
-* **Prior ($P(A)$):** Based on previous ad campaigns, you might initially believe there's a 30% chance the new ad is effective. So, $P(A) = 0.30$.
+* **Prior ( $P(A)$ ):** Based on previous ad campaigns, you might initially believe there's a 30% chance the new ad is effective. So, $P(A) = 0.30$.
 * **Evidence (B):** You observe a visitor's Browse history (e.g., they previously visited related product pages).
-* **Likelihood ($P(B|A)$):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
-* **Likelihood ($P(B|A^c)$):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
-* **Probability of Evidence ($P(B)$):** Using the Law of Total Probability:
+* **Likelihood ( $P(B|A) $):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
+* **Likelihood ( $P(B|A^c)$ ):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
+* **Probability of Evidence ( $P(B)$ ):** Using the Law of Total Probability:
     $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$
     $P(B) = (0.70)(0.30) + (0.20)(1 - 0.30)$
     $P(B) = 0.21 + (0.20)(0.70) = 0.21 + 0.14 = 0.35$
-* **Posterior ($P(A|B)$):** Now apply Bayes' Theorem:
+* **Posterior ( $P(A|B)$ ):** Now apply Bayes' Theorem:
     $P(A|B) = \frac{P(B|A) P(A)}{P(B)} = \frac{(0.70)(0.30)}{0.35} = \frac{0.21}{0.35} = 0.60$
 
 After observing the visitor's Browse history, your belief that the ad is effective increased from 30% (prior) to 60% (posterior).
