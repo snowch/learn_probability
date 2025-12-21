@@ -12,7 +12,7 @@ kernelspec:
 ---
 
 
-# Conditional Probability
+# Chapter 4: Conditional Probability
 
 Let's use Python to explore the concepts of conditional probability. We'll need libraries like `numpy` for numerical operations and random sampling, and potentially `pandas` for handling data.
 
@@ -244,6 +244,9 @@ else:
 :tags: [remove-input]
 
 # Visualization for Approach 1: Venn Diagram
+import matplotlib.pyplot as plt
+from matplotlib_venn import venn2, venn2_circles
+
 plt.figure(figsize=(4, 3))
 
 # Sizes: (Size of V only, Size of P only, Size of V & P)

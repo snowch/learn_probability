@@ -3,7 +3,9 @@ project:
   title: Learn Probability
   authors:
     - name: Chris Snow
-  github: snowch/learn_probability
+  github: https://snowch.github.io/learn_probability
+  jupyter: true
+  binder: https://mybinder.org/v2/gh/snowch/learn_probability/HEAD
   bibliography:
     - references.bib
   exports:
@@ -49,6 +51,7 @@ project:
     - title: Lab
       children:
         - file: chapter_04_lab.md
+        - file: chapter_05_lab.md
     - title: Appendices
       children:
         - file: appendix_a.ipynb
@@ -63,5 +66,6 @@ site:
     logo_dark: logo-dark.png
     favicon: favicon.ico
     folders: true
+    download_buttons: true
   template: book-theme
 
