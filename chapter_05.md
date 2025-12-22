@@ -811,6 +811,8 @@ A visual explanation of conditional independence: $A \perp B \mid C$.
 ---
 ```
 
+:::{admonition} Example
+:class: tip dropdown
 ### Example: two flips of a randomly chosen coin
 
 We have two coins:
@@ -891,12 +893,15 @@ and again:
 $$
 P(H_1\cap H_2\mid C')=P(H_1\mid C')P(H_2\mid C').
 $$
+:::
 
 ---
 
 ### Intuition in one sentence
 
 **Conditioning on $C$ “locks in the context,” and within that context the random parts (here, the flips) don’t inform each other; hiding $C$ mixes contexts and can create dependence.**
+
+---
 
 +++
 
