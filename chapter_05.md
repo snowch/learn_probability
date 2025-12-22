@@ -645,16 +645,7 @@ Let:
 * $H_2$ = “second flip is Heads”
 * $C$ = “we chose the fair coin” (so $C^c$ = “we chose the biased coin”)
 
-The figure below is designed to be readable on its own:
-
-* Each **top** panel is a *fixed context* ($C$ or $C^c$). Within a fixed context, the overlap area shows
-  $$
-  P(H_1\cap H_2\mid\text{context})=P(H_1\mid\text{context})\,P(H_2\mid\text{context}).
-  $$
-* The **bottom** panel hides the context (we don’t observe which coin was chosen). Mixing contexts can create
-  $$
-  P(H_1\cap H_2)\neq P(H_1)\,P(H_2).
-  $$
+**How to read the figure:** each top panel fixes the context (which coin). Inside a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip widths/heights represent $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
 
 ```{code-cell} python3
 :tags: [remove-input, remove-output]
