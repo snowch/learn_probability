@@ -148,7 +148,7 @@ SD(X)=σX​=Var(X)​
 If Y=g(X):
 
 1. **PMF of Y (for discrete X)**: pY​(y)=P(Y=y)=P(g(X)=y)=∑x:g(x)=y​pX​(x)  
-2. **Expected Value of Y=g(X) (LOTUS \- Law of the Unconscious Statistician)**: For a discrete random variable X: E\[Y\]=E\[g(X)\]=∑x​g(x)⋅pX​(x)
+2. **Expected Value of Y=g(X) (LOTUS - Law of the Unconscious Statistician)**: For a discrete random variable X: E\[Y\]=E\[g(X)\]=∑x​g(x)⋅pX​(x)
 
 ## **Chapter 7: Common Discrete Distributions**
 
@@ -269,8 +269,8 @@ If Y=g(X):
 
 X∼U(a,b)
 
-* **PDF (Probability Density Function):** $$ f(x; a, b) \= \\begin{cases} \\frac{1}{b-a} & \\text{for } a \\le x \\le b \\ 0 & \\text{otherwise} \\end{cases} $$  
-* **CDF (Cumulative Distribution Function):** $$ F(x; a, b) \= P(X \\le x) \= \\begin{cases} 0 & \\text{for } x \< a \\ \\frac{x-a}{b-a} & \\text{for } a \\le x \\le b \\ 1 & \\text{for } x \> b \\end{cases} $$  
+* **PDF (Probability Density Function):** $$ f(x; a, b) = \begin{cases} \frac{1}{b-a} & \text{for } a \le x \le b \\ 0 & \text{otherwise} \end{cases} $$  
+* **CDF (Cumulative Distribution Function):** $$ F(x; a, b) = P(X \le x) = \begin{cases} 0 & \text{for } x < a \\ \frac{x-a}{b-a} & \text{for } a \le x \le b \\ 1 & \text{for } x > b \end{cases} $$  
 * **Expected Value:** E\[X\]=2a+b​  
 * **Variance:** Var(X)=12(b−a)2​
 
@@ -278,8 +278,8 @@ X∼U(a,b)
 
 T∼Exp(λ)
 
-* **PDF (Probability Density Function):** $$ f(t; \\lambda) \= \\begin{cases} \\lambda e^{-\\lambda t} & \\text{for } t \\ge 0 \\ 0 & \\text{for } t \< 0 \\end{cases} $$  
-* **CDF (Cumulative Distribution Function):** $$ F(t; \\lambda) \= P(T \\le t) \= \\begin{cases} 1 \- e^{-\\lambda t} & \\text{for } t \\ge 0 \\ 0 & \\text{for } t \< 0 \\end{cases} $$  
+* **PDF (Probability Density Function):** $$ f(t; \lambda) = \begin{cases} \lambda e^{-\lambda t} & \text{for } t \ge 0 \\ 0 & \text{for } t < 0 \end{cases} $$  
+* **CDF (Cumulative Distribution Function):** $$ F(t; \lambda) = P(T \le t) = \begin{cases} 1 - e^{-\lambda t} & \text{for } t \ge 0 \\ 0 & \text{for } t < 0 \end{cases} $$  
 * **Survival Function:** P(T\>t)=1−F(t)=e−λt  
 * **Expected Value:** E\[T\]=λ1​  
 * **Variance:** Var(T)=λ21​  
@@ -289,7 +289,7 @@ T∼Exp(λ)
 
 X∼N(μ,σ2)
 
-* **PDF (Probability Density Function):** $$ f(x; \\mu, \\sigma^2) \= \\frac{1}{\\sqrt{2\\pi\\sigma^2}} e^{ \- \\frac{(x-\\mu)^2}{2\\sigma^2} } $$ for −∞\<x\<∞.  
+* **PDF (Probability Density Function):** $$ f(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{ - \frac{(x-\mu)^2}{2\sigma^2} } $$ for −∞\<x\<∞.  
 * **Expected Value:** E\[X\]=μ  
 * **Variance:** Var(X)=σ2  
 * **Standardization (Z-score):** Z=σX−μ​ where Z∼N(0,1).
@@ -299,7 +299,7 @@ X∼N(μ,σ2)
 X∼Gamma(k,λ) (using shape k and rate λ) or X∼Gamma(k,θ) (using shape k and scale θ=1/λ)  
 The Gamma function is Γ(k)=∫0∞​xk−1e−xdx. For positive integers k, Γ(k)=(k−1)\!.
 
-* **PDF (Probability Density Function):** Using shape k and rate λ: $$ f(x; k, \\lambda) \= \\frac{\\lambda^k x^{k-1} e^{-\\lambda x}}{\\Gamma(k)} \\quad \\text{for } x \\ge 0 $$ Using shape k and scale θ=1/λ: $$ f(x; k, \\theta) \= \\frac{1}{\\Gamma(k)\\theta^k} x^{k-1} e^{-x/\\theta} \\quad \\text{for } x \\ge 0 $$  
+* **PDF (Probability Density Function):** Using shape k and rate λ: $$ f(x; k, \lambda) = \frac{\lambda^k x^{k-1} e^{-\lambda x}}{\Gamma(k)} \quad \text{for } x \ge 0 $$ Using shape k and scale θ=1/λ: $$ f(x; k, \theta) = \frac{1}{\Gamma(k)\theta^k} x^{k-1} e^{-x/\theta} \quad \text{for } x \ge 0 $$  
 * **Expected Value:** E\[X\]=λk​=kθ  
 * **Variance:** Var(X)=λ2k​=kθ2
 
@@ -308,7 +308,7 @@ The Gamma function is Γ(k)=∫0∞​xk−1e−xdx. For positive integers k, Γ
 X∼Beta(α,β)  
 The Beta function is B(α,β)=∫01​tα−1(1−t)β−1dt=Γ(α+β)Γ(α)Γ(β)​.
 
-* **PDF (Probability Density Function):** $$ f(x; \\alpha, \\beta) \= \\frac{1}{B(\\alpha, \\beta)} x^{\\alpha-1} (1-x)^{\\beta-1} \= \\frac{\\Gamma(\\alpha+\\beta)}{\\Gamma(\\alpha)\\Gamma(\\beta)} x^{\\alpha-1} (1-x)^{\\beta-1} $$ for 0≤x≤1.  
+* **PDF (Probability Density Function):** $$ f(x; \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1} = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1} $$ for 0≤x≤1.  
 * **Expected Value:** E\[X\]=α+βα​  
 * **Variance:** Var(X)=(α+β)2(α+β+1)αβ​
 
