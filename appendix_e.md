@@ -139,169 +139,266 @@ $$
 
 ### **Probability Mass Function (PMF)**
 
-For a discrete random variable X, the PMF pX​(x) is:  
-pX​(x)=P(X=x)  
+For a discrete random variable $X$, the PMF $p_X(x)$ is:
+$$
+p_X(x)=P(X=x)
+$$
 Properties of a PMF:
 
-1. pX​(x)≥0 for all possible values x.  
-2. ∑x​pX​(x)=1 (sum over all possible values x).
+1. $p_X(x)\ge 0$ for all possible values $x$.
+2. $$\sum_x p_X(x)=1$$ (sum over all possible values $x$).
 
 ### **Cumulative Distribution Function (CDF)**
 
-For a random variable X, the CDF FX​(x) is:  
-FX​(x)=P(X≤x)  
-For a discrete random variable X:  
-FX​(x)=∑k≤x​pX​(k)  
+For a random variable $X$, the CDF $F_X(x)$ is:
+$$
+F_X(x)=P(X\le x)
+$$
+For a discrete random variable $X$:
+$$
+F_X(x)=\sum_{k\le x} p_X(k)
+$$
 Properties of a CDF:
 
-1. 0≤FX​(x)≤1 for all x.  
-2. If a\<b, then FX​(a)≤FX​(b) (non-decreasing).  
-3. limx→−∞​FX​(x)=0  
-4. limx→+∞​FX​(x)=1  
-5. P(X\>x)=1−FX​(x)  
-6. P(a\<X≤b)=FX​(b)−FX​(a) for a\<b.  
-7. P(X=x)=FX​(x)−limy→x−​FX​(y) (for discrete RV, this is the jump at x).
+1. $0\le F_X(x)\le 1$ for all $x$.
+2. If $a<b$, then $F_X(a)\le F_X(b)$ (non-decreasing).
+3. $$\lim_{x\to -\infty} F_X(x)=0$$
+4. $$\lim_{x\to +\infty} F_X(x)=1$$
+5. $P(X>x)=1-F_X(x)$
+6. $P(a<X\le b)=F_X(b)-F_X(a)$ for $a<b$.
+7. $$P(X=x)=F_X(x)-\lim_{y\to x^-}F_X(y)$$ (for a discrete RV, this is the jump at $x$).
 
 ### **Expected Value (Mean)**
 
-For a discrete random variable X:  
-E\[X\]=μX​=∑x​x⋅pX​(x)
+For a discrete random variable $X$:
+$$
+E[X]=\mu_X=\sum_x x\cdot p_X(x)
+$$
 
 ### **Variance**
 
-For a random variable X with mean μX​:  
-Var(X)=σX2​=E\[(X−μX​)2\]  
-For a discrete random variable X:  
-Var(X)=∑x​(x−μX​)2⋅pX​(x)  
-Computational formula for variance:  
-Var(X)=E\[X2\]−(E\[X\])2  
-Where E\[X2\] for a discrete random variable is:  
-E\[X2\]=∑x​x2⋅pX​(x)
+For a random variable $X$ with mean $\mu_X$:
+$$
+\operatorname{Var}(X)=\sigma_X^2=E[(X-\mu_X)^2]
+$$
+For a discrete random variable $X$:
+$$
+\operatorname{Var}(X)=\sum_x (x-\mu_X)^2\cdot p_X(x)
+$$
+Computational formula for variance:
+$$
+\operatorname{Var}(X)=E[X^2]-(E[X])^2
+$$
+Where $E[X^2]$ for a discrete random variable is:
+$$
+E[X^2]=\sum_x x^2\cdot p_X(x)
+$$
 
 ### **Standard Deviation**
 
-The positive square root of the variance:  
-SD(X)=σX​=Var(X)​
+The positive square root of the variance:
+$$
+SD(X)=\sigma_X=\sqrt{\operatorname{Var}(X)}
+$$
 
 ### **Functions of a Random Variable**
 
-If Y=g(X):
+If $Y=g(X)$:
 
-1. **PMF of Y (for discrete X)**: pY​(y)=P(Y=y)=P(g(X)=y)=∑x:g(x)=y​pX​(x)  
-2. **Expected Value of Y=g(X) (LOTUS - Law of the Unconscious Statistician)**: For a discrete random variable X: E\[Y\]=E\[g(X)\]=∑x​g(x)⋅pX​(x)
+1. **PMF of $Y$ (for discrete $X$)**:
+   $$
+   p_Y(y)=P(Y=y)=P(g(X)=y)=\sum_{x:,g(x)=y} p_X(x)
+   $$
+2. **Expected Value of $Y=g(X)$ (LOTUS - Law of the Unconscious Statistician)**: For a discrete random variable $X$:
+   $$
+   E[Y]=E[g(X)]=\sum_x g(x)\cdot p_X(x)
+   $$
 
 ## **Chapter 7: Common Discrete Distributions**
 
 ### **Bernoulli Distribution**
 
-Models a single trial with two outcomes (success=1, failure=0).  
-Parameter: p (probability of success).
+Models a single trial with two outcomes (success=$1$, failure=$0$).
+Parameter: $p$ (probability of success).
 
-* **PMF**: P(X=k)=pk(1−p)1−kfor k∈{0,1}  
-  * Alternatively: P(X=k)=⎩⎨⎧​p1−p0​if k=1if k=0otherwise​  
-* **Mean**: E\[X\]=p  
-* **Variance**: Var(X)=p(1−p)
+* **PMF**:
+  $$
+  P(X=k)=p^k(1-p)^{1-k}\quad \text{for }k\in{0,1}
+  $$
+
+  * Alternatively:
+    $$
+    P(X=k)=
+    \begin{cases}
+    p, & k=1 \
+    1-p, & k=0 \
+    0, & \text{otherwise}
+    \end{cases}
+    $$
+* **Mean**: $E[X]=p$
+* **Variance**: $\operatorname{Var}(X)=p(1-p)$
 
 ### **Binomial Distribution**
 
-Models the number of successes in n independent Bernoulli trials.  
-Parameters: n (number of trials), p (probability of success on each trial).
+Models the number of successes in $n$ independent Bernoulli trials.
+Parameters: $n$ (number of trials), $p$ (probability of success on each trial).
 
-* **PMF**: P(X=k)=(kn​)pk(1−p)n−kfor k=0,1,…,n  
-* **Mean**: E\[X\]=np  
-* **Variance**: Var(X)=np(1−p)
+* **PMF**:
+  $$
+  P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}\quad \text{for }k=0,1,\dots,n
+  $$
+* **Mean**: $E[X]=np$
+* **Variance**: $\operatorname{Var}(X)=np(1-p)$
 
 ### **Geometric Distribution**
 
-Models the number of trials (k) needed to get the first success.  
-Parameter: p (probability of success on each trial).
+Models the number of trials ($k$) needed to get the first success.
+Parameter: $p$ (probability of success on each trial).
 
-* **PMF** (for X= trial number of first success): P(X=k)=(1−p)k−1pfor k=1,2,3,…  
-* **Mean** (trial number of first success): E\[X\]=p1​  
-* **Variance** (trial number of first success): Var(X)=p21−p​
+* **PMF** (for $X=$ trial number of first success):
+  $$
+  P(X=k)=(1-p)^{k-1}p\quad \text{for }k=1,2,3,\dots
+  $$
+* **Mean** (trial number of first success):
+  $$
+  E[X]=\frac{1}{p}
+  $$
+* **Variance** (trial number of first success):
+  $$
+  \operatorname{Var}(X)=\frac{1-p}{p^2}
+  $$
 
 ### **Negative Binomial Distribution**
 
-Models the number of trials (k) needed to achieve r successes.  
-Parameters: r (target number of successes), p (probability of success on each trial).
+Models the number of trials ($k$) needed to achieve $r$ successes.
+Parameters: $r$ (target number of successes), $p$ (probability of success on each trial).
 
-* **PMF** (for X= trial number of r-th success): P(X=k)=(r−1k−1​)pr(1−p)k−rfor k=r,r+1,r+2,…  
-* **Mean** (trial number of r-th success): E\[X\]=pr​  
-* **Variance** (trial number of r-th success): Var(X)=p2r(1−p)​
+* **PMF** (for $X=$ trial number of $r$-th success):
+  $$
+  P(X=k)=\binom{k-1}{r-1}p^r(1-p)^{k-r}\quad \text{for }k=r,r+1,r+2,\dots
+  $$
+* **Mean** (trial number of $r$-th success):
+  $$
+  E[X]=\frac{r}{p}
+  $$
+* **Variance** (trial number of $r$-th success):
+  $$
+  \operatorname{Var}(X)=\frac{r(1-p)}{p^2}
+  $$
 
 ### **Poisson Distribution**
 
-Models the number of events occurring in a fixed interval of time or space.  
-Parameter: λ (average number of events in the interval).
+Models the number of events occurring in a fixed interval of time or space.
+Parameter: $\lambda$ (average number of events in the interval).
 
-* **PMF**: P(X=k)=k\!e−λλk​for k=0,1,2,…  
-* **Mean**: E\[X\]=λ  
-* **Variance**: Var(X)=λ
+* **PMF**:
+  $$
+  P(X=k)=\frac{e^{-\lambda}\lambda^k}{k!}\quad \text{for }k=0,1,2,\dots
+  $$
+* **Mean**: $E[X]=\lambda$
+* **Variance**: $\operatorname{Var}(X)=\lambda$
 
 ### **Hypergeometric Distribution**
 
-Models the number of successes in a sample of size n drawn without replacement from a finite population of size N containing1 K successes.  
-Parameters: N (population size), K (total successes in population), n (sample size).
+Models the number of successes in a sample of size $n$ drawn without replacement from a finite population of size $N$ containing $K$ successes.
+Parameters: $N$ (population size), $K$ (total successes in population), $n$ (sample size).
 
-* **PMF**: P(X=k)=(nN​)(kK​)(n−kN−K​)​ for k such that max(0,n−(N−K))≤k≤min(n,K).  
-* **Mean**: E\[X\]=nNK​  
-* **Variance**: Var(X)=nNK​(1−NK​)(N−1N−n​)  
-  * **Finite Population Correction Factor**: N−1N−n​
+* **PMF**:
+  $$
+  P(X=k)=\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}
+  $$
+  for $k$ such that $\max(0,n-(N-K))\le k\le \min(n,K)$.
+* **Mean**:
+  $$
+  E[X]=n\frac{K}{N}
+  $$
+* **Variance**:
+  $$
+  \operatorname{Var}(X)=n\frac{K}{N}\left(1-\frac{K}{N}\right)\left(\frac{N-n}{N-1}\right)
+  $$
+
+  * **Finite Population Correction Factor**:
+    $$
+    \frac{N-n}{N-1}
+    $$
 
 ## **Chapter 8: Continuous Random Variables**
 
 ### **Probability Density Function (PDF)**
 
-For a continuous random variable X, the PDF fX​(x) describes the relative likelihood of X.  
+For a continuous random variable $X$, the PDF $f_X(x)$ describes the relative likelihood of $X$.
 Properties of a PDF:
 
-1. fX​(x)≥0 for all x.  
-2. ∫−∞∞​fX​(x)dx=1 (total area under curve is 1).  
-3. Probability as Area: P(a≤X≤b)=∫ab​fX​(x)dx.  
-4. For any specific value c: P(X=c)=∫cc​fX​(x)dx=0.
+1. $f_X(x)\ge 0$ for all $x$.
+2. $\int_{-\infty}^{\infty} f_X(x)\,dx = 1$ (total area under curve is $1$).
+3. $P(a\le X\le b)=\int_a^b f_X(x)\,dx$.
+4. For any specific value $c$: $P(X=c)=\int_c^c f_X(x)\,dx=0$.
 
 ### **Cumulative Distribution Function (CDF)**
 
-For a continuous random variable X, the CDF FX​(x) is:  
-FX​(x)=P(X≤x)=∫−∞x​fX​(t)dt  
+For a continuous random variable $X$, the CDF $F_X(x)$ is:
+$$
+F_X(x)=P(X\le x)=\int_{-\infty}^{x} f_X(t),dt
+$$
 Properties of a CDF:
 
-1. FX​(x) is non-decreasing.  
-2. limx→−∞​FX​(x)=0.  
-3. limx→∞​FX​(x)=1.  
-4. P(a\<X≤b)=FX​(b)−FX​(a).  
-5. fX​(x)=dxd​FX​(x) (where the derivative exists).
+1. $F_X(x)$ is non-decreasing.
+2. $$\lim_{x\to -\infty} F_X(x)=0$$
+3. $$\lim_{x\to \infty} F_X(x)=1$$
+4. $P(a<X\le b)=F_X(b)-F_X(a)$.
+5. $$f_X(x)=\frac{d}{dx}F_X(x)$$ (where the derivative exists).
 
 ### **Expected Value (Mean)**
 
-For a continuous random variable X:  
-E\[X\]=μ=∫−∞∞​xfX​(x)dx
+For a continuous random variable $X$:
+$$
+E[X]=\mu=\int_{-\infty}^{\infty} x f_X(x),dx
+$$
 
 ### **Variance**
 
-For a continuous random variable X with mean μ:  
-Var(X)=σ2=E\[(X−μ)2\]=∫−∞∞​(x−μ)2fX​(x)dx  
-Computational formula:  
-Var(X)=E\[X2\]−(E\[X\])2  
-Where E\[X2\]=∫−∞∞​x2fX​(x)dx.
+For a continuous random variable $X$ with mean $\mu$:
+$$
+\operatorname{Var}(X)=\sigma^2=E[(X-\mu)^2]=\int_{-\infty}^{\infty} (x-\mu)^2 f_X(x),dx
+$$
+Computational formula:
+$$
+\operatorname{Var}(X)=E[X^2]-(E[X])^2
+$$
+Where
+$$
+E[X^2]=\int_{-\infty}^{\infty} x^2 f_X(x),dx.
+$$
 
 ### **Standard Deviation**
 
-The positive square root of the variance:  
-σ=Var(X)​
+The positive square root of the variance:
+$$
+\sigma=\sqrt{\operatorname{Var}(X)}
+$$
 
 ### **Percentiles and Quantiles**
 
-The p-th percentile xp​ is the value such that FX​(xp​)=P(X≤xp​)=p.  
-The quantile function Q(p) is the inverse of the CDF: Q(p)=FX−1​(p)=xp​.
+The $p$-th percentile $x_p$ is the value such that $F_X(x_p)=P(X\le x_p)=p$.
+The quantile function $Q(p)$ is the inverse of the CDF:
+$$
+Q(p)=F_X^{-1}(p)=x_p.
+$$
 
 ### **Functions of a Continuous Random Variable**
 
-If Y=g(X):
+If $Y=g(X)$:
 
-1. **CDF of Y**: FY​(y)=P(Y≤y)=P(g(X)≤y).  
-2. **PDF of Y (Change of Variables Formula)**: If g(x) is monotonic with inverse x=g−1(y), then: fY​(y)=fX​(g−1(y))​dydx​​  
-3. **Expected Value of Y=g(X) (LOTUS)**: E\[Y\]=E\[g(X)\]=∫−∞∞​g(x)fX​(x)dx
+1. **CDF of $Y$**:
+   $$F_Y(y)=P(Y\le y)=P(g(X)\le y)$$
+2. **PDF of $Y$ (Change of Variables Formula)**: If $g(x)$ is monotonic with inverse $x=g^{-1}(y)$, then:
+   $$
+   f_Y(y)=f_X(g^{-1}(y))\left|\frac{dx}{dy}\right|
+   $$
+3. **Expected Value of $Y=g(X)$ (LOTUS)**:
+   $$
+   E[Y]=E[g(X)]=\int_{-\infty}^{\infty} g(x)f_X(x),dx
+   $$
 
 ## **Chapter 9: Common Continuous Distributions**
 
