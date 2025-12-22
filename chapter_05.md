@@ -564,7 +564,7 @@ If two events A and B have non-zero probabilities, they *cannot* be both mutuall
 
 +++
 
-Sometimes two events look related overall (in the same experiment), but become independent once we condition on a relevant context **$C$**.
+Sometimes two events appear related overall (in the same experiment), but become independent once we condition on a relevant context **$C$**.
 
 Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop giving each other information.
 
