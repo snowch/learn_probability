@@ -579,14 +579,14 @@ We use the symbol **$\perp$** (read “is independent of”).
   $$
   A \perp B
   \quad\Longleftrightarrow\quad
-  P(A\cap B)=P(A),P(B).
+  P(A\cap B)=P(A)P(B).
   $$
 
 * **Conditional independence**
   $$
   A \perp B \mid C
   \quad\Longleftrightarrow\quad
-  P(A\cap B \mid C)=P(A\mid C),P(B\mid C),
+  P(A\cap B \mid C)=P(A\mid C)P(B\mid C),
   \qquad P(C)>0.
   $$
 
