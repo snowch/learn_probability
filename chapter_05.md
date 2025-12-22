@@ -560,131 +560,324 @@ If two events A and B have non-zero probabilities, they *cannot* be both mutuall
 
 +++
 
+
 ## 5. Conditional Independence
 
 +++
 
-Sometimes, two events A and B might not be independent overall, but they become independent *given* some other event C. This is called **conditional independence**.
+Sometimes two events look related **overall**, but become independent once we “zoom in” on a relevant condition.
 
-**Formal Definition:**
+Think of **C** as a *context switch*: if you fix the context, A and B stop influencing each other.
 
-Events A and B are conditionally independent given event C (where $P(C) > 0$) if:
+### Definition
 
-$P(A \cap B | C) = P(A|C) P(B|C)$
+Events $A$ and $B$ are **conditionally independent given** $C$ (with $P(C)>0$) if
 
-```{admonition} Reminder 
+$$
+P(A\cap B \mid C)=P(A\mid C)\,P(B\mid C).
+$$
+
+```{admonition} Reminder
 :class: tip dropdown
 
-For independent events: $P(A \cap B) = P(A) P(B)$.
+Unconditional independence is the same idea *without* the conditioning:
 
-Note that we are adding $| C$ to each part.  Try to figure out why the formula changes for conditional independence.
+$$
+P(A\cap B)=P(A)\,P(B).
+$$
+
+Adding “$\mid C$” means: *we restrict attention to the sub-world where $C$ is known to have happened*.
 ```
 
-**Alternative Definition:**
-If $P(B|C) > 0$, conditional independence means:
+### Equivalent “no extra information” form
 
-$P(A | B \cap C) = P(A|C)$
+If $P(B\cap C)>0$, then conditional independence is equivalent to
 
-```{admonition} Reminder 
-:class: tip dropdown
+$$
+P(A\mid B\cap C)=P(A\mid C).
+$$
 
-For independent events: $P(A|B) = P(A)$.
+Likewise (symmetrically), if $P(A\cap C)>0$ then
 
-Try to figure out why the formula changes for conditional independence.
+$$
+P(B\mid A\cap C)=P(B\mid C).
+$$
+
+**Interpretation:** once you already know $C$, learning $B$ gives you **no further update** about $A$.
+
+```{admonition} Warning
+:class: warning dropdown
+
+$A \perp B \mid C$ does **not** imply $A \perp B$.
+
+In fact, a very common pattern is:
+
+* independent **within each fixed** value of $C$
+* dependent **after mixing** (when $C$ is hidden)
 ```
 
-Knowing B occurred provides no additional information about A *if we already know C occurred*.
+---
 
-**Example:** Consider two different coins, one fair (Coin F) and one biased to land heads 75% of the time (Coin B).
-* Let $H_1$ be the event "the first flip is Heads".
-* Let $H_2$ be the event "the second flip is Heads".
+### A visual “cause in the middle” picture
 
-Are $H_1$ and $H_2$ independent? It depends on whether we know which coin we are flipping!
+A common structure is:
 
-```{admonition} Scenario 1: We pick a coin at random (50% chance each) and flip it twice. 
-:class: dropdown
+* $C$ influences $A$
+* $C$ influences $B$
 
-Let's find $P(H_1)$ and $P(H_2)$.
+so $A$ and $B$ become related *only because* they share the same underlying cause $C$:
 
-$$
-\begin{align*}
-P(H_1) &= P(H_1|\text{Fair})P(\text{Fair}) + P(H_1|\text{Biased})P(\text{Biased}) \\
-&= (0.5)(0.5) + (0.75)(0.5) \\
-&= 0.25 + 0.375 \\
-&= 0.625
-\end{align*}
-$$
+> $A \leftarrow C \rightarrow B$, read as $A \perp B \mid C$.
 
-By symmetry, $P(H_2) = 0.625$.
+```{code-cell} python3
+:tags: [remove-input, remove-output]
 
-Now, let's find $P(H_1 \cap H_2) = P(\text{HH})$.
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle, FancyArrowPatch, Rectangle
 
-$P(\text{HH}) = P(\text{HH}|\text{Fair})P(\text{Fair}) + P(\text{HH}|\text{Biased})P(\text{Biased})$
+# --- Probabilities from the "coin chosen at random" example ---
+p_fair, p_biased = 0.5, 0.75
+w_fair, w_biased = 0.5, 0.5
 
-Assuming flips are independent *given* the coin:
+# Joint tables for two flips (H1/H2)
+fair = {
+    ("H1=H","H2=H"): p_fair*p_fair,
+    ("H1=H","H2=T"): p_fair*(1-p_fair),
+    ("H1=T","H2=H"): (1-p_fair)*p_fair,
+    ("H1=T","H2=T"): (1-p_fair)*(1-p_fair),
+}
+biased = {
+    ("H1=H","H2=H"): p_biased*p_biased,
+    ("H1=H","H2=T"): p_biased*(1-p_biased),
+    ("H1=T","H2=H"): (1-p_biased)*p_biased,
+    ("H1=T","H2=T"): (1-p_biased)*(1-p_biased),
+}
+mix = {k: w_fair*fair[k] + w_biased*biased[k] for k in fair}
 
-$$
-\begin{align*}
-P(\text{HH}) &= (0.5 \times 0.5)(0.5) + (0.75 \times 0.75)(0.5) \\
-&= (0.25)(0.5) + (0.5625)(0.5) \\
-&= 0.125 + 0.28125 \\
-&= 0.40625
-\end{align*}
-$$
+P_H1 = mix[("H1=H","H2=H")] + mix[("H1=H","H2=T")]
+P_H2 = mix[("H1=H","H2=H")] + mix[("H1=T","H2=H")]
+P_HH = mix[("H1=H","H2=H")]
+prod = P_H1 * P_H2
+P_H2_given_H1 = P_HH / P_H1
 
-Check for independence: 
+def draw_2x2(ax, x, y, title, table, cell_w=1.85, cell_h=1.10, fs=13):
+    """
+    Draw a 2x2 joint-probability table.
+    (x, y) is the bottom-left of the 2x2 grid (not including labels).
+    """
+    # Title (more clearance above)
+    ax.text(
+        x + cell_w, y + 2*cell_h + 0.75, title,
+        ha="center", va="bottom", fontsize=fs+2, fontweight="bold"
+    )
 
-Is $P(H_1 \cap H_2) = P(H_1) P(H_2)$?
+    # Axis labels: keep compact and away from other panels
+    ax.text(
+        x - 0.70, y + cell_h, "H1",
+        rotation=90, ha="center", va="center", fontsize=fs
+    )
+    ax.text(
+        x + cell_w, y + 2*cell_h + 0.40, "H2",
+        ha="center", va="bottom", fontsize=fs
+    )
 
-$$
-\begin{align*}
-0.40625 &\stackrel{?}{=} (0.625) \times (0.625) \\
-&= 0.390625
-\end{align*}
-$$
+    # Column headers
+    ax.text(x + 0.5*cell_w, y + 2*cell_h + 0.12, "H", ha="center", va="bottom", fontsize=fs)
+    ax.text(x + 1.5*cell_w, y + 2*cell_h + 0.12, "T", ha="center", va="bottom", fontsize=fs)
 
-They are **not** equal. $H_1$ and $H_2$ are **not** independent overall. If the first flip is heads, it slightly increases our belief we have the biased coin, thus increasing the probability the second flip is also heads.
+    # Row headers
+    ax.text(x - 0.18, y + 1.5*cell_h, "H", ha="right", va="center", fontsize=fs)
+    ax.text(x - 0.18, y + 0.5*cell_h, "T", ha="right", va="center", fontsize=fs)
+
+    keys = [
+        ("H1=H","H2=H"), ("H1=H","H2=T"),
+        ("H1=T","H2=H"), ("H1=T","H2=T"),
+    ]
+
+    for i, key in enumerate(keys):
+        r = 1 - (i // 2)
+        c = i % 2
+        rx = x + c*cell_w
+        ry = y + r*cell_h
+        ax.add_patch(Rectangle((rx, ry), cell_w, cell_h, fill=False, linewidth=1.6))
+        ax.text(
+            rx + cell_w/2, ry + cell_h/2, f"{table[key]:.4f}",
+            ha="center", va="center", fontsize=fs
+        )
+
+plt.rcParams.update({"text.usetex": False, "mathtext.fontset": "cm"})
+
+fig = plt.figure(figsize=(14.5, 8.0))
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_xlim(0, 15)
+ax.set_ylim(-0.6, 7.8)
+ax.axis("off")
+
+# -------------------------
+# Left: DAG  A <- C -> B
+# -------------------------
+node_r = 0.44
+C = (2.6, 5.9)
+A = (1.0, 4.2)
+B = (4.2, 4.2)
+
+for (x0, y0), label in [(A, "A"), (C, "C"), (B, "B")]:
+    ax.add_patch(Circle((x0, y0), node_r, fill=False, linewidth=1.9))
+    ax.text(x0, y0, label, ha="center", va="center", fontsize=20, fontweight="bold")
+
+# Arrows: shrink so they start/stop at circle edges (prevents overlap)
+arrow_kw = dict(
+    arrowstyle="->",
+    mutation_scale=20,
+    linewidth=1.9,
+    shrinkA=20,
+    shrinkB=20
+)
+ax.add_patch(FancyArrowPatch(C, A, **arrow_kw))
+ax.add_patch(FancyArrowPatch(C, B, **arrow_kw))
+
+ax.text(
+    2.6, 7.05, "Conditional independence picture",
+    ha="center", va="center", fontsize=19, fontweight="bold"
+)
+ax.text(
+    2.6, 3.25, r"Read as:  $A \perp B \mid C$",
+    ha="center", va="center", fontsize=15
+)
+
+# ----------------------------------------
+# Right: conditioned tables and the mixture
+# ----------------------------------------
+# Top row tables (more horizontal gap so labels never collide)
+draw_2x2(ax, x=6.3,  y=4.55, title=r"Given $C$ = Fair coin",   table=fair,  fs=13)
+draw_2x2(ax, x=11.0, y=4.55, title=r"Given $C$ = Biased coin", table=biased, fs=13)
+
+# Middle explanation (placed safely between top tables and mixture title)
+ax.text(
+    10.2, 4.25,
+    "Within each box, the two flips are independent:\n"
+    r"$P(H_1,H_2\mid C)=P(H_1\mid C)\,P(H_2\mid C)$",
+    ha="center", va="top", fontsize=14
+)
+
+# Mixture table lowered so its title does NOT collide with the middle explanation
+draw_2x2(ax, x=8.6, y=0.05, title=r"If you do NOT know $C$ (mixture)", table=mix, fs=13)
+
+# Bottom conclusion (below mixture; extra ylim space avoids clipping)
+ax.text(
+    10.2, -0.05,
+    rf"In the mixture:  $P(HH)={P_HH:.4f}$  but  $P(H_1)P(H_2)={prod:.4f}$" "\n"
+    rf"Also:  $P(H_2\mid H_1)={P_H2_given_H1:.4f}$  vs  $P(H_2)={P_H2:.4f}$  $\rightarrow$ dependence",
+    ha="center", va="top", fontsize=14
+)
+
+svg_path = "conditional-independence-visual.svg"
+fig.savefig(svg_path, format="svg", bbox_inches="tight", pad_inches=0)
+plt.close(fig)
 ```
 
-```{admonition} Scenario 2: We know we are flipping the Fair coin (Event C = "Fair coin chosen").
-:class: dropdown
+Here’s how to read the diagram:
 
-* $ P(H_1 | C) = 0.5 $
-* $ P(H_2 | C) = 0.5 $
+* **Left:** $C$ points to both $A$ and $B$, so $C$ can create a relationship between them.
+* **Top-right boxes:** when you fix $C$ (Fair vs Biased), the two flips behave independently *within that box*.
+* **Bottom box:** when you *don’t* know $C$, the mixture combines the two boxes and dependence can appear.
 
-$$
-\begin{align*}
-P(H_1 \cap H_2 | C) &= P(\text{HH} | \text{Fair}) \\
-&= 0.5 \times 0.5 \\
-&= 0.25 \quad \text{(assuming flips are independent for a given coin)}
-\end{align*}
-$$
-
-Check for conditional independence: Is $P(H_1 \cap H_2 | C) = P(H_1|C) P(H_2|C)$?
-$0.25 \stackrel{?}{=} (0.5) \times (0.5)$
-$0.25 = 0.25$. Yes. $H_1$ and $H_2$ are **conditionally independent given** we chose the fair coin.
+```{figure}  conditional-independence-visual.svg
+---
+:name: fig-conditional-independence
+:width: 100%
+:align: center
+---
+A visual explanation of conditional independence: $A \perp B \mid C$.
+---
 ```
 
-```{admonition} Scenario 3: We know we are flipping the Biased coin (Event C' = "Biased coin chosen").
-:class: dropdown
+### Example: two flips of a randomly chosen coin
 
-* $P(H_1 | C') = 0.75$
-* $P(H_2 | C') = 0.75$
+We have two coins:
+
+* Fair coin (F): $P(H)=0.5$
+* Biased coin (B): $P(H)=0.75$
+
+Pick a coin uniformly at random, then flip it twice.
+
+Let:
+
+* $H_1$ = “first flip is Heads”
+* $H_2$ = “second flip is Heads”
+* $C$ = “we chose the fair coin”
+
+#### Scenario 1: we do *not* know which coin was chosen
+
+By total probability:
 
 $$
-\begin{align*}
-P(H_1 \cap H_2 | C') &= P(\text{HH} | \text{Biased}) \\
-&= 0.75 \times 0.75 \\
-&= 0.5625
-\end{align*}
+P(H_1) = (0.5)(0.5) + (0.75)(0.5) = 0.625,
+\quad
+P(H_2)=0.625.
 $$
 
-Check for conditional independence: Is $P(H_1 \cap H_2 | C') = P(H_1|C') P(H_2|C')$?
-$0.5625 \stackrel{?}{=} (0.75) \times (0.75)$
-$0.5625 = 0.5625$. Yes. $H_1$ and $H_2$ are also **conditionally independent given** we chose the biased coin.
-```
+Also:
 
-**Intuition:** Fuel efficiency might depend on tire pressure and engine size. These two factors might seem correlated overall (cars with bigger engines might tend to have specific tire pressure recommendations). However, *given a specific car model*, the effect of tire pressure on fuel efficiency might be independent of the effect of engine size (assuming the model already fixes the engine size).
+$$
+P(H_1\cap H_2)
+= (0.25)(0.5) + (0.5625)(0.5)
+= 0.40625.
+$$
+
+If they were independent overall, we’d have:
+
+$$
+P(H_1)P(H_2) = 0.625^2 = 0.390625 \neq 0.40625.
+$$
+
+So $H_1$ and $H_2$ are **not** independent.
+
+A nice “update” check makes the reason obvious:
+
+$$
+P(H_2\mid H_1)=\frac{P(H_1\cap H_2)}{P(H_1)}=\frac{0.40625}{0.625}=0.65
+\quad \text{but} \quad
+P(H_2)=0.625.
+$$
+
+Seeing $H_1$ makes $H_2$ more likely, because it increases our belief we picked the biased coin.
+
+#### Scenario 2: we know we chose the fair coin ($C$)
+
+$$
+P(H_1\mid C)=0.5,\quad P(H_2\mid C)=0.5,
+\quad
+P(H_1\cap H_2\mid C)=0.25.
+$$
+
+And
+
+$$
+P(H_1\cap H_2\mid C)=P(H_1\mid C)P(H_2\mid C)
+$$
+
+so $H_1 \perp H_2 \mid C$.
+
+#### Scenario 3: we know we chose the biased coin ($C'$)
+
+$$
+P(H_1\mid C')=0.75,\quad P(H_2\mid C')=0.75,
+\quad
+P(H_1\cap H_2\mid C')=0.5625,
+$$
+
+and again:
+
+$$
+P(H_1\cap H_2\mid C')=P(H_1\mid C')P(H_2\mid C').
+$$
+
+---
+
+### Intuition in one sentence
+
+**Conditioning on $C$ “locks in the context,” and within that context the random parts (here, the flips) don’t inform each other; hiding $C$ mixes contexts and can create dependence.**
 
 +++
 
