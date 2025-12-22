@@ -126,14 +126,31 @@ $$
 
 ### **Conditional Independence**
 
-Events $A$ and $B$ are conditionally independent given event $C$ (where $P(C)>0$) if:
+**Notation:**
 $$
-P(A\cap B\mid C)=P(A\mid C)P(B\mid C).
+A \perp B \mid C
+\quad \text{means “$A$ and $B$ are conditionally independent given $C$.”}
 $$
-Alternative Definition: If $P(B\mid C)>0$, conditional independence means:
+
+**Definition (with $P(C)>0$):**
 $$
+A \perp B \mid C
+\iff
+P(A\cap B\mid C)=P(A\mid C) P(B\mid C).
+$$
+
+**Equivalent “no extra information” form:** if $P(B\cap C)>0$, then
+$$
+A \perp B \mid C
+\iff
 P(A\mid B\cap C)=P(A\mid C).
 $$
+
+Likewise, if $P(A\cap C)>0$, then
+$$
+P(B\mid A\cap C)=P(B\mid C).
+$$
+
 
 ## **Chapter 6: Discrete Random Variables**
 
