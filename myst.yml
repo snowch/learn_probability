@@ -4,8 +4,8 @@ project:
   authors:
     - name: Chris Snow
   github: https://snowch.github.io/learn_probability
-  jupyter: true
-  binder: https://mybinder.org/v2/gh/snowch/learn_probability/HEAD
+  # jupyter: true
+  # binder: https://mybinder.org/v2/gh/snowch/learn_probability/HEAD
   bibliography:
     - references.bib
   exports:
