@@ -726,11 +726,11 @@ def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
     prod = P_H1 * P_H2
     P_H2_given_H1 = P_HH / P_H1
 
-    ax.text(0.5, 0.17,
+    ax.text(0.5, 0.14,
             rf"$P(H_1\cap H_2)={P_HH:.5f}$  vs  $P(H_1)P(H_2)={prod:.6f}$",
             ha="center", va="center", fontsize=13)
 
-    ax.text(0.5, 0.07,
+    ax.text(0.5, 0.0,
             rf"Update check:  $P(H_2\mid H_1)={P_H2_given_H1:.2f}$  but  $P(H_2)={P_H2:.3f}$",
             ha="center", va="center", fontsize=12)
 
@@ -738,8 +738,8 @@ def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
 p_fair, p_biased = 0.50, 0.75
 w_fair, w_biased = 0.50, 0.50
 
-fig = plt.figure(figsize=(12.5, 7.4))
-gs = GridSpec(2, 2, height_ratios=[1.15, 0.85], hspace=0.60, wspace=0.25)
+fig = plt.figure(figsize=(12.5, 7.8))  # slightly taller
+gs = GridSpec(2, 2, height_ratios=[1.15, 0.85], hspace=0.55, wspace=0.25)
 
 ax1 = fig.add_subplot(gs[0, 0])
 ax2 = fig.add_subplot(gs[0, 1])
@@ -755,7 +755,9 @@ fig.suptitle(
 )
 
 out_svg = "conditional-independence-coin-mix.svg"
-fig.savefig(out_svg, format="svg", bbox_inches="tight", pad_inches=0)
+fig.subplots_adjust(top=0.90, bottom=0.10)
+
+fig.savefig(out_svg, format="svg", bbox_inches="tight", pad_inches=0.20)
 plt.close(fig)
 ```
 
