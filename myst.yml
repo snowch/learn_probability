@@ -13,12 +13,12 @@ project:
       template: plain_latex_book
       output: exports/book.pdf
   toc:
-    - file: index.ipynb
+    - file: index.md
     - title: Part 1 - Foundations of Probability
       children:
-        - file: chapter_01.ipynb
-        - file: chapter_02.ipynb
-        - file: chapter_03.ipynb
+        - file: chapter_01.md
+        - file: chapter_02.md
+        - file: chapter_03.md
     - title: Part 2 - Conditional Probability and Independence
       children:
         - file: chapter_04.md
