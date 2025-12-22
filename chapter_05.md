@@ -564,7 +564,7 @@ If two events A and B have non-zero probabilities, they *cannot* be both mutuall
 
 +++
 
-Sometimes two events look related **overall**, but become independent once we “zoom in” on a relevant condition.
+Sometimes two events look related overall (in the same experiment), but become independent once we condition on a relevant context **$C$**.
 
 Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop giving each other information.
 
@@ -764,8 +764,12 @@ plt.close(fig)
 width: 100%
 figclass: full-width
 ---
-Top row: within each fixed context ($C$ or $C^c$), $H_1$ and $H_2$ factorize.  
-Bottom: when $C$ is hidden, the mixture can create dependence overall.
+By “factorize” we mean the joint probability splits into a product.
+
+Top-left (given $C$): $P(H_1\cap H_2\mid C)=P(H_1\mid C)\,P(H_2\mid C)$.  
+Top-right (given $C^c$): $P(H_1\cap H_2\mid C^c)=P(H_1\mid C^c)\,P(H_2\mid C^c)$.  
+Bottom (context hidden): mixing can give $P(H_1\cap H_2)\neq P(H_1)\,P(H_2)$.
+---
 ```
 
 :::{admonition} Worked calculations (optional)
