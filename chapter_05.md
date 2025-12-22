@@ -569,6 +569,25 @@ Sometimes two events look related **overall**, but become independent once we �
 
 Think of **C** as a *context switch*: if you fix the context, A and B stop influencing each other.
 
+### Notation: what does $\perp$ mean?
+
+We use the symbol **$\perp$** (read “is independent of”).
+
+* **Unconditional independence:**
+  $$
+  A \perp B
+  \quad\text{means}\quad
+  P(A\cap B)=P(A),P(B).
+  $$
+
+* **Conditional independence:**
+  $$
+  A \perp B \mid C
+  \quad\text{means}\quad
+  \text{“$A$ and $B$ are independent once we know $C$.”}
+  $$
+
+
 ### Definition
 
 Events $A$ and $B$ are **conditionally independent given** $C$ (with $P(C)>0$) if
