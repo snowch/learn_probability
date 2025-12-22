@@ -645,7 +645,7 @@ Let:
 * $H_2$ = “second flip is Heads”
 * $C$ = “we chose the fair coin” (so $C^c$ = “we chose the biased coin”)
 
-**How to read the figure:** each top panel fixes the context (which coin). Inside a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip widths/heights represent $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
+**How to read the figure:** each top panel fixes the context (fair vs biased coin). Inside a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip width/height represent $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
 
 ```{code-cell} python3
 :tags: [remove-input, remove-output]
