@@ -654,7 +654,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.gridspec import GridSpec
 
-def draw_context(ax, p, title):
+def draw_context(ax, p, title, cond_tex):
     '''
     Unit box for a fixed context (area = 1).
     Here p = P(H) within that context, so:
@@ -689,7 +689,7 @@ def draw_context(ax, p, title):
     # Compact numbers (no arrows)
     ax.text(
         0.0, -0.14,
-        rf"$P(H_1\mid\cdot)={p:.2f}$   $P(H_2\mid\cdot)={p:.2f}$   $P(H_1\cap H_2\mid\cdot)={p*p:.4f}$",
+        rf"$P(H_1\mid {cond_tex})={p:.2f}$   $P(H_2\mid {cond_tex})={p:.2f}$   $P(H_1\cap H_2\mid {cond_tex})={p*p:.4f}$",
         transform=ax.transAxes, ha="left", va="top", fontsize=11
     )
 
@@ -739,14 +739,14 @@ p_fair, p_biased = 0.50, 0.75
 w_fair, w_biased = 0.50, 0.50
 
 fig = plt.figure(figsize=(12.5, 7.4))
-gs = GridSpec(2, 2, height_ratios=[1.15, 0.85], hspace=0.40, wspace=0.25)
+gs = GridSpec(2, 2, height_ratios=[1.15, 0.85], hspace=0.60, wspace=0.25)
 
 ax1 = fig.add_subplot(gs[0, 0])
 ax2 = fig.add_subplot(gs[0, 1])
 ax3 = fig.add_subplot(gs[1, :])
 
-draw_context(ax1, p_fair,   title=r"Given $C$ = Fair coin ($P(H)=0.5$)")
-draw_context(ax2, p_biased, title=r"Given $C^c$ = Biased coin ($P(H)=0.75$)")
+draw_context(ax1, p_fair,   title=r"Given $C$ = Fair coin ($P(H)=0.5$)",   cond_tex=r"C")
+draw_context(ax2, p_biased, title=r"Given $C^c$ = Biased coin ($P(H)=0.75$)", cond_tex=r"C^c")
 draw_mixture(ax3, w_fair, w_biased, p_fair, p_biased)
 
 fig.suptitle(
@@ -767,8 +767,6 @@ figclass: full-width
 Top row: within each fixed context ($C$ or $C^c$), $H_1$ and $H_2$ factorize.  
 Bottom: when $C$ is hidden, the mixture can create dependence overall.
 ```
-
----
 
 :::{admonition} Worked calculations (optional)
 :class: tip dropdown
@@ -825,11 +823,11 @@ H_1 \perp H_2 \mid C.
 $$
 :::
 
----
-
 ### Intuition in one sentence
 
 **Conditioning on $C$ “locks in the context”; within that context, $H_1$ and $H_2$ don’t update each other—hiding $C$ mixes contexts and can create dependence.**
+
+---
 
 +++
 
