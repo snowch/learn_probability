@@ -1,99 +1,139 @@
 # Appendix E: Summary of Formulas
 
-This appendix provides a summary of the key formulas introduced in Chapters 1-8.
+This appendix provides a summary of the key formulas introduced in Chapters 1–8.
 
 ## **Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events**
 
 ### **Axioms of Probability**
 
-Let S be a sample space, and P(A) denote the probability of an event A.
+Let $S$ be a sample space, and $P(A)$ denote the probability of an event $A$.
 
-1. **Non-negativity**: For any event A, the probability of A is greater than or equal to zero. P(A)≥0  
-2. **Normalization**: The probability of the entire sample space S is equal to 1\. P(S)=1  
-3. **Additivity for Disjoint Events**: If A1​,A2​,A3​,... is a sequence of *mutually exclusive* (disjoint) events (i.e., Ai​∩Aj​=∅ for all i=j), then the probability of their union is the sum of their individual probabilities. P(A1​∪A2​∪A3​∪...)=P(A1​)+P(A2​)+P(A3​)+...  
-   * For a finite number of disjoint events, say A and B: If A∩B=∅, then P(A∪B)=P(A)+P(B)  
-* **Probability of Impossible Event**: The probability of an impossible event (the empty set, ∅) is 0\. P(∅)=0
+1. **Non-negativity**: For any event $A$, the probability of $A$ is greater than or equal to zero. $P(A)\ge 0$
+2. **Normalization**: The probability of the entire sample space $S$ is equal to $1$. $P(S)=1$
+3. **Additivity for Disjoint Events**: If $A_1,A_2,A_3,\dots$ is a sequence of *mutually exclusive* (disjoint) events (i.e., $A_i\cap A_j=\emptyset$ for all $i\ne j$), then the probability of their union is the sum of their individual probabilities.
+   $$P(A_1\cup A_2\cup A_3\cup \cdots)=P(A_1)+P(A_2)+P(A_3)+\cdots$$
+
+   * For a finite number of disjoint events, say $A$ and $B$: If $A\cap B=\emptyset$, then $P(A\cup B)=P(A)+P(B)$
+
+* **Probability of Impossible Event**: The probability of an impossible event (the empty set, $\emptyset$) is $0$. $P(\emptyset)=0$
 
 ### **Basic Probability Rules**
 
-1. **Probability Range**: For any event A: 0≤P(A)≤1  
-2. **Complement Rule**: The probability that event A does *not* occur is 1 minus the probability that it *does* occur. P(A′)=1−P(A)  
-3. **Addition Rule (General)**: For any two events A and B (not necessarily disjoint), the probability that A *or* B (or both) occurs is: P(A∪B)=P(A)+P(B)−P(A∩B)
+1. **Probability Range**: For any event $A$: $0\le P(A)\le 1$
+2. **Complement Rule**: The probability that event $A$ does *not* occur is $1$ minus the probability that it *does* occur. $P(A^c)=1-P(A)$
+3. **Addition Rule (General)**: For any two events $A$ and $B$ (not necessarily disjoint), the probability that $A$ *or* $B$ (or both) occurs is:
+   $$P(A\cup B)=P(A)+P(B)-P(A\cap B)$$
 
 ### **Empirical Probability**
 
-The empirical probability of an event A is estimated from simulations:  
-Pempirical​(A)=Total number of trialsNumber of times event A occurred​
+The empirical probability of an event $A$ is estimated from simulations:
+$$
+P_{\text{empirical}}(A)=\frac{\text{Number of times event $A$ occurred}}{\text{Total number of trials}}.
+$$
 
 ## **Chapter 3: Counting Techniques: Permutations and Combinations**
 
 ### **The Multiplication Principle**
 
-If a procedure can be broken down into a sequence of k steps, with n1​ ways for the first step, n2​ for the second, ..., nk​ for the k-th step, then the total number of ways to perform the entire procedure is:  
-Total ways=n1​×n2​×⋯×nk​
+If a procedure can be broken down into a sequence of $k$ steps, with $n_1$ ways for the first step, $n_2$ for the second, $\dots$, $n_k$ for the $k$-th step, then the total number of ways to perform the entire procedure is:
+$$
+\text{Total ways}=n_1\times n_2\times \cdots \times n_k.
+$$
 
 ### **Permutations (Order Matters)**
 
-1. **Permutations without Repetition**: The number of permutations of n distinct objects taken k at a time. P(n,k)=(n−k)\!n\!​  
-   * Special Case: Arranging all n distinct objects: P(n,n)=n\!  
-2. **Permutations with Repetition (Multinomial Coefficients)**: The number of distinct permutations of n objects where there are n1​ identical objects of type 1, n2​ of type 2, ..., nk​ of type k (such that n1​+n2​+⋯+nk​=n). n1​\!n2​\!…nk​\!n\!​
+1. **Permutations without Repetition**: The number of permutations of $n$ distinct objects taken $k$ at a time:
+   $$P(n,k)=\frac{n!}{(n-k)!}$$
+
+   * Special Case: Arranging all $n$ distinct objects: $P(n,n)=n!$
+2. **Permutations with Repetition (Multinomial Coefficients)**: The number of distinct permutations of $n$ objects where there are $n_1$ identical objects of type 1, $n_2$ of type 2, $\dots$, $n_k$ of type $k$ (such that $n_1+n_2+\cdots+n_k=n$):
+   $$\frac{n!}{n_1!,n_2!\cdots n_k!}$$
 
 ### **Combinations (Order Doesn't Matter)**
 
-1. **Combinations without Repetition**: The number of combinations of n distinct objects taken k at a time (also "n choose k"). C(n,k)=(kn​)=k\!(n−k)\!n\!​  
-   * Relationship to permutations: C(n,k)=k\!P(n,k)​  
-2. **Combinations with Repetition**: The number of combinations with repetition of n types of objects taken k at a time. (kn+k−1​)=k\!(n−1)\!(n+k−1)\!​
+1. **Combinations without Repetition**: The number of combinations of $n$ distinct objects taken $k$ at a time (also “$n$ choose $k$”):
+   $$C(n,k)=\binom{n}{k}=\frac{n!}{k!(n-k)!}$$
+
+   * Relationship to permutations:
+     $$C(n,k)=\frac{P(n,k)}{k!}$$
+2. **Combinations with Repetition**: The number of combinations with repetition of $n$ types of objects taken $k$ at a time:
+   $$\binom{n+k-1}{k}=\frac{(n+k-1)!}{k!(n-1)!}$$
 
 ### **Probability with Equally Likely Outcomes**
 
-The probability of an event E when all outcomes in the sample space S are equally likely:  
-P(E)=Total number of possible outcomes in SNumber of outcomes favorable to E​=∣S∣∣E∣​
+The probability of an event $E$ when all outcomes in the sample space $S$ are equally likely:
+$$
+P(E)=\frac{\text{Number of outcomes favorable to }E}{\text{Total number of possible outcomes in }S}
+=\frac{|E|}{|S|}.
+$$
 
 ## **Chapter 4: Conditional Probability**
 
 ### **Definition of Conditional Probability**
 
-For any two events A and B from a sample space S, where P(B)\>0, the conditional probability of A given B is defined as:  
-P(A∣B)=P(B)P(A∩B)​
+For any two events $A$ and $B$ from a sample space $S$, where $P(B)>0$, the conditional probability of $A$ given $B$ is defined as:
+$$
+P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
+$$
 
 ### **The Multiplication Rule for Conditional Probability**
 
-Rearranging the definition of conditional probability gives:  
-P(A∩B)=P(A∣B)P(B)  
-Similarly, if P(A)\>0:  
-P(A∩B)=P(B∣A)P(A)  
-For three events A,B,C:  
-P(A∩B∩C)=P(C∣A∩B)P(B∣A)P(A)
+Rearranging the definition of conditional probability gives:
+$$
+P(A\cap B)=P(A\mid B)P(B).
+$$
+Similarly, if $P(A)>0$:
+$$
+P(A\cap B)=P(B\mid A)P(A).
+$$
+For three events $A,B,C$:
+$$
+P(A\cap B\cap C)=P(C\mid A\cap B),P(B\mid A),P(A).
+$$
 
 ### **The Law of Total Probability**
 
-Let B1​,B2​,…,Bn​ be a partition of the sample space S. Then, for any event A in S:  
-P(A)=∑i=1n​P(A∣Bi​)P(Bi​)  
-Expanded form:  
-P(A)=P(A∣B1​)P(B1​)+P(A∣B2​)P(B2​)+…+P(A∣Bn​)P(Bn​)
+Let $B_1,B_2,\dots,B_n$ be a partition of the sample space $S$. Then, for any event $A$ in $S$:
+$$
+P(A)=\sum_{i=1}^{n} P(A\mid B_i),P(B_i).
+$$
+Expanded form:
+$$
+P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)+\cdots+P(A\mid B_n)P(B_n).
+$$
 
 ## **Chapter 5: Bayes' Theorem and Independence**
 
 ### **Bayes' Theorem**
 
-Provides a way to "reverse" conditional probabilities. If P(B)\>0:  
-P(A∣B)=P(B)P(B∣A)P(A)​  
-Where P(B) can often be calculated using the Law of Total Probability:  
-P(B)=P(B∣A)P(A)+P(B∣Ac)P(Ac)
+Provides a way to “reverse” conditional probabilities. If $P(B)>0$:
+$$
+P(A\mid B)=\frac{P(B\mid A)P(A)}{P(B)}.
+$$
+Where $P(B)$ can often be calculated using the Law of Total Probability (e.g., with a partition ${A,A^c}$):
+$$
+P(B)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
+$$
 
 ### **Independence of Events**
 
-1. **Formal Definition**: Events A and B are independent if and only if: P(A∩B)=P(A)P(B)  
-2. **Alternative Definition (using conditional probability)**:  
-   * If P(B)\>0, A and B are independent if and only if: P(A∣B)=P(A)  
-   * Similarly, if P(A)\>0, independence means: P(B∣A)=P(B)
+1. **Formal Definition**: Events $A$ and $B$ are independent if and only if:
+   $$P(A\cap B)=P(A)P(B)$$
+2. **Alternative Definition (using conditional probability)**:
+
+   * If $P(B)>0$, $A$ and $B$ are independent if and only if: $P(A\mid B)=P(A)$
+   * Similarly, if $P(A)>0$, independence means: $P(B\mid A)=P(B)$
 
 ### **Conditional Independence**
 
-Events A and B are conditionally independent given event C (where P(C)\>0) if:  
-P(A∩B∣C)=P(A∣C)P(B∣C)  
-Alternative Definition: If P(B∣C)\>0, conditional independence means:  
-P(A∣B∩C)=P(A∣C)
+Events $A$ and $B$ are conditionally independent given event $C$ (where $P(C)>0$) if:
+$$
+P(A\cap B\mid C)=P(A\mid C)P(B\mid C).
+$$
+Alternative Definition: If $P(B\mid C)>0$, conditional independence means:
+$$
+P(A\mid B\cap C)=P(A\mid C).
+$$
 
 ## **Chapter 6: Discrete Random Variables**
 
