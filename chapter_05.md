@@ -564,6 +564,20 @@ If two events A and B have non-zero probabilities, they *cannot* be both mutuall
 
 +++
 
+```{admonition} Why this section matters (and why it's tricky)
+:class: tip
+
+Conditional independence is one of the most subtle but important concepts in probability. It explains many real-world phenomena that seem paradoxical at first:
+
+* Why a treatment might appear effective overall but ineffective (or even harmful) within specific patient groups
+* Why two variables might seem correlated in your data but are actually unrelated once you account for a hidden factor
+* How mixing data from different sources can create spurious relationships
+
+**The key insight:** Two events can be *independent* when you know the context, but *dependent* when the context is hidden. This is counter-intuitive because we're used to thinking of independence as an absolute property, not something that depends on what else we know.
+
+**Take your time with this section.** The concepts are subtle and you will probably need to read this section multiple times. This is completely normal - conditional independence takes time to internalize, but the payoff is enormous for understanding statistics, causality, and data analysis.
+```
+
 Sometimes two events appear related overall (in the same experiment), but become independent once we condition on a relevant context **$C$**.
 
 Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop giving each other information.
@@ -657,9 +671,19 @@ In the bottom panel, we *don’t* observe the context, so we mix the two context
   knowing $H_1$ doesn’t change the probability of $H_2$.
   So $P(H_2\mid H_1, C)=P(H_2\mid C)$ and likewise for $C^c$.
 
-* If you **don’t know the coin**, then $H_1$ gives you information about *which coin you probably have*.
+* If you **don't know the coin**, then $H_1$ gives you information about *which coin you probably have*.
   For example, seeing Heads on the first flip makes the biased coin more likely,
-  which makes Heads on the second flip more likely. That’s why dependence appears overall.
+  which makes Heads on the second flip more likely. That's why dependence appears overall.
+
+**Mathematical setup:**
+
+To find the overall probability of both flips being heads when we don't know which coin was chosen, we apply the Law of Total Probability using the partition $\{C, C^c\}$:
+
+$$
+P(H_1\cap H_2) = P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c)
+$$
+
+This is the same principle we used earlier for single events (like $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$), but now applied to the intersection $H_1 \cap H_2$. We're splitting the joint event into two mutually exclusive cases (fair coin vs. biased coin) and adding their weighted probabilities.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
