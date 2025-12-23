@@ -47,7 +47,7 @@ project:
     - title: Part 7 - Exercises
       children:
         - file: chapter_04_exercises_a.md
-        - file: chapter_04_exercises_b.md
+        # - file: chapter_04_exercises_b.md
     - title: Lab
       children:
         - file: chapter_04_lab.md
