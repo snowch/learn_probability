@@ -645,7 +645,21 @@ Let:
 * $H_2$ = “second flip is Heads”
 * $C$ = “we chose the fair coin” (so $C^c$ = “we chose the biased coin”)
 
-**How to read the figure:** each top panel fixes the context (fair vs biased coin). Inside a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip width/height represent $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
+**How to read the figure:** 
+
+Each top panel fixes the context (fair vs biased coin). Inside a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip width/height represent $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
+
+In the bottom panel, we *don’t* observe the context, so we mix the two contexts with weights $P(C)$ and $P(C^c)$; this mixing can make $P(H_1\cap H_2)\neq P(H_1)P(H_2)$.
+
+**What to notice (the whole idea):**
+
+* If you **fix the coin** (you know $C$ or $C^c$), then the two flips are independent:
+  knowing $H_1$ doesn’t change the probability of $H_2$.
+  So $P(H_2\mid H_1, C)=P(H_2\mid C)$ and likewise for $C^c$.
+
+* If you **don’t know the coin**, then $H_1$ gives you information about *which coin you probably have*.
+  For example, seeing Heads on the first flip makes the biased coin more likely,
+  which makes Heads on the second flip more likely. That’s why dependence appears overall.
 
 ```{code-cell} python3
 :tags: [remove-input, remove-output]
@@ -771,6 +785,8 @@ By “factorize” we mean the joint probability splits into a product.
 Top-left (given $C$): $P(H_1\cap H_2\mid C)=P(H_1\mid C)\,P(H_2\mid C)$.  
 Top-right (given $C^c$): $P(H_1\cap H_2\mid C^c)=P(H_1\mid C^c)\,P(H_2\mid C^c)$.  
 Bottom (context hidden): mixing can give $P(H_1\cap H_2)\neq P(H_1)\,P(H_2)$.
+
+In other words: $H_1$ and $H_2$ are independent *given the coin*, but not independent when the coin is hidden.
 ---
 ```
 
