@@ -243,3 +243,5 @@ In this chapter, we introduced the fundamental concept of probability as a measu
 You should now have a working Python environment and a basic understanding of how to execute code and visualize simple data within a Jupyter Notebook.
 
 In the next chapter, we will delve into the formal language of probability, defining key terms like sample spaces, events, and outcomes, and exploring the fundamental axioms and rules that govern probability calculations.
+
++++
