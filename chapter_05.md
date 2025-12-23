@@ -586,7 +586,9 @@ Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop
 
 ### 5.1. Definition and notation
 
-We use the symbol **$\perp$** (read “is independent of”).
+Before we dive into the formal definition, recall that we've already seen independence in Section 4. **Conditional independence** is a related but distinct concept: it's about independence that holds *within* a specific context, even though the events might be dependent overall when contexts are mixed.
+
+We use the symbol **$\perp$** (read "is independent of").
 
 * **Unconditional independence**
   $$
@@ -628,9 +630,9 @@ $$
 ---
 
 :::{admonition} Warning: conditional independence is not the same as independence
-:class: warning dropdown
+:class: warning
 
-$A \perp B \mid C$ does **not** imply $A \perp B$.
+**This is a critical point that students often miss:** $A \perp B \mid C$ does **not** imply $A \perp B$.
 
 A very common pattern is:
 
@@ -659,21 +661,113 @@ Let:
 * $H_2$ = “second flip is Heads”
 * $C$ = “we chose the fair coin” (so $C^c$ = “we chose the biased coin”)
 
-**How to read the figure:** 
+#### Part 1: Independence within each context
 
-Each top panel fixes the context (fair vs biased coin). Inside a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip width/height represent $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
+First, let's see what happens when we **know which coin we have**. The key insight is that once you fix the context (know the coin), the two flips become independent.
 
-In the bottom panel, we *don’t* observe the context, so we mix the two contexts with weights $P(C)$ and $P(C^c)$; this mixing can make $P(H_1\cap H_2)\neq P(H_1)P(H_2)$.
+**What to notice:**
 
-**What to notice (the whole idea):**
+If you **fix the coin** (you know $C$ or $C^c$), then the two flips are independent: knowing $H_1$ doesn't change the probability of $H_2$. Mathematically:
 
-* If you **fix the coin** (you know $C$ or $C^c$), then the two flips are independent:
-  knowing $H_1$ doesn’t change the probability of $H_2$.
-  So $P(H_2\mid H_1, C)=P(H_2\mid C)$ and likewise for $C^c$.
+$$
+P(H_2\mid H_1, C) = P(H_2\mid C)
+\quad\text{and}\quad
+P(H_2\mid H_1, C^c) = P(H_2\mid C^c)
+$$
 
-* If you **don't know the coin**, then $H_1$ gives you information about *which coin you probably have*.
-  For example, seeing Heads on the first flip makes the biased coin more likely,
-  which makes Heads on the second flip more likely. That's why dependence appears overall.
+This means the joint probability factorizes (splits into a product) within each context:
+
+$$
+P(H_1\cap H_2\mid C) = P(H_1\mid C)\,P(H_2\mid C)
+$$
+
+and similarly for $C^c$. Let's visualize this:
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+
+def draw_context(ax, p, title, cond_tex):
+    """Draw a single context panel showing conditional independence."""
+    p = max(0.0, min(1.0, float(p)))
+
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    ax.set_title(title, fontsize=13, fontweight="bold", pad=10)
+
+    ax.add_patch(Rectangle((0, 0), 1, 1, fill=False, linewidth=2))
+
+    # Draw strips for H1 and H2
+    ax.add_patch(Rectangle((0, 0), p, 1, facecolor="#d9d9d9", edgecolor="none"))     # H1 strip
+    ax.add_patch(Rectangle((0, 1-p), 1, p, facecolor="#c7c7c7", edgecolor="none"))   # H2 strip
+    ax.add_patch(Rectangle((0, 1-p), p, p, facecolor="#9e9e9e", edgecolor="none"))   # overlap
+
+    ax.add_patch(Rectangle((0, 0), p, 1, fill=False, linewidth=1.0))
+    ax.add_patch(Rectangle((0, 1-p), 1, p, fill=False, linewidth=1.0))
+    ax.add_patch(Rectangle((0, 1-p), p, p, fill=False, linewidth=1.2))
+
+    # Labels
+    ax.text(p/2, 0.03, r"$H_1$", ha="center", va="bottom", fontsize=12)
+    ax.text(0.03, 1-p/2, r"$H_2$", ha="left", va="center", fontsize=12)
+    ax.text(p/2, 1-p/2, r"$H_1\cap H_2$", ha="center", va="center", fontsize=12, color="white")
+
+# Coin parameters
+p_fair, p_biased = 0.50, 0.75
+
+# Create figure with two panels side by side
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+draw_context(ax1, p_fair,   title=r"Given $C$ = Fair coin ($P(H)=0.5$)",    cond_tex=r"C")
+draw_context(ax2, p_biased, title=r"Given $C^c$ = Biased coin ($P(H)=0.75$)", cond_tex=r"C^c")
+
+fig.suptitle(
+    "Conditional independence: within each fixed context, the flips are independent",
+    fontsize=14, fontweight="bold", y=1.02
+)
+
+plt.tight_layout()
+fig.savefig("conditional-independence-contexts.svg", format="svg", bbox_inches="tight", pad_inches=0.3)
+```
+
+:::{figure} conditional-independence-contexts.svg
+:width: 100%
+:figclass: full-width
+
+**Conditional independence within each context.** Each panel fixes the coin type. Within a panel, the shaded overlap represents $P(H_1\cap H_2\mid \text{context})$, and the strip dimensions show $P(H_1\mid \text{context})$ and $P(H_2\mid \text{context})$.
+:::
+
+**Numerical verification:**
+
+For the **fair coin** (left panel):
+- $P(H_1\mid C) = 0.50$
+- $P(H_2\mid C) = 0.50$
+- $P(H_1\cap H_2\mid C) = 0.25$
+- **Factorization check:** $P(H_1\mid C) \times P(H_2\mid C) = 0.50 \times 0.50 = 0.25$ ✓
+
+For the **biased coin** (right panel):
+- $P(H_1\mid C^c) = 0.75$
+- $P(H_2\mid C^c) = 0.75$
+- $P(H_1\cap H_2\mid C^c) = 0.5625$
+- **Factorization check:** $P(H_1\mid C^c) \times P(H_2\mid C^c) = 0.75 \times 0.75 = 0.5625$ ✓
+
+In both panels, the joint probability equals the product of the marginals. This is what independence looks like.
+
+---
+
+#### Part 2: What happens when the context is hidden (mixing)
+
+Now comes the surprising part: **when we don't know which coin was chosen**, the flips are no longer independent!
+
+**Why dependence emerges:**
+
+If you **don't know the coin**, then observing $H_1$ gives you information about *which coin you probably have*. For example:
+- Seeing Heads on the first flip makes the biased coin more likely
+- This makes Heads on the second flip more likely
+- So $H_1$ and $H_2$ are dependent when the context is hidden
 
 **Mathematical setup:**
 
@@ -685,41 +779,13 @@ $$
 
 This is the same principle we used earlier for single events (like $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$), but now applied to the intersection $H_1 \cap H_2$. We're splitting the joint event into two mutually exclusive cases (fair coin vs. biased coin) and adding their weighted probabilities.
 
+Let's visualize how mixing the two contexts creates dependence:
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-from matplotlib.gridspec import GridSpec
-
-def draw_context(ax, p, title, cond_tex):
-    p = max(0.0, min(1.0, float(p)))
-
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.set_aspect("equal")
-    ax.axis("off")
-    ax.set_title(title, fontsize=13, fontweight="bold", pad=10)
-
-    ax.add_patch(Rectangle((0, 0), 1, 1, fill=False, linewidth=2))
-
-    ax.add_patch(Rectangle((0, 0), p, 1, facecolor="#d9d9d9", edgecolor="none"))     # H1 strip
-    ax.add_patch(Rectangle((0, 1-p), 1, p, facecolor="#c7c7c7", edgecolor="none"))   # H2 strip
-    ax.add_patch(Rectangle((0, 1-p), p, p, facecolor="#9e9e9e", edgecolor="none"))   # overlap
-
-    ax.add_patch(Rectangle((0, 0), p, 1, fill=False, linewidth=1.0))
-    ax.add_patch(Rectangle((0, 1-p), 1, p, fill=False, linewidth=1.0))
-    ax.add_patch(Rectangle((0, 1-p), p, p, fill=False, linewidth=1.2))
-
-    ax.text(p/2, 0.03, r"$H_1$", ha="center", va="bottom", fontsize=12)
-    ax.text(0.03, 1-p/2, r"$H_2$", ha="left", va="center", fontsize=12)
-    ax.text(p/2, 1-p/2, r"$H_1\cap H_2$", ha="center", va="center", fontsize=12, color="white")
-
-    ax.text(
-        0.0, -0.14,
-        rf"$P(H_1\mid {cond_tex})={p:.2f}$   $P(H_2\mid {cond_tex})={p:.2f}$   $P(H_1\cap H_2\mid {cond_tex})={p*p:.4f}$",
-        transform=ax.transAxes, ha="left", va="top", fontsize=11
-    )
 
 def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
     w_fair = max(0.0, float(w_fair))
@@ -730,10 +796,10 @@ def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
-    ax.set_title(r"If you do NOT know $C$ (mixture)", fontsize=13, fontweight="bold", pad=10)
+    ax.set_title(r"Context hidden (mixture)", fontsize=13, fontweight="bold", pad=10)
 
-    # Move the box even higher to create more text space
-    y0, h = 0.56, 0.34
+    # Center the box
+    y0, h = 0.25, 0.50
     ax.add_patch(Rectangle((0, y0), 1, h, fill=False, linewidth=2))
 
     ax.add_patch(Rectangle((0, y0 + h*(1-wf)), 1, h*wf, facecolor="#e6e6e6", edgecolor="none"))
@@ -747,171 +813,111 @@ def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
             rf"Biased context ($C^c$), weight $P(C^c)={w_biased:.2f}$",
             ha="left", va="center", fontsize=12, clip_on=False)
 
-    P_H1 = w_fair*p_fair + w_biased*p_biased
-    P_H2 = P_H1
-    P_HH = w_fair*(p_fair*p_fair) + w_biased*(p_biased*p_biased)
-    prod = P_H1 * P_H2
-    P_H2_given_H1 = P_HH / P_H1
-
-    # Position text below the box using incremental spacing
-    # Start from below the box and work downward
-    ypos = y0 - 0.04  # Start slightly below the box
-    line_spacing = 0.07  # Spacing between lines within a section
-    section_spacing = 0.15  # Spacing between major sections
-
-    # First section: explanation
-    ax.text(
-        0.5, ypos,
-        "Context hidden: we use the Law of Total Probability to combine both scenarios,",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-    ypos -= line_spacing
-    ax.text(
-        0.5, ypos,
-        "weighting each by how likely it is to occur (P(C)+P(C^c)=1).",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-    ypos -= section_spacing
-
-    # Formula
-    ax.text(
-        0.5, ypos,
-        r"$P(H_1\cap H_2)=P(H_1\cap H_2\mid C)P(C) +\;P(H_1\cap H_2\mid C^c)P(C^c)$",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-    ypos -= section_spacing
-
-    # Numerical comparison
-    ax.text(
-        0.5, ypos,
-        rf"$P(H_1\cap H_2)={P_HH:.5f}$  vs  $P(H_1)P(H_2)={prod:.6f}$",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-    ypos -= line_spacing
-    ax.text(
-        0.5, ypos,
-        "(joint probability > product means the events are dependent)",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-    ypos -= section_spacing
-
-    # Update check
-    ax.text(
-        0.5, ypos,
-        rf"Update check:  $P(H_2\mid H_1)={P_H2_given_H1:.2f}$  but  $P(H_2)={P_H2:.3f}$",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-    ypos -= line_spacing
-    ax.text(
-        0.5, ypos,
-        "(observing H₁ updates our belief about H₂, confirming they are dependent)",
-        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
-    )
-
-# --- Coin example numbers ---
+# Coin parameters
 p_fair, p_biased = 0.50, 0.75
-w_fair, w_biased = 0.50, 0.50
+w_fair, w_biased = 0.50, 0.50  # Equal probability of choosing each coin
 
-# Make the whole figure taller AND give the bottom row more height
-fig = plt.figure(figsize=(12.5, 9.2))
-gs = GridSpec(2, 2, height_ratios=[1.00, 1.15], hspace=0.55, wspace=0.25)
+# Create figure with just the mixture panel
+fig, ax = plt.subplots(1, 1, figsize=(8, 5))
 
-ax1 = fig.add_subplot(gs[0, 0])
-ax2 = fig.add_subplot(gs[0, 1])
-ax3 = fig.add_subplot(gs[1, :])
+draw_mixture(ax, w_fair, w_biased, p_fair, p_biased)
 
-draw_context(ax1, p_fair,   title=r"Given $C$ = Fair coin ($P(H)=0.5$)",    cond_tex=r"C")
-draw_context(ax2, p_biased, title=r"Given $C^c$ = Biased coin ($P(H)=0.75$)", cond_tex=r"C^c")
-draw_mixture(ax3, w_fair, w_biased, p_fair, p_biased)
-
-fig.suptitle(
-    "Two flips of a randomly chosen coin: factorizes within each context; mixing creates dependence",
-    fontsize=14, fontweight="bold", y=0.98
-)
-
-out_svg = "conditional-independence-coin-mix.svg"
-fig.subplots_adjust(top=0.90, bottom=0.08)
-
-fig.savefig(out_svg, format="svg", bbox_inches="tight", pad_inches=0.45)
+plt.tight_layout()
+fig.savefig("conditional-independence-mixture.svg", format="svg", bbox_inches="tight", pad_inches=0.4)
 ```
 
-:::{figure} conditional-independence-coin-mix.svg
-:width: 100%
-:figclass: full-width
+:::{figure} conditional-independence-mixture.svg
+:width: 70%
 
-By “factorize” we mean the joint probability splits into a product.
-
-Top-left (given $C$): $P(H_1\cap H_2\mid C)=P(H_1\mid C)\,P(H_2\mid C)$.  
-Top-right (given $C^c$): $P(H_1\cap H_2\mid C^c)=P(H_1\mid C^c)\,P(H_2\mid C^c)$.  
-Bottom (context hidden): mixing can give $P(H_1\cap H_2)\neq P(H_1)\,P(H_2)$.
-
-In other words: $H_1$ and $H_2$ are independent *given the coin*, but not independent when the coin is hidden.
+**The mixing effect.** When we don't know which coin was chosen, we must combine the two contexts (fair and biased) using their probabilities as weights.
 :::
 
-:::{admonition} Worked calculations (optional)
+**Understanding the calculation:**
+
+When the context is hidden, we use the **Law of Total Probability** to combine both scenarios, weighting each by how likely it is to occur (note that $P(C) + P(C^c) = 1$):
+
+$$
+P(H_1\cap H_2) = P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c)
+$$
+
+**Numerical verification:**
+
+Calculating the individual probabilities:
+- $P(H_1) = P(H\mid C)P(C) + P(H\mid C^c)P(C^c) = (0.50)(0.50) + (0.75)(0.50) = 0.625$
+- $P(H_2) = 0.625$ (by the same calculation)
+- $P(H_1\cap H_2) = (0.25)(0.50) + (0.5625)(0.50) = 0.125 + 0.28125 = 0.40625$
+
+Now let's check for independence:
+- $P(H_1\cap H_2) = 0.40625$
+- $P(H_1) \times P(H_2) = 0.625 \times 0.625 = 0.390625$
+
+Since $0.40625 \neq 0.390625$, the joint probability does **not** equal the product. This means **the events are dependent** when the context is hidden.
+
+**Update check (alternative verification):**
+
+We can also verify dependence by checking whether observing $H_1$ updates our belief about $H_2$:
+
+$$
+P(H_2\mid H_1) = \frac{P(H_1\cap H_2)}{P(H_1)} = \frac{0.40625}{0.625} = 0.65
+$$
+
+But $P(H_2) = 0.625$. Since $P(H_2\mid H_1) = 0.65 \neq 0.625 = P(H_2)$, observing $H_1$ **does** update our belief about $H_2$, confirming they are dependent.
+
+**The key insight:** The flips are independent within each context, but dependent overall. This is because observing $H_1$ changes our belief about which coin we have, which in turn affects our belief about $H_2$.
+
+:::{admonition} Summary of all three scenarios
 :class: tip dropdown
 
-#### Scenario 1: we do *not* know which coin was chosen
+The calculations above showed what happens when the context is hidden (Scenario 1). Here's a complete summary of all three cases:
 
-By total probability:
-$$
-P(H_1)=0.5\cdot 0.5 + 0.5\cdot 0.75 = 0.625,
-\qquad
-P(H_2)=0.625.
-$$
+**Scenario 1: Context hidden (we do NOT know which coin)**
+- $P(H_1) = 0.625$, $P(H_2) = 0.625$
+- $P(H_1\cap H_2) = 0.40625 \neq P(H_1)P(H_2) = 0.390625$
+- **Not independent** (observing $H_1$ updates belief about $H_2$)
 
-And
-$$
-P(H_1\cap H_2)=0.5\cdot 0.25 + 0.5\cdot 0.5625 = 0.40625.
-$$
+**Scenario 2: We know we chose the fair coin ($C$)**
 
-If $H_1$ and $H_2$ were independent overall, we’d have
-$$
-P(H_1)P(H_2)=0.625^2=0.390625 \neq 0.40625.
-$$
+- $P(H_1\mid C) = 0.5$, $P(H_2\mid C) = 0.5$
+- $P(H_1\cap H_2\mid C) = 0.25 = P(H_1\mid C) \times P(H_2\mid C)$
+- **Independent** within this context
 
-An “update” check shows the same thing:
-$$
-P(H_2\mid H_1)=\frac{0.40625}{0.625}=0.65
-\quad\text{but}\quad
-P(H_2)=0.625.
-$$
+**Scenario 3: We know we chose the biased coin ($C^c$)**
+- $P(H_1\mid C^c) = 0.75$, $P(H_2\mid C^c) = 0.75$
+- $P(H_1\cap H_2\mid C^c) = 0.5625 = P(H_1\mid C^c) \times P(H_2\mid C^c)$
+- **Independent** within this context
 
-#### Scenario 2: we know we chose the fair coin ($C$)
-
-$$
-P(H_1\mid C)=0.5,\quad P(H_2\mid C)=0.5,\quad P(H_1\cap H_2\mid C)=0.25,
-$$
-and
-$$
-P(H_1\cap H_2\mid C)=P(H_1\mid C)\,P(H_2\mid C).
-$$
-
-#### Scenario 3: we know we chose the biased coin ($C^c$)
-
-$$
-P(H_1\mid C^c)=0.75,\quad P(H_2\mid C^c)=0.75,\quad P(H_1\cap H_2\mid C^c)=0.5625,
-$$
-and
-$$
-P(H_1\cap H_2\mid C^c)=P(H_1\mid C^c)\,P(H_2\mid C^c).
-$$
-
-So $H_1$ and $H_2$ are **conditionally independent** given which coin was chosen:
-$$
-H_1 \perp H_2 \mid C.
-$$
+**Conclusion:** $H_1$ and $H_2$ are **conditionally independent** given which coin was chosen ($H_1 \perp H_2 \mid C$), but **not independent** when the coin is unknown.
 :::
 
-### 5.3. Intuition in one sentence
+---
 
-**Conditioning on $C$ “locks in the context”: given $C$, $H_1$ and $H_2$ don’t update each other. When $C$ is hidden, mixing contexts can create dependence.**
+**Connecting back to the general principle:**
 
-### 5.4. Conclusion
+Our coin example perfectly illustrates the key insight from Section 5.1:
+- We have $H_1 \perp H_2 \mid C$ (the flips are conditionally independent given the coin)
+- But we do NOT have $H_1 \perp H_2$ (the flips are dependent overall when the coin is unknown)
 
-In real experiments, conditional independence is the idea behind **controlling for confounders**: once you fix relevant background variables $C$ (age, batch, site, baseline severity), an apparent relationship between $A$ and $B$ can weaken, disappear, or even reverse.
+This demonstrates that **conditional independence does not imply unconditional independence**. The dependence emerges when we mix contexts (average over the hidden variable $C$). This pattern appears everywhere in statistics and data analysis: relationships that disappear within subgroups but appear in the overall data, or vice versa.
 
-In practice, many “false discoveries” come from **ignoring** such variables: mixing data from different groups or batches can create dependence that looks like a real effect.
+---
+
+### 5.3. Key takeaways and real-world applications
+
+**The core insight in one sentence:**
+
+Conditioning on $C$ "locks in the context"—given $C$, events $A$ and $B$ don't update each other. When $C$ is hidden, mixing contexts can create dependence (or mask independence).
+
+**Why this matters in practice:**
+
+Conditional independence is the idea behind **controlling for confounders** in real experiments and data analysis:
+
+1. **Medical research:** An apparent relationship between a treatment and outcome might weaken, disappear, or even reverse once you control for age, sex, or baseline severity.
+
+2. **Data analysis:** Many "false discoveries" come from ignoring hidden grouping variables. Mixing data from different batches, sites, or time periods can create spurious correlations that look like real effects.
+
+3. **Machine learning:** Understanding when features are conditionally independent given others is crucial for building accurate models and avoiding confounding.
+
+**The practical lesson:** Always ask "what context am I in?" When analyzing relationships between variables, consider whether there's a hidden factor $C$ that, once accounted for, changes the picture entirely. This is one of the most important concepts for moving from probability theory to real-world statistical reasoning.
 
 ---
 
