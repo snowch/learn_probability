@@ -109,7 +109,7 @@ P(A\mid B)
 =\frac{P(B\mid A)P(A)}{P(B\mid A)P(A)+P(B\mid A^c)P(A^c)}.
 $$
 
-```{code-cell} python3
+```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
 from pathlib import Path
@@ -661,7 +661,7 @@ In the bottom panel, we *don’t* observe the context, so we mix the two context
   For example, seeing Heads on the first flip makes the biased coin more likely,
   which makes Heads on the second flip more likely. That’s why dependence appears overall.
 
-```{code-cell} python3
+```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
 import matplotlib.pyplot as plt
@@ -669,11 +669,6 @@ from matplotlib.patches import Rectangle
 from matplotlib.gridspec import GridSpec
 
 def draw_context(ax, p, title, cond_tex):
-    '''
-    Unit box for a fixed context (area = 1).
-    Here p = P(H) within that context, so:
-      P(H1|context)=p, P(H2|context)=p, P(H1∩H2|context)=p^2
-    '''
     p = max(0.0, min(1.0, float(p)))
 
     ax.set_xlim(0, 1)
@@ -682,25 +677,20 @@ def draw_context(ax, p, title, cond_tex):
     ax.axis("off")
     ax.set_title(title, fontsize=13, fontweight="bold", pad=10)
 
-    # Outer box
     ax.add_patch(Rectangle((0, 0), 1, 1, fill=False, linewidth=2))
 
-    # Light grayscale fills (clean in SVG and print-friendly)
     ax.add_patch(Rectangle((0, 0), p, 1, facecolor="#d9d9d9", edgecolor="none"))     # H1 strip
     ax.add_patch(Rectangle((0, 1-p), 1, p, facecolor="#c7c7c7", edgecolor="none"))   # H2 strip
     ax.add_patch(Rectangle((0, 1-p), p, p, facecolor="#9e9e9e", edgecolor="none"))   # overlap
 
-    # Subtle outlines
     ax.add_patch(Rectangle((0, 0), p, 1, fill=False, linewidth=1.0))
     ax.add_patch(Rectangle((0, 1-p), 1, p, fill=False, linewidth=1.0))
     ax.add_patch(Rectangle((0, 1-p), p, p, fill=False, linewidth=1.2))
 
-    # Labels
     ax.text(p/2, 0.03, r"$H_1$", ha="center", va="bottom", fontsize=12)
     ax.text(0.03, 1-p/2, r"$H_2$", ha="left", va="center", fontsize=12)
     ax.text(p/2, 1-p/2, r"$H_1\cap H_2$", ha="center", va="center", fontsize=12, color="white")
 
-    # Compact numbers (no arrows)
     ax.text(
         0.0, -0.14,
         rf"$P(H_1\mid {cond_tex})={p:.2f}$   $P(H_2\mid {cond_tex})={p:.2f}$   $P(H_1\cap H_2\mid {cond_tex})={p*p:.4f}$",
@@ -708,9 +698,6 @@ def draw_context(ax, p, title, cond_tex):
     )
 
 def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
-    '''
-    Mixture panel + the overall (unconditional) independence check.
-    '''
     w_fair = max(0.0, float(w_fair))
     w_biased = max(0.0, float(w_biased))
     tot = (w_fair + w_biased) if (w_fair + w_biased) > 0 else 1.0
@@ -721,45 +708,65 @@ def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
     ax.axis("off")
     ax.set_title(r"If you do NOT know $C$ (mixture)", fontsize=13, fontweight="bold", pad=10)
 
-    # Outer container
-    ax.add_patch(Rectangle((0, 0.28), 1, 0.60, fill=False, linewidth=2))
+    # Move the box even higher to create more text space
+    y0, h = 0.56, 0.34
+    ax.add_patch(Rectangle((0, y0), 1, h, fill=False, linewidth=2))
 
-    # Two stacked context bands (light fills)
-    ax.add_patch(Rectangle((0, 0.28 + 0.60*(1-wf)), 1, 0.60*wf, facecolor="#e6e6e6", edgecolor="none"))
-    ax.add_patch(Rectangle((0, 0.28), 1, 0.60*wb, facecolor="#d1d1d1", edgecolor="none"))
+    ax.add_patch(Rectangle((0, y0 + h*(1-wf)), 1, h*wf, facecolor="#e6e6e6", edgecolor="none"))
+    ax.add_patch(Rectangle((0, y0),            1, h*wb, facecolor="#d1d1d1", edgecolor="none"))
 
-    ax.text(0.02, 0.28 + 0.60*(1-wf/2), rf"Fair context ($C$), weight $P(C)={w_fair:.2f}$",
-            ha="left", va="center", fontsize=12)
-    ax.text(0.02, 0.28 + 0.60*(wb/2), rf"Biased context ($C^c$), weight $P(C^c)={w_biased:.2f}$",
-            ha="left", va="center", fontsize=12)
+    ax.text(0.02, y0 + h*(1-wf/2),
+            rf"Fair context ($C$), weight $P(C)={w_fair:.2f}$",
+            ha="left", va="center", fontsize=12, clip_on=False)
 
-    # Overall numbers (the punchline)
+    ax.text(0.02, y0 + h*(wb/2),
+            rf"Biased context ($C^c$), weight $P(C^c)={w_biased:.2f}$",
+            ha="left", va="center", fontsize=12, clip_on=False)
+
     P_H1 = w_fair*p_fair + w_biased*p_biased
     P_H2 = P_H1
     P_HH = w_fair*(p_fair*p_fair) + w_biased*(p_biased*p_biased)
     prod = P_H1 * P_H2
     P_H2_given_H1 = P_HH / P_H1
 
-    ax.text(0.5, 0.14,
-            rf"$P(H_1\cap H_2)={P_HH:.5f}$  vs  $P(H_1)P(H_2)={prod:.6f}$",
-            ha="center", va="center", fontsize=13)
+    # Use va="top" so multiline text expands downward (prevents collisions)
+    ax.text(
+        0.5, 0.51,
+        "Context hidden: we average the two cases using their probabilities (P(C)+P(C^c)=1).",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
+    )
+    ax.text(
+        0.5, 0.43,
+        r"$P(H_1\cap H_2)=P(H_1\cap H_2\mid C)P(C) +\;P(H_1\cap H_2\mid C^c)P(C^c)$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=12.5, linespacing=1.5
+    )
 
-    ax.text(0.5, 0.0,
-            rf"Update check:  $P(H_2\mid H_1)={P_H2_given_H1:.2f}$  but  $P(H_2)={P_H2:.3f}$",
-            ha="center", va="center", fontsize=12)
+    ax.text(
+        0.5, 0.25,
+        rf"$P(H_1\cap H_2)={P_HH:.5f}$  vs  $P(H_1)P(H_2)={prod:.6f}$",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
+    )
+
+    ax.text(
+        0.5, 0.15,
+        rf"Update check:  $P(H_2\mid H_1)={P_H2_given_H1:.2f}$  but  $P(H_2)={P_H2:.3f}$",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
+    )
 
 # --- Coin example numbers ---
 p_fair, p_biased = 0.50, 0.75
 w_fair, w_biased = 0.50, 0.50
 
-fig = plt.figure(figsize=(12.5, 7.8))  # slightly taller
-gs = GridSpec(2, 2, height_ratios=[1.15, 0.85], hspace=0.55, wspace=0.25)
+# Make the whole figure taller AND give the bottom row more height
+fig = plt.figure(figsize=(12.5, 9.2))
+gs = GridSpec(2, 2, height_ratios=[1.00, 1.15], hspace=0.55, wspace=0.25)
 
 ax1 = fig.add_subplot(gs[0, 0])
 ax2 = fig.add_subplot(gs[0, 1])
 ax3 = fig.add_subplot(gs[1, :])
 
-draw_context(ax1, p_fair,   title=r"Given $C$ = Fair coin ($P(H)=0.5$)",   cond_tex=r"C")
+draw_context(ax1, p_fair,   title=r"Given $C$ = Fair coin ($P(H)=0.5$)",    cond_tex=r"C")
 draw_context(ax2, p_biased, title=r"Given $C^c$ = Biased coin ($P(H)=0.75$)", cond_tex=r"C^c")
 draw_mixture(ax3, w_fair, w_biased, p_fair, p_biased)
 
@@ -769,17 +776,17 @@ fig.suptitle(
 )
 
 out_svg = "conditional-independence-coin-mix.svg"
-fig.subplots_adjust(top=0.90, bottom=0.10)
+fig.subplots_adjust(top=0.90, bottom=0.08)
 
-fig.savefig(out_svg, format="svg", bbox_inches="tight", pad_inches=0.20)
+fig.savefig(out_svg, format="svg", bbox_inches="tight", pad_inches=0.45)
 plt.close(fig)
+# plt
 ```
 
-```{figure} conditional-independence-coin-mix.svg
----
-width: 100%
-figclass: full-width
----
+:::{figure} conditional-independence-coin-mix.svg
+:width: 100%
+:figclass: full-width
+
 By “factorize” we mean the joint probability splits into a product.
 
 Top-left (given $C$): $P(H_1\cap H_2\mid C)=P(H_1\mid C)\,P(H_2\mid C)$.  
@@ -787,8 +794,7 @@ Top-right (given $C^c$): $P(H_1\cap H_2\mid C^c)=P(H_1\mid C^c)\,P(H_2\mid C^c)$
 Bottom (context hidden): mixing can give $P(H_1\cap H_2)\neq P(H_1)\,P(H_2)$.
 
 In other words: $H_1$ and $H_2$ are independent *given the coin*, but not independent when the coin is hidden.
----
-```
+:::
 
 :::{admonition} Worked calculations (optional)
 :class: tip dropdown
@@ -873,7 +879,6 @@ In practice, many “false discoveries” come from **ignoring** such variables:
 +++
 
 In the next part of the book, we will shift our focus from events to **Random Variables** – numerical outcomes of random phenomena – and explore their distributions. This will allow us to model and analyze probabilistic situations in a more structured way.
-
 
 +++
 
