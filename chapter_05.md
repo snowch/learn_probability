@@ -729,28 +729,58 @@ def draw_mixture(ax, w_fair, w_biased, p_fair, p_biased):
     prod = P_H1 * P_H2
     P_H2_given_H1 = P_HH / P_H1
 
-    # Use va="top" so multiline text expands downward (prevents collisions)
+    # Position text below the box using incremental spacing
+    # Start from below the box and work downward
+    ypos = y0 - 0.04  # Start slightly below the box
+    line_spacing = 0.07  # Spacing between lines within a section
+    section_spacing = 0.15  # Spacing between major sections
+
+    # First section: explanation
     ax.text(
-        0.5, 0.51,
-        "Context hidden: we average the two cases using their probabilities (P(C)+P(C^c)=1).",
+        0.5, ypos,
+        "Context hidden: we use the Law of Total Probability to combine both scenarios,",
         transform=ax.transAxes, ha="center", va="top", fontsize=12.5
     )
+    ypos -= line_spacing
     ax.text(
-        0.5, 0.43,
-        r"$P(H_1\cap H_2)=P(H_1\cap H_2\mid C)P(C) +\;P(H_1\cap H_2\mid C^c)P(C^c)$",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=12.5, linespacing=1.5
+        0.5, ypos,
+        "weighting each by how likely it is to occur (P(C)+P(C^c)=1).",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
     )
+    ypos -= section_spacing
 
+    # Formula
     ax.text(
-        0.5, 0.25,
+        0.5, ypos,
+        r"$P(H_1\cap H_2)=P(H_1\cap H_2\mid C)P(C) +\;P(H_1\cap H_2\mid C^c)P(C^c)$",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
+    )
+    ypos -= section_spacing
+
+    # Numerical comparison
+    ax.text(
+        0.5, ypos,
         rf"$P(H_1\cap H_2)={P_HH:.5f}$  vs  $P(H_1)P(H_2)={prod:.6f}$",
         transform=ax.transAxes, ha="center", va="top", fontsize=12.5
     )
-
+    ypos -= line_spacing
     ax.text(
-        0.5, 0.15,
+        0.5, ypos,
+        "(joint probability > product means the events are dependent)",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
+    )
+    ypos -= section_spacing
+
+    # Update check
+    ax.text(
+        0.5, ypos,
         rf"Update check:  $P(H_2\mid H_1)={P_H2_given_H1:.2f}$  but  $P(H_2)={P_H2:.3f}$",
+        transform=ax.transAxes, ha="center", va="top", fontsize=12.5
+    )
+    ypos -= line_spacing
+    ax.text(
+        0.5, ypos,
+        "(observing H₁ updates our belief about H₂, confirming they are dependent)",
         transform=ax.transAxes, ha="center", va="top", fontsize=12.5
     )
 
@@ -779,8 +809,6 @@ out_svg = "conditional-independence-coin-mix.svg"
 fig.subplots_adjust(top=0.90, bottom=0.08)
 
 fig.savefig(out_svg, format="svg", bbox_inches="tight", pad_inches=0.45)
-plt.close(fig)
-# plt
 ```
 
 :::{figure} conditional-independence-coin-mix.svg

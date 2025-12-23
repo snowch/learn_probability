@@ -35,7 +35,7 @@ where:
 
 +++
 
-### Visual representation
+### 1.1. Visual representation
 
 The Venn diagram below shows the general structure of conditional probability. When we condition on event $B$ having occurred, we restrict our attention to the circle $B$. Within that circle, $P(A|B)$ represents the proportion of $B$ that overlaps with $A$.
 
