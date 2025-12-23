@@ -570,7 +570,7 @@ Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop
 
 ---
 
-### Definition and notation
+### 5.1. Definition and notation
 
 We use the symbol **$\perp$** (read “is independent of”).
 
@@ -628,7 +628,7 @@ So conditional independence is about what happens **inside** a fixed context, no
 
 ---
 
-### A visual mini-example: two flips of a randomly chosen coin
+### 5.2. A visual mini-example: two flips of a randomly chosen coin
 
 To make conditional independence concrete, we’ll use a simple example.
 
@@ -845,11 +845,11 @@ H_1 \perp H_2 \mid C.
 $$
 :::
 
-### Intuition in one sentence
+### 5.3. Intuition in one sentence
 
 **Conditioning on $C$ “locks in the context”: given $C$, $H_1$ and $H_2$ don’t update each other. When $C$ is hidden, mixing contexts can create dependence.**
 
-### Conclusion
+### 5.4. Conclusion
 
 In real experiments, conditional independence is the idea behind **controlling for confounders**: once you fix relevant background variables $C$ (age, batch, site, baseline severity), an apparent relationship between $A$ and $B$ can weaken, disappear, or even reverse.
 
