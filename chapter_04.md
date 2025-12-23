@@ -594,7 +594,7 @@ Tree diagrams are a useful visualization tool for problems involving sequences o
 * The probability of reaching a specific endpoint (a sequence of events) is found by multiplying the probabilities along the path leading to that endpoint (using the Multiplication Rule).
 * The probability of an event that can occur via multiple paths is found by summing the probabilities of those paths (related to the Law of Total Probability).
 
-### Generic tree structure
+### 4.1. Generic tree structure
 
 Before looking at a specific example, let's see the general pattern. Suppose we have a partition $B_1, B_2, \ldots, B_n$ of the sample space, and we're interested in whether event $A$ occurs. The tree diagram below shows how we first "choose" which scenario $B_i$ happens, then (within that scenario) whether $A$ occurs or not.
 
