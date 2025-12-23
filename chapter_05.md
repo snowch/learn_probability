@@ -588,7 +588,7 @@ Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop
 
 Before we explore conditional independence, we need to understand how to work with conditional probabilities involving multiple conditions.
 
-**Notation:** When we write $P(A \mid B, C)$, we mean the probability of event $A$ given that *both* events $B$ and $C$ have occurred. This is equivalent to conditioning on the intersection:
+When we write $P(A \mid B, C)$, we mean the probability of event $A$ given that *both* events $B$ and $C$ have occurred. This is equivalent to conditioning on the intersection:
 
 $$
 P(A \mid B, C) = P(A \mid B \cap C)
@@ -596,11 +596,18 @@ $$
 
 The comma in the conditioning clause is simply a convenient shorthand for the intersection. Both notations are used interchangeably in probability and statistics.
 
-**Reading the notation:**
-- $P(A \mid B, C)$ reads as "the probability of $A$ given $B$ and $C$"
-- It represents our updated belief about $A$ when we know that both $B$ and $C$ have occurred
+```{admonition} Reading the notation
+:class: note
 
-**Example:** Consider flipping a coin twice after choosing which coin to use:
+$P(A \mid B, C)$ reads as "the probability of $A$ given $B$ and $C$"
+
+It represents our updated belief about $A$ when we know that both $B$ and $C$ have occurred.
+```
+
+```{admonition} Example: Coin Flips
+:class: dropdown
+
+Consider flipping a coin twice after choosing which coin to use:
 - Let $H_1$ = "first flip is heads"
 - Let $H_2$ = "second flip is heads"
 - Let $C$ = "we chose the fair coin"
@@ -613,11 +620,16 @@ P(H_2 \mid H_1, C) = P(H_2 \mid C) = 0.5
 $$
 
 This equation says: "Given we have the fair coin, learning about the first flip gives us no additional information about the second flip." This is an example of conditional independence, which we'll explore in detail below.
+```
 
-**Important:** The order of events after the conditioning bar doesn't matter:
+```{admonition} Important: Order doesn't matter
+:class: tip
+
+The order of events after the conditioning bar doesn't matter:
 $$
 P(A \mid B, C) = P(A \mid C, B) = P(A \mid B \cap C)
 $$
+```
 
 ---
 
