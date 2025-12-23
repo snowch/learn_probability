@@ -71,7 +71,7 @@ $$
 - $P(A\mid B)$: **Posterior probability** — our updated belief about $A$ *after* observing the evidence $B$.
 Bayes' Theorem tells us how to update our prior belief $P(A)$ to a posterior belief $P(A|B)$ based on the likelihood of the evidence $P(B|A)$ and the overall probability of the evidence $P(B)$.
 
-### Visual intuition: Bayes’ Theorem (area model)
+### 1.1 Visual intuition: Bayes’ Theorem (area model)
 
 You can read Bayes’ theorem directly from the picture below as an **area ratio**:
 
