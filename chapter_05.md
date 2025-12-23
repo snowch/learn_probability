@@ -847,7 +847,13 @@ $$
 
 ### Intuition in one sentence
 
-**Conditioning on $C$ “locks in the context”; within that context, $H_1$ and $H_2$ don’t update each other—hiding $C$ mixes contexts and can create dependence.**
+**Conditioning on $C$ “locks in the context”: given $C$, $H_1$ and $H_2$ don’t update each other. When $C$ is hidden, mixing contexts can create dependence.**
+
+### Conclusion
+
+In real experiments, conditional independence is the idea behind **controlling for confounders**: once you fix relevant background variables $C$ (age, batch, site, baseline severity), an apparent relationship between $A$ and $B$ can weaken, disappear, or even reverse.
+
+In practice, many “false discoveries” come from **ignoring** such variables: mixing data from different groups or batches can create dependence that looks like a real effect.
 
 ---
 
