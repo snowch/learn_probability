@@ -70,7 +70,7 @@ if lab is not None:
 plt.title('Conditional Probability: Given B occurred, what is P(A|B)?', fontsize=14, fontweight='bold')
 plt.annotate(
     'When B happens, restrict to circle B.\nP(A|B) = P(A ∩ B) / P(B)',
-    xy=(0.65, 0.5), xycoords='axes fraction',
+    xy=(0.67, 0.5), xycoords='axes fraction',
     xytext=(0.95, 0.85), textcoords='axes fraction',
     arrowprops=dict(arrowstyle='->', lw=2, color='darkblue'),
     ha='left', va='top',
@@ -78,7 +78,6 @@ plt.annotate(
     bbox=dict(boxstyle='round,pad=0.5', facecolor='lightyellow', edgecolor='darkblue', linewidth=1.5)
 )
 plt.tight_layout()
-
 fig.savefig("venn-conditional-generic.svg", format="svg", bbox_inches="tight")
 ```
 
