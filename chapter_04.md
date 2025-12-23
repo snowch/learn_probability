@@ -35,11 +35,65 @@ where:
 
 +++
 
+### Visual representation
+
+The Venn diagram below shows the general structure of conditional probability. When we condition on event $B$ having occurred, we restrict our attention to the circle $B$. Within that circle, $P(A|B)$ represents the proportion of $B$ that overlaps with $A$.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+from pathlib import Path
+import matplotlib.pyplot as plt
+from matplotlib_venn import venn2, venn2_circles
+
+# Generic Venn diagram
+fig = plt.figure(figsize=(7, 4.5))
+v = venn2(subsets=(3, 1, 1), set_labels=('A', 'B'))
+venn2_circles(subsets=(3, 1, 1), linestyle='solid', linewidth=2)
+
+lab = v.get_label_by_id('11')
+if lab is not None:
+    lab.set_text('A ∩ B')
+    lab.set_fontsize(14)
+    lab.set_fontweight('bold')
+
+lab = v.get_label_by_id('01')
+if lab is not None:
+    lab.set_text('B only')
+    lab.set_fontsize(12)
+
+lab = v.get_label_by_id('10')
+if lab is not None:
+    lab.set_text('A only')
+    lab.set_fontsize(12)
+
+plt.title('Conditional Probability: Given B occurred, what is P(A|B)?', fontsize=14, fontweight='bold')
+plt.annotate(
+    'When B happens, restrict to circle B.\nP(A|B) = P(A ∩ B) / P(B)',
+    xy=(0.65, 0.5), xycoords='axes fraction',
+    xytext=(0.95, 0.85), textcoords='axes fraction',
+    arrowprops=dict(arrowstyle='->', lw=2, color='darkblue'),
+    ha='left', va='top',
+    fontsize=12,
+    bbox=dict(boxstyle='round,pad=0.5', facecolor='lightyellow', edgecolor='darkblue', linewidth=1.5)
+)
+plt.tight_layout()
+
+fig.savefig("venn-conditional-generic.svg", format="svg", bbox_inches="tight")
+```
+
+```{figure} venn-conditional-generic.svg
+---
+width: 80%
+---
+Generic Venn diagram: $P(A|B)$ is the overlap relative to $B$.
+```
+
 %
 % Example code
 %
 
-```{code-cell} python3
+```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
 from pathlib import Path
@@ -115,7 +169,6 @@ $$P(A\mid B)=\frac{P(A\cap B)}{P(B)} = \frac{2/36}{4/36}=\frac12.$$
 ```
 
 :::
-
 
 +++
 
@@ -247,10 +300,12 @@ Think of the $B_i$ as “which scenario we are in.” First, one scenario $B_i$ 
 - The (true) area of that piece is $P(A\cap B_i)=P(A\mid B_i)P(B_i)$.
 - Adding the disjoint shaded pieces gives $P(A)$.
 
-
-```{code-cell} python3
-:tags: [remove-input, remove-output]
-
+```{code-cell} ipython3
+---
+tags: [remove-input, remove-output]
+jupyter:
+  source_hidden: true
+---
 # create and save visualisation total-probability-area.svg
 
 from pathlib import Path
@@ -476,7 +531,7 @@ Area model: $P(A)$ is the sum of the disjoint pieces $A\cap B_i$.
 
 ### 3.5 Visual intuition: probability tree (same idea, different view)
 
-A tree diagram shows the same logic: first choose which scenario $B_i$ occurs, then (within that scenario) whether $A$ occurs.
+A tree diagram shows the same logic: first choose which scenario $B_i$ occurs, then (within that scenario) whether $A$ occurs. (See [section 4](tree-diagrams) for more detail on tree diagrams.)
 
 ```{mermaid}
 graph TD
@@ -530,7 +585,6 @@ So about **3.2%** of all parts are defective overall.
 
 +++
 
-
 ## 4. Tree Diagrams
 
 Tree diagrams are a useful visualization tool for problems involving sequences of events, especially when conditional probabilities are involved.
@@ -541,6 +595,40 @@ Tree diagrams are a useful visualization tool for problems involving sequences o
 * The probability of reaching a specific endpoint (a sequence of events) is found by multiplying the probabilities along the path leading to that endpoint (using the Multiplication Rule).
 * The probability of an event that can occur via multiple paths is found by summing the probabilities of those paths (related to the Law of Total Probability).
 
+### Generic tree structure
+
+Before looking at a specific example, let's see the general pattern. Suppose we have a partition $B_1, B_2, \ldots, B_n$ of the sample space, and we're interested in whether event $A$ occurs. The tree diagram below shows how we first "choose" which scenario $B_i$ happens, then (within that scenario) whether $A$ occurs or not.
+
+```{mermaid}
+graph TD
+    Start((Start))
+
+    Start -- "P(B₁)" --> B1["B₁"]
+    Start -- "P(B₂)" --> B2["B₂"]
+    Start -- "..." --> Bd["..."]
+    Start -- "P(Bₙ)" --> Bn["Bₙ"]
+
+    B1 -- "P(A|B₁)" --> A1["A"]
+    B1 -- "P(A̅|B₁)" --> NA1["A̅ (not A)"]
+
+    B2 -- "P(A|B₂)" --> A2["A"]
+    B2 -- "P(A̅|B₂)" --> NA2["A̅"]
+
+    Bn -- "P(A|Bₙ)" --> An["A"]
+    Bn -- "P(A̅|Bₙ)" --> NAn["A̅"]
+```
+
+**Reading the tree:**
+* The first level shows the partition: exactly one of $B_1, B_2, \ldots, B_n$ occurs.
+* Each second-level branch shows whether $A$ occurs (or doesn't occur) given that particular scenario.
+* The probability of any complete path is the product of probabilities along that path. For example, the path Start → $B_1$ → $A$ has probability $P(B_1) \times P(A|B_1) = P(A \cap B_1)$.
+* To find $P(A)$, we sum the probabilities of all paths that end in $A$:
+
+$$
+P(A) = P(A|B_1)P(B_1) + P(A|B_2)P(B_2) + \cdots + P(A|B_n)P(B_n)
+$$
+
+This is exactly the **Law of Total Probability** from section 3, just visualized as a tree instead of an area model.
 
 :::{admonition} Example
 :class: tip dropdown
@@ -798,5 +886,3 @@ The key distinction lies in whether the problem describes the likelihood of two 
 
     **Answer:** $P(\text{exactly one Head})=\frac{11}{25}=0.44$.
     ```
-
-+++
