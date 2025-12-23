@@ -1,1 +1,2 @@
-jupyter-book build --all .
+rm -rf _build
+myst build --execute --html

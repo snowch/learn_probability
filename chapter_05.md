@@ -873,3 +873,207 @@ In practice, many “false discoveries” come from **ignoring** such variables:
 +++
 
 In the next part of the book, we will shift our focus from events to **Random Variables** – numerical outcomes of random phenomena – and explore their distributions. This will allow us to model and analyze probabilistic situations in a more structured way.
+
+
++++
+
+## Exercises
+
+1.  **Two urns (Bayes):** You pick an urn at random:
+
+    * $U_1$ with probability $0.6$ (contains 3 red, 2 blue)
+    * $U_2$ with probability $0.4$ (contains 1 red, 4 blue)
+
+    You draw one ball and it is **red**. What is $P(U_1\mid R)$?
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    We are given:
+
+    * $P(U_1)=0.6$, $P(U_2)=0.4$
+    * $P(R\mid U_1)=3/5=0.6$
+    * $P(R\mid U_2)=1/5=0.2$
+
+    First compute $P(R)$ by total probability:
+
+    $$
+    P(R)=P(R\mid U_1)P(U_1)+P(R\mid U_2)P(U_2)
+        =(0.6)(0.6)+(0.2)(0.4)=0.44.
+    $$
+
+    Now apply Bayes’ theorem:
+
+    $$
+    P(U_1\mid R)=\frac{P(R\mid U_1)P(U_1)}{P(R)}
+               =\frac{0.6\cdot 0.6}{0.44}
+               =\frac{0.36}{0.44}
+               =\frac{9}{11}\approx 0.818.
+    $$
+    ```
+
+2.  **Diagnostic test (posterior probability):** A disease has prevalence $P(D)=0.005$ (0.5%). A test has:
+
+    * Sensitivity $P(	ext{Pos}\mid D)=0.98$
+    * False positive rate $P(	ext{Pos}\mid D^c)=0.03$
+
+    If someone tests positive, what is $P(D\mid 	ext{Pos})$?
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    First find $P(	ext{Pos})$:
+
+    $$
+    \begin{align*}
+    P(\text{Pos})
+      &= P(\text{Pos}\mid D)P(D) + P(\text{Pos}\mid D^c)P(D^c) \\
+      &= 0.98\cdot 0.005 + 0.03\cdot (1-0.005) \\
+      &= 0.0049 + 0.02985 \\
+      &= 0.03475.
+    \end{align*}
+    $$
+
+    Then Bayes’ theorem:
+
+    $$
+    P(D\mid \text{Pos})
+    =\frac{P(\text{Pos}\mid D)P(D)}{P(\text{Pos})}
+    =\frac{0.98\cdot 0.005}{0.03475}
+    \approx 0.141.
+    $$
+
+    So even with a positive result, the chance of actually having the disease is about **14.1%** (because the disease is rare).
+    ```
+
+3.  **Spam filter (Bayes):** Suppose 20% of emails are spam:
+
+    * $P(S)=0.20$
+    * The word “FREE” appears in 50% of spam emails: $P(F\mid S)=0.50$
+    * The word “FREE” appears in 2% of non-spam emails: $P(F\mid S^c)=0.02$
+
+    If an email contains “FREE”, what is $P(S\mid F)$?
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    First compute $P(F)$:
+
+    $$
+    P(F)=P(F\mid S)P(S)+P(F\mid S^c)P(S^c)
+        =0.50\cdot 0.20 + 0.02\cdot 0.80
+        =0.10 + 0.016
+        =0.116.
+    $$
+
+    Then Bayes’ theorem:
+
+    $$
+    P(S\mid F)=\frac{P(F\mid S)P(S)}{P(F)}
+              =\frac{0.50\cdot 0.20}{0.116}
+              =\frac{0.10}{0.116}
+              =\frac{25}{29}\approx 0.862.
+    $$
+
+    So $P(S\mid F)\approx 86.2\%$.
+    ```
+
+4.  **Are these events independent?** Roll a fair six-sided die.
+
+    * $A$ = “the roll is even” = {2, 4, 6}
+    * $B$ = “the roll is prime” = {2, 3, 5}
+
+    Are $A$ and $B$ independent?
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    Compute:
+
+    * $P(A)=3/6=1/2$
+    * $P(B)=3/6=1/2$
+    * $A\cap B$ = {2}, so $P(A\cap B)=1/6$
+
+    If $A$ and $B$ were independent, we would have $P(A\cap B)=P(A)P(B)=(1/2)(1/2)=1/4$.
+
+    But $1/6 \ne 1/4$, so the events are **not independent**.
+    ```
+
+5.  **Mutually exclusive vs independent:** Roll a fair six-sided die.
+
+    * $A$ = “the roll is 1”
+    * $B$ = “the roll is 2”
+
+    Are $A$ and $B$ independent?
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    They are **mutually exclusive**: $A\cap B=\emptyset$, so $P(A\cap B)=0$.
+
+    But $P(A)=1/6$ and $P(B)=1/6$, so $P(A)P(B)=1/36$.
+
+    Since $P(A\cap B) \ne P(A)P(B)$, the events are **not independent**.
+    ```
+
+6.  **Conditional independence (coin mixture):** You choose a coin:
+
+    * Fair with probability $P(C)=0.4$ (so $P(H\mid C)=0.5$)
+    * Biased with probability $P(C^c)=0.6$ (so $P(H\mid C^c)=0.8$)
+
+    Then you flip it twice. Let $H_1$ be “first flip is Heads” and $H_2$ be “second flip is Heads”.
+
+    1. Compute $P(H_2)$ and $P(H_2\mid H_1)$ and decide whether $H_1$ and $H_2$ are independent overall.
+    2. Show that $H_1 \perp H_2 \mid C$.
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    **1) Overall (context hidden).**
+
+    By total probability:
+
+    $$
+    P(H_2)=P(H\mid C)P(C)+P(H\mid C^c)P(C^c)
+          =0.5\cdot 0.4 + 0.8\cdot 0.6
+          =0.68.
+    $$
+
+    Also,
+
+    $$
+    P(H_1\cap H_2)=P(HH\mid C)P(C)+P(HH\mid C^c)P(C^c)
+                  =(0.5^2)\cdot 0.4 + (0.8^2)\cdot 0.6
+                  =0.25\cdot 0.4 + 0.64\cdot 0.6
+                  =0.484.
+    $$
+
+    So
+
+    $$
+    P(H_2\mid H_1)=\frac{P(H_1\cap H_2)}{P(H_1)}
+                  =\frac{0.484}{0.68}
+                  \approx 0.712.
+    $$
+
+    Since $P(H_2\mid H_1)\approx 0.712 \ne P(H_2)=0.68$, the flips are **not independent overall**.
+
+    **2) Within a fixed context.**
+
+    If you condition on which coin you chose:
+
+    * Given $C$ (fair coin), the flips are independent, so
+      $$
+      P(H_2\mid H_1, C)=P(H_2\mid C)=0.5.
+      $$
+    * Given $C^c$ (biased coin), similarly,
+      $$
+      P(H_2\mid H_1, C^c)=P(H_2\mid C^c)=0.8.
+      $$
+
+    That is exactly the “no extra update” condition, so
+
+    $$
+    H_1 \perp H_2 \mid C.
+    $$
+    ```
