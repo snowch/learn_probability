@@ -885,3 +885,78 @@ The key distinction lies in whether the problem describes the likelihood of two 
 
     **Answer:** $P(\text{exactly one Head})=\frac{11}{25}=0.44$.
     ```
+
++++
+
+## Chapter Summary
+
+### Key Takeaways
+
+**The core insight:** Conditional probability $P(A|B)$ represents our updated belief about event $A$ given that we know event $B$ has occurred. It restricts the sample space to only outcomes where $B$ is true.
+
+**The fundamental concepts:**
+
+1. **Conditional Probability** $P(A|B) = \frac{P(A \cap B)}{P(B)}$, provided $P(B) > 0$
+   - Represents probability of $A$ **given** $B$ has occurred
+   - Restricts sample space from $S$ to just the outcomes in $B$
+   - **Key distinction:** $P(A|B) \neq P(A \cap B)$ — conditioning vs. intersection!
+
+2. **Multiplication Rule:** $P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$
+   - Fundamental for computing joint probabilities
+   - Can chain for multiple events: $P(A \cap B \cap C) = P(A) \cdot P(B|A) \cdot P(C|A \cap B)$
+
+3. **Law of Total Probability:** If $B_1, B_2, \ldots, B_n$ partition the sample space, then:
+   $$P(A) = \sum_{i=1}^n P(A|B_i) \cdot P(B_i)$$
+   - Breaks complex probability into simpler conditional pieces
+   - Essential for scenarios with multiple pathways or stages
+   - Foundation for Bayes' Theorem (next chapter)
+
+4. **Tree Diagrams:** Visual tool for organizing sequential or staged probabilities
+   - Branches represent conditional probabilities
+   - Path probabilities multiply along branches
+   - Final outcome probabilities sum across relevant paths
+
+### Why This Matters
+
+Conditional probability is fundamental to:
+
+- **Medical diagnosis:** $P(\text{disease}|\text{positive test})$ vs. $P(\text{positive test}|\text{disease})$
+- **Machine learning:** Training models by learning $P(\text{label}|\text{features})$
+- **Risk assessment:** Updating probabilities based on new information or evidence
+- **Decision making:** How new data should change our beliefs and actions
+- **Scientific reasoning:** Hypothesis testing and Bayesian inference
+
+### Common Pitfalls to Avoid
+
+1. **Confusing $P(A|B)$ with $P(A \cap B)$:**
+   - $P(A|B)$ is a proportion: "out of times B occurs, how often does A also occur?"
+   - $P(A \cap B)$ is absolute: "how often do both A and B occur?"
+   - Visual check: $P(A|B)$ uses $B$ as the "whole", $P(A \cap B)$ uses full sample space $S$
+
+2. **Reversing the conditioning (the prosecutor's fallacy):**
+   - $P(A|B) \neq P(B|A)$ in general!
+   - Example: $P(\text{positive test}|\text{disease}) \neq P(\text{disease}|\text{positive test})$
+   - Need Bayes' Theorem to flip conditioning (Chapter 5)
+
+3. **Forgetting to partition completely:**
+   - For Law of Total Probability, events $B_i$ must be mutually exclusive and exhaustive
+   - Missing a partition element leads to incorrect totals
+
+4. **Misreading tree diagrams:**
+   - Branches show conditional probabilities, not joint probabilities
+   - Multiply along paths, sum across paths
+
+### Visual Mnemonics
+
+**Conditional probability:** Zoom into region $B$, see what fraction is also in $A$
+
+**Multiplication Rule:** Path probability = product of conditional steps along the path
+
+**Law of Total Probability:** Weighted average over all possible "routes" to $A$
+
+### Next Steps
+
+In Chapter 5, we'll build on conditional probability to explore:
+- **Bayes' Theorem:** Flipping conditional probabilities
+- **Independence:** When conditioning doesn't change probabilities
+- **Conditional independence:** Independence within contexts
