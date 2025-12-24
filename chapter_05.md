@@ -873,149 +873,137 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn3, venn3_circles
 
-# Create Venn diagram for conditional independence
-fig, ax = plt.subplots(figsize=(8, 6))
+# Create figure with three panels side by side
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(16, 5))
 
-# Create three-set Venn diagram with equal-sized regions for clarity
-v = venn3(subsets=(1, 1, 1, 1, 1, 1, 1), set_labels=('', '', ''), ax=ax)
+# Function to create a Venn diagram with specific highlighting
+def create_venn_panel(ax, highlight_mode, title_text):
+    """
+    highlight_mode: 'A_and_C', 'B_and_C', or 'A_and_B_and_C'
+    """
+    # Create three-set Venn diagram
+    v = venn3(subsets=(1, 1, 1, 1, 1, 1, 1), set_labels=('', '', ''), ax=ax)
 
-# Color scheme: Make C region (orange/amber tones) stand out
-# Regions outside C are very light/desaturated
-# Regions inside C are more saturated
-if v.get_patch_by_id('100'):  # A only (not in B or C)
-    v.get_patch_by_id('100').set_color('#f5f5f5')
-    v.get_patch_by_id('100').set_alpha(0.6)
-if v.get_patch_by_id('010'):  # B only (not in A or C)
-    v.get_patch_by_id('010').set_color('#f5f5f5')
-    v.get_patch_by_id('010').set_alpha(0.6)
-if v.get_patch_by_id('001'):  # C only (not in A or B)
-    v.get_patch_by_id('001').set_color('#ffe0b2')
-    v.get_patch_by_id('001').set_alpha(0.7)
-if v.get_patch_by_id('110'):  # A ∩ B only (not in C)
-    v.get_patch_by_id('110').set_color('#e0e0e0')
-    v.get_patch_by_id('110').set_alpha(0.5)
-if v.get_patch_by_id('101'):  # A ∩ C (not in B)
-    v.get_patch_by_id('101').set_color('#ffb74d')
-    v.get_patch_by_id('101').set_alpha(0.7)
-if v.get_patch_by_id('011'):  # B ∩ C (not in A)
-    v.get_patch_by_id('011').set_color('#ffb74d')
-    v.get_patch_by_id('011').set_alpha(0.7)
-if v.get_patch_by_id('111'):  # A ∩ B ∩ C (all three)
-    v.get_patch_by_id('111').set_color('#ff9800')
-    v.get_patch_by_id('111').set_alpha(0.8)
+    # Default: all regions in C are light, regions outside C are very light
+    if v.get_patch_by_id('100'):  # A only
+        v.get_patch_by_id('100').set_color('#f5f5f5')
+        v.get_patch_by_id('100').set_alpha(0.5)
+    if v.get_patch_by_id('010'):  # B only
+        v.get_patch_by_id('010').set_color('#f5f5f5')
+        v.get_patch_by_id('010').set_alpha(0.5)
+    if v.get_patch_by_id('110'):  # A ∩ B only (not in C)
+        v.get_patch_by_id('110').set_color('#e0e0e0')
+        v.get_patch_by_id('110').set_alpha(0.4)
 
-# Draw circles with solid lines
-venn3_circles(subsets=(1, 1, 1, 1, 1, 1, 1), linestyle='solid', linewidth=2, ax=ax)
+    # Color C regions based on highlight mode
+    if highlight_mode == 'A_and_C':
+        # Highlight all A ∩ C regions
+        if v.get_patch_by_id('001'):  # C only
+            v.get_patch_by_id('001').set_color('#ffe0b2')
+            v.get_patch_by_id('001').set_alpha(0.5)
+        if v.get_patch_by_id('011'):  # B ∩ C (not in A)
+            v.get_patch_by_id('011').set_color('#ffe0b2')
+            v.get_patch_by_id('011').set_alpha(0.5)
+        if v.get_patch_by_id('101'):  # A ∩ C (not in B) - HIGHLIGHT
+            v.get_patch_by_id('101').set_color('#ff9800')
+            v.get_patch_by_id('101').set_alpha(0.85)
+        if v.get_patch_by_id('111'):  # A ∩ B ∩ C - HIGHLIGHT
+            v.get_patch_by_id('111').set_color('#ff9800')
+            v.get_patch_by_id('111').set_alpha(0.85)
+    elif highlight_mode == 'B_and_C':
+        # Highlight all B ∩ C regions
+        if v.get_patch_by_id('001'):  # C only
+            v.get_patch_by_id('001').set_color('#ffe0b2')
+            v.get_patch_by_id('001').set_alpha(0.5)
+        if v.get_patch_by_id('101'):  # A ∩ C (not in B)
+            v.get_patch_by_id('101').set_color('#ffe0b2')
+            v.get_patch_by_id('101').set_alpha(0.5)
+        if v.get_patch_by_id('011'):  # B ∩ C (not in A) - HIGHLIGHT
+            v.get_patch_by_id('011').set_color('#ff9800')
+            v.get_patch_by_id('011').set_alpha(0.85)
+        if v.get_patch_by_id('111'):  # A ∩ B ∩ C - HIGHLIGHT
+            v.get_patch_by_id('111').set_color('#ff9800')
+            v.get_patch_by_id('111').set_alpha(0.85)
+    else:  # 'A_and_B_and_C'
+        # Highlight only the center region
+        if v.get_patch_by_id('001'):  # C only
+            v.get_patch_by_id('001').set_color('#ffe0b2')
+            v.get_patch_by_id('001').set_alpha(0.5)
+        if v.get_patch_by_id('101'):  # A ∩ C (not in B)
+            v.get_patch_by_id('101').set_color('#ffe0b2')
+            v.get_patch_by_id('101').set_alpha(0.5)
+        if v.get_patch_by_id('011'):  # B ∩ C (not in A)
+            v.get_patch_by_id('011').set_color('#ffe0b2')
+            v.get_patch_by_id('011').set_alpha(0.5)
+        if v.get_patch_by_id('111'):  # A ∩ B ∩ C - HIGHLIGHT
+            v.get_patch_by_id('111').set_color('#ff6d00')
+            v.get_patch_by_id('111').set_alpha(0.9)
 
-# Add labels for the three sets
-label_A = v.get_label_by_id('A')
-if label_A:
-    label_A.set_text('A')
-    label_A.set_fontsize(14)
-    label_A.set_fontweight('normal')
+    # Draw circles
+    venn3_circles(subsets=(1, 1, 1, 1, 1, 1, 1), linestyle='solid', linewidth=2, ax=ax)
 
-label_B = v.get_label_by_id('B')
-if label_B:
-    label_B.set_text('B')
-    label_B.set_fontsize(14)
-    label_B.set_fontweight('normal')
+    # Add set labels
+    label_A = v.get_label_by_id('A')
+    if label_A:
+        label_A.set_text('A')
+        label_A.set_fontsize(13)
 
-label_C = v.get_label_by_id('C')
-if label_C:
-    label_C.set_text('C')
-    label_C.set_fontsize(14)
-    label_C.set_fontweight('normal')
+    label_B = v.get_label_by_id('B')
+    if label_B:
+        label_B.set_text('B')
+        label_B.set_fontsize(13)
 
-# Add label for the center region (A ∩ B ∩ C)
-center_label = v.get_label_by_id('111')
-if center_label:
-    center_label.set_text('A ∩ B ∩ C')
-    center_label.set_fontsize(12)
-    center_label.set_fontweight('bold')
+    label_C = v.get_label_by_id('C')
+    if label_C:
+        label_C.set_text('C')
+        label_C.set_fontsize(13)
 
-# Add title
-plt.title('Conditional Independence: Given C occurred, A and B are independent',
-          fontsize=14, fontweight='bold', pad=15)
+    # Add title
+    ax.set_title(title_text, fontsize=12, fontweight='bold', pad=10)
 
-# Add annotation box with the formula
-annotation_text = (
-    'Within C, A and B are independent.\n'
-    'P(A ∩ B | C) = P(A | C) × P(B | C)'
-)
+    return v
 
-ax.annotate(
-    annotation_text,
-    xy=(0.5, 0.58), xycoords='axes fraction',
-    xytext=(0.72, 0.80), textcoords='axes fraction',
-    fontsize=11,
-    bbox=dict(boxstyle='round,pad=0.6', facecolor='lightyellow',
-              edgecolor='darkblue', linewidth=1.5),
-    arrowprops=dict(arrowstyle='->', lw=2, color='darkblue'),
-    ha='left', va='top'
-)
+# Panel 1: P(A|C)
+create_venn_panel(ax1, 'A_and_C', 'P(A | C)\nProportion of C that is in A')
 
-# Add visual indicators for the formula components
-# P(A|C): highlight the A∩C regions with a bracket or label
-ax.annotate(
-    'P(A | C)',
-    xy=(0.35, 0.55), xycoords='axes fraction',
-    fontsize=10, fontweight='bold', color='#d84315',
-    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
-              edgecolor='#d84315', linewidth=1.5, alpha=0.9)
-)
+# Panel 2: P(B|C)
+create_venn_panel(ax2, 'B_and_C', 'P(B | C)\nProportion of C that is in B')
 
-# P(B|C): highlight the B∩C regions
-ax.annotate(
-    'P(B | C)',
-    xy=(0.65, 0.55), xycoords='axes fraction',
-    fontsize=10, fontweight='bold', color='#d84315',
-    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
-              edgecolor='#d84315', linewidth=1.5, alpha=0.9)
-)
+# Panel 3: P(A∩B|C)
+create_venn_panel(ax3, 'A_and_B_and_C', 'P(A ∩ B | C)\nProportion of C in both A and B')
 
-# P(A∩B|C): highlight the central region
-ax.annotate(
-    'P(A ∩ B | C)',
-    xy=(0.5, 0.45), xycoords='axes fraction',
-    fontsize=10, fontweight='bold', color='#e65100',
-    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
-              edgecolor='#e65100', linewidth=2, alpha=0.95)
-)
-
-# Add caption below
-caption = 'Venn diagram: The orange-shaded region C is our context. The labeled regions show\nthe three components of the conditional independence formula.'
-ax.text(0.5, -0.12, caption,
-        transform=ax.transAxes,
-        fontsize=10.5, ha='center', va='top',
-        style='italic', color='#333333')
+# Add overall title
+fig.suptitle('Conditional Independence Formula Components: P(A ∩ B | C) = P(A | C) × P(B | C)',
+             fontsize=13, fontweight='bold', y=0.98)
 
 plt.tight_layout()
-fig.savefig("venn-conditional-independence.svg", format="svg", bbox_inches="tight")
+fig.savefig("venn-conditional-independence.svg", format="svg", bbox_inches="tight", pad_inches=0.3)
 ```
 
 ```{figure} venn-conditional-independence.svg
 ---
-width: 85%
+width: 100%
+:figclass: full-width
 ---
-Venn diagram showing conditional independence with formula components labeled. The orange-shaded regions within $C$ show the three parts of the formula: $P(A \cap B \mid C)$ (center), $P(A \mid C)$ (left orange regions), and $P(B \mid C)$ (right orange regions).
+Three-panel visualization of the conditional independence formula. Left panel: $P(A \mid C)$ highlights all regions in both $A$ and $C$. Middle panel: $P(B \mid C)$ highlights all regions in both $B$ and $C$. Right panel: $P(A \cap B \mid C)$ highlights only the region in all three sets. The formula states these proportions satisfy: $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$.
 ```
 
-**Key observation from the diagram:**
+**Key observation from the three panels:**
 
-When we restrict our view to just the region $C$ (everything inside circle $C$), the overlap between $A$ and $B$ within that region follows the independence rule. Let's map each part of the formula to the diagram:
+The three panels above show how each term in the conditional independence formula corresponds to different regions within $C$:
 
 **Breaking down the formula:** $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$
 
-* **$P(A \cap B \mid C)$** (left side) = The proportion of region $C$ that lies in *both* $A$ and $B$
-  * In the diagram: the central orange region $(A \cap B \cap C)$ divided by the entire $C$ region
+* **Left panel - $P(A \mid C)$:** Shows the proportion of region $C$ that lies in $A$
+  * The dark orange regions represent all parts of $A$ that overlap with $C$
 
-* **$P(A \mid C)$** (right side, first term) = The proportion of region $C$ that lies in $A$
-  * In the diagram: all orange regions within $A$ (both $A \cap C$ and $A \cap B \cap C$) divided by the entire $C$ region
+* **Middle panel - $P(B \mid C)$:** Shows the proportion of region $C$ that lies in $B$
+  * The dark orange regions represent all parts of $B$ that overlap with $C$
 
-* **$P(B \mid C)$** (right side, second term) = The proportion of region $C$ that lies in $B$
-  * In the diagram: all orange regions within $B$ (both $B \cap C$ and $A \cap B \cap C$) divided by the entire $C$ region
+* **Right panel - $P(A \cap B \mid C)$:** Shows the proportion of region $C$ that lies in *both* $A$ and $B$
+  * The dark orange region is the central intersection of all three sets
 
-**The independence relationship:** Conditional independence means that when we calculate these proportions *within* $C$, they satisfy the multiplication rule: the proportion in both $A$ and $B$ equals the product of the individual proportions. This is the visual embodiment of the formula $P(A \cap B \mid C) = P(A \mid C) P(B \mid C)$.
+**The independence relationship:** Conditional independence means that when we restrict our view to region $C$, these proportions satisfy the multiplication rule. The proportion in both $A$ and $B$ (right panel) equals the product of the individual proportions (left panel × middle panel). This is the visual embodiment of $P(A \cap B \mid C) = P(A \mid C) P(B \mid C)$.
 
 This is different from looking at $A$ and $B$ in the entire sample space, where they might be dependent. Conditional independence means they become independent *once we fix the context* $C$.
 
