@@ -733,6 +733,11 @@ $$
 P(H_2 \mid H_1, C) = P(H_2 \mid C)
 $$
 
+```{admonition} Notation note
+:class: note
+The notation $P(H_2 \mid H_1, C)$ means "the probability of $H_2$ given both $H_1$ and $C$"—the comma is shorthand for "and". We'll explain this notation in more detail in Section 5.1.
+```
+
 This equation says: "Given that we know a storm warning was issued ($C$), learning that umbrella sales increased ($H_1$) gives us no additional information about whether flashlight sales increased ($H_2$)."
 
 ```{figure} common-cause-without-context.svg
