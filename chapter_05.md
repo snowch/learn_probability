@@ -942,7 +942,7 @@ annotation_text = (
 
 ax.annotate(
     annotation_text,
-    xy=(0.5, 0.5), xycoords='axes fraction',
+    xy=(0.55, 0.42), xycoords='axes fraction',
     xytext=(0.72, 0.80), textcoords='axes fraction',
     fontsize=11,
     bbox=dict(boxstyle='round,pad=0.6', facecolor='lightyellow',
