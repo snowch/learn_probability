@@ -61,11 +61,15 @@ project:
         - file: appendix_e.md
 
 site:
+  template: book-theme
   options:
     logo: logo.png
     logo_dark: logo-dark.png
     favicon: favicon.ico
     folders: true
     download_buttons: true
-  template: book-theme
+  actions:
+    - title: Live Code
+      url: '#'
+      thebe: true
 
