@@ -1006,6 +1006,16 @@ The three panels above show how each term in the conditional independence formul
 * **Right panel - $P(A \cap B \mid C)$:** Shows the proportion of region $C$ that lies in *both* $A$ and $B$
   * The dark orange region is the central intersection of all three sets
 
+:::{admonition} Important: We're multiplying proportions, not adding areas!
+:class: warning
+
+Notice that the center region $(A \cap B \cap C)$ appears highlighted in both the left and middle panels. This might look like we're "double counting," but we're not adding these areas—we're **multiplying proportions**.
+
+When we compute $P(A \mid C) \times P(B \mid C)$, we're multiplying two fractions: (orange area in left panel ÷ total $C$ area) × (orange area in middle panel ÷ total $C$ area). This multiplication gives us the proportion shown in the right panel.
+
+Under conditional independence, this multiplication of proportions equals exactly the proportion of $C$ that lies in both $A$ and $B$. The fact that the center region appears in both left and middle panels is precisely what makes the multiplication work out to match the right panel.
+:::
+
 **The independence relationship:** Conditional independence means that when we restrict our view to region $C$, these proportions satisfy the multiplication rule. The proportion in both $A$ and $B$ (right panel) equals the product of the individual proportions (left panel × middle panel). This is the visual embodiment of $P(A \cap B \mid C) = P(A \mid C) P(B \mid C)$.
 
 This is different from looking at $A$ and $B$ in the entire sample space, where they might be dependent. Conditional independence means they become independent *once we fix the context* $C$.
