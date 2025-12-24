@@ -13,6 +13,14 @@ kernelspec:
 
 # Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events
 
+:::{note}
+**Want to run the code interactively?**
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/snowch/learn_probability/main?labpath=chapter_02.md)
+
+Click the badge above to launch this chapter in Binder - a live Jupyter environment where you can run and modify all the code!
+:::
+
 +++
 
 Welcome to Chapter 2! In the previous chapter, we introduced the 'why' of probability and set up our Python environment. Now, we dive into the fundamental vocabulary and concepts that form the bedrock of probability theory. Understanding these core ideas – sample spaces, events, and the rules governing them – is crucial before we can tackle more complex problems and distributions. We'll use set theory as our language and Python to make these abstract concepts tangible.

@@ -68,4 +68,6 @@ site:
     favicon: favicon.ico
     folders: true
     download_buttons: true
+    footer: |
+      Built from commit <a href="https://github.com/snowch/learn_probability/commit/COMMIT_HASH" target="_blank">COMMIT_HASH</a>
 
