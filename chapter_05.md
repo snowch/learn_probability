@@ -946,22 +946,22 @@ def create_venn_panel(ax, highlight_mode, title_text):
     label_A = v.get_label_by_id('A')
     if label_A:
         label_A.set_text('A')
-        label_A.set_fontsize(13)
+        label_A.set_fontsize(16)
 
     label_B = v.get_label_by_id('B')
     if label_B:
         label_B.set_text('B')
-        label_B.set_fontsize(13)
+        label_B.set_fontsize(16)
 
     label_C = v.get_label_by_id('C')
     if label_C:
         label_C.set_text('C')
-        label_C.set_fontsize(13)
+        label_C.set_fontsize(16)
 
     # Add title below the diagram
     ax.text(0.5, -0.15, title_text,
             transform=ax.transAxes,
-            fontsize=11, ha='center', va='top',
+            fontsize=13, ha='center', va='top',
             fontweight='bold')
 
     return v
@@ -977,7 +977,7 @@ create_venn_panel(ax3, 'A_and_B_and_C', 'P(A ∩ B | C)\nProportion of C in both
 
 # Add overall title
 fig.suptitle('Conditional Independence Formula Components: P(A ∩ B | C) = P(A | C) × P(B | C)',
-             fontsize=13, fontweight='bold', y=0.98)
+             fontsize=16, fontweight='bold', y=0.98)
 
 plt.tight_layout()
 fig.savefig("venn-conditional-independence.svg", format="svg", bbox_inches="tight", pad_inches=0.3)
