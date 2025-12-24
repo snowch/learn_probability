@@ -430,4 +430,169 @@ This chapter introduced the basic language of probability theory, grounded in se
 
 +++
 
-Understanding this vocabulary and these basic rules is essential. In the next chapter, we will build upon this foundation by learning systematic ways to count the number of outcomes in sample spaces and events, which is often necessary for calculating theoretical probabilities, especially when outcomes are equally likely.s
+Understanding this vocabulary and these basic rules is essential. In the next chapter, we will build upon this foundation by learning systematic ways to count the number of outcomes in sample spaces and events, which is often necessary for calculating theoretical probabilities, especially when outcomes are equally likely.
+
++++
+
+## Exercises
+
+1. **Set Operations and Events:** In a survey of 100 students:
+   - 60 students study Mathematics (M)
+   - 50 students study Physics (P)
+   - 30 students study both Mathematics and Physics
+
+   a) How many students study Mathematics or Physics (or both)?
+   b) How many students study neither Mathematics nor Physics?
+   c) How many students study exactly one of the two subjects?
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   Let $M$ be the set of students studying Mathematics, $P$ be the set of students studying Physics.
+
+   Given:
+   - $|M| = 60$
+   - $|P| = 50$
+   - $|M \cap P| = 30$
+   - Total students = 100
+
+   **a) Students studying M or P (or both):**
+   Using the inclusion-exclusion principle:
+   $$|M \cup P| = |M| + |P| - |M \cap P| = 60 + 50 - 30 = 80$$
+
+   **Answer:** 80 students
+
+   **b) Students studying neither:**
+   $|(M \cup P)^c| = 100 - |M \cup P| = 100 - 80 = 20$
+
+   **Answer:** 20 students
+
+   **c) Students studying exactly one subject:**
+   Only M: $|M| - |M \cap P| = 60 - 30 = 30$
+   Only P: $|P| - |M \cap P| = 50 - 30 = 20$
+   Total: $30 + 20 = 50$
+
+   **Answer:** 50 students
+   ```
+
+2. **Probability Axioms:** A box contains 5 red balls, 3 blue balls, and 2 green balls. You randomly select one ball.
+
+   a) What is the probability of selecting a red ball?
+   b) What is the probability of not selecting a red ball?
+   c) What is the probability of selecting a red or blue ball?
+   d) Verify that the probabilities of all possible outcomes sum to 1.
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   Sample space: $S = \{\text{Red}, \text{Blue}, \text{Green}\}$
+   Total balls = $5 + 3 + 2 = 10$
+
+   **a) Probability of red:**
+   $$P(\text{Red}) = \frac{5}{10} = \frac{1}{2} = 0.5$$
+
+   **b) Probability of not red (Complement Rule):**
+   $$P(\text{Red}^c) = 1 - P(\text{Red}) = 1 - 0.5 = 0.5$$
+
+   Or directly: $P(\text{Blue or Green}) = \frac{3+2}{10} = \frac{5}{10} = 0.5$
+
+   **c) Probability of red or blue (Addition Rule for mutually exclusive events):**
+   $$P(\text{Red} \cup \text{Blue}) = P(\text{Red}) + P(\text{Blue}) = \frac{5}{10} + \frac{3}{10} = \frac{8}{10} = 0.8$$
+
+   **d) Verification (Normalization Axiom):**
+   $$P(\text{Red}) + P(\text{Blue}) + P(\text{Green}) = \frac{5}{10} + \frac{3}{10} + \frac{2}{10} = \frac{10}{10} = 1 \,\checkmark$$
+   ```
+
+3. **Addition Rule:** A fair six-sided die is rolled. Let $A$ be the event "roll an even number" and $B$ be the event "roll a number greater than 3".
+
+   a) List the outcomes in events $A$, $B$, and $A \cap B$
+   b) Calculate $P(A)$, $P(B)$, and $P(A \cap B)$
+   c) Use the Addition Rule to find $P(A \cup B)$
+   d) Verify your answer by directly counting favorable outcomes
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   Sample space: $S = \{1, 2, 3, 4, 5, 6\}$, each outcome has probability $\frac{1}{6}$
+
+   **a) Events:**
+   - $A = \{2, 4, 6\}$ (even numbers)
+   - $B = \{4, 5, 6\}$ (greater than 3)
+   - $A \cap B = \{4, 6\}$ (even AND greater than 3)
+
+   **b) Probabilities:**
+   - $P(A) = \frac{3}{6} = \frac{1}{2}$
+   - $P(B) = \frac{3}{6} = \frac{1}{2}$
+   - $P(A \cap B) = \frac{2}{6} = \frac{1}{3}$
+
+   **c) Using Addition Rule:**
+   $$P(A \cup B) = P(A) + P(B) - P(A \cap B) = \frac{1}{2} + \frac{1}{2} - \frac{1}{3} = 1 - \frac{1}{3} = \frac{2}{3}$$
+
+   **d) Direct verification:**
+   $A \cup B = \{2, 4, 5, 6\}$, so $P(A \cup B) = \frac{4}{6} = \frac{2}{3}$ ✓
+   ```
+
+4. **De Morgan's Laws:** In a deck of 52 playing cards, let:
+   - $H$ = event that the card is a Heart
+   - $F$ = event that the card is a face card (Jack, Queen, King)
+
+   Find the probability that a randomly drawn card is:
+   a) Neither a Heart nor a face card (use De Morgan's Law: $(H \cup F)^c = H^c \cap F^c$)
+   b) Verify your answer by calculating directly
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   In a standard deck:
+   - Hearts: 13 cards, so $P(H) = \frac{13}{52} = \frac{1}{4}$
+   - Face cards: $3 \times 4 = 12$ cards (J, Q, K in each suit), so $P(F) = \frac{12}{52} = \frac{3}{13}$
+   - Heart face cards: 3 cards (J♥, Q♥, K♥), so $P(H \cap F) = \frac{3}{52}$
+
+   **a) Using De Morgan's Law:**
+
+   First, find $P(H \cup F)$ using the Addition Rule:
+   $$P(H \cup F) = P(H) + P(F) - P(H \cap F) = \frac{13}{52} + \frac{12}{52} - \frac{3}{52} = \frac{22}{52} = \frac{11}{26}$$
+
+   Then apply Complement Rule:
+   $$P((H \cup F)^c) = P(H^c \cap F^c) = 1 - P(H \cup F) = 1 - \frac{11}{26} = \frac{15}{26}$$
+
+   **b) Direct calculation:**
+   Total cards: 52
+   Hearts or face cards: 22 (calculated above)
+   Neither: $52 - 22 = 30$
+
+   $$P(H^c \cap F^c) = \frac{30}{52} = \frac{15}{26}$$ ✓
+   ```
+
+5. **Mutually Exclusive vs. Independent:** Consider rolling a fair six-sided die.
+   - Let $A$ = "roll a 2"
+   - Let $B$ = "roll an odd number"
+
+   a) Are events $A$ and $B$ mutually exclusive? Explain.
+   b) Calculate $P(A)$, $P(B)$, and $P(A \cap B)$
+   c) If events were independent, what would $P(A \cap B)$ equal? Compare with your answer in (b).
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **a) Mutually exclusive?**
+
+   Yes, $A$ and $B$ are mutually exclusive because:
+   - $A = \{2\}$
+   - $B = \{1, 3, 5\}$
+   - $A \cap B = \emptyset$ (cannot roll both 2 and an odd number simultaneously)
+
+   **b) Probabilities:**
+   - $P(A) = \frac{1}{6}$
+   - $P(B) = \frac{3}{6} = \frac{1}{2}$
+   - $P(A \cap B) = 0$ (since $A \cap B = \emptyset$)
+
+   **c) If independent:**
+
+   If $A$ and $B$ were independent, then:
+   $$P(A \cap B) = P(A) \times P(B) = \frac{1}{6} \times \frac{1}{2} = \frac{1}{12}$$
+
+   But we found $P(A \cap B) = 0 \neq \frac{1}{12}$
+
+   **Conclusion:** Events $A$ and $B$ are NOT independent. Mutually exclusive events (with positive probability) can never be independent—knowing one occurred tells us the other didn't occur.
+   ```

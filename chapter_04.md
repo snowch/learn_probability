@@ -705,6 +705,81 @@ The key distinction lies in whether the problem describes the likelihood of two 
 
 +++
 
+## Chapter Summary
+
+### Key Takeaways
+
+**The core insight:** Conditional probability $P(A|B)$ represents our updated belief about event $A$ given that we know event $B$ has occurred. It restricts the sample space to only outcomes where $B$ is true.
+
+**The fundamental concepts:**
+
+1. **Conditional Probability** $P(A|B) = \frac{P(A \cap B)}{P(B)}$, provided $P(B) > 0$
+   - Represents probability of $A$ **given** $B$ has occurred
+   - Restricts sample space from $S$ to just the outcomes in $B$
+   - **Key distinction:** $P(A|B) \neq P(A \cap B)$ — conditioning vs. intersection!
+
+2. **Multiplication Rule:** $P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$
+   - Fundamental for computing joint probabilities
+   - Can chain for multiple events: $P(A \cap B \cap C) = P(A) \cdot P(B|A) \cdot P(C|A \cap B)$
+
+3. **Law of Total Probability:** If $B_1, B_2, \ldots, B_n$ partition the sample space, then:
+   $$P(A) = \sum_{i=1}^n P(A|B_i) \cdot P(B_i)$$
+   - Breaks complex probability into simpler conditional pieces
+   - Essential for scenarios with multiple pathways or stages
+   - Foundation for Bayes' Theorem (next chapter)
+
+4. **Tree Diagrams:** Visual tool for organizing sequential or staged probabilities
+   - Branches represent conditional probabilities
+   - Path probabilities multiply along branches
+   - Final outcome probabilities sum across relevant paths
+
+### Why This Matters
+
+Conditional probability is fundamental to:
+
+- **Medical diagnosis:** $P(\text{disease}|\text{positive test})$ vs. $P(\text{positive test}|\text{disease})$
+- **Machine learning:** Training models by learning $P(\text{label}|\text{features})$
+- **Risk assessment:** Updating probabilities based on new information or evidence
+- **Decision making:** How new data should change our beliefs and actions
+- **Scientific reasoning:** Hypothesis testing and Bayesian inference
+
+### Common Pitfalls to Avoid
+
+1. **Confusing $P(A|B)$ with $P(A \cap B)$:**
+   - $P(A|B)$ is a proportion: "out of times B occurs, how often does A also occur?"
+   - $P(A \cap B)$ is absolute: "how often do both A and B occur?"
+   - Visual check: $P(A|B)$ uses $B$ as the "whole", $P(A \cap B)$ uses full sample space $S$
+
+2. **Reversing the conditioning (the prosecutor's fallacy):**
+   - $P(A|B) \neq P(B|A)$ in general!
+   - Example: $P(\text{positive test}|\text{disease}) \neq P(\text{disease}|\text{positive test})$
+   - Need Bayes' Theorem to flip conditioning (Chapter 5)
+
+3. **Forgetting to partition completely:**
+   - For Law of Total Probability, events $B_i$ must be mutually exclusive and exhaustive
+   - Missing a partition element leads to incorrect totals
+
+4. **Misreading tree diagrams:**
+   - Branches show conditional probabilities, not joint probabilities
+   - Multiply along paths, sum across paths
+
+### Visual Mnemonics
+
+**Conditional probability:** Zoom into region $B$, see what fraction is also in $A$
+
+**Multiplication Rule:** Path probability = product of conditional steps along the path
+
+**Law of Total Probability:** Weighted average over all possible "routes" to $A$
+
+### Next Steps
+
+In Chapter 5, we'll build on conditional probability to explore:
+- **Bayes' Theorem:** Flipping conditional probabilities
+- **Independence:** When conditioning doesn't change probabilities
+- **Conditional independence:** Independence within contexts
+
++++
+
 ## Exercises
 
 1.  **Two Dice:** If you roll two fair six-sided dice, what is the conditional probability that the sum is 8, given that the first die shows a 3? What is the conditional probability that the first die shows a 3, given that the sum is 8?
@@ -778,48 +853,48 @@ The key distinction lies in whether the problem describes the likelihood of two 
     ```{admonition} Answer
     :class: dropdown
 
-    Let $M$ be the event “the two cards have the same rank.”
-    
+    Let $M$ be the event "the two cards have the same rank."
+
     **Conditional probability approach (matches the hint):**
     - The first card can be anything; after drawing it, its rank is fixed.
     - In a 52-card deck there are 4 cards of each rank.
     - After drawing the first card, there are **3** remaining cards of that same rank.
     - There are **51** cards left in total.
-    
+
     So,
-    
+
     $$
     P(M)=P(\text{2nd card has same rank as 1st}\mid \text{1st card drawn}).
     $$
-    
+
     Recall the definition of conditional probability:
-    
+
     $$
     P(A\mid B)=\frac{P(A\cap B)}{P(B)} \quad (P(B)>0).
     $$
-    
-    To make this concrete, let $B$ be the event “the first card is an Ace” and let $C$ be the event “the second card is an Ace”.
-    Then $C\cap B$ is the event “the first two cards are both Aces”.
-    
+
+    To make this concrete, let $B$ be the event "the first card is an Ace" and let $C$ be the event "the second card is an Ace".
+    Then $C\cap B$ is the event "the first two cards are both Aces".
+
     We have:
     - $P(B)=\frac{4}{52}=\frac{1}{13}$.
     - $P(C\cap B)=\frac{4}{52}\cdot\frac{3}{51}$.
-    
+
     So,
-    
+
     $$
     P(C\mid B)=\frac{P(C\cap B)}{P(B)}
     =\frac{\frac{4}{52}\cdot\frac{3}{51}}{\frac{4}{52}}
     =\frac{3}{51}
     =\frac{1}{17}\approx 0.0588.
     $$
-    
+
     By symmetry (the same calculation works for any rank), this equals $P(M)$.
-    
+
     **(Optional check using counting)**
     - Total 2-card hands: $\binom{52}{2}$.
     - Favourable hands: choose the rank (13 ways), then choose 2 suits out of 4: $13\binom{4}{2}$.
-    
+
     $$
     P(M)=\frac{13\binom{4}{2}}{\binom{52}{2}}
     =\frac{13\cdot 6}{1326}
@@ -829,43 +904,43 @@ The key distinction lies in whether the problem describes the likelihood of two 
 
     ```
 
-4.  **Choosing a Coin — Total Probability:** A bag contains **two fair coins** and **one biased coin**.  
-    - If a coin is fair, \(P(H)=0.5\).  
-    - If a coin is biased, \(P(H)=0.8\).  
+4.  **Choosing a Coin — Total Probability:** A bag contains **two fair coins** and **one biased coin**.
+    - If a coin is fair, \(P(H)=0.5\).
+    - If a coin is biased, \(P(H)=0.8\).
     You randomly pick **one** coin from the bag and flip it **twice**. What is the probability of getting **exactly one Head**?
 
     ```{admonition} Answer
     :class: dropdown
 
     Let:
-    - \(A\) be the event “exactly one Head in two flips.”
-    - \(B_1\) be “a fair coin was chosen.”
-    - \(B_2\) be “the biased coin was chosen.”
+    - \(A\) be the event "exactly one Head in two flips."
+    - \(B_1\) be "a fair coin was chosen."
+    - \(B_2\) be "the biased coin was chosen."
 
     These form a partition: you choose either a fair coin or the biased coin.
 
     **Step 1 — Probabilities of the scenarios**
     There are 3 coins total, 2 are fair:
-    
+
     $$
     P(B_1)=\frac{2}{3}, \qquad P(B_2)=\frac{1}{3}.
     $$
 
     **Step 2 — Compute the conditional probabilities**
     - Given a fair coin, exactly one Head can happen as HT or TH:
-    
+
       $$
       P(A\mid B_1)=P(HT)+P(TH)=(0.5)(0.5)+(0.5)(0.5)=0.5.
       $$
-      
+
     - Given the biased coin, $P(H)=0.8$ and $P(T)=0.2$:
-      
+
       $$
       P(A\mid B_2)=P(HT)+P(TH)=(0.8)(0.2)+(0.2)(0.8)=0.32.
       $$
 
     **Step 3 — Apply the Law of Total Probability**
-    
+
     $$
     P(A)=P(A\mid B_1)P(B_1)+P(A\mid B_2)P(B_2)
         =(0.5)\left(\frac{2}{3}\right)+(0.32)\left(\frac{1}{3}\right).
@@ -878,85 +953,10 @@ The key distinction lies in whether the problem describes the likelihood of two 
     $$
 
     So,
-    
+
     $$
     P(A)=\frac{1}{3}+\frac{8}{75}=\frac{25}{75}+\frac{8}{75}=\frac{33}{75}=\frac{11}{25}=0.44.
     $$
 
     **Answer:** $P(\text{exactly one Head})=\frac{11}{25}=0.44$.
     ```
-
-+++
-
-## Chapter Summary
-
-### Key Takeaways
-
-**The core insight:** Conditional probability $P(A|B)$ represents our updated belief about event $A$ given that we know event $B$ has occurred. It restricts the sample space to only outcomes where $B$ is true.
-
-**The fundamental concepts:**
-
-1. **Conditional Probability** $P(A|B) = \frac{P(A \cap B)}{P(B)}$, provided $P(B) > 0$
-   - Represents probability of $A$ **given** $B$ has occurred
-   - Restricts sample space from $S$ to just the outcomes in $B$
-   - **Key distinction:** $P(A|B) \neq P(A \cap B)$ — conditioning vs. intersection!
-
-2. **Multiplication Rule:** $P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$
-   - Fundamental for computing joint probabilities
-   - Can chain for multiple events: $P(A \cap B \cap C) = P(A) \cdot P(B|A) \cdot P(C|A \cap B)$
-
-3. **Law of Total Probability:** If $B_1, B_2, \ldots, B_n$ partition the sample space, then:
-   $$P(A) = \sum_{i=1}^n P(A|B_i) \cdot P(B_i)$$
-   - Breaks complex probability into simpler conditional pieces
-   - Essential for scenarios with multiple pathways or stages
-   - Foundation for Bayes' Theorem (next chapter)
-
-4. **Tree Diagrams:** Visual tool for organizing sequential or staged probabilities
-   - Branches represent conditional probabilities
-   - Path probabilities multiply along branches
-   - Final outcome probabilities sum across relevant paths
-
-### Why This Matters
-
-Conditional probability is fundamental to:
-
-- **Medical diagnosis:** $P(\text{disease}|\text{positive test})$ vs. $P(\text{positive test}|\text{disease})$
-- **Machine learning:** Training models by learning $P(\text{label}|\text{features})$
-- **Risk assessment:** Updating probabilities based on new information or evidence
-- **Decision making:** How new data should change our beliefs and actions
-- **Scientific reasoning:** Hypothesis testing and Bayesian inference
-
-### Common Pitfalls to Avoid
-
-1. **Confusing $P(A|B)$ with $P(A \cap B)$:**
-   - $P(A|B)$ is a proportion: "out of times B occurs, how often does A also occur?"
-   - $P(A \cap B)$ is absolute: "how often do both A and B occur?"
-   - Visual check: $P(A|B)$ uses $B$ as the "whole", $P(A \cap B)$ uses full sample space $S$
-
-2. **Reversing the conditioning (the prosecutor's fallacy):**
-   - $P(A|B) \neq P(B|A)$ in general!
-   - Example: $P(\text{positive test}|\text{disease}) \neq P(\text{disease}|\text{positive test})$
-   - Need Bayes' Theorem to flip conditioning (Chapter 5)
-
-3. **Forgetting to partition completely:**
-   - For Law of Total Probability, events $B_i$ must be mutually exclusive and exhaustive
-   - Missing a partition element leads to incorrect totals
-
-4. **Misreading tree diagrams:**
-   - Branches show conditional probabilities, not joint probabilities
-   - Multiply along paths, sum across paths
-
-### Visual Mnemonics
-
-**Conditional probability:** Zoom into region $B$, see what fraction is also in $A$
-
-**Multiplication Rule:** Path probability = product of conditional steps along the path
-
-**Law of Total Probability:** Weighted average over all possible "routes" to $A$
-
-### Next Steps
-
-In Chapter 5, we'll build on conditional probability to explore:
-- **Bayes' Theorem:** Flipping conditional probabilities
-- **Independence:** When conditioning doesn't change probabilities
-- **Conditional independence:** Independence within contexts

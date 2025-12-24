@@ -612,6 +612,175 @@ comb(n+k-1, k, exact=True)        # Combinations with repetition
 
 Mastering these counting techniques provides a powerful toolkit for tackling a wide range of probability problems. In the next chapter, we will move on to exploring probabilities when events are not independent, introducing the concept of Conditional Probability.
 
++++
+
+## Exercises
+
+1. **Multiplication Principle:** A password must contain:
+   - 3 letters (26 choices each, case-insensitive)
+   - 2 digits (0-9)
+   - 1 special character (!  @, #, $, %)
+
+   How many different passwords are possible if:
+   a) Characters can repeat
+   b) All characters must be distinct
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **a) With repetition allowed:**
+
+   Using the Multiplication Principle:
+   - Letters: $26 \times 26 \times 26 = 26^3$
+   - Digits: $10 \times 10 = 10^2$
+   - Special char: $5$ choices
+
+   Total: $26^3 \times 10^2 \times 5 = 17{,}576 \times 100 \times 5 = 8{,}788{,}000$
+
+   **b) All distinct:**
+
+   - First letter: 26 choices
+   - Second letter: 25 choices (can't reuse first)
+   - Third letter: 24 choices
+   - First digit: 10 choices
+   - Second digit: 9 choices (can't reuse first digit)
+   - Special char: 5 choices
+
+   Total: $26 \times 25 \times 24 \times 10 \times 9 \times 5 = 7{,}020{,}000$
+   ```
+
+2. **Permutations:** A class has 12 students. In how many ways can:
+   a) A president, vice president, and secretary be chosen (different roles)?
+   b) An unordered committee of 3 students be formed?
+   c) Verify that your answer to (a) equals your answer to (b) multiplied by 3!
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **a) Ordered selection (different roles) — Permutation:**
+
+   $$P(12, 3) = \frac{12!}{(12-3)!} = \frac{12!}{9!} = 12 \times 11 \times 10 = 1{,}320$$
+
+   **b) Unordered selection (committee) — Combination:**
+
+   $$C(12, 3) = \binom{12}{3} = \frac{12!}{3! \cdot 9!} = \frac{12 \times 11 \times 10}{3 \times 2 \times 1} = \frac{1{,}320}{6} = 220$$
+
+   **c) Verification:**
+
+   $C(12, 3) \times 3! = 220 \times 6 = 1{,}320 = P(12, 3)$ ✓
+
+   This confirms that $P(n,k) = C(n,k) \times k!$ — permutations count all orderings of each combination.
+   ```
+
+3. **Permutations with Repetition:** How many distinct arrangements can be made from the letters in:
+   a) STATISTICS
+   b) PROBABILITY
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **a) STATISTICS:**
+
+   Total letters: 10
+   - S: 3
+   - T: 3
+   - A: 1
+   - I: 2
+   - C: 1
+
+   Number of distinct arrangements:
+   $$\frac{10!}{3! \cdot 3! \cdot 1! \cdot 2! \cdot 1!} = \frac{3{,}628{,}800}{6 \times 6 \times 1 \times 2 \times 1} = \frac{3{,}628{,}800}{72} = 50{,}400$$
+
+   **b) PROBABILITY:**
+
+   Total letters: 11
+   - P: 1
+   - R: 1
+   - O: 1
+   - B: 2
+   - A: 1
+   - I: 2
+   - L: 1
+   - T: 1
+   - Y: 1
+
+   Number of distinct arrangements:
+   $$\frac{11!}{1! \cdot 1! \cdot 1! \cdot 2! \cdot 1! \cdot 2! \cdot 1! \cdot 1! \cdot 1!} = \frac{39{,}916{,}800}{2 \times 2} = \frac{39{,}916{,}800}{4} = 9{,}979{,}200$$
+   ```
+
+4. **Combinations:** A standard deck has 52 cards. How many different 5-card poker hands:
+   a) Are possible in total?
+   b) Contain all hearts?
+   c) Contain exactly 2 aces?
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **a) Total 5-card hands:**
+
+   $$\binom{52}{5} = \frac{52!}{5! \cdot 47!} = \frac{52 \times 51 \times 50 \times 49 \times 48}{120} = 2{,}598{,}960$$
+
+   **b) All hearts:**
+
+   Choose 5 from 13 hearts:
+   $$\binom{13}{5} = \frac{13!}{5! \cdot 8!} = \frac{13 \times 12 \times 11 \times 10 \times 9}{120} = 1{,}287$$
+
+   **c) Exactly 2 aces:**
+
+   - Choose 2 aces from 4: $\binom{4}{2}$
+   - Choose 3 non-aces from 48: $\binom{48}{3}$
+
+   $$\binom{4}{2} \times \binom{48}{3} = 6 \times \frac{48 \times 47 \times 46}{6} = 6 \times 17{,}296 = 103{,}776$$
+   ```
+
+5. **Combinations with Repetition:** An ice cream shop offers 8 flavors. How many ways can you order:
+   a) 3 scoops if each must be a different flavor?
+   b) 3 scoops if flavors can repeat (stars and bars)?
+   c) If you order 3 chocolate scoops, which formula applies?
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **a) All different flavors (without repetition):**
+
+   Choose 3 flavors from 8 (order doesn't matter for scoops):
+   $$\binom{8}{3} = \frac{8!}{3! \cdot 5!} = \frac{8 \times 7 \times 6}{6} = 56$$
+
+   **b) Flavors can repeat (with repetition):**
+
+   Using stars and bars: $n = 8$ flavors, $k = 3$ scoops
+   $$\binom{n+k-1}{k} = \binom{8+3-1}{3} = \binom{10}{3} = \frac{10 \times 9 \times 8}{6} = 120$$
+
+   **c) Three chocolate scoops:**
+
+   This is counted in (b) as one of the 120 possibilities. The "combinations with repetition" formula applies because we're choosing 3 items from 8 types where the same type can be chosen multiple times.
+   ```
+
+6. **Mixed Application:** You roll a fair die 4 times. What is the probability of getting exactly 2 sixes?
+
+   *Hint: First count favorable outcomes using combinations to choose which 2 rolls are sixes, then calculate probability.*
+
+   ```{admonition} Answer
+   :class: dropdown
+
+   **Step 1: Count favorable outcomes**
+
+   - Choose which 2 of the 4 rolls are sixes: $\binom{4}{2} = 6$ ways
+   - For each choice:
+     - The 2 chosen positions must be 6: probability $(1/6)^2$
+     - The 2 other positions must not be 6: probability $(5/6)^2$
+
+   **Step 2: Calculate probability**
+
+   Each specific sequence with exactly 2 sixes has probability:
+   $$\left(\frac{1}{6}\right)^2 \times \left(\frac{5}{6}\right)^2 = \frac{1 \times 25}{36 \times 36} = \frac{25}{1{,}296}$$
+
+   There are $\binom{4}{2} = 6$ such sequences, so:
+   $$P(\text{exactly 2 sixes}) = 6 \times \frac{25}{1{,}296} = \frac{150}{1{,}296} = \frac{75}{648} = \frac{25}{216} \approx 0.1157$$
+
+   **Interpretation:** This uses combinations without repetition to choose which positions are sixes (positions 1,2 vs 1,3 vs 1,4 etc. are different), not because we're sampling without replacement.
+   ```
+
 ```{code-cell} ipython3
 
 ```
