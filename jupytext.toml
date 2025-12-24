@@ -1,0 +1,3 @@
+# Jupytext configuration
+# Treat MyST markdown files as notebooks
+formats = "md:myst"
