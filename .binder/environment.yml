@@ -1,0 +1,14 @@
+name: learn-probability
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - jupyterlab
+  - jupytext
+  - myst-parser
+  - numpy
+  - matplotlib
+  - scipy
+  - pandas
+  - seaborn
+  - matplotlib-venn
