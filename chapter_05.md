@@ -937,7 +937,7 @@ if center_label:
 plt.title('Conditional Independence: Given C occurred, A and B are independent',
           fontsize=14, fontweight='bold', pad=15)
 
-# Add annotation box pointing to the C region
+# Add annotation box with the formula
 annotation_text = (
     'Within C, A and B are independent.\n'
     'P(A ∩ B | C) = P(A | C) × P(B | C)'
@@ -954,8 +954,36 @@ ax.annotate(
     ha='left', va='top'
 )
 
+# Add visual indicators for the formula components
+# P(A|C): highlight the A∩C regions with a bracket or label
+ax.annotate(
+    'P(A | C)',
+    xy=(0.35, 0.55), xycoords='axes fraction',
+    fontsize=10, fontweight='bold', color='#d84315',
+    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+              edgecolor='#d84315', linewidth=1.5, alpha=0.9)
+)
+
+# P(B|C): highlight the B∩C regions
+ax.annotate(
+    'P(B | C)',
+    xy=(0.65, 0.55), xycoords='axes fraction',
+    fontsize=10, fontweight='bold', color='#d84315',
+    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+              edgecolor='#d84315', linewidth=1.5, alpha=0.9)
+)
+
+# P(A∩B|C): highlight the central region
+ax.annotate(
+    'P(A ∩ B | C)',
+    xy=(0.5, 0.45), xycoords='axes fraction',
+    fontsize=10, fontweight='bold', color='#e65100',
+    bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+              edgecolor='#e65100', linewidth=2, alpha=0.95)
+)
+
 # Add caption below
-caption = 'Venn diagram: The orange-shaded region C is our context. Within this region,\nevents A and B behave independently.'
+caption = 'Venn diagram: The orange-shaded region C is our context. The labeled regions show\nthe three components of the conditional independence formula.'
 ax.text(0.5, -0.12, caption,
         transform=ax.transAxes,
         fontsize=10.5, ha='center', va='top',
@@ -969,12 +997,25 @@ fig.savefig("venn-conditional-independence.svg", format="svg", bbox_inches="tigh
 ---
 width: 85%
 ---
-Venn diagram showing conditional independence: Within region $C$, the events $A$ and $B$ are independent.
+Venn diagram showing conditional independence with formula components labeled. The orange-shaded regions within $C$ show the three parts of the formula: $P(A \cap B \mid C)$ (center), $P(A \mid C)$ (left orange regions), and $P(B \mid C)$ (right orange regions).
 ```
 
 **Key observation from the diagram:**
 
-When we restrict our view to just the region $C$ (everything inside circle $C$), the overlap between $A$ and $B$ within that region follows the independence rule. The probability of being in both $A$ and $B$ given that we're in $C$ equals the product of the individual conditional probabilities $P(A|C)$ and $P(B|C)$.
+When we restrict our view to just the region $C$ (everything inside circle $C$), the overlap between $A$ and $B$ within that region follows the independence rule. Let's map each part of the formula to the diagram:
+
+**Breaking down the formula:** $P(A \cap B \mid C) = P(A \mid C) \times P(B \mid C)$
+
+* **$P(A \cap B \mid C)$** (left side) = The proportion of region $C$ that lies in *both* $A$ and $B$
+  * In the diagram: the central orange region $(A \cap B \cap C)$ divided by the entire $C$ region
+
+* **$P(A \mid C)$** (right side, first term) = The proportion of region $C$ that lies in $A$
+  * In the diagram: all orange regions within $A$ (both $A \cap C$ and $A \cap B \cap C$) divided by the entire $C$ region
+
+* **$P(B \mid C)$** (right side, second term) = The proportion of region $C$ that lies in $B$
+  * In the diagram: all orange regions within $B$ (both $B \cap C$ and $A \cap B \cap C$) divided by the entire $C$ region
+
+**The independence relationship:** Conditional independence means that when we calculate these proportions *within* $C$, they satisfy the multiplication rule: the proportion in both $A$ and $B$ equals the product of the individual proportions. This is the visual embodiment of the formula $P(A \cap B \mid C) = P(A \mid C) P(B \mid C)$.
 
 This is different from looking at $A$ and $B$ in the entire sample space, where they might be dependent. Conditional independence means they become independent *once we fix the context* $C$.
 

@@ -3,7 +3,7 @@ project:
   title: Learn Probability
   authors:
     - name: Chris Snow
-  github: https://snowch.github.io/learn_probability
+  github: https://github.com/snowch/learn_probability
   # jupyter: true
   # binder: https://mybinder.org/v2/gh/snowch/learn_probability/HEAD
   bibliography:
