@@ -679,7 +679,7 @@ def save_common_cause_svg():
 
     # Labels
     svg2_parts.append(f'<text x="{cx2}" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="{label_color}">With Context: Common Cause Blocks Information Flow</text>')
-    svg2_parts.append(f'<text x="{cx2}" y="380" text-anchor="middle" font-size="14" fill="{label_color}">P(H₂ | H₁, C) = P(H₂ | C) — Conditionally independent given C</text>')
+    svg2_parts.append(f'<text x="{cx2}" y="394" text-anchor="middle" font-size="14" fill="{label_color}">P(H₂ | H₁, C) = P(H₂ | C) — Conditionally independent given C</text>')
 
     svg2_parts.append('</svg>')
 
