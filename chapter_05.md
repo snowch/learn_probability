@@ -855,7 +855,127 @@ We use the symbol **$\perp$** (read "is independent of"). We also use the symbol
   \qquad P(C)>0.
   $$
 
-**How to read it:** “Within the world where $C$ is known to be true, $A$ and $B$ behave like independent events.”
+**How to read it:** "Within the world where $C$ is known to be true, $A$ and $B$ behave like independent events."
+
++++
+
+#### Visual representation: Conditional Independence
+
+The Venn diagram below illustrates conditional independence. When we condition on event $C$ having occurred, we restrict our attention to the region $C$. Within that region, events $A$ and $B$ are independent, meaning the overlap of $A$ and $B$ within $C$ equals what we'd expect from the product of their conditional probabilities.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+from pathlib import Path
+import matplotlib.pyplot as plt
+from matplotlib_venn import venn3, venn3_circles
+
+# Create Venn diagram for conditional independence
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Create three-set Venn diagram with equal-sized regions for clarity
+v = venn3(subsets=(1, 1, 1, 1, 1, 1, 1), set_labels=('', '', ''), ax=ax)
+
+# Color scheme: Make C region (orange/amber tones) stand out
+# Regions outside C are very light/desaturated
+# Regions inside C are more saturated
+if v.get_patch_by_id('100'):  # A only (not in B or C)
+    v.get_patch_by_id('100').set_color('#f5f5f5')
+    v.get_patch_by_id('100').set_alpha(0.6)
+if v.get_patch_by_id('010'):  # B only (not in A or C)
+    v.get_patch_by_id('010').set_color('#f5f5f5')
+    v.get_patch_by_id('010').set_alpha(0.6)
+if v.get_patch_by_id('001'):  # C only (not in A or B)
+    v.get_patch_by_id('001').set_color('#ffe0b2')
+    v.get_patch_by_id('001').set_alpha(0.7)
+if v.get_patch_by_id('110'):  # A ∩ B only (not in C)
+    v.get_patch_by_id('110').set_color('#e0e0e0')
+    v.get_patch_by_id('110').set_alpha(0.5)
+if v.get_patch_by_id('101'):  # A ∩ C (not in B)
+    v.get_patch_by_id('101').set_color('#ffb74d')
+    v.get_patch_by_id('101').set_alpha(0.7)
+if v.get_patch_by_id('011'):  # B ∩ C (not in A)
+    v.get_patch_by_id('011').set_color('#ffb74d')
+    v.get_patch_by_id('011').set_alpha(0.7)
+if v.get_patch_by_id('111'):  # A ∩ B ∩ C (all three)
+    v.get_patch_by_id('111').set_color('#ff9800')
+    v.get_patch_by_id('111').set_alpha(0.8)
+
+# Draw circles with solid lines
+venn3_circles(subsets=(1, 1, 1, 1, 1, 1, 1), linestyle='solid', linewidth=2, ax=ax)
+
+# Add labels for the three sets
+label_A = v.get_label_by_id('A')
+if label_A:
+    label_A.set_text('A')
+    label_A.set_fontsize(14)
+    label_A.set_fontweight('normal')
+
+label_B = v.get_label_by_id('B')
+if label_B:
+    label_B.set_text('B')
+    label_B.set_fontsize(14)
+    label_B.set_fontweight('normal')
+
+label_C = v.get_label_by_id('C')
+if label_C:
+    label_C.set_text('C')
+    label_C.set_fontsize(14)
+    label_C.set_fontweight('normal')
+
+# Add label for the center region (A ∩ B ∩ C)
+center_label = v.get_label_by_id('111')
+if center_label:
+    center_label.set_text('A ∩ B ∩ C')
+    center_label.set_fontsize(12)
+    center_label.set_fontweight('bold')
+
+# Add title
+plt.title('Conditional Independence: Given C occurred, A and B are independent',
+          fontsize=14, fontweight='bold', pad=15)
+
+# Add annotation box pointing to the C region
+annotation_text = (
+    'Within C, A and B are independent.\n'
+    'P(A ∩ B | C) = P(A | C) × P(B | C)'
+)
+
+ax.annotate(
+    annotation_text,
+    xy=(0.5, 0.5), xycoords='axes fraction',
+    xytext=(0.72, 0.80), textcoords='axes fraction',
+    fontsize=11,
+    bbox=dict(boxstyle='round,pad=0.6', facecolor='lightyellow',
+              edgecolor='darkblue', linewidth=1.5),
+    arrowprops=dict(arrowstyle='->', lw=2, color='darkblue'),
+    ha='left', va='top'
+)
+
+# Add caption below
+caption = 'Venn diagram: The orange-shaded region C is our context. Within this region,\nevents A and B behave independently.'
+ax.text(0.5, -0.12, caption,
+        transform=ax.transAxes,
+        fontsize=10.5, ha='center', va='top',
+        style='italic', color='#333333')
+
+plt.tight_layout()
+fig.savefig("venn-conditional-independence.svg", format="svg", bbox_inches="tight")
+```
+
+```{figure} venn-conditional-independence.svg
+---
+width: 85%
+---
+Venn diagram showing conditional independence: Within region $C$, the events $A$ and $B$ are independent.
+```
+
+**Key observation from the diagram:**
+
+When we restrict our view to just the region $C$ (everything inside circle $C$), the overlap between $A$ and $B$ within that region follows the independence rule. The probability of being in both $A$ and $B$ given that we're in $C$ equals the product of the individual conditional probabilities $P(A|C)$ and $P(B|C)$.
+
+This is different from looking at $A$ and $B$ in the entire sample space, where they might be dependent. Conditional independence means they become independent *once we fix the context* $C$.
+
++++
 
 ---
 
