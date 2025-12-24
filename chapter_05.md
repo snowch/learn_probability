@@ -308,6 +308,7 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
 * **Likelihood ( $P(B|A) $):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
 * **Likelihood ( $P(B|A^c)$ ):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
 * **Probability of Evidence ( $P(B)$ ):** Using the Law of Total Probability:
+  
     $$
     \begin{align*}
     P(B) &= P(B|A)P(A) + P(B|A^c)P(A^c) \\
@@ -316,7 +317,9 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
     &= 0.21 + 0.14 = 0.35
     \end{align*}
     $$
+  
 * **Posterior ( $P(A|B)$ ):** Now apply Bayes' Theorem:
+  
     $$
     \begin{align*}
     P(A|B) &= \frac{P(B|A) P(A)}{P(B)} \\
@@ -942,7 +945,7 @@ annotation_text = (
 
 ax.annotate(
     annotation_text,
-    xy=(0.55, 0.42), xycoords='axes fraction',
+    xy=(0.5, 0.58), xycoords='axes fraction',
     xytext=(0.72, 0.80), textcoords='axes fraction',
     fontsize=11,
     bbox=dict(boxstyle='round,pad=0.6', facecolor='lightyellow',
