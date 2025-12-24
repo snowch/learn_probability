@@ -562,7 +562,135 @@ If two events A and B have non-zero probabilities, they *cannot* be both mutuall
 
 ## 5. Conditional Independence
 
-+++
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+from pathlib import Path
+
+def save_common_cause_svg():
+    """Create two diagrams showing common cause pattern."""
+
+    # Colors
+    node_fill = "#1e293b"
+    node_stroke = "#0f172a"
+    arrow_color = "#3b82f6"
+    arrow_blocked = "#94a3b8"
+    text_color = "#ffffff"
+    bg_color = "#ffffff"
+    label_color = "#111827"
+    highlight_color = "#ef4444"
+
+    # Dimensions
+    node_r = 60
+    font_size = 18
+    label_font = 14
+    arrow_width = 3
+
+    def make_arrow(x1, y1, x2, y2, color, dashed=False):
+        """Create an arrow path."""
+        # Shorten to stop at node edge
+        dx, dy = x2 - x1, y2 - y1
+        length = (dx**2 + dy**2)**0.5
+        if length == 0:
+            return ""
+        ux, uy = dx/length, dy/length
+        x1_adj = x1 + ux * node_r
+        y1_adj = y1 + uy * node_r
+        x2_adj = x2 - ux * (node_r + 15)
+        y2_adj = y2 - uy * (node_r + 15)
+
+        style = f'stroke-dasharray="8,4"' if dashed else ''
+
+        return f'''
+        <defs>
+            <marker id="arrowhead-{color.replace("#","")}" markerWidth="10" markerHeight="10"
+                    refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="{color}" />
+            </marker>
+        </defs>
+        <line x1="{x1_adj}" y1="{y1_adj}" x2="{x2_adj}" y2="{y2_adj}"
+              stroke="{color}" stroke-width="{arrow_width}" {style}
+              marker-end="url(#arrowhead-{color.replace("#","")})" />
+        '''
+
+    def make_node(x, y, label, sublabel=""):
+        """Create a circular node."""
+        sub_part = f'<text x="{x}" y="{y+22}" text-anchor="middle" font-size="{label_font}" fill="{text_color}" opacity="0.8">{sublabel}</text>' if sublabel else ''
+        return f'''
+        <circle cx="{x}" cy="{y}" r="{node_r}" fill="{node_fill}" stroke="{node_stroke}" stroke-width="2"/>
+        <text x="{x}" y="{y+6}" text-anchor="middle" font-size="{font_size}" font-weight="bold" fill="{text_color}">{label}</text>
+        {sub_part}
+        '''
+
+    def make_block_symbol(x, y):
+        """Create a blocking symbol (circled X)."""
+        return f'''
+        <circle cx="{x}" cy="{y}" r="25" fill="{highlight_color}" stroke="#b91c1c" stroke-width="2"/>
+        <text x="{x}" y="{y+8}" text-anchor="middle" font-size="28" font-weight="bold" fill="#ffffff">⊗</text>
+        '''
+
+    # Image 1: Without context (apparent dependence)
+    w1, h1 = 800, 300
+    cx1, cy1 = w1 // 2, h1 // 2
+
+    svg1_parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w1}" height="{h1}" viewBox="0 0 {w1} {h1}">']
+    svg1_parts.append(f'<rect width="{w1}" height="{h1}" fill="{bg_color}"/>')
+
+    # Nodes
+    x_h1, x_h2 = 200, 600
+    svg1_parts.append(make_node(x_h1, cy1, "H₁", "Umbrellas"))
+    svg1_parts.append(make_node(x_h2, cy1, "H₂", "Flashlights"))
+
+    # Arrow from H1 to H2
+    svg1_parts.append(make_arrow(x_h1, cy1, x_h2, cy1, arrow_color))
+
+    # Label
+    svg1_parts.append(f'<text x="{cx1}" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="{label_color}">Without Context: Information Appears to Flow</text>')
+    svg1_parts.append(f'<text x="{cx1}" y="260" text-anchor="middle" font-size="14" fill="{label_color}">P(H₂ | H₁) ≠ P(H₂) — The events appear dependent</text>')
+
+    svg1_parts.append('</svg>')
+
+    # Image 2: With context (conditional independence)
+    w2, h2 = 800, 400
+
+    svg2_parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w2}" height="{h2}" viewBox="0 0 {w2} {h2}">']
+    svg2_parts.append(f'<rect width="{w2}" height="{h2}" fill="{bg_color}"/>')
+
+    # Nodes - arranged in V shape
+    cx2 = w2 // 2
+    y_top = 130
+    y_bottom = 310
+    x_left = 200
+    x_right = 600
+
+    svg2_parts.append(make_node(cx2, y_top, "C", "Storm Warning"))
+    svg2_parts.append(make_node(x_left, y_bottom, "H₁", "Umbrellas"))
+    svg2_parts.append(make_node(x_right, y_bottom, "H₂", "Flashlights"))
+
+    # Arrows from C to both H1 and H2
+    svg2_parts.append(make_arrow(cx2, y_top, x_left, y_bottom, arrow_color))
+    svg2_parts.append(make_arrow(cx2, y_top, x_right, y_bottom, arrow_color))
+
+    # Blocked arrow between H1 and H2 (dashed and grayed)
+    svg2_parts.append(make_arrow(x_left, y_bottom, x_right, y_bottom, arrow_blocked, dashed=True))
+
+    # Block symbol in the middle
+    svg2_parts.append(make_block_symbol(cx2, y_bottom))
+
+    # Labels
+    svg2_parts.append(f'<text x="{cx2}" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="{label_color}">With Context: Common Cause Blocks Information Flow</text>')
+    svg2_parts.append(f'<text x="{cx2}" y="380" text-anchor="middle" font-size="14" fill="{label_color}">P(H₂ | H₁, C) = P(H₂ | C) — Conditionally independent given C</text>')
+
+    svg2_parts.append('</svg>')
+
+    # Save both files
+    Path("common-cause-without-context.svg").write_text("\n".join(svg1_parts), encoding="utf-8")
+    Path("common-cause-with-context.svg").write_text("\n".join(svg2_parts), encoding="utf-8")
+
+    return "common-cause-without-context.svg", "common-cause-with-context.svg"
+
+save_common_cause_svg()
+```
 
 ```{admonition} Why this section matters (and why it's tricky)
 :class: tip
@@ -583,6 +711,51 @@ Sometimes two events appear related overall (in the same experiment), but become
 Think of **$C$** as a *context switch*: if you fix the context, $A$ and $B$ stop giving each other information.
 
 ---
+
+:::{admonition} Example: The Grocery Store (Common Cause)
+:class: tip
+
+This example illustrates how external "shocks" affect behavior and create apparent connections between events.
+
+**Scenario:**
+- Variable $H_1$: Sales of umbrellas increase.
+- Variable $H_2$: Sales of flashlights increase.
+- Condition $C$: A severe storm warning is issued.
+
+**Why it works:**
+
+You notice that every time people buy umbrellas, they also seem to buy flashlights. The two events appear linked. However, the umbrella purchase doesn't *cause* the flashlight purchase. Both are independent responses to the storm warning ($C$).
+
+Once you know the storm is coming, seeing someone grab an umbrella tells you nothing new about the flashlight stock—the storm already told you everything you needed to know.
+
+**Mathematically:**
+$$
+P(H_2 \mid H_1, C) = P(H_2 \mid C)
+$$
+
+This equation says: "Given that we know a storm warning was issued ($C$), learning that umbrella sales increased ($H_1$) gives us no additional information about whether flashlight sales increased ($H_2$)."
+
+```{figure} common-cause-without-context.svg
+---
+width: 80%
+figclass: full-width
+---
+**Without knowing the context:** When we don't know about the storm warning, umbrella sales ($H_1$) and flashlight sales ($H_2$) appear to be dependent. Observing one gives us information about the other.
+```
+
+```{figure} common-cause-with-context.svg
+---
+width: 80%
+figclass: full-width
+---
+**With context revealed:** Once we know about the storm warning ($C$), the connection between $H_1$ and $H_2$ is blocked. The storm warning is the common cause of both events. Given $C$, learning about umbrella sales tells us nothing new about flashlight sales—they are conditionally independent.
+```
+
+**The key insight:** This pattern—where a common cause creates apparent dependence between effects—is one of the most important concepts in conditional independence. We'll formalize this idea in the sections that follow.
+
+:::
+
++++
 
 ### 5.0. Conditioning on Multiple Events
 
