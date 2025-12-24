@@ -99,14 +99,19 @@ $$
 To connect this *directly* to the area model, expand the denominator by splitting \(B\) into the part inside \(A\) and the part inside \(A^c\):
 
 $$
-P(B)=P(B\cap A)+P(B\cap A^c)=P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
+\begin{align*}
+P(B) &= P(B\cap A)+P(B\cap A^c) \\
+&= P(B\mid A)P(A)+P(B\mid A^c)P(A^c).
+\end{align*}
 $$
 
 Substitute into the Bayes form:
 
 $$
+\begin{align*}
 P(A\mid B)
-=\frac{P(B\mid A)P(A)}{P(B\mid A)P(A)+P(B\mid A^c)P(A^c)}.
+&=\frac{P(B\mid A)P(A)}{P(B\mid A)P(A)+P(B\mid A^c)P(A^c)}.
+\end{align*}
 $$
 
 ```{code-cell} ipython3
@@ -303,11 +308,22 @@ The core idea of Bayesian thinking is updating beliefs. We start with a prior be
 * **Likelihood ( $P(B|A) $):** The probability that a visitor has this Browse history *given* the ad is effective. Perhaps effective ads are better targeted, so this might be high, say $P(B|A) = 0.70$.
 * **Likelihood ( $P(B|A^c)$ ):** The probability that a visitor has this Browse history *given* the ad is *not* effective. This might be lower, say $P(B|A^c) = 0.20$.
 * **Probability of Evidence ( $P(B)$ ):** Using the Law of Total Probability:
-    $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$
-    $P(B) = (0.70)(0.30) + (0.20)(1 - 0.30)$
-    $P(B) = 0.21 + (0.20)(0.70) = 0.21 + 0.14 = 0.35$
+    $$
+    \begin{align*}
+    P(B) &= P(B|A)P(A) + P(B|A^c)P(A^c) \\
+    &= (0.70)(0.30) + (0.20)(1 - 0.30) \\
+    &= 0.21 + (0.20)(0.70) \\
+    &= 0.21 + 0.14 = 0.35
+    \end{align*}
+    $$
 * **Posterior ( $P(A|B)$ ):** Now apply Bayes' Theorem:
-    $P(A|B) = \frac{P(B|A) P(A)}{P(B)} = \frac{(0.70)(0.30)}{0.35} = \frac{0.21}{0.35} = 0.60$
+    $$
+    \begin{align*}
+    P(A|B) &= \frac{P(B|A) P(A)}{P(B)} \\
+    &= \frac{(0.70)(0.30)}{0.35} \\
+    &= \frac{0.21}{0.35} = 0.60
+    \end{align*}
+    $$
 
 After observing the visitor's Browse history, your belief that the ad is effective increased from 30% (prior) to 60% (posterior).
 
@@ -380,7 +396,14 @@ P(\text{Pos}) &= P(\text{Pos}|D)P(D) + P(\text{Pos}|D^c)P(D^c) \\
 $$
 
 Now substitute into Bayes' Theorem:
-$P(D|Pos) = \frac{(0.95)(0.01)}{0.0590} = \frac{0.0095}{0.0590} \approx 0.161$
+
+$$
+\begin{align*}
+P(D|Pos) &= \frac{(0.95)(0.01)}{0.0590} \\
+&= \frac{0.0095}{0.0590} \\
+&\approx 0.161
+\end{align*}
+$$
 
 **Interpretation:** Even with a positive test result from a 95% accurate test, the probability of actually having the disease is only about 16.1%! This seems counter-intuitive but highlights the strong influence of the low prior probability (prevalence) of the disease. Most positive tests come from the large group of healthy people who receive a false positive, rather than the small group of sick people who receive a true positive.
 
@@ -514,13 +537,12 @@ Let's calculate $P(B)$. Using the Law of Total Probability:
 $$
 \begin{align*}
 P(B) &= P(B|A)P(A) + P(B|A^c)P(A^c) \\
-&= \left( \frac{3}{51} \right) \left( \frac{4}{52} \right) + \left( \frac{4}{51} \right) \left( \frac{48}{52} \right) \\
+&= \left( \frac{3}{51} \right) \left( \frac{4}{52} \right)
+   + \left( \frac{4}{51} \right) \left( \frac{48}{52} \right) \\
 &= \frac{3 \times 4}{51 \times 52} + \frac{4 \times 48}{51 \times 52} \\
 &= \frac{12}{2652} + \frac{192}{2652} \\
 &= \frac{12 + 192}{2652} \\
-&= \frac{204}{2652} \\
-&= \frac{4}{52} \\
-&= \frac{1}{13}
+&= \frac{204}{2652} = \frac{4}{52} = \frac{1}{13}
 \end{align*}
 $$
 
@@ -544,7 +566,8 @@ Is $P(A \cap B) = P(A)P(B)$?
 
 $$
 \begin{align*}
-\frac{1}{221} &\stackrel{?}{=} \left( \frac{4}{52} \right) \times \left( \frac{4}{52} \right) \\
+\frac{1}{221} &\stackrel{?}{=} \left( \frac{4}{52} \right)
+   \times \left( \frac{4}{52} \right) \\
 &= \left( \frac{1}{13} \right) \times \left( \frac{1}{13} \right) \\
 &= \frac{1}{169}
 \end{align*}
@@ -1001,7 +1024,10 @@ If you **don't know the coin**, then observing $H_1$ gives you information about
 To find the overall probability of both flips being heads when we don't know which coin was chosen, we apply the Law of Total Probability using the partition $\{C, C^c\}$:
 
 $$
-P(H_1\cap H_2) = P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c)
+\begin{align*}
+P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) \\
+&\quad + P(H_1\cap H_2\mid C^c)P(C^c)
+\end{align*}
 $$
 
 This is the same principle we used earlier for single events (like $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$), but now applied to the intersection $H_1 \cap H_2$. We're splitting the joint event into two mutually exclusive cases (fair coin vs. biased coin) and adding their weighted probabilities.
@@ -1064,15 +1090,20 @@ fig.savefig("conditional-independence-mixture.svg", format="svg", bbox_inches="t
 When the context is hidden, we use the **Law of Total Probability** to combine both scenarios, weighting each by how likely it is to occur (note that $P(C) + P(C^c) = 1$):
 
 $$
-P(H_1\cap H_2) = P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c)
+\begin{align*}
+P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) \\
+&\quad + P(H_1\cap H_2\mid C^c)P(C^c)
+\end{align*}
 $$
 
 **Numerical verification:**
 
 Calculating the individual probabilities:
-- $P(H_1) = P(H\mid C)P(C) + P(H\mid C^c)P(C^c) = (0.50)(0.50) + (0.75)(0.50) = 0.625$
+- $P(H_1) = P(H\mid C)P(C) + P(H\mid C^c)P(C^c)$
+  $= (0.50)(0.50) + (0.75)(0.50) = 0.625$
 - $P(H_2) = 0.625$ (by the same calculation)
-- $P(H_1\cap H_2) = (0.25)(0.50) + (0.5625)(0.50) = 0.125 + 0.28125 = 0.40625$
+- $P(H_1\cap H_2) = (0.25)(0.50) + (0.5625)(0.50)$
+  $= 0.125 + 0.28125 = 0.40625$
 
 Now let's check for independence:
 - $P(H_1\cap H_2) = 0.40625$
@@ -1188,17 +1219,22 @@ In the next part of the book, we will shift our focus from events to **Random Va
     First compute $P(R)$ by total probability:
 
     $$
-    P(R)=P(R\mid U_1)P(U_1)+P(R\mid U_2)P(U_2)
-        =(0.6)(0.6)+(0.2)(0.4)=0.44.
+    \begin{align*}
+    P(R) &= P(R\mid U_1)P(U_1)+P(R\mid U_2)P(U_2) \\
+    &= (0.6)(0.6)+(0.2)(0.4) \\
+    &= 0.44.
+    \end{align*}
     $$
 
-    Now apply Bayes’ theorem:
+    Now apply Bayes' theorem:
 
     $$
-    P(U_1\mid R)=\frac{P(R\mid U_1)P(U_1)}{P(R)}
-               =\frac{0.6\cdot 0.6}{0.44}
-               =\frac{0.36}{0.44}
-               =\frac{9}{11}\approx 0.818.
+    \begin{align*}
+    P(U_1\mid R) &= \frac{P(R\mid U_1)P(U_1)}{P(R)} \\
+    &= \frac{0.6\cdot 0.6}{0.44} \\
+    &= \frac{0.36}{0.44} \\
+    &= \frac{9}{11}\approx 0.818.
+    \end{align*}
     $$
     ```
 
@@ -1224,13 +1260,15 @@ In the next part of the book, we will shift our focus from events to **Random Va
     \end{align*}
     $$
 
-    Then Bayes’ theorem:
+    Then Bayes' theorem:
 
     $$
+    \begin{align*}
     P(D\mid \text{Pos})
-    =\frac{P(\text{Pos}\mid D)P(D)}{P(\text{Pos})}
-    =\frac{0.98\cdot 0.005}{0.03475}
-    \approx 0.141.
+    &= \frac{P(\text{Pos}\mid D)P(D)}{P(\text{Pos})} \\
+    &= \frac{0.98\cdot 0.005}{0.03475} \\
+    &\approx 0.141.
+    \end{align*}
     $$
 
     So even with a positive result, the chance of actually having the disease is about **14.1%** (because the disease is rare).
@@ -1250,19 +1288,23 @@ In the next part of the book, we will shift our focus from events to **Random Va
     First compute $P(F)$:
 
     $$
-    P(F)=P(F\mid S)P(S)+P(F\mid S^c)P(S^c)
-        =0.50\cdot 0.20 + 0.02\cdot 0.80
-        =0.10 + 0.016
-        =0.116.
+    \begin{align*}
+    P(F) &= P(F\mid S)P(S)+P(F\mid S^c)P(S^c) \\
+    &= 0.50\cdot 0.20 + 0.02\cdot 0.80 \\
+    &= 0.10 + 0.016 \\
+    &= 0.116.
+    \end{align*}
     $$
 
-    Then Bayes’ theorem:
+    Then Bayes' theorem:
 
     $$
-    P(S\mid F)=\frac{P(F\mid S)P(S)}{P(F)}
-              =\frac{0.50\cdot 0.20}{0.116}
-              =\frac{0.10}{0.116}
-              =\frac{25}{29}\approx 0.862.
+    \begin{align*}
+    P(S\mid F) &= \frac{P(F\mid S)P(S)}{P(F)} \\
+    &= \frac{0.50\cdot 0.20}{0.116} \\
+    &= \frac{0.10}{0.116} \\
+    &= \frac{25}{29}\approx 0.862.
+    \end{align*}
     $$
 
     So $P(S\mid F)\approx 86.2\%$.
@@ -1284,7 +1326,8 @@ In the next part of the book, we will shift our focus from events to **Random Va
     * $P(B)=3/6=1/2$
     * $A\cap B$ = {2}, so $P(A\cap B)=1/6$
 
-    If $A$ and $B$ were independent, we would have $P(A\cap B)=P(A)P(B)=(1/2)(1/2)=1/4$.
+    If $A$ and $B$ were independent, we would have
+    $P(A\cap B)=P(A)P(B)=(1/2)(1/2)=1/4$.
 
     But $1/6 \ne 1/4$, so the events are **not independent**.
     ```
@@ -1324,26 +1367,33 @@ In the next part of the book, we will shift our focus from events to **Random Va
     By total probability:
 
     $$
-    P(H_2)=P(H\mid C)P(C)+P(H\mid C^c)P(C^c)
-          =0.5\cdot 0.4 + 0.8\cdot 0.6
-          =0.68.
+    \begin{align*}
+    P(H_2) &= P(H\mid C)P(C)+P(H\mid C^c)P(C^c) \\
+    &= 0.5\cdot 0.4 + 0.8\cdot 0.6 \\
+    &= 0.68.
+    \end{align*}
     $$
 
     Also,
 
     $$
-    P(H_1\cap H_2)=P(HH\mid C)P(C)+P(HH\mid C^c)P(C^c)
-                  =(0.5^2)\cdot 0.4 + (0.8^2)\cdot 0.6
-                  =0.25\cdot 0.4 + 0.64\cdot 0.6
-                  =0.484.
+    \begin{align*}
+    P(H_1\cap H_2) &= P(HH\mid C)P(C) \\
+    &\quad +P(HH\mid C^c)P(C^c) \\
+    &= (0.5^2)\cdot 0.4 + (0.8^2)\cdot 0.6 \\
+    &= 0.25\cdot 0.4 + 0.64\cdot 0.6 \\
+    &= 0.484.
+    \end{align*}
     $$
 
     So
 
     $$
-    P(H_2\mid H_1)=\frac{P(H_1\cap H_2)}{P(H_1)}
-                  =\frac{0.484}{0.68}
-                  \approx 0.712.
+    \begin{align*}
+    P(H_2\mid H_1) &= \frac{P(H_1\cap H_2)}{P(H_1)} \\
+    &= \frac{0.484}{0.68} \\
+    &\approx 0.712.
+    \end{align*}
     $$
 
     Since $P(H_2\mid H_1)\approx 0.712 \ne P(H_2)=0.68$, the flips are **not independent overall**.
