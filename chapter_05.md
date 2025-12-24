@@ -958,8 +958,11 @@ def create_venn_panel(ax, highlight_mode, title_text):
         label_C.set_text('C')
         label_C.set_fontsize(13)
 
-    # Add title
-    ax.set_title(title_text, fontsize=12, fontweight='bold', pad=10)
+    # Add title below the diagram
+    ax.text(0.5, -0.15, title_text,
+            transform=ax.transAxes,
+            fontsize=11, ha='center', va='top',
+            fontweight='bold')
 
     return v
 
