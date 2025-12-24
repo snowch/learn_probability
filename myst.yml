@@ -5,10 +5,7 @@ project:
     - name: Chris Snow
   github: https://github.com/snowch/learn_probability
   jupyter: true
-  binder:
-    url: https://mybinder.org
-    repo: snowch/learn_probability
-    ref: main
+  binder: https://mybinder.org/v2/gh/snowch/learn_probability/main
   bibliography:
     - references.bib
   exports:
