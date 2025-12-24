@@ -815,7 +815,7 @@ $$
 
 Before we dive into the formal definition, recall that we've already seen independence in Section 4. **Conditional independence** is a related but distinct concept: it's about independence that holds *within* a specific context, even though the events might be dependent overall when contexts are mixed.
 
-We use the symbol **$\perp$** (read "is independent of").
+We use the symbol **$\perp$** (read "is independent of"). We also use the symbol **$\Longleftrightarrow$** (if and only if) to indicate that both statements are equivalent—each implies the other.
 
 * **Unconditional independence**
   $$
