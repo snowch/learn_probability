@@ -762,9 +762,11 @@ figclass: full-width
 
 +++
 
-### 5.1. Conditioning on Multiple Events
+### 5.1. Notation and Definition
 
 Before we explore conditional independence, we need to understand how to work with conditional probabilities involving multiple conditions.
+
+#### Conditioning on Multiple Events
 
 When we write $P(A \mid B, C)$, we mean the probability of event $A$ given that *both* events $B$ and $C$ have occurred. This is equivalent to conditioning on the intersection:
 
@@ -809,9 +811,7 @@ P(A \mid B, C) = P(A \mid C, B) = P(A \mid B \cap C)
 $$
 ```
 
----
-
-### 5.2. Definition and notation
+#### Formal Definition of Conditional Independence
 
 Before we dive into the formal definition, recall that we've already seen independence in Section 4. **Conditional independence** is a related but distinct concept: it's about independence that holds *within* a specific context, even though the events might be dependent overall when contexts are mixed.
 
@@ -871,7 +871,7 @@ So conditional independence is about what happens **inside** a fixed context, no
 
 ---
 
-### 5.3. A visual mini-example: two flips of a randomly chosen coin
+### 5.2. A visual mini-example: two flips of a randomly chosen coin
 
 To make conditional independence concrete, we’ll use a simple example.
 
@@ -1128,7 +1128,7 @@ This demonstrates that **conditional independence does not imply unconditional i
 
 ---
 
-### 5.4. Key takeaways and real-world applications
+### 5.3. Key takeaways and real-world applications
 
 **The core insight in one sentence:**
 
