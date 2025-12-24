@@ -4,8 +4,8 @@ project:
   authors:
     - name: Chris Snow
   github: https://github.com/snowch/learn_probability
-  # jupyter: true
-  # binder: https://mybinder.org/v2/gh/snowch/learn_probability/HEAD
+  jupyter: true
+  thebe: true
   bibliography:
     - references.bib
   exports:
@@ -68,8 +68,4 @@ site:
     favicon: favicon.ico
     folders: true
     download_buttons: true
-  actions:
-    - title: Live Code
-      url: '#'
-      thebe: true
 
