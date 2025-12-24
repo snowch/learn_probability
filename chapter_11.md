@@ -38,7 +38,6 @@ We will also explore how these concepts affect the variance of sums of random va
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy.stats import norm, binom, uniform
 
 # Set default plot style
@@ -214,17 +213,17 @@ print(f"Corr(X, Y_indep): {corr_xy_indep:.4f}")
 # Visualize the relationships
 fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharex=True, sharey=False)
 
-sns.scatterplot(x=x_samples, y=y_samples_pos, ax=axes[0], alpha=0.6)
+axes[0].scatter(x_samples, y_samples_pos, alpha=0.6)
 axes[0].set_title(f'Positive Correlation (rho approx {corr_xy_pos:.2f}$)')
 axes[0].set_xlabel('X')
 axes[0].set_ylabel('Y_pos')
 
-sns.scatterplot(x=x_samples, y=y_samples_neg, ax=axes[1], alpha=0.6)
+axes[1].scatter(x_samples, y_samples_neg, alpha=0.6)
 axes[1].set_title(f'Negative Correlation (rho approx {corr_xy_neg:.2f}$)')
 axes[1].set_xlabel('X')
 axes[1].set_ylabel('Y_neg')
 
-sns.scatterplot(x=x_samples, y=y_samples_indep, ax=axes[2], alpha=0.6)
+axes[2].scatter(x_samples, y_samples_indep, alpha=0.6)
 axes[2].set_title(f'Near Zero Correlation (rho approx {corr_xy_indep:.2f}$)')
 axes[2].set_xlabel('X')
 axes[2].set_ylabel('Y_indep')
@@ -262,7 +261,7 @@ print(f"Correlation between Study Hours and Exam Score: {corr_study_score:.2f}")
 
 # Visualize
 plt.figure(figsize=(8, 5))
-sns.scatterplot(x=study_hours, y=exam_scores, alpha=0.7)
+plt.scatter(study_hours, exam_scores, alpha=0.7)
 plt.title(f'Study Hours vs Exam Score (rho approx {corr_study_score:.2f}$)')
 plt.xlabel('Study Hours per Week')
 plt.ylabel('Exam Score')

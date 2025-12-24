@@ -76,7 +76,9 @@ Let's calculate the actual probability using `scipy.stats`.
 import numpy as np
 from scipy.stats import binom
 import matplotlib.pyplot as plt
-import seaborn as sns
+
+# Configure plot style
+plt.style.use('seaborn-v0_8-whitegrid')
 
 # Parameters
 n = 100
@@ -232,7 +234,9 @@ We will simulate $N$ die rolls, calculate the running sample average after each 
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+
+# Configure plot style
+plt.style.use('seaborn-v0_8-whitegrid')
 
 # --- Simulation Parameters ---
 num_rolls = 5000  # Total number of die rolls to simulate
@@ -251,7 +255,6 @@ roll_numbers = np.arange(1, num_rolls + 1)
 running_average = cumulative_sum / roll_numbers
 
 # --- Plotting ---
-sns.set(style="whitegrid")
 plt.figure(figsize=(12, 6))
 
 # Plot the running average

@@ -293,10 +293,9 @@ The Law of Large Numbers (which we'll study later) tells us that as the number o
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Configure plots for better readability
-sns.set(style="whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
 ### 1. Representing Sample Spaces and Events
@@ -389,10 +388,17 @@ We can use histograms to visualize the distribution of outcomes from our simulat
 ```{code-cell} ipython3
 # Plotting the frequency of each outcome
 plt.figure(figsize=(8, 5))
-sns.countplot(x=rolls, order=[1, 2, 3, 4, 5, 6], color='skyblue')
+
+# Count occurrences of each die face
+faces = [1, 2, 3, 4, 5, 6]
+counts = [np.sum(rolls == face) for face in faces]
+
+# Create bar plot
+plt.bar(faces, counts, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f'Frequency of Outcomes for {num_rolls} Die Rolls')
 plt.xlabel('Die Face')
 plt.ylabel('Frequency Count')
+plt.xticks(faces)
 
 # Add a line for the expected frequency for a fair die
 expected_frequency = num_rolls / 6

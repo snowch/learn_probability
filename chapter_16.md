@@ -31,10 +31,9 @@ Welcome to Chapter 16! In this chapter, we venture into the world of stochastic 
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Configure plots for better readability
-sns.set_style('whitegrid')
+plt.style.use('seaborn-v0_8-whitegrid')
 plt.rcParams['figure.figsize'] = (10, 6)
 ```
 

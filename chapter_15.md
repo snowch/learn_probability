@@ -167,12 +167,9 @@ Our posterior is $\text{Beta}(9, 3)$. To find a 95% equal-tailed credible interv
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
-import seaborn as sns
-```
 
-```{code-cell} ipython3
 # Setup plotting style
-sns.set_style("whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
 ```{code-cell} ipython3
@@ -465,8 +462,9 @@ Bayesian methods allow for intuitive interpretations of probability (as degrees 
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set_style("whitegrid")
+
+# Setup plotting style
+plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
 ```{code-cell} ipython3

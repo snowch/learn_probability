@@ -74,13 +74,10 @@ Let's represent and visualize this PMF in Python.
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy.stats import rv_discrete
-```
 
-```{code-cell} ipython3
 # Set plot style
-sns.set(style="whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
 ```{code-cell} ipython3

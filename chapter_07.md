@@ -25,12 +25,9 @@ Let's import the necessary libraries first.
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
-import seaborn as sns
-```
 
-```{code-cell} ipython3
 # Configure plots
-sns.set(style="whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
 plt.rcParams['figure.figsize'] = (10, 6)
 ```
 

@@ -178,10 +178,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
 from scipy import integrate
-import seaborn as sns
 
 # Configure plots for better visualization
-sns.set_style("whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
 %matplotlib inline
 %config InlineBackend.figure_format = 'retina' # Make plots sharper
 plt.rcParams['figure.figsize'] = (10, 6)
