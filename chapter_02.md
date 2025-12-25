@@ -223,17 +223,47 @@ The entire structure of probability theory is built upon three fundamental axiom
 
 **Examples based on the axioms:**
 
+Consider rolling a fair six-sided die with $S = \{1, 2, 3, 4, 5, 6\}$. Assuming fairness, each outcome has probability 1/6.
+
 +++
 
-* **Experiment:** Rolling a fair six-sided die ($S = \{1, 2, 3, 4, 5, 6\}$). Assuming fairness, each outcome has probability 1/6.
-* $P(\{1\}) = 1/6 \ge 0$, $P(\{2\}) = 1/6 \ge 0$, etc. (Axiom 1)
-* The event "Roll < 7" is $D = \{1, 2, 3, 4, 5, 6\} = S$.
-    $P(D) = P(S) = P(\{1\} \cup \{2\} \cup ... \cup \{6\})$. Since these are disjoint events, by Axiom 3:
-    $P(S) = P(\{1\}) + P(\{2\}) + ... + P(\{6\}) = 1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6 = 6/6 = 1$. (Axiom 2 satisfied).
-* The event "Roll > 6" is $E = \emptyset$. What is $P(E)$?
-    We know $S \cup \emptyset = S$. Also, S and $\emptyset$ are disjoint. By Axiom 3, $P(S \cup \emptyset) = P(S) + P(\emptyset)$.
-    So, $P(S) = P(S) + P(\emptyset)$. This implies $P(\emptyset) = 0$. The probability of an impossible event is 0.
-    So, $P(\text{Roll > 6}) = P(\emptyset) = 0$.
+**Example 1 - Non-negativity (Axiom 1):**
+
+Each individual outcome has non-negative probability:
+
+$$P(\{1\}) = 1/6 \ge 0, \quad P(\{2\}) = 1/6 \ge 0, \quad \text{etc.}$$
+
++++
+
+**Example 2 - Normalization (Axiom 2):**
+
+The event "Roll < 7" equals the entire sample space: $D = \{1, 2, 3, 4, 5, 6\} = S$.
+
+Since the individual outcomes are disjoint, we can apply Axiom 3:
+
+$$P(D) = P(S) = P(\{1\} \cup \{2\} \cup ... \cup \{6\})$$
+
+$$= P(\{1\}) + P(\{2\}) + ... + P(\{6\})$$
+
+$$= 1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6 = 6/6 = 1$$
+
++++
+
+**Example 3 - Impossible events:**
+
+The event "Roll > 6" is impossible: $E = \emptyset$.
+
+To find $P(\emptyset)$, note that $S \cup \emptyset = S$ and these sets are disjoint. By Axiom 3:
+
+$$P(S \cup \emptyset) = P(S) + P(\emptyset)$$
+
+Since $P(S) = 1$ (Axiom 2):
+
+$$1 = 1 + P(\emptyset)$$
+
+$$\therefore P(\emptyset) = 0$$
+
+This shows that the probability of any impossible event is 0.
 
 +++
 
