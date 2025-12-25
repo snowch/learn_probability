@@ -194,13 +194,17 @@ The entire structure of probability theory is built upon three fundamental axiom
 +++
 
 1.  **Non-negativity:** For any event A, the probability of A is greater than or equal to zero.
-    $P(A) \ge 0$
+
+    $$P(A) \ge 0$$
+
     Probabilities cannot be negative.
 
 +++
 
 2.  **Normalization:** The probability of the entire sample space S is equal to 1.
-    $P(S) = 1$
+
+    $$P(S) = 1$$
+
     This means that *some* outcome within the realm of possibility *must* occur. The maximum possible probability is 1.
 
 +++
@@ -237,13 +241,17 @@ Several useful rules can be derived directly from the axioms:
 
 +++
 
-1.  **Probability Range:** For any event A, $0 \le P(A) \le 1$.
+1.  **Probability Range:** For any event A:
+
+    $$0 \le P(A) \le 1$$
+
     (Follows from Axioms 1 & 2 and $A \subseteq S$).
 
 +++
 
 2.  **Complement Rule:** The probability that event A does *not* occur is 1 minus the probability that it *does* occur.
-    $P(A') = 1 - P(A)$
+
+    $$P(A') = 1 - P(A)$$
     * **Derivation:**
     A and A' are disjoint ($A \cap A' = \emptyset$) and their union is the entire sample space ($A \cup A' = S$). By Axiom 3, $P(A \cup A') = P(A) + P(A')$. By Axiom 2, $P(S) = 1$. Therefore, $P(A) + P(A') = 1$, which rearranges to the rule.
     * **Example:** What is the probability of *not* rolling a 6?
@@ -254,7 +262,9 @@ Several useful rules can be derived directly from the axioms:
 +++
 
 3.  **Addition Rule (General):** For any two events A and B (not necessarily disjoint), the probability that A *or* B (or both) occurs is:
-    $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
     * **Intuition:** If we simply add P(A) and P(B), we have double-counted the probability of the outcomes that are in *both* A and B (the intersection). So, we subtract $P(A \cap B)$ to correct for this. If A and B are disjoint, $A \cap B = \emptyset$ and $P(A \cap B) = 0$, which reduces this rule to Axiom 3 for two events.
     * **Example:** What is the probability of rolling an even number (A={2,4,6}) or a number greater than 4 (B={5,6})?
         $P(A) = 3/6 = 1/2$
@@ -275,7 +285,9 @@ Let's use Python to solidify these concepts through simulation. We often don't k
 +++
 
 **Empirical Probability:**
-$P_{empirical}(A) = \frac{\text{Number of times event A occurred}}{\text{Total number of trials}}$
+
+$$P_{empirical}(A) = \frac{\text{Number of times event A occurred}}{\text{Total number of trials}}$$
+
 The Law of Large Numbers (which we'll study later) tells us that as the number of trials increases, the empirical probability converges to the true theoretical probability.
 
 +++
@@ -291,6 +303,8 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-v0_8-whitegrid')
 ```
 :::
+
+With our libraries imported, we can now work through several examples demonstrating how Python helps us understand probability concepts.
 
 ### 1. Representing Sample Spaces and Events
 
@@ -356,7 +370,7 @@ print(f"Theoretical P(Roll > 4): {1/3:.4f}")
 ```
 :::
 
-Try running the simulation cell (the one with `np.random.randint`) and the calculation cell again. You'll notice the empirical probability fluctuates slightly but should remain close to the theoretical value, especially with a large `num_rolls`.
+**Note:** The `rolls` variable used here comes from the dice roll simulation above. Try running the simulation and this calculation multiple times—you'll notice the empirical probability fluctuates slightly but remains close to the theoretical value of 1/3, especially with a large `num_rolls`.
 
 +++
 
@@ -437,6 +451,10 @@ print(f"- The event 'Roll > 4' (outcomes {5, 6}) occurred {num_success} times.")
 print(f"- The empirical probability is {empirical_prob_B:.4f}")
 ```
 :::
+
+This visualization shows which specific outcomes from our simulation satisfy the event condition (rolling > 4). It demonstrates how we can programmatically filter and analyze events from our simulated data.
+
++++
 
 ## Chapter Summary
 
