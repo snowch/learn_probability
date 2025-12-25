@@ -74,6 +74,25 @@ A **permutation** is an arrangement of objects in a specific order. Consider arr
 
 This is the most common type of permutation. It involves arranging $k$ distinct objects chosen from a set of $n$ distinct objects, where order matters and objects cannot be reused.
 
+:::{admonition} Common confusion: "Without repetition" in permutations
+:class: warning
+
+The phrase "without repetition" often confuses students because it sounds like "sampling without replacement" (drawing balls from a bag where each ball can only be drawn once).
+
+**What it actually means:** Each **object can only occupy one position** — you don't use the same object in multiple positions.
+
+**Example:** Awarding medals (Gold, Silver, Bronze) to 8 runners
+- We use $P(8, 3)$ to choose which runner gets which medal
+- "Without repetition" means each runner can only win one medal (you can't give Gold AND Silver to the same person)
+- Order matters: Runner A getting Gold ≠ Runner A getting Silver
+- We're not "running out of runners" — it's about distinct positions being filled by distinct objects
+
+**Another example:** Arranging 5 books chosen from 10 on a shelf
+- "Without repetition" means each book appears only once in the arrangement
+- You can't put the same book in two different positions on the shelf
+- It's about each position having a distinct object, not about depleting a supply
+:::
+
 **Formula:** The number of permutations of $n$ distinct objects taken $k$ at a time is denoted by $P(n, k)$, $_nP_k$, or $P^n_k$ and is calculated as:
 
 $ P(n, k) = \frac{n!}{(n-k)!} $
@@ -190,21 +209,24 @@ A **combination** is a selection of objects where the order of selection does no
 
 This involves selecting $k$ distinct objects from a set of $n$ distinct objects, where order *does not* matter and objects cannot be reused.
 
-:::{admonition} Common confusion: "Without repetition" vs "Without replacement"
+:::{admonition} Common confusion: "Without repetition" in combinations
 :class: warning
 
 The phrase "without repetition" often confuses students because it sounds like "sampling without replacement" (drawing balls from a bag where each ball can only be drawn once).
 
-**What it actually means:** Each **position or slot** is used only once — you don't select the same position twice.
+**What it actually means:** Each **object can only be selected once** — you don't include the same object multiple times in your selection.
 
-**Example:** Flipping a coin 4 times and asking "how many ways can we get exactly 2 heads?"
+**Example:** Choosing a committee of 3 from 10 people
+- We use $\binom{10}{3}$ to select which 3 people form the committee
+- "Without repetition" means each person can only be selected once (you can't have Alice appear twice on the committee)
+- Order doesn't matter: {Alice, Bob, Carol} = {Carol, Alice, Bob}
+- We're not "running out of people" — it's about selecting distinct objects for distinct slots
+
+**Another example:** Flipping a coin 4 times and asking "how many ways can we get exactly 2 heads?"
 - We use $\binom{4}{2}$ to choose which 2 **positions** (flip 1, 2, 3, or 4) will be heads
-- We're not "running out of heads" — each flip is independent
 - "Without repetition" means we don't choose the same position twice (position 1 can't be both H and T)
 - We're counting arrangements like HHTT, HTHT, HTTH, etc.
-
-**Another example:** Choosing a committee of 3 from 10 people
-- "Without repetition" means each person can only be selected once (you can't have Alice appear twice on the committee)
+- We're not "running out of heads" — each flip is independent
 - It's about distinct positions/slots, not about depleting a supply
 :::
 
