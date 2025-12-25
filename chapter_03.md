@@ -47,6 +47,7 @@ then the total number of ways to perform the entire procedure is the product $n_
 
 According to the Multiplication Principle, the total number of different meal combinations is $3 \times 4 \times 2$.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Using Python for the meal combination example
 num_starters = 3
@@ -56,6 +57,7 @@ num_desserts = 2
 total_combinations = num_starters * num_mains * num_desserts
 print(f"Total number of meal combinations: {total_combinations}")
 ```
+:::
 
 This principle is the foundation upon which permutations and combinations are built.
 
@@ -90,6 +92,7 @@ import math
 from scipy.special import perm
 ```
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Calculate P(8, 3) - race permutations
 n_runners = 8
@@ -107,6 +110,7 @@ print(f"Using scipy.special.perm: P({n_runners}, {k_places}) = {p_8_3_scipy}")
 p_8_3_direct = 8 * 7 * 6
 print(f"Direct calculation: {p_8_3_direct}")
 ```
+:::
 
 **Special Case:** The number of ways to arrange all $n$ distinct objects is $P(n, n) = \frac{n!}{(n-n)!} = \frac{n!}{0!} = n!$. For example, there are $3! = 3 \times 2 \times 1 = 6$ ways to arrange the letters A, B, C: (ABC, ACB, BAC, BCA, CAB, CBA).
 
@@ -145,6 +149,7 @@ $ \frac{11!}{1! 4! 4! 2!} $
 
 **Intuition:** If all letters were different, we'd have 11! arrangements. But swapping the 4 I's among themselves doesn't create a new word (neither does swapping the 4 S's or the 2 P's). We divide out this overcounting.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Calculate distinct arrangements of MISSISSIPPI
 n = 11
@@ -159,6 +164,7 @@ distinct_arrangements = numerator // denominator
 
 print(f"Number of distinct arrangements of 'MISSISSIPPI': {distinct_arrangements}")
 ```
+:::
 
 ## Combinations: When Order Doesn't Matter
 
@@ -215,6 +221,7 @@ import math
 from scipy.special import comb
 ```
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Calculate C(10, 3) - committee combinations
 n_people = 10
@@ -232,6 +239,7 @@ print(f"Using scipy.special.comb: C({n_people}, {k_committee}) = {c_10_3_scipy}"
 c_10_3_direct = (10 * 9 * 8) // (3 * 2 * 1)
 print(f"Direct calculation: {c_10_3_direct}")
 ```
+:::
 
 ### Combinations with Repetition
 
@@ -278,6 +286,7 @@ Using the formula:
 
 $ \binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12!(15-12)!} = \frac{15!}{12!3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} $
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Calculate combinations with repetition - donut selection
 n_types = 4
@@ -291,6 +300,7 @@ print(f"Number of ways to choose {k_donuts} donuts from {n_types} types: {combin
 c_15_12_direct = (15 * 14 * 13) // (3 * 2 * 1)
 print(f"Direct calculation: {c_15_12_direct}")
 ```
+:::
 
 Note: 
 - scipy.special.comb can also take repetition=True argument for this
@@ -323,6 +333,7 @@ In the UK National Lottery's main "Lotto" game (as of early 2020s), a player cho
 
 The probability is $P(\text{Jackpot}) = \frac{1}{C(59, 6)}$.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # UK National Lottery - jackpot probability
 n_lotto = 59  # Total numbers to choose from
@@ -338,6 +349,7 @@ print(f"Probability of winning the jackpot: 1 / {total_lotto_combinations:,}")
 print(f"Probability (decimal): {prob_jackpot:.10f}")
 print(f"Probability (scientific notation): {prob_jackpot:e}")
 ```
+:::
 
 **Example: Poker Hand Probability (Four of a Kind)**
 
@@ -354,6 +366,7 @@ What is the probability of being dealt "Four of a Kind" in a standard 5-card pok
 
 The probability is $P(\text{Four of a Kind}) = \frac{13 \times 1 \times 12 \times 4}{C(52, 5)}$.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Poker: Four of a Kind probability
 n_deck = 52
@@ -377,6 +390,7 @@ prob_4kind = favorable_outcomes_4kind / total_hands
 print(f"Probability of being dealt Four of a Kind: {prob_4kind:.8f}")
 print(f"Approximately 1 in {1/prob_4kind:,.0f}")
 ```
+:::
 
 ## Hands-on: Using Python for Counting
 
@@ -404,6 +418,7 @@ from scipy.special import perm, comb
     * Choose 2 suits for that second rank: $C(4, 2)$ ways.
     * Use the Multiplication Principle.*
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Poker: Full House probability
 # Total hands (already calculated)
@@ -426,6 +441,7 @@ prob_fullhouse = favorable_outcomes_fullhouse / total_hands
 print(f"Probability of being dealt a Full House: {prob_fullhouse:.8f}")
 print(f"Approximately 1 in {1/prob_fullhouse:,.0f}")
 ```
+:::
 
 +++
 
