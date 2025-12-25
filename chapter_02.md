@@ -74,6 +74,7 @@ Sample spaces can be categorized based on the nature of their outcomes:
 **Python Representation (Discrete):**
 We can easily represent finite discrete sample spaces using Python sets or lists. Sets are often conceptually closer as they inherently handle uniqueness and order doesn't matter.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Sample space for rolling a single six-sided die
 sample_space_die = {1, 2, 3, 4, 5, 6}
@@ -84,6 +85,7 @@ sample_space_coin = {'Heads', 'Tails'}
 print(f"Sample space (Die): {sample_space_die}")
 print(f"Sample space (Coin): {sample_space_coin}")
 ```
+:::
 
 ## Events as Subsets
 
@@ -105,6 +107,7 @@ An **event** is any subset of the sample space. It represents a specific outcome
 **Python Representation:**
 Events, being subsets, can also be represented using Python sets.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Continuing the die roll example
 S = {1, 2, 3, 4, 5, 6}
@@ -121,6 +124,7 @@ print(f"Is B a subset of S? {B.issubset(S)}")
 print(f"Event A: {A}")
 print(f"Event B: {B}")
 ```
+:::
 
 ## Set Theory Refresher
 
@@ -156,10 +160,9 @@ Since events are sets, the language and operations of set theory are fundamental
 
 (We won't draw Venn diagrams directly in code here, but libraries like `matplotlib_venn` can be used for this. Conceptually, imagine S as a box containing numbers 1-6. Circle A encloses 2, 4, 6. Circle B encloses 5, 6. The overlap contains only 6. The area outside A contains 1, 3, 5.)
 
-+++
-
 **Python Set Operations:**
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 S = {1, 2, 3, 4, 5, 6}
 A = {2, 4, 6}  # Even numbers
@@ -184,6 +187,7 @@ intersection_AC = A.intersection(C)
 print(f"A intersection C: {intersection_AC}") # Corresponds to {}
 print(f"Are A and C disjoint? {intersection_AC == set()}") # Empty set means disjoint
 ```
+:::
 
 ## Axioms of Probability
 
@@ -312,6 +316,7 @@ With our libraries imported, we can now work through several examples demonstrat
 
 We've already seen how to use Python sets. Let's reiterate for a coin flip.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Sample Space
 S_coin = {'H', 'T'} # Using H for Heads, T for Tails
@@ -324,6 +329,7 @@ print(f"Sample Space (Coin): {S_coin}")
 print(f"Event (Heads): {E_heads}")
 print(f"Is Heads an event in S_coin? {E_heads.issubset(S_coin)}")
 ```
+:::
 
 ### 2. Simulating Simple Experiments
 
