@@ -52,13 +52,8 @@ According to the Multiplication Principle, the total number of different meal co
 num_starters = 3
 num_mains = 4
 num_desserts = 2
-```
 
-```{code-cell} ipython3
 total_combinations = num_starters * num_mains * num_desserts
-```
-
-```{code-cell} ipython3
 print(f"Total number of meal combinations: {total_combinations}")
 ```
 
@@ -96,24 +91,18 @@ from scipy.special import perm
 ```
 
 ```{code-cell} ipython3
-# Using math.factorial
+# Calculate P(8, 3) - race permutations
 n_runners = 8
 k_places = 3
-```
 
-```{code-cell} ipython3
-p_8_3_math = math.factorial(n_runners) // math.factorial(n_runners - k_places) # Use // for integer division
+# Using math.factorial
+p_8_3_math = math.factorial(n_runners) // math.factorial(n_runners - k_places)
 print(f"Using math.factorial: P({n_runners}, {k_places}) = {p_8_3_math}")
-```
 
-```{code-cell} ipython3
 # Using scipy.special.perm
-# Note: scipy.special.perm(n, k) calculates P(n, k) directly
-p_8_3_scipy = perm(n_runners, k_places, exact=True) # exact=True ensures integer result
+p_8_3_scipy = perm(n_runners, k_places, exact=True)
 print(f"Using scipy.special.perm: P({n_runners}, {k_places}) = {p_8_3_scipy}")
-```
 
-```{code-cell} ipython3
 # Direct calculation based on the multiplication principle
 p_8_3_direct = 8 * 7 * 6
 print(f"Direct calculation: {p_8_3_direct}")
@@ -157,28 +146,17 @@ $ \frac{11!}{1! 4! 4! 2!} $
 **Intuition:** If all letters were different, we'd have 11! arrangements. But swapping the 4 I's among themselves doesn't create a new word (neither does swapping the 4 S's or the 2 P's). We divide out this overcounting.
 
 ```{code-cell} ipython3
-import math
-```
-
-```{code-cell} ipython3
+# Calculate distinct arrangements of MISSISSIPPI
 n = 11
 n_M = 1
 n_I = 4
 n_S = 4
 n_P = 2
-```
 
-```{code-cell} ipython3
-# Calculate factorials
 numerator = math.factorial(n)
 denominator = math.factorial(n_M) * math.factorial(n_I) * math.factorial(n_S) * math.factorial(n_P)
-```
+distinct_arrangements = numerator // denominator
 
-```{code-cell} ipython3
-distinct_arrangements = numerator // denominator # Use integer division
-```
-
-```{code-cell} ipython3
 print(f"Number of distinct arrangements of 'MISSISSIPPI': {distinct_arrangements}")
 ```
 
@@ -238,24 +216,18 @@ from scipy.special import comb
 ```
 
 ```{code-cell} ipython3
-# Using math.factorial
+# Calculate C(10, 3) - committee combinations
 n_people = 10
 k_committee = 3
-```
 
-```{code-cell} ipython3
+# Using math.factorial
 c_10_3_math = math.factorial(n_people) // (math.factorial(k_committee) * math.factorial(n_people - k_committee))
 print(f"Using math.factorial: C({n_people}, {k_committee}) = {c_10_3_math}")
-```
 
-```{code-cell} ipython3
 # Using scipy.special.comb
-# Note: scipy.special.comb(n, k) calculates C(n, k) directly
-c_10_3_scipy = comb(n_people, k_committee, exact=True) # exact=True ensures integer result
+c_10_3_scipy = comb(n_people, k_committee, exact=True)
 print(f"Using scipy.special.comb: C({n_people}, {k_committee}) = {c_10_3_scipy}")
-```
 
-```{code-cell} ipython3
 # Direct calculation
 c_10_3_direct = (10 * 9 * 8) // (3 * 2 * 1)
 print(f"Direct calculation: {c_10_3_direct}")
@@ -307,24 +279,14 @@ Using the formula:
 $ \binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12!(15-12)!} = \frac{15!}{12!3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} $
 
 ```{code-cell} ipython3
-from scipy.special import comb
-```
-
-```{code-cell} ipython3
+# Calculate combinations with repetition - donut selection
 n_types = 4
 k_donuts = 12
-```
 
-```{code-cell} ipython3
 # Using the formula C(n+k-1, k)
 combinations_with_repetition = comb(n_types + k_donuts - 1, k_donuts, exact=True)
-```
-
-```{code-cell} ipython3
 print(f"Number of ways to choose {k_donuts} donuts from {n_types} types: {combinations_with_repetition}")
-```
 
-```{code-cell} ipython3
 # Direct calculation
 c_15_12_direct = (15 * 14 * 13) // (3 * 2 * 1)
 print(f"Direct calculation: {c_15_12_direct}")
@@ -362,27 +324,18 @@ In the UK National Lottery's main "Lotto" game (as of early 2020s), a player cho
 The probability is $P(\text{Jackpot}) = \frac{1}{C(59, 6)}$.
 
 ```{code-cell} ipython3
-from scipy.special import comb
-```
+# UK National Lottery - jackpot probability
+n_lotto = 59  # Total numbers to choose from
+k_lotto = 6   # Numbers to choose
 
-```{code-cell} ipython3
-# Total numbers to choose from
-n_lotto = 59
-# Numbers to choose
-k_lotto = 6
-```
-
-```{code-cell} ipython3
 # Calculate the total number of possible combinations
 total_lotto_combinations = comb(n_lotto, k_lotto, exact=True)
-print(f"Total possible UK Lotto combinations: {total_lotto_combinations:,}") # Format with commas
-```
+print(f"Total possible UK Lotto combinations: {total_lotto_combinations:,}")
 
-```{code-cell} ipython3
 # Calculate the probability of winning the jackpot
 prob_jackpot = 1 / total_lotto_combinations
 print(f"Probability of winning the jackpot: 1 / {total_lotto_combinations:,}")
-print(f"Probability (decimal): {prob_jackpot:.10f}") # Print with more decimal places
+print(f"Probability (decimal): {prob_jackpot:.10f}")
 print(f"Probability (scientific notation): {prob_jackpot:e}")
 ```
 
@@ -402,40 +355,23 @@ What is the probability of being dealt "Four of a Kind" in a standard 5-card pok
 The probability is $P(\text{Four of a Kind}) = \frac{13 \times 1 \times 12 \times 4}{C(52, 5)}$.
 
 ```{code-cell} ipython3
-from scipy.special import comb
-```
-
-```{code-cell} ipython3
-# Total cards in deck
+# Poker: Four of a Kind probability
 n_deck = 52
-# Cards in hand
 k_hand = 5
-```
 
-```{code-cell} ipython3
 # 1. Calculate the total number of possible 5-card hands
 total_hands = comb(n_deck, k_hand, exact=True)
 print(f"Total possible 5-card poker hands: {total_hands:,}")
-```
 
-```{code-cell} ipython3
 # 2. Calculate the number of ways to get Four of a Kind
-# Step 1: Choose rank for the four cards (13 ranks: A, 2, ..., 10, J, Q, K)
-ways_choose_rank4 = comb(13, 1, exact=True)
-# Step 2: Choose the 4 suits for that rank (only 1 way)
-ways_choose_suits4 = comb(4, 4, exact=True)
-# Step 3: Choose the rank for the fifth card (12 remaining ranks)
-ways_choose_rank1 = comb(12, 1, exact=True)
-# Step 4: Choose the suit for the fifth card (4 suits)
-ways_choose_suit1 = comb(4, 1, exact=True)
-```
+ways_choose_rank4 = comb(13, 1, exact=True)  # Choose rank for the four cards
+ways_choose_suits4 = comb(4, 4, exact=True)  # Choose the 4 suits (only 1 way)
+ways_choose_rank1 = comb(12, 1, exact=True)  # Choose rank for fifth card
+ways_choose_suit1 = comb(4, 1, exact=True)   # Choose suit for fifth card
 
-```{code-cell} ipython3
 favorable_outcomes_4kind = ways_choose_rank4 * ways_choose_suits4 * ways_choose_rank1 * ways_choose_suit1
 print(f"Number of ways to get Four of a Kind: {favorable_outcomes_4kind}")
-```
 
-```{code-cell} ipython3
 # 3. Calculate the probability
 prob_4kind = favorable_outcomes_4kind / total_hands
 print(f"Probability of being dealt Four of a Kind: {prob_4kind:.8f}")
@@ -468,17 +404,11 @@ from scipy.special import perm, comb
     * Choose 2 suits for that second rank: $C(4, 2)$ ways.
     * Use the Multiplication Principle.*
 
-+++
-
-Exercise: Calculate probability of a Full House
-
-+++
-
-Total hands (already calculated)
+```{code-cell} ipython3
+# Poker: Full House probability
+# Total hands (already calculated)
 total_hands = comb(52, 5, exact=True)
 
-```{code-cell} ipython3
-# Favorable outcomes for Full House
 # Step 1: Choose rank for the three cards
 ways_choose_rank3 = comb(13, 1, exact=True)
 # Step 2: Choose 3 suits for that rank
@@ -487,14 +417,10 @@ ways_choose_suits3 = comb(4, 3, exact=True)
 ways_choose_rank2 = comb(12, 1, exact=True)
 # Step 4: Choose 2 suits for that rank
 ways_choose_suits2 = comb(4, 2, exact=True)
-```
 
-```{code-cell} ipython3
 favorable_outcomes_fullhouse = ways_choose_rank3 * ways_choose_suits3 * ways_choose_rank2 * ways_choose_suits2
 print(f"Number of ways to get a Full House: {favorable_outcomes_fullhouse}")
-```
 
-```{code-cell} ipython3
 # Calculate the probability
 prob_fullhouse = favorable_outcomes_fullhouse / total_hands
 print(f"Probability of being dealt a Full House: {prob_fullhouse:.8f}")
