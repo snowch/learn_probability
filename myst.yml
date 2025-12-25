@@ -4,6 +4,9 @@ project:
   authors:
     - name: Chris Snow
   github: https://github.com/snowch/learn_probability
+  license:
+    content: CC-BY-4.0
+    code: MIT
   jupyter:
     lite: true
   bibliography:
