@@ -282,6 +282,7 @@ The Law of Large Numbers (which we'll study later) tells us that as the number o
 
 **Setup:** We'll need NumPy for efficient random number generation.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
@@ -289,6 +290,7 @@ import matplotlib.pyplot as plt
 # Configure plots for better readability
 plt.style.use('seaborn-v0_8-whitegrid')
 ```
+:::
 
 ### 1. Representing Sample Spaces and Events
 
@@ -315,7 +317,10 @@ print(f"Is Heads an event in S_coin? {E_heads.issubset(S_coin)}")
 
 Let's simulate rolling a fair six-sided die many times.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
+import numpy as np
+
 # Simulate 1000 dice rolls
 num_rolls = 1000
 rolls = np.random.randint(1, 7, size=num_rolls) # Generate random integers between 1 (inclusive) and 7 (exclusive)
@@ -324,6 +329,7 @@ rolls = np.random.randint(1, 7, size=num_rolls) # Generate random integers betwe
 print(f"First 20 rolls: {rolls[:20]}")
 print(f"Total rolls simulated: {len(rolls)}")
 ```
+:::
 
 ### 3. Calculating Empirical Probabilities
 
@@ -333,6 +339,7 @@ print(f"Total rolls simulated: {len(rolls)}")
 
 Theoretical answer: Event $B = \{5, 6\}$. $P(B) = 2/6 = 1/3 \approx 0.333$.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Define the event B: rolling > 4
 # We can count how many rolls satisfy this condition
@@ -347,6 +354,7 @@ print(f"Total rolls: {num_rolls}")
 print(f"Empirical P(Roll > 4): {empirical_prob_B:.4f}")
 print(f"Theoretical P(Roll > 4): {1/3:.4f}")
 ```
+:::
 
 Try running the simulation cell (the one with `np.random.randint`) and the calculation cell again. You'll notice the empirical probability fluctuates slightly but should remain close to the theoretical value, especially with a large `num_rolls`.
 
@@ -356,6 +364,7 @@ Try running the simulation cell (the one with `np.random.randint`) and the calcu
 
 Theoretical answer: Event $A = \{2, 4, 6\}$. $P(A) = 3/6 = 0.5$.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Event A: rolling an even number
 # An outcome is even if outcome % 2 == 0
@@ -370,6 +379,7 @@ print(f"Total rolls: {num_rolls}")
 print(f"Empirical P(Roll is Even): {empirical_prob_A:.4f}")
 print(f"Theoretical P(Roll is Even): {0.5:.4f}")
 ```
+:::
 
 ### 4. Visualizing Events and Outcomes
 
@@ -377,7 +387,10 @@ print(f"Theoretical P(Roll is Even): {0.5:.4f}")
 
 We can use histograms to visualize the distribution of outcomes from our simulation.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
+import matplotlib.pyplot as plt
+
 # Plotting the frequency of each outcome
 plt.figure(figsize=(8, 5))
 
@@ -399,6 +412,7 @@ plt.legend()
 
 plt.show()
 ```
+:::
 
 The histogram shows the counts for each outcome (1 through 6). For a fair die and a large number of rolls, we expect the bars to be roughly the same height, close to the theoretical expected frequency (total rolls / 6).
 
@@ -406,6 +420,7 @@ The histogram shows the counts for each outcome (1 through 6). For a fair die an
 
 We can also visualize the outcomes that constitute a specific event. For instance, let's highlight the rolls that were greater than 4.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Create a boolean mask for the event
 event_mask_B = rolls > 4 # True if roll > 4, False otherwise
@@ -421,6 +436,7 @@ print(f"\nFrom the simulation:")
 print(f"- The event 'Roll > 4' (outcomes {5, 6}) occurred {num_success} times.")
 print(f"- The empirical probability is {empirical_prob_B:.4f}")
 ```
+:::
 
 ## Chapter Summary
 

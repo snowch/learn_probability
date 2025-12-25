@@ -87,13 +87,11 @@ $ P(8, 3) = \frac{8!}{(8-3)!} = \frac{8!}{5!} = \frac{8 \times 7 \times 6 \times
 
 Let's calculate this using Python.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 import math
 from scipy.special import perm
-```
 
-:::{dropdown} Python Implementation
-```{code-cell} ipython3
 # Calculate P(8, 3) - race permutations
 n_runners = 8
 k_places = 3
@@ -216,13 +214,11 @@ $ C(10, 3) = \binom{10}{3} = \frac{10!}{3!(10-3)!} = \frac{10!}{3!7!} = \frac{10
 
 Let's calculate this using Python.
 
+:::{dropdown} Python Implementation
 ```{code-cell} ipython3
 import math
 from scipy.special import comb
-```
 
-:::{dropdown} Python Implementation
-```{code-cell} ipython3
 # Calculate C(10, 3) - committee combinations
 n_people = 10
 k_committee = 3
