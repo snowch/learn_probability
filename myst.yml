@@ -62,10 +62,6 @@ project:
 
 site:
   template: book-theme
-  actions:
-    - title: Live Code
-      url: '#'
-      static: false
   options:
     logo: logo.png
     logo_dark: logo-dark.png
