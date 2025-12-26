@@ -230,13 +230,20 @@ $$\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$$
 
 This is also called the **multinomial coefficient**.
 
-**Why "multinomial"?**
-The term "multinomial" means "many terms" (from Latin *multi* = many, *nomen* = name/term). This coefficient is called multinomial because:
+**Why "multinomial coefficient"?**
+
+The name has two parts to understand:
+
+**"Multinomial"** means "many terms" (from Latin *multi* = many, *nomen* = name/term):
 - We're dealing with **multiple types** of identical objects ($k$ different types)
 - This generalizes the **binomial coefficient** $\binom{n}{k} = \frac{n!}{k!(n-k)!}$, which handles just **two types** (selected vs. not selected)
-- Just as binomial coefficients appear in the expansion of $(x + y)^n$, multinomial coefficients appear in the expansion of $(x_1 + x_2 + \dots + x_k)^n$
+- For example, in MISSISSIPPI we have 4 types of letters (M, I, S, P), making this a truly "multi-nomial" problem
 
-For example, in MISSISSIPPI we have 4 types of letters (M, I, S, P), making this a truly "multi-nomial" problem.
+**"Coefficient"** refers to its role in algebra:
+- A coefficient is a number that multiplies a term in an algebraic expression
+- These values appear as the **coefficients in the multinomial theorem**: When you expand $(x_1 + x_2 + \dots + x_k)^n$, each term has a coefficient of the form $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$
+- For example, in $(a + b + c)^3$, the coefficient of $a^2bc$ is $\frac{3!}{2! \times 1! \times 1!} = 3$, meaning the term is $3a^2bc$
+- So we call it a "coefficient" because it literally serves as a coefficient in polynomial expansions!
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
