@@ -3,6 +3,7 @@ project:
   title: Learn Probability
   authors:
     - name: Chris Snow
+      url: https://snowch.github.io
   github: https://github.com/snowch/learn_probability
   license:
     content: CC-BY-4.0
