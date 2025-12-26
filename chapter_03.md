@@ -230,6 +230,14 @@ $$\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$$
 
 This is also called the **multinomial coefficient**.
 
+**Why "multinomial"?**
+The term "multinomial" means "many terms" (from Latin *multi* = many, *nomen* = name/term). This coefficient is called multinomial because:
+- We're dealing with **multiple types** of identical objects ($k$ different types)
+- This generalizes the **binomial coefficient** $\binom{n}{k} = \frac{n!}{k!(n-k)!}$, which handles just **two types** (selected vs. not selected)
+- Just as binomial coefficients appear in the expansion of $(x + y)^n$, multinomial coefficients appear in the expansion of $(x_1 + x_2 + \dots + x_k)^n$
+
+For example, in MISSISSIPPI we have 4 types of letters (M, I, S, P), making this a truly "multi-nomial" problem.
+
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
 # Calculate distinct arrangements of MISSISSIPPI
