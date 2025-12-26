@@ -163,34 +163,72 @@ print(f"Direct calculation: {p_8_3_direct}")
 
 Sometimes we need to arrange objects where some are identical.
 
-**Formula:** The number of distinct permutations of $n$ objects where there are $n_1$ identical objects of type 1, $n_2$ identical objects of type 2, ..., and $n_k$ identical objects of type k (such that $n_1 + n_2 + \dots + n_k = n$) is:
+#### Building Intuition: Starting Simple
 
-$ \frac{n!}{n_1! n_2! \dots n_k!} $
+**Simple Example:** How many distinct ways can you arrange the letters in "AAB"?
 
-**Why divide by the factorials of repeated objects?**
+Let's list all possible arrangements:
+1. **AAB**
+2. **ABA**
+3. **BAA**
 
-If all $n$ objects were distinct, there would be $n!$ different arrangements. But when some objects are identical, many of these arrangements look the same:
+Only **3 distinct arrangements**!
 
-- The $n_1$ identical objects of type 1 can be rearranged among themselves in $n_1!$ ways without creating a new distinct arrangement
-- Similarly for type 2 ($n_2!$ ways), type 3 ($n_3!$ ways), etc.
-- Each distinct arrangement we want to count is being overcounted by $n_1! \times n_2! \times \dots \times n_k!$ times
+**But wait** – if all letters were distinct (say, A₁A₂B), how many arrangements would there be?
 
-Therefore, we divide $n!$ by this product to get the number of truly distinct arrangements.
+We'd have $3! = 6$ arrangements:
+1. A₁A₂B
+2. A₁BA₂
+3. A₂A₁B ← looks the same as arrangement 1 when A's are identical
+4. A₂BA₁ ← looks the same as arrangement 2 when A's are identical
+5. BA₁A₂
+6. BA₂A₁ ← looks the same as arrangement 5 when A's are identical
 
-**Example:** How many distinct ways can the letters in the word "MISSISSIPPI" be arranged?
+**Key insight:**
+- When the two A's are **distinct**, we get 6 arrangements
+- When the two A's are **identical**, arrangements 1&3 look the same (AAB), 2&4 look the same (ABA), and 5&6 look the same (BAA)
+- Each distinct arrangement appears $2! = 2$ times (the number of ways to arrange the two identical A's)
+- Therefore: Distinct arrangements = $\frac{3!}{2!} = \frac{6}{2} = 3$ ✓
 
-* Total letters $n = 11$
-* M: $n_1 = 1$
-* I: $n_2 = 4$
-* S: $n_3 = 4$
-* P: $n_4 = 2$
-(Check: $1 + 4 + 4 + 2 = 11$)
+**The pattern:**
+$$\text{Distinct arrangements} = \frac{\text{Total if all were distinct}}{\text{Ways to rearrange identical objects}}$$
 
-The number of distinct arrangements is:
+#### Scaling Up: MISSISSIPPI
 
-$ \frac{11!}{1! 4! 4! 2!} $
+Now let's apply this reasoning to a more complex problem: How many distinct ways can the letters in "MISSISSIPPI" be arranged?
 
-**Intuition:** If all letters were different, we'd have 11! arrangements. But swapping the 4 I's among themselves doesn't create a new word (neither does swapping the 4 S's or the 2 P's). We divide out this overcounting.
+**Step 1: Count the letters**
+* Total letters: $n = 11$
+* M: 1 (appears once)
+* I: 4 (appears 4 times)
+* S: 4 (appears 4 times)
+* P: 2 (appears 2 times)
+
+Check: $1 + 4 + 4 + 2 = 11$ ✓
+
+**Step 2: Apply the pattern**
+
+If all 11 letters were distinct, we'd have $11!$ arrangements.
+
+But we're overcounting because:
+- The 4 I's can be rearranged among themselves in $4!$ ways without creating a new word
+- The 4 S's can be rearranged among themselves in $4!$ ways without creating a new word
+- The 2 P's can be rearranged among themselves in $2!$ ways without creating a new word
+- The 1 M is already distinct ($1! = 1$, no overcounting)
+
+Each distinct word is being counted $1! \times 4! \times 4! \times 2!$ times.
+
+**Step 3: Calculate**
+
+$$\text{Distinct arrangements} = \frac{11!}{1! \times 4! \times 4! \times 2!}$$
+
+#### The General Formula
+
+This pattern holds for all permutation-with-repetition problems. The number of distinct permutations of $n$ objects where there are $n_1$ identical objects of type 1, $n_2$ identical objects of type 2, ..., and $n_k$ identical objects of type k (where $n_1 + n_2 + \dots + n_k = n$) is:
+
+$$\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$$
+
+This is also called the **multinomial coefficient**.
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
@@ -238,27 +276,56 @@ The phrase "without repetition" often confuses students because it sounds like "
 - It's about distinct positions/slots, not about depleting a supply
 :::
 
-**Formula:** The number of combinations of $n$ distinct objects taken $k$ at a time is denoted by $C(n, k)$, $_nC_k$, $C^n_k$, or $\binom{n}{k}$ (read "n choose k") and is calculated as:
+#### Building Intuition: From Permutations to Combinations
 
-$ C(n, k) = \binom{n}{k} = \frac{n!}{k!(n-k)!} $
-
-Notice that $C(n, k) = \frac{P(n, k)}{k!}$. This is because for every combination of $k$ objects, there are $k!$ ways to order them (permutations). We divide the number of permutations $P(n,k)$ by $k!$ to remove the effect of order.
-
-**Why divide by k!?**
-
-When choosing 3 people {Alice, Bob, Carol} from a group for a committee:
-- **Permutations count** all orderings: ABC, ACB, BAC, BCA, CAB, CBA (6 different sequences)
-- But for a committee, **all 6 of these represent the same combination** — it doesn't matter who we chose first
-- Since there are 3! = 6 ways to arrange any 3 people, we divide the number of permutations by 6 to get the number of combinations
-- This removes the overcounting caused by different orderings of the same group
+Before we introduce the general formula, let's understand combinations by building on what we learned about permutations.
 
 **Example:** How many ways can a committee of 3 people be chosen from a group of 10 people?
 
-Here, we are choosing $k=3$ people from $n=10$, and the order in which they are chosen doesn't matter.
+Let's think through this step-by-step:
 
-Using the formula:
+**Step 1: What if order mattered?**
 
-$ C(10, 3) = \binom{10}{3} = \frac{10!}{3!(10-3)!} = \frac{10!}{3!7!} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} $
+Imagine we were choosing a President, Vice President, and Secretary (3 different roles):
+- Using permutations: $P(10, 3) = 10 \times 9 \times 8 = 720$ ways
+
+**Step 2: But order doesn't matter for a committee**
+
+For a committee, these are all the **same selection**:
+- Choose Alice, then Bob, then Carol
+- Choose Alice, then Carol, then Bob
+- Choose Bob, then Alice, then Carol
+- Choose Bob, then Carol, then Alice
+- Choose Carol, then Alice, then Bob
+- Choose Carol, then Bob, then Alice
+
+All 6 of these represent the committee {Alice, Bob, Carol}.
+
+**Step 3: How many ways can we arrange the same 3 people?**
+
+Any group of 3 people can be ordered in $3! = 3 \times 2 \times 1 = 6$ different ways.
+
+**Step 4: Remove the overcounting**
+
+Since each committee is being counted 6 times in our permutation count, we divide:
+
+$$\text{Total committees} = \frac{P(10, 3)}{3!} = \frac{720}{6} = 120$$
+
+**Key insight:** To convert from permutations (where order matters) to combinations (where order doesn't matter), we divide by $k!$ to eliminate all the different orderings of the same selection.
+
+#### The General Formula
+
+This pattern holds for all combination problems. The number of combinations of $n$ distinct objects taken $k$ at a time is denoted by $C(n, k)$, $_nC_k$, $C^n_k$, or $\binom{n}{k}$ (read "n choose k") and is calculated as:
+
+$ C(n, k) = \binom{n}{k} = \frac{P(n, k)}{k!} = \frac{n!}{k!(n-k)!} $
+
+**Why does this work?** Starting from the relationship to permutations:
+
+$$C(10, 3) = \frac{P(10, 3)}{3!} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} = \frac{720}{6} = 120$$
+
+Or using the factorial formula:
+
+$$C(10, 3) = \frac{10!}{3!(10-3)!} = \frac{10!}{3! \times 7!} = \frac{10 \times 9 \times 8 \times \cancel{7!}}{3 \times 2 \times 1 \times \cancel{7!}} = \frac{720}{6} = 120$$
 
 Let's calculate this using Python.
 
@@ -289,46 +356,60 @@ print(f"Direct calculation: {c_10_3_direct}")
 
 This involves selecting $k$ objects from $n$ types of objects, where order doesn't matter and we can choose multiple objects of the same type (repetition is allowed). This is sometimes called "multiset coefficient" or "stars and bars" problem.
 
-**Formula:** The number of combinations with repetition of $n$ types of objects taken $k$ at a time is:
+#### Building Intuition: The "Stars and Bars" Visual Method
 
-$ \binom{n+k-1}{k} = \frac{(n+k-1)!}{k!(n-1)!} $
+This is one of the most surprising formulas in counting, but there's a beautiful visual way to understand it! Let's start with a concrete example.
 
-:::{admonition} Intuition: The "Stars and Bars" method
-:class: tip
+**Example:** A bakery offers 4 types of donuts (plain, chocolate, glazed, jelly). How many different ways can you select a dozen (12) donuts?
 
-This formula might look strange, but there's a beautiful visual way to understand it!
+Here, $n=4$ (types of donuts) and we're choosing $k=12$ donuts. Order doesn't matter (choosing chocolate then plain is the same as plain then chocolate), and we can choose multiple donuts of the same type.
 
-Imagine you want to distribute $k$ identical objects into $n$ different bins (or types). We can represent this using **stars** (★) for objects and **bars** (|) as dividers between bins.
+**Visual representation:** We can represent any selection using **stars** (★) for donuts and **bars** (|) as dividers between types.
 
-**Example:** Choosing 12 donuts from 4 types is like arranging 12 stars and 3 bars:
-
+For example, this arrangement:
 ```
 ★★|★★★★|★★★★★|★
 ```
 
-This represents:
-- Type 1 (plain): 2 donuts (stars before first bar)
-- Type 2 (chocolate): 4 donuts (stars between first and second bar)
-- Type 3 (glazed): 5 donuts (stars between second and third bar)
-- Type 4 (jelly): 1 donut (stars after third bar)
+Represents this selection:
+- Type 1 (plain): **2** donuts (stars before the first bar)
+- Type 2 (chocolate): **4** donuts (stars between first and second bar)
+- Type 3 (glazed): **5** donuts (stars between second and third bar)
+- Type 4 (jelly): **1** donut (stars after the third bar)
+- Total: 2 + 4 + 5 + 1 = 12 ✓
 
-**Key insight:**
+**The counting problem becomes:** How many ways can we arrange 12 stars and 3 bars?
+
+Let's analyze this:
 - We have $k = 12$ stars (the donuts we're choosing)
-- We need $n-1 = 3$ bars to create $n = 4$ sections (types)
-- Total positions: $12 + 3 = 15$ objects to arrange
-- We need to choose where to place the $k = 12$ stars (or equivalently, where to place the $n-1 = 3$ bars)
-- Number of ways = $\binom{15}{12} = \binom{15}{3} = \binom{n+k-1}{k} = \binom{n+k-1}{n-1}$
+- We need $n-1 = 3$ bars to create $n = 4$ sections (one for each type)
+- Total objects to arrange: $12 + 3 = 15$
 
-This is why the formula is $\binom{n+k-1}{k}$ — we're choosing positions for $k$ items among $n+k-1$ total positions!
-:::
+**Key insight:** Any arrangement of these 15 objects represents a valid donut selection! We just need to choose which 12 positions (out of 15 total) will have stars (the remaining 3 positions automatically get bars).
 
-**Example:** A bakery offers 4 types of donuts (plain, chocolate, glazed, jelly). How many different ways can you select a dozen (12) donuts?
+This is a **combination without repetition** problem we already know how to solve:
 
-Here, $n=4$ (types of donuts) and we are choosing $k=12$ donuts. The order doesn't matter, and we can choose multiple donuts of the same type.
+$$\text{Number of ways} = \binom{15}{12} = \binom{15}{3}$$
 
-Using the formula:
+We can choose either the 12 star positions or the 3 bar positions — the result is the same!
 
-$ \binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12!(15-12)!} = \frac{15!}{12!3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} $
+**Generalizing the pattern:**
+- $n = 4$ types → need $(n-1) = 3$ bars
+- $k = 12$ objects → need $k = 12$ stars
+- Total positions: $n + k - 1 = 4 + 12 - 1 = 15$
+- Choose positions for stars: $\binom{n+k-1}{k} = \binom{15}{12}$
+
+#### The General Formula
+
+This pattern holds for all combinations-with-repetition problems. The number of combinations with repetition of $n$ types of objects taken $k$ at a time is:
+
+$$\binom{n+k-1}{k} = \frac{(n+k-1)!}{k!(n-1)!}$$
+
+**Why this formula?** We're arranging $k$ stars and $(n-1)$ bars, for a total of $(n+k-1)$ objects. We choose which $k$ positions get stars (or equivalently, which $(n-1)$ positions get bars).
+
+**Calculating our donut example:**
+
+$$\binom{4+12-1}{12} = \binom{15}{12} = \frac{15!}{12! \times 3!} = \frac{15 \times 14 \times 13}{3 \times 2 \times 1} = \frac{2730}{6} = 455$$
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
