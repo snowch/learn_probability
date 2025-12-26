@@ -163,6 +163,20 @@ print(f"Direct calculation: {p_8_3_direct}")
 
 Sometimes we need to arrange objects where some are identical.
 
+:::{admonition} Terminology: Key terms in this section
+:class: note
+
+**Distinguishable vs. Distinct:**
+- **Distinguishable objects**: Objects that can be told apart (like A₁ vs A₂). When we label identical objects with subscripts, we're treating them as distinguishable.
+- **Distinct arrangements**: Unique arrangements that look different from each other (like AAB vs ABA vs BAA).
+
+**Multinomial Coefficient:**
+- The formula $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$ is called the **multinomial coefficient**
+- We explain why it has this name later in the section
+
+The key question: How many **distinct arrangements** can we make when some objects are identical (not distinguishable)?
+:::
+
 #### Building Intuition: Starting Simple
 
 **Simple Example:** How many distinct ways can you arrange the letters in "AAB"?
@@ -174,7 +188,7 @@ Let's list all possible arrangements:
 
 Only **3 distinct arrangements**!
 
-**But wait** – if all letters were distinct (say, A₁A₂B), how many arrangements would there be?
+**But wait** – if all letters were distinguishable (say, A₁A₂B), how many arrangements would there be?
 
 We'd have $3! = 6$ arrangements:
 1. A₁A₂B
@@ -185,13 +199,13 @@ We'd have $3! = 6$ arrangements:
 6. BA₂A₁ ← looks the same as arrangement 5 when A's are identical
 
 **Key insight:**
-- When the two A's are **distinct**, we get 6 arrangements
+- When the two A's are **distinguishable**, we get 6 arrangements
 - When the two A's are **identical**, arrangements 1&3 look the same (AAB), 2&4 look the same (ABA), and 5&6 look the same (BAA)
 - Each distinct arrangement appears $2! = 2$ times (the number of ways to arrange the two identical A's)
 - Therefore: Distinct arrangements = $\frac{3!}{2!} = \frac{6}{2} = 3$ ✓
 
 **The pattern:**
-$$\text{Distinct arrangements} = \frac{\text{Total if all were distinct}}{\text{Ways to rearrange identical objects}}$$
+$$\text{Distinct arrangements} = \frac{\text{Total if all were distinguishable}}{\text{Ways to rearrange identical objects}}$$
 
 #### Scaling Up: MISSISSIPPI
 
@@ -208,13 +222,13 @@ Check: $1 + 4 + 4 + 2 = 11$ ✓
 
 **Step 2: Apply the pattern**
 
-If all 11 letters were distinct, we'd have $11!$ arrangements.
+If all 11 letters were distinguishable, we'd have $11!$ arrangements.
 
 But we're overcounting because:
 - The 4 I's can be rearranged among themselves in $4!$ ways without creating a new word
 - The 4 S's can be rearranged among themselves in $4!$ ways without creating a new word
 - The 2 P's can be rearranged among themselves in $2!$ ways without creating a new word
-- The 1 M is already distinct ($1! = 1$, no overcounting)
+- The 1 M appears only once ($1! = 1$, no overcounting)
 
 Each distinct word is being counted $1! \times 4! \times 4! \times 2!$ times.
 
@@ -230,7 +244,8 @@ $$\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$$
 
 This is also called the **multinomial coefficient**.
 
-**Why "multinomial coefficient"?**
+:::{admonition} Why "multinomial coefficient"?
+:class: note
 
 The name has two parts to understand:
 
@@ -244,6 +259,7 @@ The name has two parts to understand:
 - These values appear as the **coefficients in the multinomial theorem**: When you expand $(x_1 + x_2 + \dots + x_k)^n$, each term has a coefficient of the form $\frac{n!}{n_1! \times n_2! \times \dots \times n_k!}$
 - For example, in $(a + b + c)^3$, the coefficient of $a^2bc$ is $\frac{3!}{2! \times 1! \times 1!} = 3$, meaning the term is $3a^2bc$
 - So we call it a "coefficient" because it literally serves as a coefficient in polynomial expansions!
+:::
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
