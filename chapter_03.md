@@ -25,6 +25,35 @@ This chapter introduces systematic methods for counting outcomes: the Multiplica
 
 Let's start counting!
 
+:::{admonition} Understanding "without repetition" vs "with repetition"
+:class: note
+
+Throughout this chapter, you'll encounter the terms **"without repetition"** and **"with repetition"**. These phrases often confuse students because they sound like they describe **sampling methods** (like drawing balls from a bag with or without replacement), but they actually describe something different: **whether objects can occupy multiple positions**.
+
+**What "without repetition" actually means:**
+- Each object can only occupy **one position** in the arrangement or selection
+- You don't use the same object multiple times
+- Think: "each object appears at most once"
+
+**What "with repetition" actually means:**
+- The same object (or type of object) can occupy **multiple positions**
+- Objects can be reused
+- Think: "objects can appear more than once"
+
+**Common confusion to avoid:**
+- ❌ "Without repetition" does NOT mean "we're running out of objects to choose from"
+- ❌ It's NOT the same as "sampling without replacement" from probability
+- ✓ It means "each object is used in at most one position"
+
+**Simple examples:**
+- **Without repetition:** Awarding 3 medals to 8 runners — each runner gets at most one medal (can't give Gold AND Silver to same person)
+- **With repetition:** A license plate with 3 letters — the same letter can appear multiple times (like AAA)
+- **Without repetition:** Choosing 3 people for a committee from 10 — each person is either on the committee or not
+- **With repetition:** Choosing 3 donuts from 4 flavors — you can choose chocolate 3 times
+
+The sections below will show how this concept applies specifically to permutations and combinations, but the core idea remains the same: it's about whether objects can occupy multiple positions.
+:::
+
 +++
 
 ## The Multiplication Principle
@@ -71,23 +100,17 @@ A **permutation** is an arrangement of objects in a specific order. Consider arr
 
 This is the most common type of permutation. It involves arranging $k$ distinct objects chosen from a set of $n$ distinct objects, where order matters and objects cannot be reused.
 
-:::{admonition} Common confusion: "Without repetition" in permutations
-:class: warning
+:::{admonition} Applying "without repetition" to permutations
+:class: tip
 
-The phrase "without repetition" often confuses students because it sounds like "sampling without replacement" (drawing balls from a bag where each ball can only be drawn once).
+Recall from the chapter introduction: "without repetition" means each object occupies at most one position.
 
-**What it actually means:** Each **object can only occupy one position** — you don't use the same object in multiple positions.
+**In permutations, this means:**
+- Each object can only be used once in the arrangement
+- For medals: each runner gets at most one medal (can't give Gold AND Silver to the same person)
+- For arranging books: each book appears only once on the shelf
 
-**Example:** Awarding medals (Gold, Silver, Bronze) to 8 runners
-- We use $P(8, 3)$ to choose which runner gets which medal
-- "Without repetition" means each runner can only win one medal (you can't give Gold AND Silver to the same person)
-- Order matters: Runner A getting Gold ≠ Runner A getting Silver
-- We're not "running out of runners" — it's about distinct positions being filled by distinct objects
-
-**Another example:** Arranging 5 books chosen from 10 on a shelf
-- "Without repetition" means each book appears only once in the arrangement
-- You can't put the same book in two different positions on the shelf
-- It's about each position having a distinct object, not about depleting a supply
+**Key point:** Since order matters in permutations, Runner A getting Gold ≠ Runner A getting Silver. We're counting different **arrangements**, where both the identity AND position matter.
 :::
 
 #### Building Intuition: The Multiplication Principle Approach
@@ -162,6 +185,20 @@ print(f"Direct calculation: {p_8_3_direct}")
 ### Permutations with Repetition (Multinomial Coefficients)
 
 Sometimes we need to arrange objects where some are identical.
+
+:::{admonition} Applying "with repetition" to permutations
+:class: tip
+
+Recall from the chapter introduction: "with repetition" means the same object (or type) can occupy multiple positions.
+
+**In this type of permutation, "with repetition" means:**
+- We have **multiple identical copies** of the same object type
+- Example: In "MISSISSIPPI", we have 4 identical I's, 4 identical S's, etc.
+- These identical objects can occupy different positions (the 4 I's appear in positions 2, 5, 8, and 11)
+- The challenge: How many **distinct arrangements** exist when some objects look the same?
+
+**Important:** This is different from permutations **without** repetition, where every object is unique and distinguishable.
+:::
 
 :::{admonition} Terminology: Key terms in this section
 :class: note
@@ -286,25 +323,17 @@ A **combination** is a selection of objects where the order of selection does no
 
 This involves selecting $k$ distinct objects from a set of $n$ distinct objects, where order *does not* matter and objects cannot be reused.
 
-:::{admonition} Common confusion: "Without repetition" in combinations
-:class: warning
+:::{admonition} Applying "without repetition" to combinations
+:class: tip
 
-The phrase "without repetition" often confuses students because it sounds like "sampling without replacement" (drawing balls from a bag where each ball can only be drawn once).
+Recall from the chapter introduction: "without repetition" means each object occupies at most one position.
 
-**What it actually means:** Each **object can only be selected once** — you don't include the same object multiple times in your selection.
+**In combinations, this means:**
+- Each object can only be selected once in the group
+- For committees: each person is either on the committee or not (can't select Alice twice)
+- For coin flips: we choose which **positions** get heads, and each position can only be chosen once
 
-**Example:** Choosing a committee of 3 from 10 people
-- We use $\binom{10}{3}$ to select which 3 people form the committee
-- "Without repetition" means each person can only be selected once (you can't have Alice appear twice on the committee)
-- Order doesn't matter: {Alice, Bob, Carol} = {Carol, Alice, Bob}
-- We're not "running out of people" — it's about selecting distinct objects for distinct slots
-
-**Another example:** Flipping a coin 4 times and asking "how many ways can we get exactly 2 heads?"
-- We use $\binom{4}{2}$ to choose which 2 **positions** (flip 1, 2, 3, or 4) will be heads
-- "Without repetition" means we don't choose the same position twice (position 1 can't be both H and T)
-- We're counting arrangements like HHTT, HTHT, HTTH, etc.
-- We're not "running out of heads" — each flip is independent
-- It's about distinct positions/slots, not about depleting a supply
+**Key point:** Since order doesn't matter in combinations, {Alice, Bob, Carol} = {Carol, Alice, Bob}. We're counting **selections**, where only the identity matters, not the arrangement.
 :::
 
 #### Building Intuition: From Permutations to Combinations
@@ -386,6 +415,20 @@ print(f"Direct calculation: {c_10_3_direct}")
 ### Combinations with Repetition
 
 This involves selecting $k$ objects from $n$ types of objects, where order doesn't matter and we can choose multiple objects of the same type (repetition is allowed). This is sometimes called "multiset coefficient" or "stars and bars" problem.
+
+:::{admonition} Applying "with repetition" to combinations
+:class: tip
+
+Recall from the chapter introduction: "with repetition" means the same object (or type) can occupy multiple positions.
+
+**In combinations with repetition, this means:**
+- We can **select the same type multiple times** in our group
+- Example: Choosing 12 donuts from 4 flavors — we can choose chocolate 5 times, plain 3 times, etc.
+- Example: Rolling a die 3 times and getting {6, 6, 2} — the outcome 6 appears twice
+- The challenge: How many ways can we make selections when the same type can appear multiple times?
+
+**Key point:** Order still doesn't matter {chocolate, chocolate, plain} = {plain, chocolate, chocolate}, but unlike combinations **without** repetition, we can now select the same item multiple times.
+:::
 
 #### Building Intuition: The "Stars and Bars" Visual Method
 
