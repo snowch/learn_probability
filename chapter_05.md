@@ -1312,14 +1312,14 @@ For the intersection, we combine two ideas:
 
 3. **Putting it together**:
 
-$$
-\begin{align*}
-P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c) \\
-&= (0.25)(0.50) + (0.5625)(0.50) \\
-&= 0.125 + 0.28125 \\
-&= 0.40625
-\end{align*}
-$$
+   $$
+   \begin{align*}
+   P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c) \\
+   &= (0.25)(0.50) + (0.5625)(0.50) \\
+   &= 0.125 + 0.28125 \\
+   &= 0.40625
+   \end{align*}
+   $$
 
 Now let's check for independence:
 
