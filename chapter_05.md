@@ -1280,12 +1280,26 @@ $$
 P(H_2) = 0.625 \quad \text{(by the same calculation)}
 $$
 
-For the intersection, we apply the Law of Total Probability formula shown above. Within each context, we use the [conditional independence factorization from Part 1](#factorization-formula) to write $P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C) = 0.5 \times 0.5$ and similarly for $C^c$:
+For the intersection, we combine two ideas:
+
+1. **Law of Total Probability** (shown above) gives us the structure:
+   $$
+   P(H_1\cap H_2) = P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c)
+   $$
+
+2. **Conditional independence** ([from Part 1](#factorization-formula)) lets us factorize within each context:
+   $$
+   P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C) = 0.5 \times 0.5 = 0.25
+   $$
+   $$
+   P(H_1\cap H_2\mid C^c) = P(H_1\mid C^c) \times P(H_2\mid C^c) = 0.75 \times 0.75 = 0.5625
+   $$
+
+3. **Putting it together**:
 
 $$
 \begin{align*}
 P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c) \\
-&= (0.5 \times 0.5)(0.50) + (0.75 \times 0.75)(0.50) \\
 &= (0.25)(0.50) + (0.5625)(0.50) \\
 &= 0.125 + 0.28125 \\
 &= 0.40625
