@@ -1279,7 +1279,7 @@ $$
 P(H_2) = 0.625 \quad \text{(by the same calculation)}
 $$
 
-For the intersection, we use the fact that the flips are conditionally independent within each context (from Part 1):
+For the intersection, we apply the Law of Total Probability formula shown above. Within each context, we use conditional independence from [Part 1](#part-1-independence-within-each-context) to factorize: $P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C) = 0.5 \times 0.5$ and similarly for $C^c$:
 
 $$
 \begin{align*}
