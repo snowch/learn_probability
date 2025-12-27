@@ -1263,13 +1263,13 @@ $$
 
 **Numerical verification:**
 
-Recall from our setup that we choose each coin with equal probability, so $P(C) = P(C^c) = 0.5$. The fair coin has $P(H\mid C) = 0.5$ and the biased coin has $P(H\mid C^c) = 0.75$.
+Recall from our setup that we choose each coin with equal probability, so $P(C) = P(C^c) = 0.5$. The fair coin gives heads with probability 0.5, and the biased coin gives heads with probability 0.75. Since each flip has the same probability regardless of whether it's first or second, we have $P(H_1\mid C) = P(H_2\mid C) = 0.5$ and $P(H_1\mid C^c) = P(H_2\mid C^c) = 0.75$.
 
 Now let's calculate the individual probabilities:
 
 $$
 \begin{align*}
-P(H_1) &= P(H\mid C)P(C) + P(H\mid C^c)P(C^c) \\
+P(H_1) &= P(H_1\mid C)P(C) + P(H_1\mid C^c)P(C^c) \\
 &= (0.50)(0.50) + (0.75)(0.50) \\
 &= 0.625
 \end{align*}
