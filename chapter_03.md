@@ -186,6 +186,20 @@ print(f"Direct calculation: {p_8_3_direct}")
 
 Sometimes we need to arrange objects where some are identical.
 
+:::{admonition} Applying "with repetition" to permutations
+:class: tip
+
+Recall from the chapter introduction: "with repetition" means the same object (or type) can occupy multiple positions.
+
+**In this type of permutation, "with repetition" means:**
+- We have **multiple identical copies** of the same object type
+- Example: In "MISSISSIPPI", we have 4 identical I's, 4 identical S's, etc.
+- These identical objects can occupy different positions (the 4 I's appear in positions 2, 5, 8, and 11)
+- The challenge: How many **distinct arrangements** exist when some objects look the same?
+
+**Important:** This is different from permutations **without** repetition, where every object is unique and distinguishable.
+:::
+
 :::{admonition} Terminology: Key terms in this section
 :class: note
 
@@ -401,6 +415,20 @@ print(f"Direct calculation: {c_10_3_direct}")
 ### Combinations with Repetition
 
 This involves selecting $k$ objects from $n$ types of objects, where order doesn't matter and we can choose multiple objects of the same type (repetition is allowed). This is sometimes called "multiset coefficient" or "stars and bars" problem.
+
+:::{admonition} Applying "with repetition" to combinations
+:class: tip
+
+Recall from the chapter introduction: "with repetition" means the same object (or type) can occupy multiple positions.
+
+**In combinations with repetition, this means:**
+- We can **select the same type multiple times** in our group
+- Example: Choosing 12 donuts from 4 flavors — we can choose chocolate 5 times, plain 3 times, etc.
+- Example: Rolling a die 3 times and getting {6, 6, 2} — the outcome 6 appears twice
+- The challenge: How many ways can we make selections when the same type can appear multiple times?
+
+**Key point:** Order still doesn't matter {chocolate, chocolate, plain} = {plain, chocolate, chocolate}, but unlike combinations **without** repetition, we can now select the same item multiple times.
+:::
 
 #### Building Intuition: The "Stars and Bars" Visual Method
 
