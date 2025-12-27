@@ -1092,7 +1092,7 @@ $$
 
 This means the joint probability factorizes (splits into a product) within each context:
 
-<a id="factorization-formula"></a>
+(factorization-formula)=
 $$
 P(H_1\cap H_2\mid C) = P(H_1\mid C)\,P(H_2\mid C)
 $$
