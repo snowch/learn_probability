@@ -1263,7 +1263,9 @@ $$
 
 **Numerical verification:**
 
-Calculating the individual probabilities:
+Recall from our setup that we choose each coin with equal probability, so $P(C) = P(C^c) = 0.5$. The fair coin has $P(H\mid C) = 0.5$ and the biased coin has $P(H\mid C^c) = 0.75$.
+
+Now let's calculate the individual probabilities:
 
 $$
 \begin{align*}
@@ -1277,9 +1279,13 @@ $$
 P(H_2) = 0.625 \quad \text{(by the same calculation)}
 $$
 
+For the intersection, we use the fact that the flips are conditionally independent within each context (from Part 1):
+
 $$
 \begin{align*}
-P(H_1\cap H_2) &= (0.25)(0.50) + (0.5625)(0.50) \\
+P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c) \\
+&= (0.5 \times 0.5)(0.50) + (0.75 \times 0.75)(0.50) \\
+&= (0.25)(0.50) + (0.5625)(0.50) \\
 &= 0.125 + 0.28125 \\
 &= 0.40625
 \end{align*}
