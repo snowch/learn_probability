@@ -1361,20 +1361,43 @@ But $P(H_2) = 0.625$. Since $P(H_2\mid H_1) = 0.65 \neq 0.625 = P(H_2)$, observi
 The calculations above showed what happens when the context is hidden (Scenario 1). Here's a complete summary of all three cases:
 
 **Scenario 1: Context hidden (we do NOT know which coin)**
-- $P(H_1) = 0.625$, $P(H_2) = 0.625$
-- $P(H_1\cap H_2) = 0.40625 \neq P(H_1)P(H_2) = 0.390625$
-- **Not independent** (observing $H_1$ updates belief about $H_2$)
+
+$$
+\begin{align*}
+P(H_1) &= 0.625 \\
+P(H_2) &= 0.625 \\
+P(H_1\cap H_2) &= 0.40625 \\
+P(H_1)P(H_2) &= 0.390625
+\end{align*}
+$$
+
+Since $P(H_1\cap H_2) \neq P(H_1)P(H_2)$, the events are **not independent** (observing $H_1$ updates belief about $H_2$).
 
 **Scenario 2: We know we chose the fair coin ($C$)**
 
-- $P(H_1\mid C) = 0.5$, $P(H_2\mid C) = 0.5$
-- $P(H_1\cap H_2\mid C) = 0.25 = P(H_1\mid C) \times P(H_2\mid C)$
-- **Independent** within this context
+$$
+\begin{align*}
+P(H_1\mid C) &= 0.5 \\
+P(H_2\mid C) &= 0.5 \\
+P(H_1\cap H_2\mid C) &= 0.25 \\
+P(H_1\mid C) \times P(H_2\mid C) &= 0.25
+\end{align*}
+$$
+
+Since $P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C)$, the events are **independent** within this context.
 
 **Scenario 3: We know we chose the biased coin ($C^c$)**
-- $P(H_1\mid C^c) = 0.75$, $P(H_2\mid C^c) = 0.75$
-- $P(H_1\cap H_2\mid C^c) = 0.5625 = P(H_1\mid C^c) \times P(H_2\mid C^c)$
-- **Independent** within this context
+
+$$
+\begin{align*}
+P(H_1\mid C^c) &= 0.75 \\
+P(H_2\mid C^c) &= 0.75 \\
+P(H_1\cap H_2\mid C^c) &= 0.5625 \\
+P(H_1\mid C^c) \times P(H_2\mid C^c) &= 0.5625
+\end{align*}
+$$
+
+Since $P(H_1\cap H_2\mid C^c) = P(H_1\mid C^c) \times P(H_2\mid C^c)$, the events are **independent** within this context.
 
 **Conclusion:** $H_1$ and $H_2$ are **conditionally independent** given which coin was chosen ($H_1 \perp H_2 \mid C$), but **not independent** when the coin is unknown.
 :::
