@@ -1291,6 +1291,8 @@ For the intersection, we combine two ideas:
    $$
 
 2. **Conditional independence** ([from Part 1](#factorization-formula)) lets us factorize within each context:
+
+   For the fair coin:
    $$
    \begin{align*}
    P(H_1\cap H_2\mid C) &= P(H_1\mid C) \times P(H_2\mid C) \\
@@ -1298,6 +1300,8 @@ For the intersection, we combine two ideas:
    &= 0.25
    \end{align*}
    $$
+
+   For the biased coin:
    $$
    \begin{align*}
    P(H_1\cap H_2\mid C^c) &= P(H_1\mid C^c) \times P(H_2\mid C^c) \\
