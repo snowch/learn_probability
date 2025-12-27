@@ -1264,15 +1264,36 @@ $$
 **Numerical verification:**
 
 Calculating the individual probabilities:
-- $P(H_1) = P(H\mid C)P(C) + P(H\mid C^c)P(C^c)$
-  $= (0.50)(0.50) + (0.75)(0.50) = 0.625$
-- $P(H_2) = 0.625$ (by the same calculation)
-- $P(H_1\cap H_2) = (0.25)(0.50) + (0.5625)(0.50)$
-  $= 0.125 + 0.28125 = 0.40625$
+
+$$
+\begin{align*}
+P(H_1) &= P(H\mid C)P(C) + P(H\mid C^c)P(C^c) \\
+&= (0.50)(0.50) + (0.75)(0.50) \\
+&= 0.625
+\end{align*}
+$$
+
+$$
+P(H_2) = 0.625 \quad \text{(by the same calculation)}
+$$
+
+$$
+\begin{align*}
+P(H_1\cap H_2) &= (0.25)(0.50) + (0.5625)(0.50) \\
+&= 0.125 + 0.28125 \\
+&= 0.40625
+\end{align*}
+$$
 
 Now let's check for independence:
-- $P(H_1\cap H_2) = 0.40625$
-- $P(H_1) \times P(H_2) = 0.625 \times 0.625 = 0.390625$
+
+$$
+P(H_1\cap H_2) = 0.40625
+$$
+
+$$
+P(H_1) \times P(H_2) = 0.625 \times 0.625 = 0.390625
+$$
 
 Since $0.40625 \neq 0.390625$, the joint probability does **not** equal the product. This means **the events are dependent** when the context is hidden.
 
@@ -1281,7 +1302,11 @@ Since $0.40625 \neq 0.390625$, the joint probability does **not** equal the prod
 We can also verify dependence by checking whether observing $H_1$ updates our belief about $H_2$:
 
 $$
-P(H_2\mid H_1) = \frac{P(H_1\cap H_2)}{P(H_1)} = \frac{0.40625}{0.625} = 0.65
+\begin{align*}
+P(H_2\mid H_1) &= \frac{P(H_1\cap H_2)}{P(H_1)} \\
+&= \frac{0.40625}{0.625} \\
+&= 0.65
+\end{align*}
 $$
 
 But $P(H_2) = 0.625$. Since $P(H_2\mid H_1) = 0.65 \neq 0.625 = P(H_2)$, observing $H_1$ **does** update our belief about $H_2$, confirming they are dependent.
