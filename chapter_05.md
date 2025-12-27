@@ -1292,7 +1292,10 @@ P(H_1\cap H_2) = 0.40625
 $$
 
 $$
-P(H_1) \times P(H_2) = 0.625 \times 0.625 = 0.390625
+\begin{align*}
+P(H_1) \times P(H_2) &= 0.625 \times 0.625 \\
+&= 0.390625
+\end{align*}
 $$
 
 Since $0.40625 \neq 0.390625$, the joint probability does **not** equal the product. This means **the events are dependent** when the context is hidden.
