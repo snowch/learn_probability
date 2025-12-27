@@ -1284,15 +1284,26 @@ For the intersection, we combine two ideas:
 
 1. **Law of Total Probability** (shown above) gives us the structure:
    $$
-   P(H_1\cap H_2) = P(H_1\cap H_2\mid C)P(C) + P(H_1\cap H_2\mid C^c)P(C^c)
+   \begin{align*}
+   P(H_1\cap H_2) &= P(H_1\cap H_2\mid C)P(C) \\
+   &\quad + P(H_1\cap H_2\mid C^c)P(C^c)
+   \end{align*}
    $$
 
 2. **Conditional independence** ([from Part 1](#factorization-formula)) lets us factorize within each context:
    $$
-   P(H_1\cap H_2\mid C) = P(H_1\mid C) \times P(H_2\mid C) = 0.5 \times 0.5 = 0.25
+   \begin{align*}
+   P(H_1\cap H_2\mid C) &= P(H_1\mid C) \times P(H_2\mid C) \\
+   &= 0.5 \times 0.5 \\
+   &= 0.25
+   \end{align*}
    $$
    $$
-   P(H_1\cap H_2\mid C^c) = P(H_1\mid C^c) \times P(H_2\mid C^c) = 0.75 \times 0.75 = 0.5625
+   \begin{align*}
+   P(H_1\cap H_2\mid C^c) &= P(H_1\mid C^c) \times P(H_2\mid C^c) \\
+   &= 0.75 \times 0.75 \\
+   &= 0.5625
+   \end{align*}
    $$
 
 3. **Putting it together**:
