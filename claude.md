@@ -349,6 +349,15 @@ $$
 
 **Expected value**: Use square brackets: `$E[X]$`
 
+**Conditional sums/sets**: When using colon notation (e.g., $\sum_{x: g(x)=y}$ or $\{x: x > 0\}$), explain it the first time:
+```markdown
+\`\`\`{admonition} Reading the notation
+:class: note
+
+The notation $\sum_{x: g(x)=y}$ is read as "sum over all values of $x$ such that $g(x) = y$". The colon (:) means "such that" or "where".
+\`\`\`
+```
+
 ## Visual Elements
 
 ### Figures

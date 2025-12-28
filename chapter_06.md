@@ -412,6 +412,12 @@ $$
 p_Y(y) = P(Y=y) = P(g(X)=y) = \sum_{x: g(x)=y} p_X(x)
 $$
 
+```{admonition} Reading the notation
+:class: note
+
+The notation $\sum_{x: g(x)=y}$ is read as "sum over all values of $x$ such that $g(x) = y$". The colon (:) means "such that" or "where". This is a concise way to write a conditional sum - we only include terms where the condition $g(x)=y$ is true.
+```
+
 **Expected Value of a Function of a Random Variable (LOTUS):**
 A very useful result, sometimes called the Law of the Unconscious Statistician (LOTUS), allows us to calculate the expected value of $Y=g(X)$ without explicitly finding the PMF of $Y$.
 
