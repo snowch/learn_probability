@@ -20,6 +20,35 @@ This document describes the writing style, structure patterns, and code organiza
 2. **Exercises** - 4-6 exercises with answers in dropdown admonitions
 3. **Forward link** - Brief mention of what's next
 
+### Exercise Format
+
+**Structure:**
+```markdown
+## Exercises
+
+1.  **Exercise Title:** Description of the problem.
+    a.  First sub-question
+    b.  Second sub-question
+
+    \`\`\`{admonition} Answer
+    :class: dropdown
+
+    a) Solution to first sub-question
+
+    b) Solution to second sub-question
+    \`\`\`
+
+2.  **Next Exercise:** ...
+```
+
+**Guidelines:**
+- Use numbered list (1., 2., 3., etc.)
+- Exercise title in bold followed by colon: `**Title:**`
+- Sub-questions use letters (a., b., c., etc.)
+- Always indent answer blocks under the exercise
+- Answers always use `{admonition} Answer` with `:class: dropdown`
+- For exercises with hints instead of full solutions, use `{admonition} Hint` with `:class: tip`
+
 ## Content Development Pattern
 
 ### For Each Major Concept
@@ -243,29 +272,54 @@ from scipy.special import comb
 
 ### Types and When to Use
 
-**Examples** - `:::{admonition} Example` with `:class: tip dropdown`
-- Use for detailed worked examples
-- Use for supplementary examples that might distract from main flow
+**Examples**
+- **Short examples**: Inline with `**Example:**` marker (no admonition box)
+  ```markdown
+  **Example:** A restaurant offers 3 starters, 4 mains, and 2 desserts. How many meal combinations are possible?
+  ```
+- **Long examples**: Use `:::{admonition} Example` with `:class: tip dropdown`
+  ```markdown
+  :::{admonition} Example: The Grocery Store
+  :class: tip dropdown
+
+  Long detailed example that might interrupt flow...
+  :::
+  ```
+- **When to use which**: Use inline for examples that are 1-2 paragraphs. Use dropdown admonition for examples longer than 2 paragraphs or with multiple steps.
+
+**Definitions**
+- **Always inline** with `**Definition:**` marker
+- **NEVER use admonition boxes** for definitions
+- Keep definitions close to where concepts are introduced
+  ```markdown
+  **Definition:** The **Probability Mass Function (PMF)** of a discrete random variable $X$ is...
+  ```
+- May use `**Formal Definition:**` for more rigorous statements
+- May use `**Derivation:**` or `**Interpretation:**` as needed
 
 **Notes** - `:::{admonition} Note` with `:class: note`
 - Terminology clarifications
 - Important points that aren't warnings
 - Connections to other concepts
+- "Why this name?" explanations
 
 **Tips** - `:::{admonition} Tip` with `:class: tip`
 - Study strategies
 - Memory aids
 - Key insights
+- "How to remember this" guidance
 
 **Warnings** - `:::{admonition} Warning` with `:class: warning`
 - Common mistakes
 - Confusing distinctions
 - Critical points not to miss
+- Pitfalls to avoid
 
-**Dropdown Examples** - `:class: dropdown`
+**Dropdowns** - `:class: dropdown`
 - Long examples that interrupt flow
 - Supplementary content
 - Derivations that some readers may skip
+- Optional depth
 
 ## Mathematical Notation
 
