@@ -50,6 +50,60 @@ Follow this sequence:
 
 ## Code Organization
 
+### Setup Code (imports and configuration)
+
+**Purpose**: Import libraries and configure plot settings
+
+**Format**:
+```python
+\`\`\`{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.special import comb, perm
+
+# Set plot style
+plt.style.use('seaborn-v0_8-whitegrid')
+\`\`\`
+```
+
+**When to use**:
+- At the start of a chapter
+- When introducing new libraries
+- Always hide with `:tags: [remove-input, remove-output]`
+
+**Plot Style Settings**:
+```python
+# Standard plot style for all chapters
+plt.style.use('seaborn-v0_8-whitegrid')
+
+# Standard figure sizes
+figsize=(8, 4)    # Single plots
+figsize=(10, 5)   # Plots with legends on the side
+figsize=(12, 5)   # Side-by-side comparisons (1x2 subplots)
+```
+
+**Consistent Color Palette**:
+```python
+# Primary colors (use consistently across chapters)
+'skyblue'      # PMF bars, primary data
+'lightgreen'   # Empirical/simulated data
+'lightcoral'   # Transformed distributions, secondary data
+'darkgreen'    # CDF lines
+'red'          # Mean/expected value lines
+'orange'       # ±1 standard deviation
+'purple'       # ±2 standard deviations
+'blue'         # Theoretical curves
+
+# Alpha values
+alpha=0.7      # Bars and fills
+alpha=0.6      # Grids
+
+# Edge colors
+edgecolor='black'   # For bars and patches
+```
+
 ### Visualization Code (NOT part of learning)
 
 **Purpose**: Creates figures, plots, diagrams that support concepts
@@ -269,6 +323,24 @@ Clear caption describing what the figure shows.
 - Clear labels: xlabel, ylabel, title
 - Appropriate figure size: `figsize=(8, 4)` or similar
 - Grid for readability: `plt.grid(...)`
+- Always save before show: `plt.savefig('filename.svg', format='svg', bbox_inches='tight')`
+- Use consistent colors from the palette (see Code Organization section)
+
+**Standard plot template**:
+```python
+\`\`\`{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+plt.figure(figsize=(8, 4))
+# Plot content here
+plt.xlabel("X Label")
+plt.ylabel("Y Label")
+plt.title("Descriptive Title")
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.savefig('ch06_descriptive_name.svg', format='svg', bbox_inches='tight')
+plt.show()
+\`\`\`
+```
 
 ## Writing Style
 
