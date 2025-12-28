@@ -74,6 +74,8 @@ The sum is $6 \times \frac{1}{6} = 1$.
 Let's represent and visualize this PMF in Python.
 
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import rv_discrete
