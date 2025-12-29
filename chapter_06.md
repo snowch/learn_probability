@@ -421,7 +421,11 @@ Often, we are interested in a quantity that is derived from a random variable. I
 If $X$ is discrete with PMF $p_X(x)$, we can find the PMF of $Y = g(X)$, denoted $p_Y(y)$, by summing the probabilities of all $x$ values such that $g(x) = y$:
 
 $$
-p_Y(y) = P(Y=y) = P(g(X)=y) = \sum_{x: g(x)=y} p_X(x)
+\begin{align*}
+p_Y(y) &= P(Y=y) \\
+&= P(g(X)=y) \\
+&= \sum_{x: g(x)=y} p_X(x)
+\end{align*}
 $$
 
 ```{admonition} Reading the notation
