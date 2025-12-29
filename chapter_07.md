@@ -70,6 +70,58 @@ Let's verify this compact formula works for our example where $p = 0.3$:
 
 **Variance:** $Var(X) = p(1-p)$
 
+**Visualizing the Distribution**
+
+Let's visualize a Bernoulli distribution with $p = 0.3$ (our customer purchase example from above):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Bernoulli distribution for visualization (p=0.3)
+p_viz = 0.3
+bernoulli_viz = stats.bernoulli(p=p_viz)
+
+# Plotting the PMF
+k_values_viz = [0, 1]
+pmf_values_viz = bernoulli_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, tick_label=["Failure (0)", "Success (1)"], color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Bernoulli PMF (p={p_viz})")
+plt.xlabel("Outcome")
+plt.ylabel("Probability")
+plt.ylim(0, 1)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
+
+The PMF shows two bars: P(X=0) = 0.7 for failure and P(X=1) = 0.3 for success.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Bernoulli CDF (p={p_viz})")
+plt.xlabel("Outcome")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.ylim(0, 1.1)
+plt.xticks([0, 1])
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
+
+The CDF shows the cumulative probability: P(X ≤ 0) = 0.7 (just the failure outcome) and P(X ≤ 1) = 1.0 (both outcomes).
+
 :::{admonition} Example: Customer Purchase with p = 0.1
 :class: tip
 
