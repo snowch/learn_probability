@@ -36,7 +36,7 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 The Bernoulli distribution is the simplest discrete distribution. It models a single trial with only two possible outcomes, often labeled "success" (usually encoded as 1) and "failure" (usually encoded as 0).
 
-- **Scenario**: A single coin flip (Heads/Tails), a single product inspection (Defective/Not Defective), a single customer interaction (Purchase/No Purchase).
+- **Scenario**: A single coin flip (Heads/Tails), a single product inspection (Defective/Not Defective), a single customer interaction (Purchase/No Purchase), medical test result (Positive/Negative), free throw attempt (Make/Miss).
 - **Parameter**: $p$, the probability of success ($0 \le p \le 1$). The probability of failure is then $q = 1-p$.
 - **Random Variable**: $X$ takes value 1 (success) with probability $p$, and 0 (failure) with probability $1-p$.
 
@@ -99,13 +99,31 @@ plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values = bernoulli_rv.cdf(k_values)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Bernoulli CDF (p={p_purchase})")
+plt.xlabel("Outcome")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.ylim(0, 1.1)
+plt.xticks([0, 1])
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
 +++
 
 ## 2. Binomial Distribution
 
 The Binomial distribution models the number of successes in a *fixed number* of independent Bernoulli trials, where each trial has the same probability of success.
 
-- **Scenario**: The number of heads in 10 coin flips, the number of defective items in a batch of 50, the number of successful sales calls out of 20 made.
+- **Scenario**: The number of heads in 10 coin flips, the number of defective items in a batch of 50, the number of successful free throws out of 20 attempts, the number of correct answers on a 25-question multiple choice test (with random guessing), the number of customers who make a purchase out of 100 website visitors.
 - **Parameters**:
     - $n$: the number of independent trials.
     - $p$: the probability of success on each trial ($0 \le p \le 1$).
@@ -202,7 +220,7 @@ plt.show()
 
 The Geometric distribution models the number of independent Bernoulli trials needed to get the *first* success.
 
-- **Scenario**: The number of coin flips until the first Head appears, the number of job applications until the first interview offer, the number of attempts needed to pass a certification exam.
+- **Scenario**: The number of coin flips until the first Head appears, the number of job applications until the first interview offer, the number of attempts needed to pass a certification exam, the number of customers contacted before making the first sale, the number of at-bats until a baseball player gets their first hit.
 - **Parameter**: $p$, the probability of success on each trial ($0 < p \le 1$).
 - **Random Variable**: $X$, the number of trials required to achieve the first success. $X$ can take values $k = 1, 2, 3, ...$.
 
@@ -293,13 +311,30 @@ plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF (using trial number k=1, 2, ...)
+cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Geometric CDF (p={p_pass}) - Trial number of first success")
+plt.xlabel("Trial Number (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_trials)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
 +++
 
 ## 4. Negative Binomial Distribution
 
 The Negative Binomial distribution models the number of independent Bernoulli trials needed to achieve a *fixed number* of successes ($r$). It generalizes the Geometric distribution (where $r=1$).
 
-- **Scenario**: The number of coin flips needed to get 5 Heads, the number of products to inspect to find 3 defective items, the number of sales calls needed to achieve 5 successful sales.
+- **Scenario**: The number of coin flips needed to get 5 Heads, the number of products to inspect to find 3 defective items, the number of patients tested until finding 10 with a specific condition, the number of job interviews conducted until making 3 hires.
 - **Parameters**:
     - $r$: the target number of successes ($r \ge 1$).
     - $p$: the probability of success on each trial ($0 < p \le 1$).
@@ -322,7 +357,7 @@ This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th tri
 Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts the number of *failures* ($k$) that occur before the $r$-th success. So, the total number of trials in our definition is $k + r$ in SciPy's terms. We'll use the `scipy` definition ($k=0, 1, 2, ...$ failures) in the code, stating results in terms of the total number of trials.
 :::
 
-**Example:** Modeling the number of sales calls needed to achieve $r=5$ successful sales, if the probability of success ($p$) per call is 0.15.
+**Example:** A quality control inspector tests electronic components until finding $r=3$ defective ones. If the probability that any component is defective ($p$) is 0.05, how many components should we expect to test?
 
 We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
@@ -330,54 +365,54 @@ We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain
 
 ```{code-cell} ipython3
 # Using scipy.stats.nbinom
-r_successes_target = 5
-p_success_call = 0.15
-nbinom_rv = stats.nbinom(n=r_successes_target, p=p_success_call)
+r_defective = 3
+p_defective = 0.05
+nbinom_rv = stats.nbinom(n=r_defective, p=p_defective)
 
-# PMF: Probability of needing k trials to get r successes
-k_trials = 30
-num_failures = k_trials - r_successes_target
-if num_failures >= 0:
-    prob_k_trials = nbinom_rv.pmf(num_failures)
-    print(f"P(Need exactly {k_trials} trials for {r_successes_target} successes): {prob_k_trials:.4f}")
+# PMF: Probability of needing k components tested to find r defective
+k_components = 80
+num_good = k_components - r_defective
+if num_good >= 0:
+    prob_k_components = nbinom_rv.pmf(num_good)
+    print(f"P(Need exactly {k_components} components to find {r_defective} defective): {prob_k_components:.4f}")
 else:
-    print(f"Cannot achieve {r_successes_target} successes in fewer than {r_successes_target} trials.")
+    print(f"Cannot find {r_defective} defective in fewer than {r_defective} components.")
 ```
 
 ```{code-cell} ipython3
-# CDF: Probability of needing k or fewer trials to get r successes
-k_or_fewer_trials = 40
-num_failures_max = k_or_fewer_trials - r_successes_target
-if num_failures_max >= 0:
-    prob_k_or_fewer = nbinom_rv.cdf(num_failures_max)
-    print(f"P(Need {k_or_fewer_trials} or fewer trials for {r_successes_target} successes): {prob_k_or_fewer:.4f}")
+# CDF: Probability of needing k or fewer components
+k_or_fewer_components = 100
+num_good_max = k_or_fewer_components - r_defective
+if num_good_max >= 0:
+    prob_k_or_fewer = nbinom_rv.cdf(num_good_max)
+    print(f"P(Need {k_or_fewer_components} or fewer components to find {r_defective} defective): {prob_k_or_fewer:.4f}")
 else:
-    print(f"Cannot achieve {r_successes_target} successes in fewer than {r_successes_target} trials.")
+    print(f"Cannot find {r_defective} defective in fewer than {r_defective} components.")
 ```
 
 ```{code-cell} ipython3
-# Mean and Variance (scipy's definition: number of failures)
-mean_failures_scipy = nbinom_rv.mean()
-var_failures_scipy = nbinom_rv.var()
-print(f"Mean number of failures before {r_successes_target} successes (scipy): {mean_failures_scipy:.2f}")
-print(f"Variance of failures before {r_successes_target} successes (scipy): {var_failures_scipy:.2f}")
+# Mean and Variance (scipy's definition: number of non-defective items)
+mean_good_scipy = nbinom_rv.mean()
+var_good_scipy = nbinom_rv.var()
+print(f"Mean number of good components before {r_defective} defective (scipy): {mean_good_scipy:.2f}")
+print(f"Variance of good components before {r_defective} defective (scipy): {var_good_scipy:.2f}")
 ```
 
 ```{code-cell} ipython3
-# Mean and Variance (our definition: total trials)
-mean_trials_nb = r_successes_target / p_success_call
-var_trials_nb = r_successes_target * (1 - p_success_call) / p_success_call**2
-print(f"Mean number of trials for {r_successes_target} successes: {mean_trials_nb:.2f}")
-print(f"Variance of number of trials: {var_trials_nb:.2f}")
+# Mean and Variance (our definition: total components tested)
+mean_components = r_defective / p_defective
+var_components = r_defective * (1 - p_defective) / p_defective**2
+print(f"Mean number of components to test for {r_defective} defective: {mean_components:.2f}")
+print(f"Variance of number of components: {var_components:.2f}")
 ```
 
 ```{code-cell} ipython3
-# Generate random samples (number of failures before r successes)
+# Generate random samples (number of good components before r defective)
 n_simulations = 1000
-samples_failures_nb = nbinom_rv.rvs(size=n_simulations)
-# Convert to total trials (failures + r)
-samples_trials_nb = samples_failures_nb + r_successes_target
-# print(f"\nSimulated trials needed for {r_successes_target} successes ({n_simulations} sims): {samples_trials_nb[:20]}...")
+samples_good_nb = nbinom_rv.rvs(size=n_simulations)
+# Convert to total components tested (good + r defective)
+samples_components_nb = samples_good_nb + r_defective
+# print(f"\nSimulated components tested to find {r_defective} defective ({n_simulations} sims): {samples_components_nb[:20]}...")
 ```
 
 :::
@@ -385,17 +420,33 @@ samples_trials_nb = samples_failures_nb + r_successes_target
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
-# Plotting the PMF (using total trial number k = r, r+1, ...)
-k_values_trials_nb = np.arange(r_successes_target, r_successes_target + 100) # Plot a range of trials
-pmf_values_nb = nbinom_rv.pmf(k_values_trials_nb - r_successes_target) # Adjust k for scipy
+# Plotting the PMF (using total components tested k = r, r+1, ...)
+k_values_components = np.arange(r_defective, r_defective + 150) # Plot a range
+pmf_values_nb = nbinom_rv.pmf(k_values_components - r_defective) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.bar(k_values_trials_nb, pmf_values_nb, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Negative Binomial PMF (r={r_successes_target}, p={p_success_call}) - Total trials")
-plt.xlabel("Total Number of Trials (k)")
+plt.bar(k_values_components, pmf_values_nb, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective}) - Components tested")
+plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF (using total components tested k = r, r+1, ...)
+cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_components, cdf_values_nb, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective}) - Components tested")
+plt.xlabel("Total Number of Components Tested (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
@@ -405,7 +456,7 @@ plt.show()
 
 The Poisson distribution models the number of events occurring in a fixed interval of time or space, given the average rate of occurrence, assuming events happen independently and at a constant average rate.
 
-- **Scenario**: Number of emails received per hour, number of customer arrivals at a store per day, number of typos per page of a book, number of mutations in a DNA strand of a certain length.
+- **Scenario**: Number of emails received per hour, number of customer arrivals at a store per day, number of typos per page of a book, number of mutations in a DNA strand of a certain length, number of emergency calls received at a fire station per shift, number of defects per square meter of fabric, number of meteor impacts per year in a region.
 - **Parameter**: $\lambda$ (lambda), the average number of events in the interval ($\lambda > 0$).
 - **Random Variable**: $X$, the number of events in the interval. $X$ can take values $k = 0, 1, 2, ...$.
 
@@ -501,7 +552,7 @@ plt.show()
 
 The Hypergeometric distribution models the number of successes in a sample drawn *without replacement* from a finite population containing a known number of successes. Contrast this with the Binomial, which assumes independence (sampling *with* replacement or from a very large population).
 
-- **Scenario**: Number of winning lottery tickets in a handful drawn from a box, number of defective items in a sample taken from a small batch, number of Aces drawn in a 5-card poker hand from a standard deck.
+- **Scenario**: Number of winning lottery tickets in a handful drawn from a box, number of defective items in a sample taken from a small batch, number of Aces drawn in a 5-card poker hand from a standard deck, number of tagged fish caught in a sample when studying wildlife populations, number of Democrats on a jury randomly selected from a pool of registered voters.
 - **Parameters**:
     - $N$: the total size of the population.
     - $K$: the total number of success items in the population.
@@ -581,6 +632,23 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values = hypergeom_rv.cdf(k_values)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Hypergeometric CDF (N={N_population}, K={K_successes_pop}, n={n_sample})")
+plt.xlabel("Number of Successes in Sample (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_hypergeometric_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
