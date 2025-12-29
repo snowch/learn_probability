@@ -94,10 +94,10 @@ plt.style.use('seaborn-v0_8-whitegrid')
 die_values = np.arange(1, 7) # Possible values x: 1, 2, 3, 4, 5, 6
 die_probs = np.array([1/6] * 6) # P(X=x) for each value
 
-# Create a dictionary for easier lookup
-die_pmf_dict = {val: prob for val, prob in zip(die_values, die_probs)}
+# Create a dictionary for easier lookup (convert to native Python types for cleaner display)
+die_pmf_dict = {int(val): float(prob) for val, prob in zip(die_values, die_probs)}
 print(f"PMF Dictionary: {die_pmf_dict}")
-print(f"Sum of probabilities: {sum(die_pmf_dict.values())}")
+print(f"Sum of probabilities: {sum(die_pmf_dict.values()):.10f}")
 ```
 :::
 
@@ -538,8 +538,8 @@ y_values = g(x_values)
 # PMF for Y (since g(x) is one-to-one for x in {1..6}, probs are the same)
 y_probs = die_probs
 
-# PMF dictionary for Y
-y_pmf_dict = {val_y: prob for val_y, prob in zip(y_values, y_probs)}
+# PMF dictionary for Y (convert to native Python types for cleaner display)
+y_pmf_dict = {int(val_y): float(prob) for val_y, prob in zip(y_values, y_probs)}
 print(f"PMF Dictionary for Y=X^2: {y_pmf_dict}")
 
 # Calculate E[Y] using the PMF of Y
