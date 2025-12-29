@@ -53,6 +53,8 @@ $$ P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} $$
 
 **Example:** Modeling the outcome of a single customer purchase where the probability of purchase ($p$) is 0.1.
 
+Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
@@ -119,6 +121,8 @@ where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, represen
 **Variance:** $Var(X) = np(1-p)$
 
 **Example:** Modeling the number of successful sales calls out of $n=20$, if the probability of success ($p$) for each call is 0.15.
+
+We'll demonstrate how to use `scipy.stats.binom` to calculate PMF and CDF values, compute statistics, and generate random samples.
 
 :::{dropdown} Python Implementation
 
@@ -218,6 +222,8 @@ This means we have $k-1$ failures followed by one success.
 
 **Example:** Modeling the number of attempts needed to pass a certification exam, where the probability of passing ($p$) on any given attempt is 0.6.
 
+Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
@@ -314,6 +320,8 @@ Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts th
 
 **Example:** Modeling the number of sales calls needed to achieve $r=5$ successful sales, if the probability of success ($p$) per call is 0.15.
 
+We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
@@ -408,6 +416,8 @@ where $e \approx 2.71828$ is Euler's number.
 Note: The mean and variance are equal in a Poisson distribution.
 
 **Example:** Modeling the number of emails received per hour, if the average rate ($\lambda$) is 5 emails/hour.
+
+Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
 :::{dropdown} Python Implementation
 
@@ -504,6 +514,8 @@ The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \
 
 **Example:** Modeling the number of winning lottery tickets ($k$) in a sample of $n=10$ tickets drawn from a box containing $N=100$ tickets, where $K=20$ are winners.
 
+We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
@@ -580,6 +592,8 @@ Understanding the connections between these distributions can deepen insight and
 
 **Example: Poisson approximation to Binomial**
 Consider $Binomial(n=1000, p=0.005)$. Here $n$ is large, $p$ is small. The mean is $\lambda = np = 1000 \times 0.005 = 5$. We can approximate this with $Poisson(\lambda=5)$.
+
+Let's compare the PMF values of both distributions to see how well the Poisson approximation works in practice.
 
 :::{dropdown} Python Implementation
 
