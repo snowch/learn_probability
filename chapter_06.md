@@ -174,6 +174,10 @@ Let's calculate and visualize the CDF.
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+# Setup: Define die values and probabilities
+die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
+die_probs = np.array([1/6] * 6)  # Equal probability for fair die
+
 # Calculate the CDF values
 die_cdf_values = np.cumsum(die_probs)
 print(f"CDF Values: {die_cdf_values}")
@@ -264,6 +268,10 @@ Even though the die can never land on 3.5, the long-run average value of many ro
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+# Setup: Define die values and probabilities
+die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
+die_probs = np.array([1/6] * 6)  # Equal probability for fair die
+
 # Calculate the expected value
 expected_value = np.sum(die_values * die_probs)
 # Alternatively using dot product:
@@ -369,6 +377,11 @@ $$
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+# Setup: Define die values and probabilities
+die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
+die_probs = np.array([1/6] * 6)  # Equal probability for fair die
+expected_value = np.sum(die_values * die_probs)  # E[X] = 3.5
+
 # Calculate E[X^2]
 e_x_squared = np.sum((die_values**2) * die_probs)
 print(f"E[X^2]: {e_x_squared:.4f} (Exact: 91/6)")
@@ -576,6 +589,13 @@ We will:
 5.  Visualize the empirical CDF and compare it to the theoretical CDF.
 
 ```{code-cell} ipython3
+# Setup: Calculate theoretical values
+die_values = np.arange(1, 7)
+die_probs = np.array([1/6] * 6)
+expected_value = np.sum(die_values * die_probs)  # E[X] = 3.5
+variance = np.sum((die_values**2) * die_probs) - expected_value**2  # Var(X) = 35/12
+std_dev = np.sqrt(variance)  # SD(X)
+
 # Number of simulations
 num_simulations = 10000
 
