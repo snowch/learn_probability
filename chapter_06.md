@@ -89,6 +89,9 @@ plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
 :::{dropdown} Python Implementation
+
+This code creates the PMF for a fair die by defining the possible values and their probabilities. We use a dictionary to represent the PMF for easy lookup and verify that probabilities sum to 1.
+
 ```{code-cell} ipython3
 from pprint import pprint
 
@@ -176,6 +179,9 @@ $$
 Let's calculate and visualize the CDF.
 
 :::{dropdown} Python Implementation
+
+This code demonstrates how to calculate the CDF by cumulatively summing the PMF values. We then create a function `die_cdf_func(x)` that can evaluate the CDF at any point, handling values below 1, above 6, and in between.
+
 ```{code-cell} ipython3
 from pprint import pprint
 
@@ -276,6 +282,9 @@ Even though the die can never land on 3.5, the long-run average value of many ro
 :::
 
 :::{dropdown} Python Implementation
+
+This code calculates the expected value using the formula $E[X] = \sum x \cdot p_X(x)$. We use `np.sum()` to compute the weighted sum of values times probabilities.
+
 ```{code-cell} ipython3
 # Setup: Define die values and probabilities
 die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
@@ -385,6 +394,9 @@ $$
 :::
 
 :::{dropdown} Python Implementation
+
+This code calculates variance using the computational formula $Var(X) = E[X^2] - (E[X])^2$. We also show the alternative calculation using the definition $E[(X - \mu)^2]$ to verify they give the same result.
+
 ```{code-cell} ipython3
 # Setup: Define die values and probabilities
 die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
@@ -531,6 +543,9 @@ This confirms our earlier calculation of $E[X^2]$.
 :::
 
 :::{dropdown} Python Implementation
+
+This code demonstrates two methods for calculating $E[Y]$ where $Y = X^2$: first by finding the PMF of $Y$ and using it directly, and second by using LOTUS to calculate directly from $X$ without finding the PMF of $Y$. Both methods give the same result.
+
 ```{code-cell} ipython3
 from pprint import pprint
 
