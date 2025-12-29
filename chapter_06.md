@@ -202,7 +202,8 @@ def die_cdf_func(x):
     elif x >= 6:
         return 1.0
     else:
-        # Find the largest integer <= x that is in our die_values
+        # For values between die outcomes, CDF remains constant at the last "step"
+        # So we find which die value we've passed and return that CDF value
         idx = np.searchsorted(die_values, x, side='right') - 1
         return die_cdf_values[idx]
 
