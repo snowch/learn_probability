@@ -552,16 +552,12 @@ num_simulations = 10000
 
 # Simulate die rolls
 simulated_rolls = np.random.randint(1, 7, size=num_simulations)
-```
 
-```{code-cell} ipython3
 # Calculate empirical mean and variance
 sample_mean = np.mean(simulated_rolls)
 sample_variance = np.var(simulated_rolls, ddof=1)  # ddof=1 for unbiased estimator
 sample_std_dev = np.std(simulated_rolls, ddof=1)
-```
 
-```{code-cell} ipython3
 # Compare empirical vs theoretical
 print(f"--- Comparison after {num_simulations} simulations ---")
 print(f"Theoretical E[X]: {expected_value:.4f}")
