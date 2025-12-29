@@ -22,13 +22,14 @@ We'll examine the scenarios each distribution models, their key characteristics 
 Let's import the necessary libraries first.
 
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
 
 # Configure plots
 plt.style.use('seaborn-v0_8-whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
 ```
 
 ## 1. Bernoulli Distribution
@@ -51,6 +52,8 @@ $$ P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} $$
 **Variance:** $Var(X) = p(1-p)$
 
 **Example:** Modeling the outcome of a single customer purchase where the probability of purchase ($p$) is 0.1.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.bernoulli
@@ -77,20 +80,27 @@ samples = bernoulli_rv.rvs(size=n_samples)
 print(f"\n{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase): {samples}")
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the PMF
 k_values = [0, 1]
 pmf_values = bernoulli_rv.pmf(k_values)
-```
 
-```{code-cell} ipython3
-plt.bar(k_values, pmf_values, tick_label=["No Purchase (0)", "Purchase (1)"])
+plt.figure(figsize=(8, 4))
+plt.bar(k_values, pmf_values, tick_label=["No Purchase (0)", "Purchase (1)"], color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Bernoulli PMF (p={p_purchase})")
 plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
++++
 
 ## 2. Binomial Distribution
 
@@ -113,6 +123,8 @@ where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, represen
 **Variance:** $Var(X) = np(1-p)$
 
 **Example:** Modeling the number of successful sales calls out of $n=20$, if the probability of success ($p$) for each call is 0.15.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.binom
@@ -151,33 +163,42 @@ samples = binomial_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of successes in {n_calls} calls ({n_simulations} simulations): {samples[:20]}...") # Print first 20
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the PMF
 k_values = np.arange(0, n_calls + 1)
 pmf_values = binomial_rv.pmf(k_values)
-```
 
-```{code-cell} ipython3
-plt.bar(k_values, pmf_values)
+plt.figure(figsize=(8, 4))
+plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Binomial PMF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the CDF
 cdf_values = binomial_rv.cdf(k_values)
-```
 
-```{code-cell} ipython3
-plt.step(k_values, cdf_values, where='post')
+plt.figure(figsize=(8, 4))
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
++++
 
 ## 3. Geometric Distribution
 
@@ -197,9 +218,15 @@ This means we have $k-1$ failures followed by one success.
 **Mean:** $E[X] = \frac{1}{p}$
 **Variance:** $Var(X) = \frac{1-p}{p^2}$
 
-*Note*: `scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$). This shifts the distribution by 1 compared to the definition above where $k$ is the trial number ($k=1, 2, 3, ...$). We'll use the `scipy` definition ($k=0, 1, 2, ...$) in the code examples, but state results in terms of the trial number ($k+1$).
+:::{admonition} Note
+:class: note
+
+`scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$). This shifts the distribution by 1 compared to the definition above where $k$ is the trial number ($k=1, 2, 3, ...$). We'll use the `scipy` definition ($k=0, 1, 2, ...$) in the code examples, but state results in terms of the trial number ($k+1$).
+:::
 
 **Example:** Modeling the number of attempts needed to pass a certification exam, where the probability of passing ($p$) on any given attempt is 0.6.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.geom
@@ -253,20 +280,27 @@ samples_trials = samples_failures + 1
 # print(f"\nSimulated number of attempts until first pass ({n_simulations} simulations): {samples_trials[:20]}...")
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the PMF (using trial number k=1, 2, ...)
 k_values_trials = np.arange(1, 11) # Plot first 10 trials
 pmf_values = geom_rv.pmf(k_values_trials - 1) # Adjust k for scipy
-```
 
-```{code-cell} ipython3
-plt.bar(k_values_trials, pmf_values)
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_trials, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Geometric PMF (p={p_pass}) - Trial number of first success")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_trials)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
++++
 
 ## 4. Negative Binomial Distribution
 
@@ -288,9 +322,15 @@ This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th tri
 **Mean:** $E[X] = \frac{r}{p}$
 **Variance:** $Var(X) = \frac{r(1-p)}{p^2}$
 
-*Note*: Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts the number of *failures* ($k$) that occur before the $r$-th success. So, the total number of trials in our definition is $k + r$ in SciPy's terms. We'll use the `scipy` definition ($k=0, 1, 2, ...$ failures) in the code, stating results in terms of the total number of trials.
+:::{admonition} Note
+:class: note
+
+Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts the number of *failures* ($k$) that occur before the $r$-th success. So, the total number of trials in our definition is $k + r$ in SciPy's terms. We'll use the `scipy` definition ($k=0, 1, 2, ...$ failures) in the code, stating results in terms of the total number of trials.
+:::
 
 **Example:** Modeling the number of sales calls needed to achieve $r=5$ successful sales, if the probability of success ($p$) per call is 0.15.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.nbinom
@@ -354,20 +394,26 @@ samples_trials_nb = samples_failures_nb + r_successes_target
 # print(f"\nSimulated trials needed for {r_successes_target} successes ({n_simulations} sims): {samples_trials_nb[:20]}...")
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the PMF (using total trial number k = r, r+1, ...)
 k_values_trials_nb = np.arange(r_successes_target, r_successes_target + 100) # Plot a range of trials
 pmf_values_nb = nbinom_rv.pmf(k_values_trials_nb - r_successes_target) # Adjust k for scipy
-```
 
-```{code-cell} ipython3
-plt.bar(k_values_trials_nb, pmf_values_nb)
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_trials_nb, pmf_values_nb, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Negative Binomial PMF (r={r_successes_target}, p={p_success_call}) - Total trials")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
-# plt.xticks(k_values_trials_nb[::5]) # Show fewer ticks if crowded
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
++++
 
 ## 5. Poisson Distribution
 
@@ -388,6 +434,8 @@ where $e \approx 2.71828$ is Euler's number.
 Note: The mean and variance are equal in a Poisson distribution.
 
 **Example:** Modeling the number of emails received per hour, if the average rate ($\lambda$) is 5 emails/hour.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.poisson
@@ -423,35 +471,44 @@ samples = poisson_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of emails per hour ({n_simulations} simulations): {samples[:20]}...")
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the PMF
 k_values = np.arange(0, 16) # Plot for k=0 to 15
 pmf_values = poisson_rv.pmf(k_values)
-```
 
-```{code-cell} ipython3
-plt.bar(k_values, pmf_values)
+plt.figure(figsize=(8, 4))
+plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Poisson PMF (lambda={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the CDF
 cdf_values = poisson_rv.cdf(k_values)
-```
 
-```{code-cell} ipython3
-plt.step(k_values, cdf_values, where='post')
+plt.figure(figsize=(8, 4))
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Poisson CDF (lambda={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
++++
 
 ## 6. Hypergeometric Distribution
 
@@ -475,6 +532,8 @@ This represents (ways to choose $k$ successes from $K$) * (ways to choose $n-k$ 
 The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this factor approaches 1, and the Hypergeometric distribution approaches the Binomial distribution with $p = K/N$.
 
 **Example:** Modeling the number of winning lottery tickets ($k$) in a sample of $n=10$ tickets drawn from a box containing $N=100$ tickets, where $K=20$ are winners.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.hypergeom
@@ -523,23 +582,30 @@ samples = hypergeom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of winning tickets ({n_simulations} simulations): {samples[:20]}...")
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the PMF
 # Determine possible k values: max(0, n-(N-K)) <= k <= min(n, K)
 min_k = max(0, n_sample - (N_population - K_successes_pop))
 max_k = min(n_sample, K_successes_pop)
 k_values = np.arange(min_k, max_k + 1)
 pmf_values = hypergeom_rv.pmf(k_values)
-```
 
-```{code-cell} ipython3
-plt.bar(k_values, pmf_values)
+plt.figure(figsize=(8, 4))
+plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Hypergeometric PMF (N={N_population}, K={K_successes_pop}, n={n_sample})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_hypergeometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
++++
 
 ## 7. Relationships Between Distributions
 
@@ -555,6 +621,8 @@ Understanding the connections between these distributions can deepen insight and
 
 **Example: Poisson approximation to Binomial**
 Consider $Binomial(n=1000, p=0.005)$. Here $n$ is large, $p$ is small. The mean is $\lambda = np = 1000 \times 0.005 = 5$. We can approximate this with $Poisson(\lambda=5)$.
+
+:::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 n_binom_approx = 1000
@@ -581,175 +649,195 @@ for k, bp, pp in zip(k_vals_compare, binom_pmf, poisson_pmf):
     print(f"{k}\t{bp:.6f}\t{pp:.6f}\t{abs(bp-pp):.6f}")
 ```
 
+:::
+
 ```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
 # Plotting the comparison
-plt.figure(figsize=(12, 7))
-plt.bar(k_vals_compare - 0.2, binom_pmf, width=0.4, label=f'Binomial(n={n_binom_approx}, p={p_binom_approx})', align='center')
-plt.bar(k_vals_compare + 0.2, poisson_pmf, width=0.4, label=f'Poisson(lambda={lambda_approx:.1f})', align='center', color='orange', alpha=0.7)
+plt.figure(figsize=(10, 5))
+plt.bar(k_vals_compare - 0.2, binom_pmf, width=0.4, label=f'Binomial(n={n_binom_approx}, p={p_binom_approx})', align='center', color='skyblue', edgecolor='black', alpha=0.7)
+plt.bar(k_vals_compare + 0.2, poisson_pmf, width=0.4, label=f'Poisson(lambda={lambda_approx:.1f})', align='center', color='lightcoral', edgecolor='black', alpha=0.7)
 plt.title("Poisson Approximation to Binomial")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.xticks(k_vals_compare)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.legend()
+plt.savefig('ch07_poisson_binomial_approximation.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
-## 8. Hands-on Exercises
++++
 
-Now, let's apply what we've learned using `scipy.stats`.
+## Exercises
 
-**Exercise 1: Customer Arrivals**
-The average number of customers arriving at a small cafe is 10 per hour. Assume arrivals follow a Poisson distribution.
-a) What is the probability that exactly 8 customers arrive in a given hour?
-b) What is the probability that 12 or fewer customers arrive in a given hour?
-c) What is the probability that more than 15 customers arrive in a given hour?
-d) Simulate 1000 hours of customer arrivals and plot a histogram of the results. Compare it to the theoretical PMF.
+1. **Customer Arrivals:** The average number of customers arriving at a small cafe is 10 per hour. Assume arrivals follow a Poisson distribution.
+    a. What is the probability that exactly 8 customers arrive in a given hour?
+    b. What is the probability that 12 or fewer customers arrive in a given hour?
+    c. What is the probability that more than 15 customers arrive in a given hour?
+    d. Simulate 1000 hours of customer arrivals and plot a histogram of the results. Compare it to the theoretical PMF.
 
-**Exercise 2: Quality Control**
-A batch contains 50 items, of which 5 are defective. You randomly sample 8 items without replacement.
-a) What distribution models the number of defective items in your sample? State the parameters.
-b) What is the probability that exactly 1 item in your sample is defective?
-c) What is the probability that at most 2 items in your sample are defective?
-d) What is the expected number of defective items in your sample?
+    ```{admonition} Answer
+    :class: dropdown
 
-**Exercise 3: Website Success**
-A new website feature has a 3% chance of being used by a visitor ($p=0.03$). Assume visitors are independent.
-a) If 100 visitors come to the site, what is the probability that exactly 3 visitors use the feature? What distribution applies?
-b) What is the probability that 5 or fewer visitors use the feature out of 100?
-c) What is the expected number of users out of 100 visitors?
-d) A developer tests the feature repeatedly until the first user successfully uses it. What is the probability that the first success occurs on the 20th visitor? What distribution applies?
-e) What is the expected number of visitors needed to see the first success?
-f) How many visitors are expected until the 5th user is observed? What distribution applies?
+    a) Using the Poisson distribution with $\lambda = 10$:
 
-```{code-cell} ipython3
-# Exercise 1: Customer Arrivals (Poisson)
-lambda_cafe = 10
-cafe_rv = stats.poisson(mu=lambda_cafe)
-```
+    ```{code-cell} ipython3
+    lambda_cafe = 10
+    cafe_rv = stats.poisson(mu=lambda_cafe)
+    prob_8 = cafe_rv.pmf(8)
+    print(f"P(Exactly 8 customers) = {prob_8:.4f}")
+    ```
 
-```{code-cell} ipython3
-# a) P(X=8)
-prob_8 = cafe_rv.pmf(8)
-print(f"1a) P(Exactly 8 customers) = {prob_8:.4f}")
-```
+    b) The probability of 12 or fewer customers:
 
-```{code-cell} ipython3
-# b) P(X <= 12)
-prob_12_or_fewer = cafe_rv.cdf(12)
-print(f"1b) P(12 or fewer customers) = {prob_12_or_fewer:.4f}")
-```
+    ```{code-cell} ipython3
+    prob_12_or_fewer = cafe_rv.cdf(12)
+    print(f"P(12 or fewer customers) = {prob_12_or_fewer:.4f}")
+    ```
 
-```{code-cell} ipython3
-# c) P(X > 15) = 1 - P(X <= 15) or sf(15)
-prob_over_15 = cafe_rv.sf(15)
-print(f"1c) P(More than 15 customers) = {prob_over_15:.4f}")
-```
+    c) The probability of more than 15 customers:
 
-```{code-cell} ipython3
-# d) Simulation
-n_sim_hours = 1000
-sim_arrivals = cafe_rv.rvs(size=n_sim_hours)
-```
+    ```{code-cell} ipython3
+    prob_over_15 = cafe_rv.sf(15)
+    print(f"P(More than 15 customers) = {prob_over_15:.4f}")
+    ```
 
-```{code-cell} ipython3
-plt.figure(figsize=(12, 7))
-max_observed = np.max(sim_arrivals)
-bins = np.arange(0, max_observed + 2) - 0.5 # Center bins on integers
-plt.hist(sim_arrivals, bins=bins, density=True, alpha=0.6, label='Simulated Arrivals')
+    d) Simulation and visualization:
 
-# Overlay theoretical PMF
-k_vals_cafe = np.arange(0, max_observed + 1)
-pmf_cafe = cafe_rv.pmf(k_vals_cafe)
-plt.plot(k_vals_cafe, pmf_cafe, 'ro-', label='Theoretical PMF')
+    ```{code-cell} ipython3
+    n_sim_hours = 1000
+    sim_arrivals = cafe_rv.rvs(size=n_sim_hours)
 
-plt.title(f'Simulated Customer Arrivals (n={n_sim_hours}) vs Poisson PMF (lambda={lambda_cafe})')
-plt.xlabel('Number of Customers per Hour')
-plt.ylabel('Probability / Density')
-plt.legend()
-plt.xlim(-0.5, max_observed + 1.5)
-plt.show()
-```
+    plt.figure(figsize=(10, 5))
+    max_observed = np.max(sim_arrivals)
+    bins = np.arange(0, max_observed + 2) - 0.5
+    plt.hist(sim_arrivals, bins=bins, density=True, alpha=0.6, color='lightgreen', edgecolor='black', label='Simulated Arrivals')
 
-```{code-cell} ipython3
-# Exercise 2: Quality Control (Hypergeometric)
-N_qc = 50 # Population size
-K_qc = 5  # Successes in population (defectives)
-n_qc = 8  # Sample size
-```
+    # Overlay theoretical PMF
+    k_vals_cafe = np.arange(0, max_observed + 1)
+    pmf_cafe = cafe_rv.pmf(k_vals_cafe)
+    plt.plot(k_vals_cafe, pmf_cafe, 'ro-', linewidth=2, markersize=6, label='Theoretical PMF')
 
-```{code-cell} ipython3
-# a) Distribution: Hypergeometric(M=50, n=5, N=8) using scipy notation
-qc_rv = stats.hypergeom(M=N_qc, n=K_qc, N=n_qc)
-print(f"2a) Distribution: Hypergeometric(N={N_qc}, K={K_qc}, n={n_qc})")
-```
+    plt.title(f'Simulated Customer Arrivals vs Poisson PMF (lambda={lambda_cafe})')
+    plt.xlabel('Number of Customers per Hour')
+    plt.ylabel('Probability / Density')
+    plt.legend()
+    plt.grid(axis='y', linestyle='--', alpha=0.6)
+    plt.xlim(-0.5, max_observed + 1.5)
+    plt.show()
+    ```
 
-```{code-cell} ipython3
-# b) P(X=1)
-prob_1_defective = qc_rv.pmf(1)
-print(f"2b) P(Exactly 1 defective in sample) = {prob_1_defective:.4f}")
-```
+    The histogram closely matches the theoretical PMF, confirming the Poisson model.
+    ```
 
-```{code-cell} ipython3
-# c) P(X <= 2)
-prob_at_most_2 = qc_rv.cdf(2)
-print(f"2c) P(At most 2 defectives in sample) = {prob_at_most_2:.4f}")
-```
+2. **Quality Control:** A batch contains 50 items, of which 5 are defective. You randomly sample 8 items without replacement.
+    a. What distribution models the number of defective items in your sample? State the parameters.
+    b. What is the probability that exactly 1 item in your sample is defective?
+    c. What is the probability that at most 2 items in your sample are defective?
+    d. What is the expected number of defective items in your sample?
 
-```{code-cell} ipython3
-# d) Expected number of defectives E[X] = n * (K/N)
-expected_defective = qc_rv.mean()
-print(f"2d) Expected number of defectives in sample = {expected_defective:.4f}")
-# Theoretical check: 8 * (5 / 50) = 8 * 0.1 = 0.8
-```
+    ```{admonition} Answer
+    :class: dropdown
 
-```{code-cell} ipython3
-# Exercise 3: Website Success (Binomial, Geometric, Negative Binomial)
-p_ws = 0.03 # Probability of success (using feature)
-n_ws = 100 # Number of visitors (trials)
-```
+    a) This follows a Hypergeometric distribution since we're sampling without replacement from a finite population. The parameters are: $N=50$ (population size), $K=5$ (defective items in population), $n=8$ (sample size).
 
-```{code-cell} ipython3
-# a) P(X=3) out of 100. Distribution: Binomial(n=100, p=0.03)
-ws_binom_rv = stats.binom(n=n_ws, p=p_ws)
-prob_3_users = ws_binom_rv.pmf(3)
-print(f"3a) Distribution: Binomial(n={n_ws}, p={p_ws}). P(Exactly 3 users) = {prob_3_users:.4f}")
-```
+    ```{code-cell} ipython3
+    N_qc = 50
+    K_qc = 5
+    n_qc = 8
+    qc_rv = stats.hypergeom(M=N_qc, n=K_qc, N=n_qc)
+    print(f"Distribution: Hypergeometric(N={N_qc}, K={K_qc}, n={n_qc})")
+    ```
 
-```{code-cell} ipython3
-# b) P(X <= 5) out of 100
-prob_5_or_fewer = ws_binom_rv.cdf(5)
-print(f"3b) P(5 or fewer users) = {prob_5_or_fewer:.4f}")
-```
+    b) Probability of exactly 1 defective item:
 
-```{code-cell} ipython3
-# c) Expected users out of 100: E[X] = n*p
-expected_users = ws_binom_rv.mean()
-print(f"3c) Expected number of users = {expected_users:.2f}")
-```
+    ```{code-cell} ipython3
+    prob_1_defective = qc_rv.pmf(1)
+    print(f"P(Exactly 1 defective in sample) = {prob_1_defective:.4f}")
+    ```
 
-```{code-cell} ipython3
-# d) P(First success on 20th visitor). Distribution: Geometric(p=0.03)
-# Remember scipy.geom counts failures *before* first success. Trial 20 means 19 failures.
-ws_geom_rv = stats.geom(p=p_ws)
-prob_first_on_20 = ws_geom_rv.pmf(19) # k=19 failures
-print(f"3d) Distribution: Geometric(p={p_ws}). P(First success on trial 20) = {prob_first_on_20:.4f}")
-```
+    c) Probability of at most 2 defective items:
 
-```{code-cell} ipython3
-# e) Expected visitors for first success: E[X] = 1/p
-expected_trials_geom = 1 / p_ws
-# Using scipy mean (failures) + 1: ws_geom_rv.mean() + 1
-print(f"3e) Expected visitors until first success = {expected_trials_geom:.2f}")
-```
+    ```{code-cell} ipython3
+    prob_at_most_2 = qc_rv.cdf(2)
+    print(f"P(At most 2 defectives in sample) = {prob_at_most_2:.4f}")
+    ```
 
-```{code-cell} ipython3
-# f) Expected visitors for 5th success. Distribution: Negative Binomial(r=5, p=0.03)
-# Expected trials E[X] = r/p
-r_ws = 5
-expected_trials_nbinom = r_ws / p_ws
-# Using scipy mean (failures) + r: stats.nbinom(n=r_ws, p=p_ws).mean() + r_ws
-print(f"3f) Distribution: Negative Binomial(r={r_ws}, p={p_ws}). Expected visitors until 5th success = {expected_trials_nbinom:.2f}")
-```
+    d) Expected number of defective items:
+
+    ```{code-cell} ipython3
+    expected_defective = qc_rv.mean()
+    print(f"Expected number of defectives in sample = {expected_defective:.4f}")
+    # Theoretical: E[X] = n * (K/N) = 8 * (5/50) = 0.8
+    ```
+    ```
+
+3. **Website Success:** A new website feature has a 3% chance of being used by a visitor ($p=0.03$). Assume visitors are independent.
+    a. If 100 visitors come to the site, what is the probability that exactly 3 visitors use the feature? What distribution applies?
+    b. What is the probability that 5 or fewer visitors use the feature out of 100?
+    c. What is the expected number of users out of 100 visitors?
+    d. A developer tests the feature repeatedly until the first user successfully uses it. What is the probability that the first success occurs on the 20th visitor? What distribution applies?
+    e. What is the expected number of visitors needed to see the first success?
+    f. How many visitors are expected until the 5th user is observed? What distribution applies?
+
+    ```{admonition} Answer
+    :class: dropdown
+
+    a) This follows a Binomial distribution with $n=100$ trials and $p=0.03$:
+
+    ```{code-cell} ipython3
+    p_ws = 0.03
+    n_ws = 100
+    ws_binom_rv = stats.binom(n=n_ws, p=p_ws)
+    prob_3_users = ws_binom_rv.pmf(3)
+    print(f"Distribution: Binomial(n={n_ws}, p={p_ws})")
+    print(f"P(Exactly 3 users) = {prob_3_users:.4f}")
+    ```
+
+    b) Probability of 5 or fewer users:
+
+    ```{code-cell} ipython3
+    prob_5_or_fewer = ws_binom_rv.cdf(5)
+    print(f"P(5 or fewer users) = {prob_5_or_fewer:.4f}")
+    ```
+
+    c) Expected number of users:
+
+    ```{code-cell} ipython3
+    expected_users = ws_binom_rv.mean()
+    print(f"Expected number of users = {expected_users:.2f}")
+    # Theoretical: E[X] = n*p = 100 * 0.03 = 3
+    ```
+
+    d) This follows a Geometric distribution. The probability that the first success occurs on trial 20:
+
+    ```{code-cell} ipython3
+    ws_geom_rv = stats.geom(p=p_ws)
+    prob_first_on_20 = ws_geom_rv.pmf(19)  # scipy counts 19 failures before success
+    print(f"Distribution: Geometric(p={p_ws})")
+    print(f"P(First success on trial 20) = {prob_first_on_20:.4f}")
+    ```
+
+    e) Expected number of visitors until first success:
+
+    ```{code-cell} ipython3
+    expected_trials_geom = 1 / p_ws
+    print(f"Expected visitors until first success = {expected_trials_geom:.2f}")
+    # Theoretical: E[X] = 1/p = 1/0.03 ≈ 33.33
+    ```
+
+    f) This follows a Negative Binomial distribution with $r=5$ successes:
+
+    ```{code-cell} ipython3
+    r_ws = 5
+    expected_trials_nbinom = r_ws / p_ws
+    print(f"Distribution: Negative Binomial(r={r_ws}, p={p_ws})")
+    print(f"Expected visitors until 5th success = {expected_trials_nbinom:.2f}")
+    # Theoretical: E[X] = r/p = 5/0.03 ≈ 166.67
+    ```
+    ```
 
 ## Summary
 
