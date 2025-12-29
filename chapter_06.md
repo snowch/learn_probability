@@ -193,7 +193,7 @@ die_probs = np.array([1/6] * 6)  # Equal probability for fair die
 die_cdf_values = np.cumsum(die_probs)
 print("CDF Values:")
 for i, cdf_val in enumerate(die_cdf_values, start=1):
-    print(f"  F(X <= {i}) = {cdf_val:.8f}")
+    print(f"  F({i}) = {cdf_val:.4f}")
 
 # Create a function representation of the CDF
 def die_cdf_func(x):
@@ -207,12 +207,11 @@ def die_cdf_func(x):
         idx = np.searchsorted(die_values, x, side='right') - 1
         return die_cdf_values[idx]
 
-# Test the function
-print(f"\nF(0.5) = {die_cdf_func(0.5)}")
-print(f"F(3) = {die_cdf_func(3)}")
-print(f"F(3.7) = {die_cdf_func(3.7)}")
-print(f"F(6) = {die_cdf_func(6)}")
-print(f"F(10) = {die_cdf_func(10)}")
+# Test the function at non-integer values to see step function behavior
+print("\nTesting CDF between steps:")
+print(f"  F(0.5) = {die_cdf_func(0.5):.4f}  (before first outcome)")
+print(f"  F(3.7) = {die_cdf_func(3.7):.4f}  (between 3 and 4, stays at F(3))")
+print(f"  F(10)  = {die_cdf_func(10):.4f}  (after last outcome)")
 ```
 :::
 
