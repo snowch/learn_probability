@@ -424,16 +424,35 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer succe
 
 The Geometric distribution models the number of independent Bernoulli trials needed to get the *first* success.
 
-- **Scenario**: The number of coin flips until the first Head appears, the number of job applications until the first interview offer, the number of attempts needed to pass a certification exam, the number of customers contacted before making the first sale, the number of at-bats until a baseball player gets their first hit.
-- **Parameter**: $p$, the probability of success on each trial ($0 < p \le 1$).
-- **Random Variable**: $X$, the number of trials required to achieve the first success. $X$ can take values $k = 1, 2, 3, ...$.
+**Concrete Example**
 
-**PMF:**
-The probability that the first success occurs on the $k$-th trial is:
+You're shooting free throws until you make your first basket. Each shot has a 0.4 probability of success. How many shots will it take to make your first basket?
+
+We model this with a random variable $X$:
+- $X$ = the trial number on which the first success occurs
+- $X$ can take values 1, 2, 3, ... (first shot, second shot, etc.)
+
+The probabilities are:
+- $P(X = 1)$ = make it on first shot = 0.4
+- $P(X = 2)$ = miss first, make second = $(1-0.4) \times 0.4 = 0.24$
+- $P(X = 3)$ = miss first two, make third = $(1-0.4)^2 \times 0.4 = 0.144$
+
+**The Geometric PMF**
+
+For trials with success probability $p$:
 
 $$ P(X=k) = (1-p)^{k-1} p \quad \text{for } k = 1, 2, 3, \dots $$
 
-This means we have $k-1$ failures followed by one success.
+This means $k-1$ failures followed by one success.
+
+Let's verify for our example (p=0.4):
+- $P(X=2) = (0.6)^1 (0.4) = 0.24$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Coin flips until first Head, job applications until first offer, attempts to pass an exam, at-bats until first hit
+- **Parameter**: $p$, probability of success on each trial ($0 < p \le 1$)
+- **Random Variable**: $X \in \{1, 2, 3, ...\}$
 
 **Mean:** $E[X] = \frac{1}{p}$
 
@@ -442,10 +461,64 @@ This means we have $k-1$ failures followed by one success.
 :::{admonition} Note
 :class: note
 
-`scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$). This shifts the distribution by 1 compared to the definition above where $k$ is the trial number ($k=1, 2, 3, ...$). We'll use the `scipy` definition ($k=0, 1, 2, ...$) in the code examples, but state results in terms of the trial number ($k+1$).
+`scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$), which shifts by 1 from our definition. We'll use scipy's definition in code but state results in terms of trial numbers.
 :::
 
-**Example:** Modeling the number of attempts needed to pass a certification exam, where the probability of passing ($p$) on any given attempt is 0.6.
+**Visualizing the Distribution**
+
+Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Geometric distribution for visualization (p=0.4)
+p_viz = 0.4
+geom_viz = stats.geom(p=p_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(1, 11)
+pmf_values_viz = geom_viz.pmf(k_values_viz - 1)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Geometric PMF (p={p_viz})")
+plt.xlabel("Trial Number (k)")
+plt.ylabel("Probability P(X=k)")
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Geometric PMF](ch07_geometric_pmf_generic.svg)
+
+The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Geometric CDF (p={p_viz})")
+plt.xlabel("Trial Number (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Geometric CDF](ch07_geometric_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed).
+
+:::{admonition} Example: Certification Exam with p = 0.6
+:class: tip
+
+Modeling the number of attempts needed to pass a certification exam where the pass probability is 0.6.
 
 Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
 
@@ -506,7 +579,7 @@ pmf_values = geom_rv.pmf(k_values_trials - 1) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values_trials, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Geometric PMF (p={p_pass}) - Trial number of first success")
+plt.title(f"Geometric PMF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_trials)
@@ -517,7 +590,7 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
 
-The PMF shows the probability of the first success (passing the exam) occurring on each trial number. With p = 0.6 (from our example), the probabilities decrease exponentially as the number of trials increases.
+The PMF shows exponentially decreasing probabilities for the exam example with p = 0.6.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -527,7 +600,7 @@ cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
 plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
-plt.title(f"Geometric CDF (p={p_pass}) - Trial number of first success")
+plt.title(f"Geometric CDF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_trials)
@@ -538,7 +611,29 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the probability that the first success occurs on or before trial k. It increases toward 1 as k increases, since eventually success is nearly certain.
+The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You flip a coin until you get your first Heads. What distribution models this and what is the parameter?
+
+2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
+
+3. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+
+2. **E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+
+3. **1st trial is more likely** - Geometric PMF decreases exponentially, so P(X=1) > P(X=3).
+```
 
 +++
 
