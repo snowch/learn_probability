@@ -124,6 +124,76 @@ plt.show()
 
 The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 (the probability of getting outcome 0 or less), and P(X ≤ 1) = 1.0 (the probability of getting outcome 1 or less, which includes all possible outcomes).
 
+### Quick Check Questions
+
+1. A quality control inspector checks a single product. It's either defective or not defective. Which distribution models this?
+
+2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
+
+3. True or False: A Bernoulli random variable can take on values 0, 1, and 2.
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Bernoulli distribution** - This is a single trial with two possible outcomes (defective or not defective).
+
+2. **P(X = 0) = 1 - p = 1 - 0.3 = 0.7** - The probability of "failure" (outcome 0) is 1 minus the probability of "success" (outcome 1).
+
+3. **False** - A Bernoulli random variable can only take on two values: 0 or 1.
+```
+
+### Worked Examples
+
+**Example 1:** A basketball player has a 75% free throw success rate. Model a single free throw attempt.
+
+```{admonition} Solution
+:class: dropdown
+
+**Step 1: Identify the distribution**
+- Single trial? Yes (one free throw)
+- Two possible outcomes? Yes (make it or miss it)
+- This is a **Bernoulli distribution**
+
+**Step 2: Set the parameter**
+- p = 0.75 (probability of success = making the free throw)
+
+**Step 3: Answer questions**
+- P(makes the free throw) = P(X = 1) = p = 0.75
+- P(misses the free throw) = P(X = 0) = 1 - p = 0.25
+- Mean = E[X] = p = 0.75
+- Variance = Var(X) = p(1-p) = 0.75 × 0.25 = 0.1875
+```
+
+**Example 2:** A website visitor either clicks an ad or doesn't. If 5% of visitors click the ad, what's the probability that the next visitor clicks it?
+
+```{admonition} Solution
+:class: dropdown
+
+**Step 1: Identify the distribution**
+- Single trial? Yes (one visitor)
+- Two possible outcomes? Yes (click or don't click)
+- This is a **Bernoulli distribution**
+
+**Step 2: Set the parameter**
+- p = 0.05 (probability of clicking)
+
+**Step 3: Calculate**
+- P(visitor clicks) = P(X = 1) = p = 0.05
+- P(visitor doesn't click) = P(X = 0) = 1 - p = 0.95
+
+**Using Python:**
+
+\`\`\`python
+from scipy import stats
+
+p_click = 0.05
+bernoulli_rv = stats.bernoulli(p=p_click)
+
+print(f"P(click) = {bernoulli_rv.pmf(1)}")  # 0.05
+print(f"P(no click) = {bernoulli_rv.pmf(0)}")  # 0.95
+\`\`\`
+```
+
 +++
 
 ## 2. Binomial Distribution
