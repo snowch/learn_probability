@@ -478,7 +478,7 @@ Let $X$ be the outcome of a fair die roll. Let $Y = X^2$. What are the PMF and e
 
 $$
 \begin{align*}
-E[Y] &= (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}) + (9 \times \frac{1}{6}) + (16 \times \frac{1}{6}) + (25 \times \frac{1}{6}) + (36 \times \frac{1}{6}) \\
+E[Y] = \sum_{y} y \cdot p_Y(y) &= (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}) + (9 \times \frac{1}{6}) + (16 \times \frac{1}{6}) + (25 \times \frac{1}{6}) + (36 \times \frac{1}{6}) \\
 &= \frac{1+4+9+16+25+36}{6} \\
 &= \frac{91}{6}
 \end{align*}
