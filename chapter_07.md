@@ -46,15 +46,27 @@ What are the probabilities?
 
 Now here's the clever part. Notice that we can write both probabilities using a single formula. For $X = 1$:
 
-$$P(X = 1) = p^1 \cdot (1-p)^{1-1} = p^1 \cdot (1-p)^0 = p \cdot 1 = p$$
+$$
+\begin{align}
+P(X = 1) &= p^1 \cdot (1-p)^{1-1} \\
+&= p^1 \cdot (1-p)^0 \\
+&= p \cdot 1 = p
+\end{align}
+$$
 
 For $X = 0$:
 
-$$P(X = 0) = p^0 \cdot (1-p)^{1-0} = 1 \cdot (1-p)^1 = 1-p$$
+$$
+\begin{align}
+P(X = 0) &= p^0 \cdot (1-p)^{1-0} \\
+&= 1 \cdot (1-p)^1 \\
+&= 1-p
+\end{align}
+$$
 
 This gives us a general formula that works for both cases:
 
-$$P(X = k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\}$$
+$$P(X = k) = p^k (1-p)^{1-k} \text{ for } k \in \{0, 1\}$$
 
 This is the **Bernoulli distribution** - the simplest discrete distribution modeling a single trial with two possible outcomes.
 
