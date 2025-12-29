@@ -32,21 +32,43 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 ## 1. Bernoulli Distribution
 
-The Bernoulli distribution is the simplest discrete distribution. It models a single trial with only two possible outcomes, often labeled "success" (usually encoded as 1) and "failure" (usually encoded as 0).
+**Building the Formula from Scratch**
 
-- **Scenario**: A single coin flip (Heads/Tails), a single product inspection (Defective/Not Defective), a single customer interaction (Purchase/No Purchase), medical test result (Positive/Negative), free throw attempt (Make/Miss).
-- **Parameter**: $p$, the probability of success ($0 \le p \le 1$). The probability of failure is then $q = 1-p$.
-- **Random Variable**: $X$ takes value 1 (success) with probability $p$, and 0 (failure) with probability $1-p$.
+Suppose you're analyzing customer behavior at an online store. Each visitor either makes a purchase or doesn't. From your data, you know that 30% of visitors make a purchase.
 
-**PMF:**
+Let's define a random variable $X$ where:
+- $X = 1$ if the customer makes a purchase (we'll call this "success")
+- $X = 0$ if the customer doesn't purchase (we'll call this "failure")
+
+What are the probabilities?
+- $P(X = 1) = 0.3$ (the purchase probability, let's call it $p$)
+- $P(X = 0) = 0.7$ (the probability of no purchase, which is $1 - p$)
+
+Now here's the clever part. Notice that we can write both probabilities using a single formula. For $X = 1$:
+
+$$P(X = 1) = p^1 \cdot (1-p)^{1-1} = p^1 \cdot (1-p)^0 = p \cdot 1 = p$$
+
+For $X = 0$:
+
+$$P(X = 0) = p^0 \cdot (1-p)^{1-0} = 1 \cdot (1-p)^1 = 1-p$$
+
+This gives us a general formula that works for both cases:
+
+$$P(X = k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\}$$
+
+This is the **Bernoulli distribution** - the simplest discrete distribution modeling a single trial with two possible outcomes.
+
+**Key Characteristics**
+
+- **Scenarios**: Any single trial with two outcomes - coin flip (Heads/Tails), product inspection (Defective/Not Defective), medical test (Positive/Negative), free throw (Make/Miss).
+- **Parameter**: $p$, the probability of success ($0 \le p \le 1$)
+- **Random Variable**: $X \in \{0, 1\}$
+
+**PMF** (written in piecewise form):
 
 $$ P(X=k) = \begin{cases} p & \text{if } k=1 \\ 1-p & \text{if } k=0 \\ 0 & \text{otherwise} \end{cases} $$
 
-This can be written concisely as:
-
-$$ P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} $$
-
-**Mean (Expected Value):** $E[X] = p$
+**Mean:** $E[X] = p$
 
 **Variance:** $Var(X) = p(1-p)$
 
@@ -122,76 +144,24 @@ plt.show()
 
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
 
-The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 (the probability of getting outcome 0 or less), and P(X ≤ 1) = 1.0 (the probability of getting outcome 1 or less, which includes all possible outcomes).
+The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
 
-### Quick Check Questions
+**Quick Check Questions**
 
 1. A quality control inspector checks a single product. It's either defective or not defective. Which distribution models this?
 
 2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
 
-3. True or False: A Bernoulli random variable can take on values 0, 1, and 2.
+3. A basketball player has a 75% free throw success rate. If we model a single free throw, what are the mean and variance?
 
 ```{admonition} Answers
 :class: dropdown
 
-1. **Bernoulli distribution** - This is a single trial with two possible outcomes (defective or not defective).
+1. **Bernoulli distribution** - Single trial with two possible outcomes.
 
-2. **P(X = 0) = 1 - p = 1 - 0.3 = 0.7** - The probability of "failure" (outcome 0) is 1 minus the probability of "success" (outcome 1).
+2. **P(X = 0) = 1 - p = 0.7** - The probability of failure is 1 - p.
 
-3. **False** - A Bernoulli random variable can only take on two values: 0 or 1.
-```
-
-### Worked Examples
-
-**Example 1:** A basketball player has a 75% free throw success rate. Model a single free throw attempt.
-
-```{admonition} Solution
-:class: dropdown
-
-**Step 1: Identify the distribution**
-- Single trial? Yes (one free throw)
-- Two possible outcomes? Yes (make it or miss it)
-- This is a **Bernoulli distribution**
-
-**Step 2: Set the parameter**
-- p = 0.75 (probability of success = making the free throw)
-
-**Step 3: Answer questions**
-- P(makes the free throw) = P(X = 1) = p = 0.75
-- P(misses the free throw) = P(X = 0) = 1 - p = 0.25
-- Mean = E[X] = p = 0.75
-- Variance = Var(X) = p(1-p) = 0.75 × 0.25 = 0.1875
-```
-
-**Example 2:** A website visitor either clicks an ad or doesn't. If 5% of visitors click the ad, what's the probability that the next visitor clicks it?
-
-```{admonition} Solution
-:class: dropdown
-
-**Step 1: Identify the distribution**
-- Single trial? Yes (one visitor)
-- Two possible outcomes? Yes (click or don't click)
-- This is a **Bernoulli distribution**
-
-**Step 2: Set the parameter**
-- p = 0.05 (probability of clicking)
-
-**Step 3: Calculate**
-- P(visitor clicks) = P(X = 1) = p = 0.05
-- P(visitor doesn't click) = P(X = 0) = 1 - p = 0.95
-
-**Using Python:**
-
-\`\`\`python
-from scipy import stats
-
-p_click = 0.05
-bernoulli_rv = stats.bernoulli(p=p_click)
-
-print(f"P(click) = {bernoulli_rv.pmf(1)}")  # 0.05
-print(f"P(no click) = {bernoulli_rv.pmf(0)}")  # 0.95
-\`\`\`
+3. **Mean = 0.75, Variance = 0.75 × 0.25 = 0.1875** - Use E[X] = p and Var(X) = p(1-p).
 ```
 
 +++
