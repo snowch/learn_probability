@@ -90,14 +90,17 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+from pprint import pprint
+
 # Define the possible outcomes (values) and their probabilities for the die roll
 die_values = np.arange(1, 7) # Possible values x: 1, 2, 3, 4, 5, 6
 die_probs = np.array([1/6] * 6) # P(X=x) for each value
 
 # Create a dictionary for easier lookup
 die_pmf_dict = {val: prob for val, prob in zip(die_values, die_probs)}
-print(f"PMF Dictionary: {die_pmf_dict}")
-print(f"Sum of probabilities: {sum(die_pmf_dict.values())}")
+print("PMF Dictionary:")
+pprint(die_pmf_dict)
+print(f"\nSum of probabilities: {sum(die_pmf_dict.values()):.10f}")
 ```
 :::
 
@@ -523,6 +526,8 @@ This confirms our earlier calculation of $E[X^2]$.
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+from pprint import pprint
+
 # Setup: Define die values and probabilities
 die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
 die_probs = np.array([1/6] * 6)  # Equal probability for fair die
@@ -540,11 +545,12 @@ y_probs = die_probs
 
 # PMF dictionary for Y
 y_pmf_dict = {val_y: prob for val_y, prob in zip(y_values, y_probs)}
-print(f"PMF Dictionary for Y=X^2: {y_pmf_dict}")
+print("PMF Dictionary for Y=X^2:")
+pprint(y_pmf_dict)
 
 # Calculate E[Y] using the PMF of Y
 expected_value_y = np.sum(y_values * y_probs)
-print(f"E[Y] calculated using PMF of Y: {expected_value_y:.4f} (Exact: 91/6)")
+print(f"\nE[Y] calculated using PMF of Y: {expected_value_y:.4f} (Exact: 91/6)")
 
 # Calculate E[Y] = E[g(X)] using LOTUS
 expected_value_y_lotus = np.sum(g(x_values) * die_probs)
