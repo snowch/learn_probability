@@ -446,6 +446,8 @@ The other values ($x \in \{1, 3, 4, 5, 6\}$) do NOT satisfy the condition $x^2=4
 
 A very useful result, sometimes called the Law of the Unconscious Statistician (LOTUS), allows us to calculate the expected value of $Y=g(X)$ without explicitly finding the PMF of $Y$.
 
+**Definition:** For a discrete random variable $X$ with PMF $p_X(x)$ and a function $g$, the expected value of $Y = g(X)$ is:
+
 $$
 E[Y] = E[g(X)] = \sum_{x} g(x) \cdot p_X(x)
 $$
