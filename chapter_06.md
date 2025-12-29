@@ -143,6 +143,7 @@ F_X(x) = \sum_{k \le x} p_X(k)
 $$
 
 **Properties of a CDF:**
+
 1.  $0 \le F_X(x) \le 1$ for all $x$.
 2.  $F_X(x)$ is a non-decreasing function of $x$: if $a < b$, then $F_X(a) \le F_X(b)$.
 3.  $\lim_{x \to -\infty} F_X(x) = 0$ and $\lim_{x \to +\infty} F_X(x) = 1$.
@@ -151,14 +152,23 @@ $$
 6.  $P(a < X \le b) = F_X(b) - F_X(a)$ for $a < b$.
 7.  $P(X=x) = F_X(x) - \lim_{y \to x^-} F_X(y)$ (the size of the jump at $x$).
 
-**Example:** For the fair die roll $X$:
-* $F_X(0) = P(X \le 0) = 0$
-* $F_X(1) = P(X \le 1) = P(X=1) = 1/6$
-* $F_X(2) = P(X \le 2) = P(X=1) + P(X=2) = 1/6 + 1/6 = 2/6$
-* $F_X(3) = P(X \le 3) = P(X=1) + P(X=2) + P(X=3) = 3/6$
-* ...
-* $F_X(6) = P(X \le 6) = 6/6 = 1$
-* $F_X(6.5) = P(X \le 6.5) = P(X \le 6) = 1$
+:::{admonition} Example: CDF Calculations for Fair Die
+:class: tip dropdown
+
+For the fair die roll $X$:
+
+$$
+\begin{align*}
+F_X(0) &= P(X \le 0) = 0 \\
+F_X(1) &= P(X \le 1) = P(X=1) = 1/6 \\
+F_X(2) &= P(X \le 2) = P(X=1) + P(X=2) = 1/6 + 1/6 = 2/6 \\
+F_X(3) &= P(X \le 3) = P(X=1) + P(X=2) + P(X=3) = 3/6 \\
+&\vdots \\
+F_X(6) &= P(X \le 6) = 6/6 = 1 \\
+F_X(6.5) &= P(X \le 6.5) = P(X \le 6) = 1
+\end{align*}
+$$
+:::
 
 Let's calculate and visualize the CDF.
 
