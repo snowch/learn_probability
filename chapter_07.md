@@ -249,6 +249,10 @@ We'll demonstrate how to use `scipy.stats.binom` to calculate PMF and CDF values
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.binom
 n_calls = 20
 p_success_call = 0.15
@@ -302,7 +306,7 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the number of successful calls. With n = 20 trials and p = 0.15 (from our example), the distribution is centered around the expected value of np = 3 successes.
+The PMF shows the probability distribution for the number of successful calls. With n = 20 trials and p = 0.15 (from our example), the distribution is centered around the expected value of np = 3 successes. Unlike the Bernoulli distribution, the Binomial PMF provides valuable visual insights—you can quickly see which outcomes are most likely, identify the range of probable values, and observe the distribution's shape (symmetric when p ≈ 0.5, skewed otherwise).
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -322,7 +326,7 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
 
-The CDF shows the cumulative probability P(X ≤ k) for each value of k. For example, it tells us the probability of getting k or fewer successful calls.
+The CDF shows the cumulative probability P(X ≤ k) for each value of k. This is particularly useful for answering questions like "What's the probability of getting at most 5 successful calls?" or "What's the probability of getting more than 2 successes?" The step-like nature visualizes how cumulative probability increases as k increases.
 
 +++
 
@@ -358,6 +362,10 @@ Let's use `scipy.stats.geom` to explore probabilities and compute expected value
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.geom
 p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
@@ -423,7 +431,7 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
 
-The PMF shows the probability of the first success (passing the exam) occurring on each trial number. With p = 0.6 (from our example), the probabilities decrease exponentially as the number of trials increases.
+The PMF shows the probability of the first success (passing the exam) occurring on each trial number. With p = 0.6 (from our example), the probabilities decrease exponentially as the number of trials increases. This exponential decay is characteristic of the Geometric distribution and clearly visualizes that earlier successes are more likely than later ones. The chart helps you understand the "waiting time" distribution for the first success.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -444,7 +452,7 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the probability that the first success occurs on or before trial k. It increases toward 1 as k increases, since eventually success is nearly certain.
+The CDF shows P(X ≤ k), the probability that the first success occurs on or before trial k. It increases toward 1 as k increases, since eventually success is nearly certain. The CDF is particularly useful for answering questions like "What's the probability I'll succeed within the first 5 attempts?" The curve's steepness reflects the success probability p—higher p values produce steeper curves.
 
 +++
 
@@ -482,6 +490,10 @@ We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.nbinom
 r_defective = 3
 p_defective = 0.05
@@ -554,7 +566,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the total number of components tested to find r = 3 defective items. With p = 0.05 (from our example), the expected value is r/p = 60 components, though the distribution shows considerable variability.
+The PMF shows the probability distribution for the total number of components tested to find r = 3 defective items. With p = 0.05 (from our example), the expected value is r/p = 60 components, though the distribution shows considerable variability. The Negative Binomial PMF is particularly useful for understanding uncertainty in "waiting time" scenarios—the spread of the distribution tells you how variable the number of trials might be before achieving your target number of successes.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -574,7 +586,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability that we'll have found 3 defective items after testing k or fewer components.
+The CDF shows P(X ≤ k), the cumulative probability that we'll have found 3 defective items after testing k or fewer components. This is especially useful for planning and resource allocation—for example, "If I test 80 components, what's the probability I'll have found all 3 defective items by then?"
 
 +++
 
@@ -605,6 +617,10 @@ Let's use `scipy.stats.poisson` to calculate the probability of observing differ
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.poisson
 lambda_rate = 5
 poisson_rv = stats.poisson(mu=lambda_rate)
@@ -657,7 +673,7 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
 
-The PMF shows the probability distribution for the number of events (emails received per hour). With λ = 5 (from our example), the distribution is centered around 5 events, with reasonable probability for nearby values.
+The PMF shows the probability distribution for the number of events (emails received per hour). With λ = 5 (from our example), the distribution is centered around 5 events, with reasonable probability for nearby values. The Poisson PMF is extremely valuable in practice—it shows both the most likely number of events and the full range of possibilities, helping you understand natural variation in event counts. The shape becomes more symmetric and bell-like as λ increases.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -678,7 +694,7 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of receiving 6 or fewer emails in an hour?"
+The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of receiving 6 or fewer emails in an hour?" or for setting thresholds and alerts. For instance, if you want to know when event counts are unusually high, the CDF helps you identify appropriate cutoff values.
 
 +++
 
@@ -712,6 +728,10 @@ We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling withou
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.hypergeom
 N_population = 100
 K_successes_pop = 20
@@ -771,7 +791,7 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
 
-The PMF shows the probability distribution for the number of winning tickets in a sample of n = 10 tickets. With N = 100 total tickets and K = 20 winners (from our example), the expected value is n × (K/N) = 10 × 0.2 = 2 winning tickets.
+The PMF shows the probability distribution for the number of winning tickets in a sample of n = 10 tickets. With N = 100 total tickets and K = 20 winners (from our example), the expected value is n × (K/N) = 10 × 0.2 = 2 winning tickets. The Hypergeometric PMF is crucial when sampling without replacement matters—it accounts for the changing composition of the population as items are drawn, making it more accurate than the Binomial for small populations or large sample sizes.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -792,7 +812,7 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets in the sample. This helps answer questions like "What's the probability of drawing at most 3 winning tickets?"
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets in the sample. This helps answer questions like "What's the probability of drawing at most 3 winning tickets?" The CDF is particularly useful in quality control and acceptance sampling, where you need to decide whether to accept or reject a batch based on a sample.
 
 +++
 
