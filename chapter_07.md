@@ -130,6 +130,10 @@ Modeling the outcome of a single diagnostic test for a disease where the probabi
 Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.bernoulli
 p_positive = 0.1
 bernoulli_rv = stats.bernoulli(p=p_positive)
