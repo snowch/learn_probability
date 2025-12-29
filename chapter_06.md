@@ -646,7 +646,8 @@ In this chapter, we introduced the fundamental concept of a discrete random vari
 * The **Expected Value (Mean)**, $E[X] = \sum x \cdot p_X(x)$, represents the long-run average value.
 * The **Variance**, $Var(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2$, measures the spread around the mean.
 * The **Standard Deviation**, $SD(X) = \sqrt{Var(X)}$, also measures spread but in the original units.
-* We can analyze **Functions of Random Variables**, $Y = g(X)$, and find their PMFs and expected values (using LOTUS: $E[g(X)] = \sum g(x) p_X(x)$).
+* We can analyze **Functions of Random Variables**, $Y = g(X)$, and find their PMFs by summing probabilities: $p_Y(y) = \sum_{x: g(x)=y} p_X(x)$.
+* **LOTUS (Law of the Unconscious Statistician)** allows us to calculate expected values of functions directly: $E[g(X)] = \sum g(x) p_X(x)$.
 * Simulations using Python (`numpy`) allow us to generate empirical data that converges to theoretical probability distributions and their parameters as the number of simulations increases.
 
 In the next chapter, we will explore several important families of discrete distributions that model common real-world scenarios.
