@@ -438,7 +438,8 @@ $$p_Y(4) = p_X(2) = \frac{1}{6}$$
 The other values ($x \in \{1, 3, 4, 5, 6\}$) do NOT satisfy the condition $x^2=4$, so they are not included in the sum.
 ```
 
-**Expected Value of a Function of a Random Variable (LOTUS):**
+### Expected Value of a Function of a Random Variable (LOTUS)
+
 A very useful result, sometimes called the Law of the Unconscious Statistician (LOTUS), allows us to calculate the expected value of $Y=g(X)$ without explicitly finding the PMF of $Y$.
 
 $$
