@@ -32,53 +32,39 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 ## 1. Bernoulli Distribution
 
-**Building the Formula from Scratch**
+The Bernoulli distribution models a single trial with two possible outcomes: "success" (1) or "failure" (0).
+
+**Concrete Example**
 
 Suppose you're analyzing customer behavior at an online store. Each visitor either makes a purchase or doesn't. From your data, you know that 30% of visitors make a purchase.
 
-Let's define a random variable $X$ where:
-- $X = 1$ if the customer makes a purchase (we'll call this "success")
-- $X = 0$ if the customer doesn't purchase (we'll call this "failure")
+We model this with a random variable $X$:
+- $X = 1$ if the customer makes a purchase (success)
+- $X = 0$ if the customer doesn't purchase (failure)
 
-What are the probabilities?
-- $P(X = 1) = 0.3$ (the purchase probability, let's call it $p$)
-- $P(X = 0) = 0.7$ (the probability of no purchase, which is $1 - p$)
+The probabilities are:
+- $P(X = 1) = 0.3$ (we call this parameter $p$)
+- $P(X = 0) = 0.7$ (which equals $1 - p$)
 
-Now here's the clever part. Notice that we can write both probabilities using a single formula. For $X = 1$:
+**The Bernoulli PMF**
 
-$$
-\begin{align}
-P(X = 1) &= p^1 \cdot (1-p)^{1-1} \\
-&= p^1 \cdot (1-p)^0 \\
-&= p \cdot 1 = p
-\end{align}
-$$
+For any Bernoulli random variable with success probability $p$, the PMF is:
 
-For $X = 0$:
+$$ P(X=k) = \begin{cases} p & \text{if } k=1 \\ 1-p & \text{if } k=0 \\ 0 & \text{otherwise} \end{cases} $$
 
-$$
-\begin{align}
-P(X = 0) &= p^0 \cdot (1-p)^{1-0} \\
-&= 1 \cdot (1-p)^1 \\
-&= 1-p
-\end{align}
-$$
-
-This gives us a general formula that works for both cases:
+This can also be written compactly as:
 
 $$P(X = k) = p^k (1-p)^{1-k} \text{ for } k \in \{0, 1\}$$
 
-This is the **Bernoulli distribution** - the simplest discrete distribution modeling a single trial with two possible outcomes.
+Let's verify this compact formula works for our example where $p = 0.3$:
+- When $k = 1$: $P(X=1) = (0.3)^1 (0.7)^0 = 0.3 \times 1 = 0.3$ ✓
+- When $k = 0$: $P(X=0) = (0.3)^0 (0.7)^1 = 1 \times 0.7 = 0.7$ ✓
 
 **Key Characteristics**
 
-- **Scenarios**: Any single trial with two outcomes - coin flip (Heads/Tails), product inspection (Defective/Not Defective), medical test (Positive/Negative), free throw (Make/Miss).
+- **Scenarios**: Coin flip (Heads/Tails), product inspection (Defective/Not Defective), medical test (Positive/Negative), free throw (Make/Miss)
 - **Parameter**: $p$, the probability of success ($0 \le p \le 1$)
 - **Random Variable**: $X \in \{0, 1\}$
-
-**PMF** (written in piecewise form):
-
-$$ P(X=k) = \begin{cases} p & \text{if } k=1 \\ 1-p & \text{if } k=0 \\ 0 & \text{otherwise} \end{cases} $$
 
 **Mean:** $E[X] = p$
 
