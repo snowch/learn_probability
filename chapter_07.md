@@ -225,26 +225,98 @@ The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
 
 The Binomial distribution models the number of successes in a *fixed number* of independent Bernoulli trials, where each trial has the same probability of success.
 
-- **Scenario**: The number of heads in 10 coin flips, the number of defective items in a batch of 50, the number of successful free throws out of 20 attempts, the number of correct answers on a 25-question multiple choice test (with random guessing), the number of customers who make a purchase out of 100 website visitors.
-- **Parameters**:
-    - $n$: the number of independent trials.
-    - $p$: the probability of success on each trial ($0 \le p \le 1$).
-- **Random Variable**: $X$, the total number of successes in $n$ trials. $X$ can take values $k = 0, 1, 2, ..., n$.
+**Concrete Example**
 
-**PMF:**
-The probability of getting exactly $k$ successes in $n$ trials is given by:
+Suppose you flip a fair coin 10 times. Each flip is a Bernoulli trial with p = 0.5 (probability of heads). How many heads will you get?
+
+We model this with a random variable $X$:
+- $X$ = the number of heads in 10 flips
+- $X$ can take values 0, 1, 2, ..., 10
+
+The probabilities are:
+- $P(X = 0)$ = probability of 0 heads (all tails)
+- $P(X = 5)$ = probability of exactly 5 heads
+- $P(X = 10)$ = probability of 10 heads (all heads)
+
+**The Binomial PMF**
+
+For $n$ independent trials with success probability $p$:
 
 $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 
-where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, representing the number of ways to choose $k$ successes from $n$ trials.
+where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
+
+Let's verify this works for our coin flip example (n=10, p=0.5):
+- $P(X=5) = \binom{10}{5} (0.5)^5 (0.5)^5 = 252 \times 0.03125 \times 0.03125 \approx 0.246$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Number of heads in coin flips, defective items in a batch, successful free throws, correct guesses on a test, customers who purchase
+- **Parameters**:
+    - $n$: number of independent trials
+    - $p$: probability of success on each trial ($0 \le p \le 1$)
+- **Random Variable**: $X \in \{0, 1, 2, ..., n\}$
 
 **Mean:** $E[X] = np$
 
 **Variance:** $Var(X) = np(1-p)$
 
-**Example:** Modeling the number of successful sales calls out of $n=20$, if the probability of success ($p$) for each call is 0.15.
+**Visualizing the Distribution**
 
-We'll demonstrate how to use `scipy.stats.binom` to calculate PMF and CDF values, compute statistics, and generate random samples.
+Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin flip example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Binomial distribution for visualization (n=10, p=0.5)
+n_viz = 10
+p_viz = 0.5
+binomial_viz = stats.binom(n=n_viz, p=p_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(0, n_viz + 1)
+pmf_values_viz = binomial_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Binomial PMF (n={n_viz}, p={p_viz})")
+plt.xlabel("Number of Successes (k)")
+plt.ylabel("Probability")
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Binomial PMF](ch07_binomial_pmf_generic.svg)
+
+The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean (np = 5) since p = 0.5.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = binomial_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Binomial CDF (n={n_viz}, p={p_viz})")
+plt.xlabel("Number of Successes (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Binomial CDF](ch07_binomial_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads.
+
+:::{admonition} Example: Sales Calls with n = 20, p = 0.15
+:class: tip
+
+Modeling the number of successful sales calls out of 20, where each call has a 0.15 probability of success.
+
+We'll demonstrate how to use `scipy.stats.binom` to calculate probabilities, compute statistics, and generate random samples.
 
 :::{dropdown} Python Implementation
 
@@ -302,7 +374,7 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the number of successful calls. With n = 20 trials and p = 0.15 (from our example), the distribution is centered around the expected value of np = 3 successes.
+The PMF shows the probability distribution for the number of successful calls. With n = 20 and p = 0.15, the distribution is centered around np = 3 successes.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -322,7 +394,29 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
 
-The CDF shows the cumulative probability P(X ≤ k) for each value of k. For example, it tells us the probability of getting k or fewer successful calls.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You roll a die 12 times and count how many times you get a 6. Which distribution models this and what are the parameters?
+
+2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
+
+3. True or False: In a Binomial distribution, each trial must have the same probability of success.
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with same success probability (1/6).
+
+2. **E[X] = np = 8 × 0.25 = 2** - Expected number of successes is np.
+
+3. **True** - The Binomial distribution requires independent trials with constant success probability p.
+```
 
 +++
 
