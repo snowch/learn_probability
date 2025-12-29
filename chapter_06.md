@@ -458,10 +458,26 @@ Let $X$ be the outcome of a fair die roll. Let $Y = X^2$. What are the PMF and e
 * The PMF of $Y$ is:
     $p_Y(y) = 1/6$ for $y \in \{1, 4, 9, 16, 25, 36\}$, and $0$ otherwise.
 
-* The expected value of $Y$ can be calculated using its PMF:
-    $E[Y] = (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}) + (9 \times \frac{1}{6}) + (16 \times \frac{1}{6}) + (25 \times \frac{1}{6}) + (36 \times \frac{1}{6}) = \frac{91}{6}$
-* Alternatively, using LOTUS:
-    $E[Y] = E[X^2] = \sum_{x=1}^{6} x^2 \cdot p_X(x) = \sum_{x=1}^{6} x^2 \cdot \frac{1}{6} = \frac{1^2+2^2+3^2+4^2+5^2+6^2}{6} = \frac{91}{6}$
+**Calculating E[Y] using the PMF of Y:**
+
+$$
+\begin{align*}
+E[Y] &= (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}) + (9 \times \frac{1}{6}) + (16 \times \frac{1}{6}) + (25 \times \frac{1}{6}) + (36 \times \frac{1}{6}) \\
+&= \frac{1+4+9+16+25+36}{6} \\
+&= \frac{91}{6}
+\end{align*}
+$$
+
+**Alternatively, using LOTUS:**
+
+$$
+\begin{align*}
+E[Y] = E[X^2] &= \sum_{x=1}^{6} x^2 \cdot p_X(x) \\
+&= \sum_{x=1}^{6} x^2 \cdot \frac{1}{6} \\
+&= \frac{1^2+2^2+3^2+4^2+5^2+6^2}{6} \\
+&= \frac{91}{6}
+\end{align*}
+$$
 
 This confirms our earlier calculation of $E[X^2]$.
 :::
