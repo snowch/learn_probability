@@ -49,6 +49,7 @@ This can be written concisely as:
 $$ P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} $$
 
 **Mean (Expected Value):** $E[X] = p$
+
 **Variance:** $Var(X) = p(1-p)$
 
 **Example:** Modeling the outcome of a single customer purchase where the probability of purchase ($p$) is 0.1.
@@ -118,6 +119,7 @@ $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, representing the number of ways to choose $k$ successes from $n$ trials.
 
 **Mean:** $E[X] = np$
+
 **Variance:** $Var(X) = np(1-p)$
 
 **Example:** Modeling the number of successful sales calls out of $n=20$, if the probability of success ($p$) for each call is 0.15.
@@ -212,6 +214,7 @@ $$ P(X=k) = (1-p)^{k-1} p \quad \text{for } k = 1, 2, 3, \dots $$
 This means we have $k-1$ failures followed by one success.
 
 **Mean:** $E[X] = \frac{1}{p}$
+
 **Variance:** $Var(X) = \frac{1-p}{p^2}$
 
 :::{admonition} Note
@@ -310,6 +313,7 @@ $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, 
 This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
 
 **Mean:** $E[X] = \frac{r}{p}$
+
 **Variance:** $Var(X) = \frac{r(1-p)}{p^2}$
 
 :::{admonition} Note
@@ -412,7 +416,9 @@ $$ P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!} \quad \text{for } k = 0, 1, 2, \do
 where $e \approx 2.71828$ is Euler's number.
 
 **Mean:** $E[X] = \lambda$
+
 **Variance:** $Var(X) = \lambda$
+
 Note: The mean and variance are equal in a Poisson distribution.
 
 **Example:** Modeling the number of emails received per hour, if the average rate ($\lambda$) is 5 emails/hour.
@@ -509,7 +515,9 @@ $$ P(X=k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}} $$
 This represents (ways to choose $k$ successes from $K$) * (ways to choose $n-k$ failures from $N-K$) / (total ways to choose $n$ items from $N$).
 
 **Mean:** $E[X] = n \frac{K}{N}$
+
 **Variance:** $Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)$
+
 The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this factor approaches 1, and the Hypergeometric distribution approaches the Binomial distribution with $p = K/N$.
 
 **Example:** Modeling the number of winning lottery tickets ($k$) in a sample of $n=10$ tickets drawn from a box containing $N=100$ tickets, where $K=20$ are winners.
