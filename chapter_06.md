@@ -207,11 +207,11 @@ def die_cdf_func(x):
         idx = np.searchsorted(die_values, x, side='right') - 1
         return die_cdf_values[idx]
 
-# Test the function at non-integer values
-print("\nTesting CDF at various points:")
-print(f"  F(0.5) = {die_cdf_func(0.5):.4f}")
-print(f"  F(3.7) = {die_cdf_func(3.7):.4f}")
-print(f"  F(10)  = {die_cdf_func(10):.4f}")
+# Test the function at non-integer values to see step function behavior
+print("\nTesting CDF between steps:")
+print(f"  F(0.5) = {die_cdf_func(0.5):.4f}  (before first outcome)")
+print(f"  F(3.7) = {die_cdf_func(3.7):.4f}  (between 3 and 4, stays at F(3))")
+print(f"  F(10)  = {die_cdf_func(10):.4f}  (after last outcome)")
 ```
 :::
 
