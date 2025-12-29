@@ -449,10 +449,19 @@ A very useful result, sometimes called the Law of the Unconscious Statistician (
 **Definition:** For a discrete random variable $X$ with PMF $p_X(x)$ and a function $g$, the expected value of $Y = g(X)$ is:
 
 $$
-E[Y] = E[g(X)] = \sum_{x} g(x) \cdot p_X(x)
+E[g(X)] = \sum_{x} g(x) \cdot p_X(x)
 $$
 
-Notice this is similar to the definition of $E[X]$, but we replace $x$ with $g(x)$. This is how we calculated $E[X^2]$ earlier, where $g(x) = x^2$.
+Compare this to the definition of $E[X]$:
+
+$$
+\begin{align*}
+E[X] &= \sum_{x} x \cdot p_X(x) \\
+E[g(X)] &= \sum_{x} g(x) \cdot p_X(x)
+\end{align*}
+$$
+
+Notice that we simply replace $x$ with $g(x)$ in the summation. This is how we calculated $E[X^2]$ earlier, where $g(x) = x^2$.
 
 :::{admonition} Example: PMF and Expected Value of Y = X²
 :class: tip dropdown
