@@ -510,6 +510,10 @@ This confirms our earlier calculation of $E[X^2]$.
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+# Setup: Define die values and probabilities
+die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
+die_probs = np.array([1/6] * 6)  # Equal probability for fair die
+
 # Define the function g(x) = x^2
 def g(x):
   return x**2
