@@ -103,8 +103,6 @@ print(samples)
 
 :::
 
-:::
-
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -125,7 +123,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
 
-The PMF shows the probability of each outcome. With p = 0.1 (from our example), "No Purchase" has probability 1 - p = 0.9 and "Purchase" has probability p = 0.1.
+The PMF shows the probability of each outcome. With p = 0.1, "No Purchase" has probability 0.9 and "Purchase" has probability 0.1.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -148,6 +146,8 @@ plt.show()
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
 
 The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
+
+:::
 
 **Quick Check Questions**
 
