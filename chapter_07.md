@@ -99,6 +99,8 @@ plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+![Bernoulli PMF](ch07_bernoulli_pmf.svg)
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -116,6 +118,8 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Bernoulli CDF](ch07_bernoulli_cdf.svg)
 
 +++
 
@@ -198,6 +202,8 @@ plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+![Binomial PMF](ch07_binomial_pmf.svg)
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -213,6 +219,8 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Binomial CDF](ch07_binomial_cdf.svg)
 
 +++
 
@@ -311,6 +319,8 @@ plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+![Geometric PMF](ch07_geometric_pmf.svg)
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -327,6 +337,8 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Geometric CDF](ch07_geometric_cdf.svg)
 
 +++
 
@@ -434,6 +446,8 @@ plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -449,6 +463,8 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
 +++
 
@@ -529,6 +545,8 @@ plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+![Poisson PMF](ch07_poisson_pmf.svg)
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -545,6 +563,8 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Poisson CDF](ch07_poisson_cdf.svg)
 
 +++
 
@@ -635,6 +655,8 @@ plt.savefig('ch07_hypergeometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -651,6 +673,8 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_hypergeometric_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
 +++
 
@@ -711,6 +735,8 @@ plt.legend()
 plt.savefig('ch07_poisson_binomial_approximation.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
+
+![Poisson Approximation to Binomial](ch07_poisson_binomial_approximation.svg)
 
 +++
 
