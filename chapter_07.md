@@ -99,6 +99,24 @@ plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values = bernoulli_rv.cdf(k_values)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Bernoulli CDF (p={p_purchase})")
+plt.xlabel("Outcome")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.ylim(0, 1.1)
+plt.xticks([0, 1])
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
 +++
 
 ## 2. Binomial Distribution
@@ -293,6 +311,23 @@ plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF (using trial number k=1, 2, ...)
+cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Geometric CDF (p={p_pass}) - Trial number of first success")
+plt.xlabel("Trial Number (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_trials)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
 +++
 
 ## 4. Negative Binomial Distribution
@@ -396,6 +431,22 @@ plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF (using total components tested k = r, r+1, ...)
+cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_components, cdf_values_nb, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective}) - Components tested")
+plt.xlabel("Total Number of Components Tested (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
@@ -581,6 +632,23 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values = hypergeom_rv.cdf(k_values)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.title(f"Hypergeometric CDF (N={N_population}, K={K_successes_pop}, n={n_sample})")
+plt.xlabel("Number of Successes in Sample (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_hypergeometric_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
 
