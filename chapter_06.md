@@ -186,7 +186,8 @@ die_probs = np.array([1/6] * 6)  # Equal probability for fair die
 # Calculate the CDF values
 die_cdf_values = np.cumsum(die_probs)
 print("CDF Values:")
-print(die_cdf_values)
+for i, cdf_val in enumerate(die_cdf_values, start=1):
+    print(f"  F(X <= {i}) = {cdf_val:.8f}")
 
 # Create a function representation of the CDF
 def die_cdf_func(x):
