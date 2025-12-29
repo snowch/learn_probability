@@ -19,8 +19,6 @@ These "common" distributions serve as powerful models for a wide variety of real
 
 We'll examine the scenarios each distribution models, their key characteristics (PMF, mean, variance), and how to work with them efficiently using Python's `scipy.stats` library. This library provides tools to calculate probabilities (PMF, CDF), generate random samples, and more, significantly simplifying our practical work.
 
-Let's import the necessary libraries first.
-
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
