@@ -19,8 +19,6 @@ These "common" distributions serve as powerful models for a wide variety of real
 
 We'll examine the scenarios each distribution models, their key characteristics (PMF, mean, variance), and how to work with them efficiently using Python's `scipy.stats` library. This library provides tools to calculate probabilities (PMF, CDF), generate random samples, and more, significantly simplifying our practical work.
 
-Let's import the necessary libraries first.
-
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -76,7 +74,8 @@ print(f"Variance: {bernoulli_rv.var():.2f}")
 # Generate random samples
 n_samples = 10
 samples = bernoulli_rv.rvs(size=n_samples)
-print(f"\n{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase): {samples}")
+print(f"{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase):")
+print(samples)
 ```
 
 :::
@@ -101,6 +100,8 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
 
+The PMF shows the probability of each outcome: 0.9 for "No Purchase" and 0.1 for "Purchase".
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -120,6 +121,8 @@ plt.show()
 ```
 
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
+
+The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 (the probability of getting outcome 0 or less), and P(X ≤ 1) = 1.0 (the probability of getting outcome 1 or less, which includes all possible outcomes).
 
 +++
 
@@ -204,6 +207,8 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
 
+The PMF shows the probability distribution for the number of successful calls out of 20 attempts. The distribution is centered around the expected value (mean = np = 20 × 0.15 = 3).
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -221,6 +226,8 @@ plt.show()
 ```
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
+
+The CDF shows the cumulative probability P(X ≤ k) for each value of k. For example, it tells us the probability of getting k or fewer successful calls.
 
 +++
 
@@ -321,6 +328,8 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
 
+The PMF shows the probability of the first success occurring on each trial number. The probabilities decrease exponentially as the number of trials increases.
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -339,6 +348,8 @@ plt.show()
 ```
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
+
+The CDF shows P(X ≤ k), the probability that the first success occurs on or before trial k. It increases toward 1 as k increases, since eventually success is nearly certain.
 
 +++
 
@@ -448,6 +459,8 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
+The PMF shows the probability distribution for the total number of components tested to find 3 defective items. The distribution shows the most likely values are around 10-15 components.
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -465,6 +478,8 @@ plt.show()
 ```
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability that we'll have found 3 defective items after testing k or fewer components.
 
 +++
 
@@ -547,6 +562,8 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
 
+The PMF shows the probability distribution for the number of events (customer arrivals) in the time period. With λ = 4.5, the distribution is centered around 4-5 events.
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -565,6 +582,8 @@ plt.show()
 ```
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of 5 or fewer customer arrivals?"
 
 +++
 
@@ -657,6 +676,8 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
 
+The PMF shows the probability distribution for the number of defective items in the sample of 10. Since we're sampling without replacement from a finite population, the probabilities depend on both the sample size and the population composition.
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -675,6 +696,8 @@ plt.show()
 ```
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability of finding k or fewer defective items in the sample. This helps answer questions like "What's the probability of finding at most 2 defective items?"
 
 +++
 
@@ -737,6 +760,8 @@ plt.show()
 ```
 
 ![Poisson Approximation to Binomial](ch07_poisson_binomial_approximation.svg)
+
+The chart compares the Binomial(100, 0.03) distribution (blue bars) with the Poisson(3.0) approximation (red bars). The distributions are nearly identical, demonstrating that when n is large and p is small, the Poisson provides an excellent and computationally simpler approximation to the Binomial.
 
 +++
 
