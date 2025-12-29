@@ -53,21 +53,19 @@ $$ P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} $$
 
 **Example:** Modeling the outcome of a single customer purchase where the probability of purchase ($p$) is 0.1.
 
+Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.bernoulli
 p_purchase = 0.1
 bernoulli_rv = stats.bernoulli(p=p_purchase)
-```
 
-```{code-cell} ipython3
 # PMF: Probability of success (k=1) and failure (k=0)
 print(f"P(X=1) (Purchase): {bernoulli_rv.pmf(1):.2f}")
 print(f"P(X=0) (No Purchase): {bernoulli_rv.pmf(0):.2f}")
-```
 
-```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected Value): {bernoulli_rv.mean():.2f}")
 print(f"Variance: {bernoulli_rv.var():.2f}")
@@ -124,6 +122,8 @@ where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, represen
 
 **Example:** Modeling the number of successful sales calls out of $n=20$, if the probability of success ($p$) for each call is 0.15.
 
+We'll demonstrate how to use `scipy.stats.binom` to calculate PMF and CDF values, compute statistics, and generate random samples.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
@@ -131,9 +131,7 @@ where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, represen
 n_calls = 20
 p_success_call = 0.15
 binomial_rv = stats.binom(n=n_calls, p=p_success_call)
-```
 
-```{code-cell} ipython3
 # PMF: Probability of exactly k successes
 k_successes = 5
 print(f"P(X={k_successes} successes out of {n_calls}): {binomial_rv.pmf(k_successes):.4f}")
@@ -143,15 +141,13 @@ print(f"P(X={k_successes} successes out of {n_calls}): {binomial_rv.pmf(k_succes
 # CDF: Probability of k or fewer successes
 k_or_fewer = 3
 print(f"P(X <= {k_or_fewer} successes out of {n_calls}): {binomial_rv.cdf(k_or_fewer):.4f}")
-# Probability of more than k successes
 print(f"P(X > {k_or_fewer} successes out of {n_calls}): {1 - binomial_rv.cdf(k_or_fewer):.4f}")
-# Or using the survival function (sf): P(X > k)
 print(f"P(X > {k_or_fewer} successes out of {n_calls}) (using sf): {binomial_rv.sf(k_or_fewer):.4f}")
 ```
 
 ```{code-cell} ipython3
 # Mean and Variance
-print(f"\nMean (Expected number of successes): {binomial_rv.mean():.2f}")
+print(f"Mean (Expected number of successes): {binomial_rv.mean():.2f}")
 print(f"Variance: {binomial_rv.var():.2f}")
 print(f"Standard Deviation: {binomial_rv.std():.2f}")
 ```
@@ -226,15 +222,15 @@ This means we have $k-1$ failures followed by one success.
 
 **Example:** Modeling the number of attempts needed to pass a certification exam, where the probability of passing ($p$) on any given attempt is 0.6.
 
+Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.geom
 p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
-```
 
-```{code-cell} ipython3
 # PMF: Probability that the first success occurs on trial k (k=1, 2, ...)
 # Using scipy: geom_rv.pmf(k-1)
 k_trial = 3 # Third attempt
@@ -243,28 +239,22 @@ print(f"P(First pass on attempt {k_trial}): {geom_rv.pmf(k_trial - 1):.4f}")
 
 ```{code-cell} ipython3
 # CDF: Probability that the first success occurs on or before trial k
-# Using scipy: geom_rv.cdf(k-1)
 k_or_before = 2
 print(f"P(First pass on or before attempt {k_or_before}): {geom_rv.cdf(k_or_before - 1):.4f}")
-# Probability it takes more than k trials
 print(f"P(First pass takes more than {k_or_before} attempts): {1 - geom_rv.cdf(k_or_before - 1):.4f}")
 print(f"P(First pass takes more than {k_or_before} attempts) (using sf): {geom_rv.sf(k_or_before - 1):.4f}")
 ```
 
 ```{code-cell} ipython3
 # Mean and Variance (based on scipy's definition k=0, 1, 2...)
-# E[Failures before success] = (1-p)/p
-# Var[Failures before success] = (1-p)/p^2
 mean_scipy = geom_rv.mean()
 var_scipy = geom_rv.var()
-print(f"\nMean number of failures before success (scipy): {mean_scipy:.2f}")
+print(f"Mean number of failures before success (scipy): {mean_scipy:.2f}")
 print(f"Variance of failures before success (scipy): {var_scipy:.2f}")
 ```
 
 ```{code-cell} ipython3
 # Mean and Variance (based on our definition k=1, 2, 3...)
-# E[Trial number of first success] = 1/p = E[Failures] + 1
-# Var[Trial number of first success] = (1-p)/p^2 = Var[Failures]
 mean_trials = 1 / p_pass
 var_trials = (1 - p_pass) / p_pass**2
 print(f"Mean number of attempts until first pass: {mean_trials:.2f}")
@@ -330,6 +320,8 @@ Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts th
 
 **Example:** Modeling the number of sales calls needed to achieve $r=5$ successful sales, if the probability of success ($p$) per call is 0.15.
 
+We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
@@ -337,13 +329,9 @@ Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts th
 r_successes_target = 5
 p_success_call = 0.15
 nbinom_rv = stats.nbinom(n=r_successes_target, p=p_success_call)
-```
 
-```{code-cell} ipython3
-# PMF: Probability of needing k trials to get r successes.
-# This means k-r failures before the r-th success.
-# Using scipy: nbinom_rv.pmf(k-r)
-k_trials = 30 # Total trials
+# PMF: Probability of needing k trials to get r successes
+k_trials = 30
 num_failures = k_trials - r_successes_target
 if num_failures >= 0:
     prob_k_trials = nbinom_rv.pmf(num_failures)
@@ -353,9 +341,7 @@ else:
 ```
 
 ```{code-cell} ipython3
-# CDF: Probability of needing k or fewer trials to get r successes.
-# This means k-r or fewer failures before the r-th success.
-# Using scipy: nbinom_rv.cdf(k-r)
+# CDF: Probability of needing k or fewer trials to get r successes
 k_or_fewer_trials = 40
 num_failures_max = k_or_fewer_trials - r_successes_target
 if num_failures_max >= 0:
@@ -366,19 +352,15 @@ else:
 ```
 
 ```{code-cell} ipython3
-# Mean and Variance (based on scipy's definition: number of failures)
-# E[Failures before r successes] = r*(1-p)/p
-# Var[Failures before r successes] = r*(1-p)/p^2
+# Mean and Variance (scipy's definition: number of failures)
 mean_failures_scipy = nbinom_rv.mean()
 var_failures_scipy = nbinom_rv.var()
-print(f"\nMean number of failures before {r_successes_target} successes (scipy): {mean_failures_scipy:.2f}")
+print(f"Mean number of failures before {r_successes_target} successes (scipy): {mean_failures_scipy:.2f}")
 print(f"Variance of failures before {r_successes_target} successes (scipy): {var_failures_scipy:.2f}")
 ```
 
 ```{code-cell} ipython3
-# Mean and Variance (based on our definition: total trials)
-# E[Trials for r successes] = r/p = E[Failures] + r
-# Var[Trials for r successes] = r(1-p)/p^2 = Var[Failures]
+# Mean and Variance (our definition: total trials)
 mean_trials_nb = r_successes_target / p_success_call
 var_trials_nb = r_successes_target * (1 - p_success_call) / p_success_call**2
 print(f"Mean number of trials for {r_successes_target} successes: {mean_trials_nb:.2f}")
@@ -435,15 +417,15 @@ Note: The mean and variance are equal in a Poisson distribution.
 
 **Example:** Modeling the number of emails received per hour, if the average rate ($\lambda$) is 5 emails/hour.
 
+Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.poisson
-lambda_rate = 5 # Average emails per hour
-poisson_rv = stats.poisson(mu=lambda_rate) # mu is the symbol for lambda in scipy
-```
+lambda_rate = 5
+poisson_rv = stats.poisson(mu=lambda_rate)
 
-```{code-cell} ipython3
 # PMF: Probability of exactly k events
 k_events = 3
 print(f"P(X={k_events} emails in an hour | lambda={lambda_rate}): {poisson_rv.pmf(k_events):.4f}")
@@ -453,14 +435,13 @@ print(f"P(X={k_events} emails in an hour | lambda={lambda_rate}): {poisson_rv.pm
 # CDF: Probability of k or fewer events
 k_or_fewer_events = 6
 print(f"P(X <= {k_or_fewer_events} emails in an hour): {poisson_rv.cdf(k_or_fewer_events):.4f}")
-# Probability of more than k events
 print(f"P(X > {k_or_fewer_events} emails in an hour): {1 - poisson_rv.cdf(k_or_fewer_events):.4f}")
 print(f"P(X > {k_or_fewer_events} emails in an hour) (using sf): {poisson_rv.sf(k_or_fewer_events):.4f}")
 ```
 
 ```{code-cell} ipython3
 # Mean and Variance
-print(f"\nMean (Expected number of emails): {poisson_rv.mean():.2f}")
+print(f"Mean (Expected number of emails): {poisson_rv.mean():.2f}")
 print(f"Variance: {poisson_rv.var():.2f}")
 ```
 
@@ -533,21 +514,17 @@ The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \
 
 **Example:** Modeling the number of winning lottery tickets ($k$) in a sample of $n=10$ tickets drawn from a box containing $N=100$ tickets, where $K=20$ are winners.
 
+We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
 # Using scipy.stats.hypergeom
-N_population = 100 # Total tickets
-K_successes_pop = 20 # Total winning tickets
-n_sample = 10 # Sample size drawn
-```
-
-```{code-cell} ipython3
-# M = N, n = K, N = n (in scipy's notation: M=population size, n=successes in pop, N=sample size)
+N_population = 100
+K_successes_pop = 20
+n_sample = 10
 hypergeom_rv = stats.hypergeom(M=N_population, n=K_successes_pop, N=n_sample)
-```
 
-```{code-cell} ipython3
 # PMF: Probability of exactly k successes in the sample
 k_successes_sample = 3
 print(f"P(X={k_successes_sample} winning tickets in sample of {n_sample}): {hypergeom_rv.pmf(k_successes_sample):.4f}")
@@ -557,22 +534,16 @@ print(f"P(X={k_successes_sample} winning tickets in sample of {n_sample}): {hype
 # CDF: Probability of k or fewer successes in the sample
 k_or_fewer_sample = 2
 print(f"P(X <= {k_or_fewer_sample} winning tickets in sample): {hypergeom_rv.cdf(k_or_fewer_sample):.4f}")
-# Probability of more than k successes
 print(f"P(X > {k_or_fewer_sample} winning tickets in sample): {1 - hypergeom_rv.cdf(k_or_fewer_sample):.4f}")
 print(f"P(X > {k_or_fewer_sample} winning tickets in sample) (using sf): {hypergeom_rv.sf(k_or_fewer_sample):.4f}")
 ```
 
 ```{code-cell} ipython3
 # Mean and Variance
-print(f"\nMean (Expected number of winning tickets in sample): {hypergeom_rv.mean():.2f}")
+print(f"Mean (Expected number of winning tickets in sample): {hypergeom_rv.mean():.2f}")
 print(f"Variance: {hypergeom_rv.var():.2f}")
 print(f"Standard Deviation: {hypergeom_rv.std():.2f}")
-```
-
-```{code-cell} ipython3
-# Theoretical mean calculation for comparison
-mean_theory = n_sample * (K_successes_pop / N_population)
-print(f"Theoretical Mean: {mean_theory:.2f}")
+# Theoretical mean: E[X] = n * (K/N) = 10 * (20/100) = 2.0
 ```
 
 ```{code-cell} ipython3
@@ -622,27 +593,24 @@ Understanding the connections between these distributions can deepen insight and
 **Example: Poisson approximation to Binomial**
 Consider $Binomial(n=1000, p=0.005)$. Here $n$ is large, $p$ is small. The mean is $\lambda = np = 1000 \times 0.005 = 5$. We can approximate this with $Poisson(\lambda=5)$.
 
+Let's compare the PMF values of both distributions to see how well the Poisson approximation works in practice.
+
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+# Setup distributions
 n_binom_approx = 1000
 p_binom_approx = 0.005
 lambda_approx = n_binom_approx * p_binom_approx
-```
 
-```{code-cell} ipython3
 binom_rv_approx = stats.binom(n=n_binom_approx, p=p_binom_approx)
 poisson_rv_approx = stats.poisson(mu=lambda_approx)
-```
 
-```{code-cell} ipython3
-# Compare PMFs for a few values of k
+# Compare PMFs
 k_vals_compare = np.arange(0, 15)
 binom_pmf = binom_rv_approx.pmf(k_vals_compare)
 poisson_pmf = poisson_rv_approx.pmf(k_vals_compare)
-```
 
-```{code-cell} ipython3
 print(f"Comparing Binomial(n={n_binom_approx}, p={p_binom_approx}) and Poisson(lambda={lambda_approx:.1f})")
 print("k\tBinomial P(X=k)\tPoisson P(X=k)\tDifference")
 for k, bp, pp in zip(k_vals_compare, binom_pmf, poisson_pmf):
@@ -669,6 +637,21 @@ plt.show()
 ```
 
 +++
+
+## Summary
+
+In this chapter, we explored six fundamental discrete probability distributions:
+
+* **Bernoulli**: Single trial, two outcomes (Success/Failure).
+* **Binomial**: Fixed number of independent trials, counts successes.
+* **Geometric**: Number of trials until the *first* success.
+* **Negative Binomial**: Number of trials until a *fixed number* ($r$) of successes.
+* **Poisson**: Number of events in a fixed interval of time/space, given an average rate.
+* **Hypergeometric**: Number of successes in a sample drawn *without* replacement from a finite population.
+
+We learned the scenarios each distribution models, their parameters, PMFs, means, and variances. Critically, we saw how to leverage `scipy.stats` functions (`pmf`, `cdf`, `rvs`, `mean`, `var`, `std`, `sf`) to perform calculations, generate simulations, and visualize these distributions. We also discussed important relationships, such as the Poisson approximation to the Binomial and the Binomial approximation to the Hypergeometric.
+
+Mastering these distributions provides a powerful toolkit for modeling various random phenomena encountered in data analysis, science, engineering, and business. In the next chapters, we will transition to continuous random variables and their corresponding common distributions.
 
 ## Exercises
 
@@ -838,18 +821,3 @@ plt.show()
     # Theoretical: E[X] = r/p = 5/0.03 ≈ 166.67
     ```
     ```
-
-## Summary
-
-In this chapter, we explored six fundamental discrete probability distributions:
-
-* **Bernoulli**: Single trial, two outcomes (Success/Failure).
-* **Binomial**: Fixed number of independent trials, counts successes.
-* **Geometric**: Number of trials until the *first* success.
-* **Negative Binomial**: Number of trials until a *fixed number* ($r$) of successes.
-* **Poisson**: Number of events in a fixed interval of time/space, given an average rate.
-* **Hypergeometric**: Number of successes in a sample drawn *without* replacement from a finite population.
-
-We learned the scenarios each distribution models, their parameters, PMFs, means, and variances. Critically, we saw how to leverage `scipy.stats` functions (`pmf`, `cdf`, `rvs`, `mean`, `var`, `std`, `sf`) to perform calculations, generate simulations, and visualize these distributions. We also discussed important relationships, such as the Poisson approximation to the Binomial and the Binomial approximation to the Hypergeometric.
-
-Mastering these distributions provides a powerful toolkit for modeling various random phenomena encountered in data analysis, science, engineering, and business. In the next chapters, we will transition to continuous random variables and their corresponding common distributions.
