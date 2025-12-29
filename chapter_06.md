@@ -177,13 +177,16 @@ Let's calculate and visualize the CDF.
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
+from pprint import pprint
+
 # Setup: Define die values and probabilities
 die_values = np.arange(1, 7)  # Possible values: 1, 2, 3, 4, 5, 6
 die_probs = np.array([1/6] * 6)  # Equal probability for fair die
 
 # Calculate the CDF values
 die_cdf_values = np.cumsum(die_probs)
-print(f"CDF Values: {die_cdf_values}")
+print("CDF Values:")
+pprint(die_cdf_values)
 
 # Create a function representation of the CDF
 def die_cdf_func(x):
@@ -197,7 +200,7 @@ def die_cdf_func(x):
         return die_cdf_values[idx]
 
 # Test the function
-print(f"F(0.5) = {die_cdf_func(0.5)}")
+print(f"\nF(0.5) = {die_cdf_func(0.5)}")
 print(f"F(3) = {die_cdf_func(3)}")
 print(f"F(3.7) = {die_cdf_func(3.7)}")
 print(f"F(6) = {die_cdf_func(6)}")
