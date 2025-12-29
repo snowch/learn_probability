@@ -100,7 +100,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
 
-The PMF shows the probability of each outcome: 0.9 for "No Purchase" and 0.1 for "Purchase".
+The PMF shows the probability of each outcome. With p = 0.1 (from our example), "No Purchase" has probability 1 - p = 0.9 and "Purchase" has probability p = 0.1.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -207,7 +207,7 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the number of successful calls out of 20 attempts. The distribution is centered around the expected value (mean = np = 20 × 0.15 = 3).
+The PMF shows the probability distribution for the number of successful calls. With n = 20 trials and p = 0.15 (from our example), the distribution is centered around the expected value of np = 3 successes.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -328,7 +328,7 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
 
-The PMF shows the probability of the first success occurring on each trial number. The probabilities decrease exponentially as the number of trials increases.
+The PMF shows the probability of the first success (passing the exam) occurring on each trial number. With p = 0.6 (from our example), the probabilities decrease exponentially as the number of trials increases.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -459,7 +459,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the total number of components tested to find 3 defective items. The distribution shows the most likely values are around 10-15 components.
+The PMF shows the probability distribution for the total number of components tested to find r = 3 defective items. With p = 0.05 (from our example), the expected value is r/p = 60 components, though the distribution shows considerable variability.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -562,7 +562,7 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
 
-The PMF shows the probability distribution for the number of events (customer arrivals) in the time period. With λ = 4.5, the distribution is centered around 4-5 events.
+The PMF shows the probability distribution for the number of events (emails received per hour). With λ = 5 (from our example), the distribution is centered around 5 events, with reasonable probability for nearby values.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -583,7 +583,7 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of 5 or fewer customer arrivals?"
+The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of receiving 6 or fewer emails in an hour?"
 
 +++
 
@@ -676,7 +676,7 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
 
-The PMF shows the probability distribution for the number of defective items in the sample of 10. Since we're sampling without replacement from a finite population, the probabilities depend on both the sample size and the population composition.
+The PMF shows the probability distribution for the number of winning tickets in a sample of n = 10 tickets. With N = 100 total tickets and K = 20 winners (from our example), the expected value is n × (K/N) = 10 × 0.2 = 2 winning tickets.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -697,7 +697,7 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of finding k or fewer defective items in the sample. This helps answer questions like "What's the probability of finding at most 2 defective items?"
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets in the sample. This helps answer questions like "What's the probability of drawing at most 3 winning tickets?"
 
 +++
 
