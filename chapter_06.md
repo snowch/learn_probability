@@ -438,7 +438,8 @@ $$p_Y(4) = p_X(2) = \frac{1}{6}$$
 The other values ($x \in \{1, 3, 4, 5, 6\}$) do NOT satisfy the condition $x^2=4$, so they are not included in the sum.
 ```
 
-**Expected Value of a Function of a Random Variable (LOTUS):**
+### Expected Value of a Function of a Random Variable (LOTUS)
+
 A very useful result, sometimes called the Law of the Unconscious Statistician (LOTUS), allows us to calculate the expected value of $Y=g(X)$ without explicitly finding the PMF of $Y$.
 
 $$
@@ -458,10 +459,26 @@ Let $X$ be the outcome of a fair die roll. Let $Y = X^2$. What are the PMF and e
 * The PMF of $Y$ is:
     $p_Y(y) = 1/6$ for $y \in \{1, 4, 9, 16, 25, 36\}$, and $0$ otherwise.
 
-* The expected value of $Y$ can be calculated using its PMF:
-    $E[Y] = (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}) + (9 \times \frac{1}{6}) + (16 \times \frac{1}{6}) + (25 \times \frac{1}{6}) + (36 \times \frac{1}{6}) = \frac{91}{6}$
-* Alternatively, using LOTUS:
-    $E[Y] = E[X^2] = \sum_{x=1}^{6} x^2 \cdot p_X(x) = \sum_{x=1}^{6} x^2 \cdot \frac{1}{6} = \frac{1^2+2^2+3^2+4^2+5^2+6^2}{6} = \frac{91}{6}$
+**Calculating E[Y] using the PMF of Y:**
+
+$$
+\begin{align*}
+E[Y] &= (1 \times \frac{1}{6}) + (4 \times \frac{1}{6}) + (9 \times \frac{1}{6}) + (16 \times \frac{1}{6}) + (25 \times \frac{1}{6}) + (36 \times \frac{1}{6}) \\
+&= \frac{1+4+9+16+25+36}{6} \\
+&= \frac{91}{6}
+\end{align*}
+$$
+
+**Alternatively, using LOTUS:**
+
+$$
+\begin{align*}
+E[Y] = E[X^2] &= \sum_{x=1}^{6} x^2 \cdot p_X(x) \\
+&= \sum_{x=1}^{6} x^2 \cdot \frac{1}{6} \\
+&= \frac{1^2+2^2+3^2+4^2+5^2+6^2}{6} \\
+&= \frac{91}{6}
+\end{align*}
+$$
 
 This confirms our earlier calculation of $E[X^2]$.
 :::
@@ -535,16 +552,12 @@ num_simulations = 10000
 
 # Simulate die rolls
 simulated_rolls = np.random.randint(1, 7, size=num_simulations)
-```
 
-```{code-cell} ipython3
 # Calculate empirical mean and variance
 sample_mean = np.mean(simulated_rolls)
 sample_variance = np.var(simulated_rolls, ddof=1)  # ddof=1 for unbiased estimator
 sample_std_dev = np.std(simulated_rolls, ddof=1)
-```
 
-```{code-cell} ipython3
 # Compare empirical vs theoretical
 print(f"--- Comparison after {num_simulations} simulations ---")
 print(f"Theoretical E[X]: {expected_value:.4f}")
