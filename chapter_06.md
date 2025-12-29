@@ -57,7 +57,10 @@ A valid PMF must satisfy two conditions:
 1.  $p_X(x) \ge 0$ for all possible values $x$. (Probabilities cannot be negative).
 2.  $\sum_{x} p_X(x) = 1$, where the sum is taken over all possible values $x$ that $X$ can assume. (The total probability must be 1).
 
-**Example:** For the fair die roll, let $X$ be the outcome. The possible values are $\{1, 2, 3, 4, 5, 6\}$. Since the die is fair, each outcome has a probability of $\frac{1}{6}$. The PMF is:
+:::{admonition} Example: Fair Die PMF
+:class: tip dropdown
+
+For the fair die roll, let $X$ be the outcome. The possible values are $\{1, 2, 3, 4, 5, 6\}$. Since the die is fair, each outcome has a probability of $\frac{1}{6}$. The PMF is:
 
 $$
 p_X(x) =
@@ -70,6 +73,7 @@ $$
 So, $P(X=1) = 1/6$, $P(X=2) = 1/6$, ..., $P(X=6) = 1/6$.
 
 The sum is $6 \times \frac{1}{6} = 1$.
+:::
 
 Let's represent and visualize this PMF in Python.
 
@@ -231,7 +235,10 @@ where the sum is over all possible values $x$ that $X$ can take.
 
 The expected value doesn't have to be one of the possible values of $X$.
 
-**Example:** For the fair die roll $X$:
+:::{admonition} Example: Calculating Expected Value
+:class: tip dropdown
+
+For the fair die roll $X$:
 
 $$
 \begin{align*}
@@ -243,6 +250,7 @@ E[X] &= (1 \times \frac{1}{6}) + (2 \times \frac{1}{6}) + (3 \times \frac{1}{6})
 $$
 
 Even though the die can never land on 3.5, the long-run average value of many rolls is expected to be 3.5.
+:::
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
@@ -314,7 +322,10 @@ $$
 
 The standard deviation is often preferred because it has the same units as the random variable $X$.
 
-**Example:** For the fair die roll $X$, we know $\mu_X = 3.5$.
+:::{admonition} Example: Calculating Variance and Standard Deviation
+:class: tip dropdown
+
+For the fair die roll $X$, we know $\mu_X = 3.5$.
 
 Let's calculate $E[X^2]$ first:
 
@@ -344,6 +355,7 @@ And the standard deviation:
 $$
 SD(X) = \sigma_X = \sqrt{\frac{35}{12}} \approx \sqrt{2.917} \approx 1.708
 $$
+:::
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
@@ -435,7 +447,11 @@ $$
 
 Notice this is similar to the definition of $E[X]$, but we replace $x$ with $g(x)$. This is how we calculated $E[X^2]$ earlier, where $g(x) = x^2$.
 
-**Example:** Let $X$ be the outcome of a fair die roll. Let $Y = X^2$. What are the PMF and expected value of $Y$?
+:::{admonition} Example: PMF and Expected Value of Y = X²
+:class: tip dropdown
+
+Let $X$ be the outcome of a fair die roll. Let $Y = X^2$. What are the PMF and expected value of $Y$?
+
 * The possible values of $X$ are $\{1, 2, 3, 4, 5, 6\}$, each with probability $1/6$.
 * The possible values of $Y = X^2$ are $\{1^2, 2^2, 3^2, 4^2, 5^2, 6^2\} = \{1, 4, 9, 16, 25, 36\}$.
 * Since each $x$ value maps to a unique $y=x^2$ value, the probability of each $y$ is the same as the probability of the corresponding $x$.
@@ -448,6 +464,7 @@ Notice this is similar to the definition of $E[X]$, but we replace $x$ with $g(x
     $E[Y] = E[X^2] = \sum_{x=1}^{6} x^2 \cdot p_X(x) = \sum_{x=1}^{6} x^2 \cdot \frac{1}{6} = \frac{1^2+2^2+3^2+4^2+5^2+6^2}{6} = \frac{91}{6}$
 
 This confirms our earlier calculation of $E[X^2]$.
+:::
 
 :::{dropdown} Python Implementation
 ```{code-cell} ipython3
