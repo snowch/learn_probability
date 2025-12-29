@@ -70,7 +70,10 @@ Let's verify this compact formula works for our example where $p = 0.3$:
 
 **Variance:** $Var(X) = p(1-p)$
 
-**Example:** Modeling the outcome of a single customer purchase where the probability of purchase ($p$) is 0.1.
+:::{admonition} Example: Customer Purchase with p = 0.1
+:class: tip
+
+Modeling the outcome of a single customer purchase where the probability of purchase is 0.1.
 
 Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
 
@@ -97,6 +100,8 @@ samples = bernoulli_rv.rvs(size=n_samples)
 print(f"{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase):")
 print(samples)
 ```
+
+:::
 
 :::
 
