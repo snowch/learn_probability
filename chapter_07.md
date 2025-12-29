@@ -32,21 +32,43 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 ## 1. Bernoulli Distribution
 
-The Bernoulli distribution is the simplest discrete distribution. It models a single trial with only two possible outcomes, often labeled "success" (usually encoded as 1) and "failure" (usually encoded as 0).
+**Building the Formula from Scratch**
 
-- **Scenario**: A single coin flip (Heads/Tails), a single product inspection (Defective/Not Defective), a single customer interaction (Purchase/No Purchase), medical test result (Positive/Negative), free throw attempt (Make/Miss).
-- **Parameter**: $p$, the probability of success ($0 \le p \le 1$). The probability of failure is then $q = 1-p$.
-- **Random Variable**: $X$ takes value 1 (success) with probability $p$, and 0 (failure) with probability $1-p$.
+Suppose you're analyzing customer behavior at an online store. Each visitor either makes a purchase or doesn't. From your data, you know that 30% of visitors make a purchase.
 
-**PMF:**
+Let's define a random variable $X$ where:
+- $X = 1$ if the customer makes a purchase (we'll call this "success")
+- $X = 0$ if the customer doesn't purchase (we'll call this "failure")
+
+What are the probabilities?
+- $P(X = 1) = 0.3$ (the purchase probability, let's call it $p$)
+- $P(X = 0) = 0.7$ (the probability of no purchase, which is $1 - p$)
+
+Now here's the clever part. Notice that we can write both probabilities using a single formula. For $X = 1$:
+
+$$P(X = 1) = p^1 \cdot (1-p)^{1-1} = p^1 \cdot (1-p)^0 = p \cdot 1 = p$$
+
+For $X = 0$:
+
+$$P(X = 0) = p^0 \cdot (1-p)^{1-0} = 1 \cdot (1-p)^1 = 1-p$$
+
+This gives us a general formula that works for both cases:
+
+$$P(X = k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\}$$
+
+This is the **Bernoulli distribution** - the simplest discrete distribution modeling a single trial with two possible outcomes.
+
+**Key Characteristics**
+
+- **Scenarios**: Any single trial with two outcomes - coin flip (Heads/Tails), product inspection (Defective/Not Defective), medical test (Positive/Negative), free throw (Make/Miss).
+- **Parameter**: $p$, the probability of success ($0 \le p \le 1$)
+- **Random Variable**: $X \in \{0, 1\}$
+
+**PMF** (written in piecewise form):
 
 $$ P(X=k) = \begin{cases} p & \text{if } k=1 \\ 1-p & \text{if } k=0 \\ 0 & \text{otherwise} \end{cases} $$
 
-This can be written concisely as:
-
-$$ P(X=k) = p^k (1-p)^{1-k} \quad \text{for } k \in \{0, 1\} $$
-
-**Mean (Expected Value):** $E[X] = p$
+**Mean:** $E[X] = p$
 
 **Variance:** $Var(X) = p(1-p)$
 
