@@ -416,6 +416,14 @@ $$
 :class: note
 
 The notation $\sum_{x: g(x)=y}$ is read as "sum over all values of $x$ such that $g(x) = y$". The colon (:) means "such that" or "where". This is a concise way to write a conditional sum - we only include terms where the condition $g(x)=y$ is true.
+
+**Example:** Consider $X$ as a fair die roll and $Y = X^2$. To find $p_Y(4) = P(Y=4)$:
+$$p_Y(4) = \sum_{x: x^2=4} p_X(x)$$
+
+Only $x=2$ satisfies $x^2=4$, so:
+$$p_Y(4) = p_X(2) = \frac{1}{6}$$
+
+The other values ($x \in \{1, 3, 4, 5, 6\}$) do NOT satisfy the condition $x^2=4$, so they are not included in the sum.
 ```
 
 **Expected Value of a Function of a Random Variable (LOTUS):**
