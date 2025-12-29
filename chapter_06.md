@@ -209,6 +209,8 @@ print(f"F(10) = {die_cdf_func(10)}")
 ```
 :::
 
+The plot below visualizes the CDF as a step function. Notice how the function jumps at each integer value (where the die can actually land) and remains constant between integers. The filled circles show the value of the CDF at each point, while the open circles indicate the value just before the jump.
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
