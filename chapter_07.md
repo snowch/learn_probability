@@ -223,6 +223,37 @@ print(f"Mean (Expected Value): {bernoulli_rv.mean():.2f}")
 print(f"Variance: {bernoulli_rv.var():.2f}")
 ```
 
+:::{admonition} Working with Frozen Random Variables in scipy.stats
+:class: note
+
+When we write `bernoulli_rv = stats.bernoulli(p=p_positive)`, we're creating a **frozen random variable** — a distribution object with parameters locked in.
+
+**Two ways to use scipy.stats:**
+
+1. **Non-frozen** (pass parameters every time):
+   ```python
+   stats.bernoulli.pmf(1, p=0.1)
+   stats.bernoulli.cdf(0, p=0.1)
+   stats.bernoulli.mean(p=0.1)
+   ```
+
+2. **Frozen** (set parameters once, reuse):
+   ```python
+   rv = stats.bernoulli(p=0.1)  # Create frozen RV
+   rv.pmf(1)                     # Use it multiple times
+   rv.cdf(0)
+   rv.mean()
+   ```
+
+**Benefits of frozen RVs:**
+- Cleaner, more readable code
+- More efficient (parameters validated once)
+- Easier to pass distributions to functions
+- Matches the pattern in scipy documentation
+
+Throughout this chapter, we use frozen RVs for all examples. This is the recommended approach when working with the same distribution parameters multiple times.
+:::
+
 ```{code-cell} ipython3
 # Generate random samples
 n_samples = 10
@@ -366,6 +397,23 @@ For $n$ independent trials with success probability $p$:
 $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 
 where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
+
+:::{admonition} Connection to Bernoulli Trials
+:class: note
+
+The Binomial PMF formula directly reflects $n$ independent **Bernoulli trials**:
+
+$$P(X=k) = \binom{n}{k} \cdot p^k \cdot (1-p)^{n-k}$$
+
+Breaking this down:
+- **$p^k$**: Probability of $k$ successes — each of the $k$ successes is an independent Bernoulli trial with probability $p$
+- **$(1-p)^{n-k}$**: Probability of $(n-k)$ failures — each failure is an independent Bernoulli trial with probability $1-p$
+- **$\binom{n}{k}$**: Number of ways to arrange $k$ successes among $n$ trial positions
+
+**Why this works:** Any specific sequence of $k$ successes and $(n-k)$ failures has probability $p^k(1-p)^{n-k}$ (by independence). Since there are $\binom{n}{k}$ such sequences, we multiply by the binomial coefficient.
+
+This shows why Binomial "counts successes in repeated Bernoulli trials": it's built from the ground up using the Bernoulli probability $p$ for each trial.
+:::
 
 :::{admonition} Connection to Counting Techniques
 :class: note
