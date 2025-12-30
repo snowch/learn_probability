@@ -36,11 +36,11 @@ The Bernoulli distribution models a single trial with two possible outcomes: "su
 
 **Concrete Example**
 
-Suppose you're analyzing customer behavior at an online store. Each visitor either makes a purchase or doesn't. From your data, you know that 30% of visitors make a purchase.
+Suppose you're conducting a medical screening test for a disease in a high-risk population. Each test either shows positive or negative. From epidemiological data, you know that 30% of individuals in this population test positive.
 
 We model this with a random variable $X$:
-- $X = 1$ if the customer makes a purchase (success)
-- $X = 0$ if the customer doesn't purchase (failure)
+- $X = 1$ if the test result is positive (success)
+- $X = 0$ if the test result is negative (failure)
 
 The probabilities are:
 - $P(X = 1) = 0.3$ (we call this parameter $p$)
@@ -72,7 +72,7 @@ Let's verify this compact formula works for our example where $p = 0.3$:
 
 **Visualizing the Distribution**
 
-Let's visualize a Bernoulli distribution with $p = 0.3$ (our customer purchase example from above):
+Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test example from above):
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -98,7 +98,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
 
-The PMF shows two bars: P(X=0) = 0.7 for failure and P(X=1) = 0.3 for success.
+The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -120,23 +120,23 @@ plt.show()
 
 ![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
 
-The CDF shows the cumulative probability: P(X ≤ 0) = 0.7 (just the failure outcome) and P(X ≤ 1) = 1.0 (both outcomes).
+The CDF shows the cumulative probability: P(X ≤ 0) = 0.7 (just the negative test outcome) and P(X ≤ 1) = 1.0 (both outcomes).
 
-:::{admonition} Example: Customer Purchase with p = 0.1
+:::{admonition} Example: Medical Diagnostic Test with p = 0.1
 :class: tip
 
-Modeling the outcome of a single customer purchase where the probability of purchase is 0.1.
+Modeling the outcome of a single medical diagnostic test where the probability of a positive result is 0.1.
 
 Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
 
 ```{code-cell} ipython3
 # Using scipy.stats.bernoulli
-p_purchase = 0.1
-bernoulli_rv = stats.bernoulli(p=p_purchase)
+p_positive = 0.1
+bernoulli_rv = stats.bernoulli(p=p_positive)
 
 # PMF: Probability of success (k=1) and failure (k=0)
-print(f"P(X=1) (Purchase): {bernoulli_rv.pmf(1):.2f}")
-print(f"P(X=0) (No Purchase): {bernoulli_rv.pmf(0):.2f}")
+print(f"P(X=1) (Positive Test): {bernoulli_rv.pmf(1):.2f}")
+print(f"P(X=0) (Negative Test): {bernoulli_rv.pmf(0):.2f}")
 
 # Mean and Variance
 print(f"Mean (Expected Value): {bernoulli_rv.mean():.2f}")
@@ -147,7 +147,7 @@ print(f"Variance: {bernoulli_rv.var():.2f}")
 # Generate random samples
 n_samples = 10
 samples = bernoulli_rv.rvs(size=n_samples)
-print(f"{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase):")
+print(f"{n_samples} simulated test outcomes (1=Positive, 0=Negative):")
 print(samples)
 ```
 
@@ -159,8 +159,8 @@ k_values = [0, 1]
 pmf_values = bernoulli_rv.pmf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.bar(k_values, pmf_values, tick_label=["No Purchase (0)", "Purchase (1)"], color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Bernoulli PMF (p={p_purchase})")
+plt.bar(k_values, pmf_values, tick_label=["Negative (0)", "Positive (1)"], color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Bernoulli PMF (p={p_positive})")
 plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
@@ -171,7 +171,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
 
-The PMF shows the probability of each outcome. With p = 0.1, "No Purchase" has probability 0.9 and "Purchase" has probability 0.1.
+The PMF shows the probability of each outcome. With p = 0.1, "Negative" has probability 0.9 and "Positive" has probability 0.1.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -181,7 +181,7 @@ cdf_values = bernoulli_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
 plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
-plt.title(f"Bernoulli CDF (p={p_purchase})")
+plt.title(f"Bernoulli CDF (p={p_positive})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
