@@ -52,7 +52,7 @@ The Bernoulli distribution models a single trial with two possible outcomes: "su
 
 The Bernoulli distribution might seem almost trivially simple—it's just a single trial with two outcomes! However, it's incredibly important because:
 
-- **It's the fundamental building block**: All the other distributions in this chapter (Binomial, Geometric, Negative Binomial, Categorical) build directly on the Bernoulli trial concept
+- **It's the fundamental building block**: Several key distributions in this chapter (Binomial, Geometric, Negative Binomial) build directly on repeated Bernoulli trials, while Categorical generalizes the Bernoulli distribution to more than two outcomes
 - **Single binary events are everywhere**: Many real-world scenarios involve a single yes/no, success/failure, or on/off decision
 - **It establishes key patterns**: The $p$ and $(1-p)$ structure appears throughout probability theory
 - **Mathematical note**: The Bernoulli distribution is technically just the Binomial distribution with $n=1$, but we give it its own name because of its foundational importance
@@ -82,7 +82,16 @@ This can also be written compactly as:
 
 $$P(X = k) = p^k (1-p)^{1-k} \text{ for } k \in \{0, 1\}$$
 
-Let's verify this compact formula works for our example where $p = 0.3$:
+Expanding this for both cases to make it crystal clear:
+
+$$
+P(X = k) = \begin{cases}
+p^1 (1-p)^{1-1} = p^1 (1-p)^0 = p \times 1 = p & \text{if } k=1 \text{ (success)} \\
+p^0 (1-p)^{1-0} = p^0 (1-p)^1 = 1 \times (1-p) = 1-p & \text{if } k=0 \text{ (failure)}
+\end{cases}
+$$
+
+Let's verify this works for our example where $p = 0.3$:
 - When $k = 1$: $P(X=1) = (0.3)^1 (0.7)^0 = 0.3 \times 1 = 0.3$ ✓
 - When $k = 0$: $P(X=0) = (0.3)^0 (0.7)^1 = 1 \times 0.7 = 0.7$ ✓
 
