@@ -487,16 +487,16 @@ ax.text(5, 2.3, r'$= 0.432$',
         ha='center', va='center', fontsize=12, weight='bold',
         bbox=dict(boxstyle='round', facecolor='lightgreen', edgecolor='green', linewidth=2))
 
-# Annotations with arrows
-ax.annotate('Count sequences', xy=(5, 5.5), xytext=(1.5, 5.5),
+# Annotations with arrows - adjusted to avoid overlaps
+ax.annotate('Count sequences', xy=(4.2, 5.5), xytext=(1.2, 6.2),
             arrowprops=dict(arrowstyle='->', color='orange', lw=2),
             fontsize=9, color='orange', weight='bold')
 
-ax.annotate('Each sequence\nhas same\nprobability', xy=(5, 6.5), xytext=(8.5, 5),
+ax.annotate('Each sequence\nhas same\nprobability', xy=(7.5, 6.5), xytext=(8.5, 8),
             arrowprops=dict(arrowstyle='->', color='steelblue', lw=2),
             fontsize=9, color='steelblue', weight='bold', ha='center')
 
-ax.annotate('Multiply!', xy=(5, 2.7), xytext=(8, 2.7),
+ax.annotate('Multiply!', xy=(5.8, 2.3), xytext=(7.5, 3.2),
             arrowprops=dict(arrowstyle='->', color='green', lw=2),
             fontsize=9, color='green', weight='bold')
 
