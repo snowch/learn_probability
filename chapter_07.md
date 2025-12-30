@@ -107,7 +107,7 @@ The PMF shows two bars: P(X=0) = 0.7 for failure and P(X=1) = 0.3 for success.
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -184,7 +184,7 @@ The PMF shows the probability of each outcome. With p = 0.1, "No Purchase" has p
 cdf_values = bernoulli_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_purchase})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -298,7 +298,7 @@ The PMF shows the probability distribution for the number of heads in 10 coin fl
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_viz}, p={p_viz})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -383,7 +383,7 @@ The PMF shows the probability distribution for the number of successful calls. W
 cdf_values = binomial_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -501,7 +501,7 @@ The PMF shows exponentially decreasing probabilities - you're most likely to suc
 cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Geometric CDF (p={p_viz})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -599,7 +599,7 @@ The PMF shows exponentially decreasing probabilities for the exam example with p
 cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values_trials, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Geometric CDF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -752,7 +752,7 @@ The PMF shows the probability distribution for the total number of components te
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_components, cdf_values_nb, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values_components, cdf_values_nb, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective}) - Components tested")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -855,7 +855,7 @@ The PMF shows the probability distribution for the number of events (emails rece
 cdf_values = poisson_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Poisson CDF (lambda={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -969,7 +969,7 @@ The PMF shows the probability distribution for the number of winning tickets in 
 cdf_values = hypergeom_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Hypergeometric CDF (N={N_population}, K={K_successes_pop}, n={n_sample})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
