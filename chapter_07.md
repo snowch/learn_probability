@@ -175,7 +175,7 @@ Now that we've seen both types of visualizations, let's understand how to read a
 
 Modeling the outcome of a single medical diagnostic test where the probability of a positive result is 0.1.
 
-Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
+Let's use [`scipy.stats.bernoulli`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bernoulli.html) to calculate probabilities, compute the mean and variance, and generate random samples.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -428,7 +428,7 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads
 
 Modeling the number of successful sales calls out of 20, where each call has a 0.15 probability of success.
 
-We'll demonstrate how to use `scipy.stats.binom` to calculate probabilities, compute statistics, and generate random samples.
+We'll demonstrate how to use [`scipy.stats.binom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html) to calculate probabilities, compute statistics, and generate random samples.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -592,6 +592,23 @@ This means $k-1$ failures followed by one success.
 Let's verify for our example (p=0.4):
 - $P(X=2) = (0.6)^1 (0.4) = 0.24$ ✓
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The formula $(1-p)^{k-1} p$ has an intuitive structure:
+
+- **$(1-p)^{k-1}$**: Probability of $k-1$ consecutive failures
+- **$p$**: Probability of success on the $k$-th trial
+- **Multiply them**: Since trials are independent, we multiply the probabilities
+
+**Example:** For $P(X=3)$ with $p=0.4$:
+- First two trials must fail: $(0.6) \times (0.6) = 0.36$
+- Third trial must succeed: $0.4$
+- Combined: $0.36 \times 0.4 = 0.144$
+
+This is why the formula captures "trials until first success" - it requires all previous trials to fail and the final trial to succeed.
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Coin flips until first Head, job applications until first offer, attempts to pass an exam, at-bats until first hit
@@ -601,6 +618,8 @@ Let's verify for our example (p=0.4):
 **Mean:** $E[X] = \frac{1}{p}$
 
 **Variance:** $Var(X) = \frac{1-p}{p^2}$
+
+**Relationship to Other Distributions:** The Geometric distribution is built from independent **Bernoulli trials** and is a special case of the **Negative Binomial distribution** with $r=1$ (waiting for just one success instead of $r$ successes).
 
 :::{admonition} Note
 :class: note
@@ -664,7 +683,7 @@ The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succee
 
 Modeling the number of attempts needed to pass a certification exam where the pass probability is 0.6.
 
-Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
+Let's use [`scipy.stats.geom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.geom.html) to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -839,6 +858,24 @@ $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, 
 
 This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The formula breaks down into three parts:
+
+- **$\binom{k-1}{r-1}$**: Choose which $r-1$ of the first $k-1$ trials are successes (the $k$-th trial must be a success, so we only choose positions for $r-1$ successes)
+- **$p^r$**: Probability of $r$ successes
+- **$(1-p)^{k-r}$**: Probability of $k-r$ failures
+
+**Example:** For $r=3$ successes in $k=5$ trials with $p=0.4$:
+- Need exactly 2 successes in first 4 trials: $\binom{4}{2} = 6$ ways (e.g., SSFF, SFSF, SFFS, FSSF, FSFS, FFSS)
+- Each arrangement has probability $(0.4)^2 (0.6)^2$ for the first 4 trials
+- 5th trial must succeed: $0.4$
+- Combined: $6 \times (0.4)^3 \times (0.6)^2$
+
+The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Coin flips until getting r Heads, products inspected to find r defects, interviews until making r hires
@@ -912,7 +949,7 @@ The CDF shows P(X ≤ k), the cumulative probability of achieving r successes wi
 
 A quality control inspector tests electronic components until finding 3 defective ones. The defect rate is p = 0.05.
 
-We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
+We'll use [`scipy.stats.nbinom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html) to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1095,6 +1132,24 @@ where $e \approx 2.71828$ is Euler's number.
 Let's verify for our example (λ=4):
 - $P(X=4) = \frac{e^{-4} \times 4^4}{4!} \approx 0.195$ ✓
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The Poisson formula $\frac{e^{-\lambda} \lambda^k}{k!}$ emerges from the mathematics of rare events:
+
+- **$\lambda^k / k!$**: Represents the "raw" likelihood of $k$ events based on the rate $\lambda$
+- **$e^{-\lambda}$**: A normalization factor that ensures all probabilities sum to 1
+
+**Intuition:** The Poisson distribution arises as the limit of the Binomial distribution when:
+- You divide a time interval into many tiny sub-intervals ($n$ very large)
+- The probability of an event in each sub-interval is very small ($p$ very small)
+- The average rate $\lambda = np$ stays constant
+
+For example, "4 calls per hour" could be modeled as 3600 one-second intervals where each second has probability $p = 4/3600$ of receiving a call.
+
+**Why mean = variance = λ?** This unique property reflects the "memoryless" nature of the Poisson process - events occur randomly and independently at a constant average rate.
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Emails per hour, customer arrivals per day, typos per page, emergency calls per shift, defects per unit area
@@ -1106,6 +1161,8 @@ Let's verify for our example (λ=4):
 **Variance:** $Var(X) = \lambda$
 
 Note: Mean and variance are equal in a Poisson distribution.
+
+**Relationship to Other Distributions:** The Poisson distribution is an approximation to the **Binomial distribution** when $n$ is large, $p$ is small, and $\lambda = np$ is moderate. Rule of thumb: use Poisson approximation when $n \ge 20$ and $p \le 0.05$.
 
 **Visualizing the Distribution**
 
@@ -1163,7 +1220,7 @@ The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6
 
 Modeling the number of emails received per hour with an average rate of λ = 5 emails/hour.
 
-Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
+Let's use [`scipy.stats.poisson`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html) to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1327,6 +1384,24 @@ $$ P(X=k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}} $$
 
 This is: (ways to choose k successes from K) × (ways to choose n-k failures from N-K) / (total ways to choose n items from N).
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The Hypergeometric formula uses counting principles:
+
+- **$\binom{N}{n}$** (denominator): Total ways to choose $n$ items from $N$ - this is all possible samples
+- **$\binom{K}{k}$** (numerator): Ways to choose $k$ successes from the $K$ successes available
+- **$\binom{N-K}{n-k}$** (numerator): Ways to choose $n-k$ failures from the $N-K$ failures available
+
+**Example:** Drawing 5 cards hoping for 2 Aces (N=52, K=4, n=5, k=2):
+- Ways to choose 2 Aces from 4: $\binom{4}{2} = 6$
+- Ways to choose 3 non-Aces from 48: $\binom{48}{3} = 17,296$
+- Ways to choose any 5 cards: $\binom{52}{5} = 2,598,960$
+- Probability: $\frac{6 \times 17,296}{2,598,960} \approx 0.040$
+
+The formula is essentially: **(favorable outcomes) / (total possible outcomes)** from basic probability, using combinations to count!
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Cards from a deck, defective items in small batch, tagged fish in sample, jury selection from finite pool
@@ -1400,7 +1475,7 @@ The CDF shows P(X ≤ k), useful for questions like "What's the probability of g
 
 Modeling the number of winning lottery tickets in a sample of 10 drawn from a box of 100 tickets where 20 are winners.
 
-We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
+We'll use [`scipy.stats.hypergeom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hypergeom.html) to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1572,6 +1647,21 @@ $$ P(X=k) = \begin{cases} \frac{1}{b-a+1} & \text{if } k \in \{a, a+1, \ldots, b
 For our die example with $a = 1$ and $b = 6$:
 - $P(X=k) = \frac{1}{6-1+1} = \frac{1}{6}$ for $k \in \{1, 2, 3, 4, 5, 6\}$
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The Discrete Uniform distribution is the simplest probability distribution:
+
+- **Total outcomes**: $b - a + 1$ (the "+1" counts both endpoints)
+- **Each outcome equally likely**: Probability = $\frac{1}{\text{total outcomes}}$
+
+**Example:** For values 5 through 15:
+- Total values: $15 - 5 + 1 = 11$ values
+- Each has probability: $\frac{1}{11} \approx 0.091$
+
+This directly implements the classical definition of probability: **(favorable outcomes) / (total equally likely outcomes)**.
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Fair die roll, random selection from a list, lottery number selection, random password digit
@@ -1583,6 +1673,8 @@ For our die example with $a = 1$ and $b = 6$:
 **Mean:** $E[X] = \frac{a+b}{2}$
 
 **Variance:** $Var(X) = \frac{(b-a+1)^2 - 1}{12}$
+
+**Relationship to Other Distributions:** The Discrete Uniform distribution is a special case of the **Categorical distribution** where all $k$ categories have equal probability $p_i = 1/k$. If outcomes aren't equally likely, use Categorical instead.
 
 **Visualizing the Distribution**
 
@@ -1645,7 +1737,7 @@ The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maxim
 
 Modeling a random integer selection from 1 to 20, where each number is equally likely to be chosen.
 
-Let's use `scipy.stats.randint` to calculate probabilities and generate samples.
+Let's use [`scipy.stats.randint`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.randint.html) to calculate probabilities and generate samples.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1815,6 +1907,20 @@ For our loaded die example:
 - $P(X=4) = 0.25,\, P(X=5) = 0.20,\, P(X=6) = 0.10$
 - Sum: $0.1 + 0.15 + 0.20 + 0.25 + 0.20 + 0.10 = 1.0$ ✓
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The Categorical PMF is straightforward - each outcome has its own assigned probability:
+
+- **Single trial**: Only one outcome occurs
+- **Each outcome $i$ has probability $p_i$**: Directly specified
+- **Constraint**: All probabilities must sum to 1 (ensuring exactly one outcome occurs)
+
+This is the most general discrete distribution for a single trial - every outcome can have a different probability. It generalizes simpler distributions:
+- If $k=2$: Reduces to **Bernoulli**
+- If all $p_i = 1/k$: Reduces to **Discrete Uniform**
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Loaded die, customer choosing from menu categories, survey response (multiple choice), weather outcome (sunny/cloudy/rainy/snowy)
@@ -1826,6 +1932,8 @@ For our loaded die example:
 **Mean:** $E[X] = \sum_{i=1}^k i \cdot p_i$ (weighted average of outcomes)
 
 **Variance:** $Var(X) = \sum_{i=1}^k i^2 \cdot p_i - \left(\sum_{i=1}^k i \cdot p_i\right)^2$
+
+**Relationship to Other Distributions:** Categorical generalizes **Bernoulli** (when $k=2$) and is a special case of **Discrete Uniform** (when all $p_i$ are equal). For multiple trials, use the **Multinomial distribution** instead.
 
 **Visualizing the Distribution**
 
@@ -1884,7 +1992,7 @@ The CDF increases by different amounts at each value, reflecting the varying pro
 
 A coffee shop tracks customer drink preferences: 40% choose coffee, 30% choose tea, 20% choose juice, and 10% choose water.
 
-Let's model this using a Categorical distribution.
+Let's model this using a Categorical distribution with [`scipy.stats.rv_discrete`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_discrete.html).
 
 ```{code-cell} ipython3
 import numpy as np
@@ -2062,6 +2170,22 @@ P(X_1=3, X_2=4, X_3=2, X_4=5, X_5=4, X_6=2) &= \frac{20!}{3! \, 4! \, 2! \, 5! \
 \end{align}
 $$
 
+:::{admonition} Why This Formula Works
+:class: note
+
+The Multinomial formula extends the Binomial idea to multiple categories:
+
+- **$\frac{n!}{x_1! x_2! \cdots x_k!}$**: The multinomial coefficient counts how many different sequences of $n$ trials produce exactly $x_1$ occurrences of category 1, $x_2$ of category 2, etc.
+- **$p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k}$**: Probability of any specific sequence with those counts
+
+**Example:** With 3 trials and outcomes (A, A, B):
+- There are $\frac{3!}{2! \, 1!} = 3$ arrangements: AAB, ABA, BAA
+- Each has probability $p_A^2 p_B^1$
+- Combined: $3 \times p_A^2 p_B$
+
+The multinomial coefficient is like the binomial coefficient, but for distributing $n$ items among $k$ categories instead of just 2.
+:::
+
 **Key Characteristics**
 
 - **Scenarios**: Rolling a die n times (counting each face), survey with multiple choice options, customer purchases across product categories, DNA base frequencies in a sequence
@@ -2074,6 +2198,8 @@ $$
 **Mean for each category:** $E[X_i] = n p_i$
 
 **Variance for each category:** $Var(X_i) = n p_i (1-p_i)$
+
+**Relationship to Other Distributions:** Multinomial generalizes **Binomial** (when $k=2$) and **Categorical** (single trial becomes multiple trials). Each individual category count $X_i$ follows a **Binomial** distribution with parameters $(n, p_i)$.
 
 **Visualizing the Distribution**
 
@@ -2114,7 +2240,7 @@ The marginal distribution of any single category in a Multinomial distribution i
 
 A store tracks purchases across 4 product categories: Electronics (30%), Clothing (25%), Home Goods (25%), Food (20%). We observe 50 customers and count how many purchase from each category.
 
-Let's use `numpy.random.multinomial` to work with this distribution.
+Let's use [`numpy.random.multinomial`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.multinomial.html) to work with this distribution.
 
 ```{code-cell} ipython3
 import numpy as np
