@@ -432,81 +432,140 @@ In our context, it counts **how many different sequences** of $n$ trials yield e
 :tags: [remove-input, remove-output]
 
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+from matplotlib.patches import FancyBboxPatch
 
-fig, ax = plt.subplots(figsize=(14, 8))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 10)
-ax.axis('off')
+# --- Parameters ---
+n, k, p = 3, 2, 0.6
+q = 1 - p
+prob_each = (p**k) * (q**(n-k))
+total = 3 * prob_each
 
-# Title
-ax.text(5, 9.5, r'Binomial Formula Breakdown: $n=3, k=2, p=0.6$',
-        ha='center', va='top', fontsize=28, weight='bold')
+fig, ax = plt.subplots(figsize=(14, 8), constrained_layout=True)
+ax.set_axis_off()
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
 
-# Draw the three sequences
-sequences = [
-    ('SSF', 2.5, 7),
-    ('SFS', 5, 7),
-    ('FSS', 7.5, 7)
-]
+# ---------------- helpers ----------------
+def rounded_box(ax, xy, w, h, fc, ec, lw=2, pad=0.012, r=0.02, z=3):
+    x, y = xy
+    patch = FancyBboxPatch(
+        (x, y), w, h,
+        boxstyle=f"round,pad={pad},rounding_size={r}",
+        transform=ax.transAxes,
+        facecolor=fc, edgecolor=ec, linewidth=lw, zorder=z
+    )
+    ax.add_patch(patch)
+    return patch
 
-p = 0.6
-prob_each = p**2 * (1-p)
+def draw_sequence(ax, cx, cy, label):
+    w, h = 0.14, 0.075
+    rounded_box(ax, (cx - w/2, cy - h/2), w, h,
+                fc="lightblue", ec="steelblue", lw=2.2, r=0.02)
 
-for seq_text, x, y in sequences:
-    # Box for sequence
-    box = FancyBboxPatch((x-0.6, y-0.3), 1.2, 0.6,
-                         boxstyle="round,pad=0.1",
-                         edgecolor='steelblue', facecolor='lightblue',
-                         linewidth=2)
-    ax.add_patch(box)
+    ax.text(cx, cy, label, transform=ax.transAxes,
+            ha="center", va="center",
+            fontsize=24, weight="bold", family="monospace", zorder=4)
 
-    # Sequence text
-    ax.text(x, y, seq_text, ha='center', va='center',
-            fontsize=26, weight='bold', family='monospace')
+    ax.text(cx, cy - 0.075, rf"${p:.1f}\times{p:.1f}\times{q:.1f}$",
+            transform=ax.transAxes, ha="center", va="top",
+            fontsize=18, zorder=4)
 
-    # Probability calculation below
-    ax.text(x, y-0.8, f'{p}×{p}×{1-p:.1f}', ha='center', va='top',
-            fontsize=24, style='italic')
-    ax.text(x, y-1.2, f'= {prob_each:.3f}', ha='center', va='top',
-            fontsize=24, weight='bold')
+    ax.text(cx, cy - 0.115, rf"$= {prob_each:.3f}$",
+            transform=ax.transAxes, ha="center", va="top",
+            fontsize=18, weight="bold", zorder=4)
 
-# Count annotation
-ax.text(5, 5.5, r'$\binom{3}{2} = 3$ sequences',
-        ha='center', va='center', fontsize=24, weight='bold',
-        bbox=dict(boxstyle='round', facecolor='lightyellow', edgecolor='orange', linewidth=2))
+    # return (left, bottom, right, top) for arrow anchoring
+    return (cx - w/2, cy - h/2, cx + w/2, cy + h/2)
 
-# Formula breakdown
-ax.text(5, 4.2, 'Formula:', ha='center', va='center', fontsize=24, weight='bold')
-ax.text(5, 3.6, r'$P(X=2) = \binom{3}{2} \cdot p^2 \cdot (1-p)^1$',
-        ha='center', va='center', fontsize=24)
-ax.text(5, 2.9, r'$= 3 \times 0.36 \times 0.4$',
-        ha='center', va='center', fontsize=24)
-ax.text(5, 2.3, r'$= 0.432$',
-        ha='center', va='center', fontsize=26, weight='bold',
-        bbox=dict(boxstyle='round', facecolor='lightgreen', edgecolor='green', linewidth=2))
+# ---------------- layout ----------------
+ax.text(0.5, 0.955, rf"Binomial Formula Breakdown: $n={n},\,k={k},\,p={p}$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=24, weight="bold", zorder=4)
 
-# Annotations with arrows - repositioned to completely avoid overlaps
-ax.annotate('Count sequences', xy=(3.8, 5.5), xytext=(0.3, 5.0),
-            arrowprops=dict(arrowstyle='->', color='orange', lw=2.5),
-            fontsize=20, color='orange', weight='bold')
+# Top row: sequences
+seq_y = 0.78
+seq_boxes = {}
+for lbl, x in [("SSF", 0.24), ("SFS", 0.50), ("FSS", 0.76)]:
+    seq_boxes[lbl] = draw_sequence(ax, x, seq_y, lbl)
 
-ax.annotate('Each sequence\nhas same\nprobability', xy=(8.1, 7.0), xytext=(9.2, 7.8),
-            arrowprops=dict(arrowstyle='->', color='steelblue', lw=2.5),
-            fontsize=20, color='steelblue', weight='bold', ha='left')
+# Count box
+count_w, count_h = 0.30, 0.08
+count_xy = (0.5 - count_w/2, 0.56 - count_h/2)
+rounded_box(ax, count_xy, count_w, count_h,
+            fc="lightyellow", ec="orange", lw=2.2, r=0.02)
 
-ax.annotate('Multiply!', xy=(6.2, 2.3), xytext=(7.8, 1.5),
-            arrowprops=dict(arrowstyle='->', color='green', lw=2.5),
-            fontsize=20, color='green', weight='bold')
+ax.text(0.5, 0.56, r"$\binom{3}{2}=3$ sequences",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, weight="bold", zorder=4)
+
+# Formula block
+ax.text(0.5, 0.44, "Formula:", transform=ax.transAxes,
+        ha="center", va="center", fontsize=20, weight="bold", zorder=4)
+
+ax.text(0.5, 0.385, r"$P(X=2)=\binom{3}{2}\cdot p^2\cdot (1-p)^1$",
+        transform=ax.transAxes, ha="center", va="center", fontsize=18, zorder=4)
+
+ax.text(0.5, 0.33, r"$=3\times 0.36\times 0.4$",
+        transform=ax.transAxes, ha="center", va="center", fontsize=18, zorder=4)
+
+# Result box (moved DOWN a bit)
+res_w, res_h = 0.18, 0.075
+res_center_y = 0.235  # was 0.26
+res_xy = (0.5 - res_w/2, res_center_y - res_h/2)
+rounded_box(ax, res_xy, res_w, res_h,
+            fc="lightgreen", ec="green", lw=2.2, r=0.02)
+
+ax.text(0.5, res_center_y, rf"$= {total:.3f}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, weight="bold", zorder=4)
+
+# ---- Callouts: arrows hit box edges and avoid overlaps ----
+# Orange (label moved down a bit)
+count_tip = (count_xy[0], count_xy[1] + count_h*0.55)  # left edge of yellow box
+ax.annotate("Count sequences",
+            xy=count_tip, xycoords=ax.transAxes,
+            xytext=(0.08, 0.595), textcoords=ax.transAxes,  # moved down
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=-0.10",
+                            lw=2.5, color="orange",
+                            shrinkA=6, shrinkB=8),
+            fontsize=16, color="orange", weight="bold",
+            ha="left", va="center", zorder=5)
+
+# Blue -> right edge of FSS box
+x0, y0, x1, y1 = seq_boxes["FSS"]
+fss_tip = (x1, (y0 + y1) / 2)
+ax.annotate("Each sequence\nhas same\nprobability",
+            xy=fss_tip, xycoords=ax.transAxes,
+            xytext=(0.88, 0.84), textcoords=ax.transAxes,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=0.18",
+                            lw=2.5, color="steelblue",
+                            shrinkA=6, shrinkB=10),
+            fontsize=16, color="steelblue", weight="bold",
+            ha="left", va="center", zorder=5)
+
+# Green -> right edge of result box
+res_tip = (res_xy[0] + res_w, res_xy[1] + res_h*0.55)
+ax.annotate("Multiply!",
+            xy=res_tip, xycoords=ax.transAxes,
+            xytext=(0.78, 0.19), textcoords=ax.transAxes,  # nudged down
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=0.10",
+                            lw=2.5, color="green",
+                            shrinkA=6, shrinkB=10),
+            fontsize=16, color="green", weight="bold",
+            ha="left", va="center", zorder=5)
 
 # Bottom explanation
-ax.text(5, 0.8, 'Why it works: Each sequence occurs with probability 0.432/3 = 0.144,',
-        ha='center', va='center', fontsize=20, style='italic')
-ax.text(5, 0.3, 'and there are 3 ways to get exactly 2 successes, so total = 3 × 0.144 = 0.432',
-        ha='center', va='center', fontsize=20, style='italic')
+why = (
+    f"Why it works: Each sequence occurs with probability {total:.3f}/3 = {prob_each:.3f}, "
+    f"and there are 3 ways to get exactly 2 successes, so total = 3 × {prob_each:.3f} = {total:.3f}."
+)
+ax.text(0.5, 0.10, why,
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=14, style="italic", wrap=True, zorder=4)
 
-plt.tight_layout()
 plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
 ```
