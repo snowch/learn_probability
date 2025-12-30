@@ -268,6 +268,20 @@ $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 
 where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
 
+:::{admonition} Connection to Counting Techniques
+:class: note
+
+The binomial coefficient $\binom{n}{k}$ is a **combination** - it counts the number of ways to choose $k$ items from $n$ items when order doesn't matter (see [Chapter 3: Combinations](chapter_03.md#combinations-when-order-doesnt-matter)).
+
+In the binomial distribution context:
+- We perform $n$ independent trials
+- We want exactly $k$ successes (in any order)
+- The binomial coefficient counts **how many different sequences** of trials yield exactly $k$ successes
+- For example, with $n=3$ trials and $k=2$ successes: $\binom{3}{2} = 3$ represents the sequences SSF, SFS, and FSS (where S=success, F=failure)
+
+This explains why the PMF formula multiplies the binomial coefficient by the probability of any specific sequence: the coefficient counts the sequences, while $p^k(1-p)^{n-k}$ gives the probability of each sequence.
+:::
+
 Let's verify this works for our coin flip example (n=10, p=0.5):
 - $P(X=5) = \binom{10}{5} (0.5)^5 (0.5)^5 = 252 \times 0.03125 \times 0.03125 \approx 0.246$ ✓
 
