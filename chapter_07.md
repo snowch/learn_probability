@@ -754,18 +754,53 @@ The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
 
 1. You flip a coin until you get your first Heads. What distribution models this and what is the parameter?
 
-2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
-
-3. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+**Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+```
 
-2. **E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
 
-3. **1st trial is more likely** - Geometric PMF decreases exponentially, so P(X=1) > P(X=3).
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+```
+
+3. You're calling customer service and have a 20% chance each attempt of getting through. Should you model this with Geometric or Binomial?
+
+```{admonition} Answer
+:class: dropdown
+
+**Geometric distribution** - You're waiting for the *first* success (getting through), not counting successes in a fixed number of tries. Geometric models "how many attempts until success" with p = 0.20.
+
+Binomial would apply if you made a fixed number of calls and counted how many got through.
+```
+
+4. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
+
+```{admonition} Answer
+:class: dropdown
+
+**1st trial is more likely** - The Geometric PMF decreases exponentially with k, so P(X=1) > P(X=3).
+
+Specifically: P(X=1) = 0.5, while P(X=3) = (0.5)³ = 0.125
+```
+
+5. For a Geometric distribution, why does the variance equal (1-p)/p²?
+
+```{admonition} Answer
+:class: dropdown
+
+The variance formula Var(X) = (1-p)/p² reflects the increasing uncertainty as p decreases:
+
+- When p is high (easy to succeed): variance is low (more predictable)
+- When p is low (hard to succeed): variance is high (could take many tries or get lucky early)
+
+For example:
+- p = 0.5: Var(X) = 0.5/0.25 = 2
+- p = 0.1: Var(X) = 0.9/0.01 = 90 (much more variable!)
 ```
 
 +++
@@ -973,18 +1008,55 @@ The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective item
 
 1. You flip a fair coin until you get 5 Heads. What distribution models this and what are the parameters?
 
-2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
-
-3. How is Negative Binomial related to Geometric distribution?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+**Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+```
 
-2. **E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
 
-3. **Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+```
+
+3. A basketball player practices free throws until making 10 successful shots. Each shot has a 70% success rate. Which distribution and why?
+
+```{admonition} Answer
+:class: dropdown
+
+**Negative Binomial with r = 10, p = 0.7** - We're waiting for a fixed number of successes (r = 10), not just the first success. Each trial (shot) is independent with constant probability p = 0.7.
+
+This is NOT Geometric because we need 10 successes, not just 1.
+```
+
+4. How is Negative Binomial related to Geometric distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+
+- Geometric: waiting for 1st success
+- Negative Binomial: waiting for r-th success (r ≥ 1)
+```
+
+5. For Negative Binomial, why is the variance r(1-p)/p²?
+
+```{admonition} Answer
+:class: dropdown
+
+The variance r(1-p)/p² grows with both r and uncertainty:
+
+- **Increases with r**: Waiting for more successes means more trials and more variability
+- **Increases as p decreases**: Lower success probability means higher uncertainty in when you'll reach r successes
+
+For example:
+- r=1, p=0.5: Var = 1×0.5/0.25 = 2
+- r=5, p=0.5: Var = 5×0.5/0.25 = 10 (more variable with more successes needed)
+- r=5, p=0.2: Var = 5×0.8/0.04 = 100 (much more variable with low p!)
 ```
 
 +++
@@ -1168,18 +1240,57 @@ The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6
 
 1. A call center receives an average of 12 calls per hour. What distribution models the number of calls in one hour and what is the parameter?
 
-2. For a Poisson distribution with λ = 7, what are the mean and variance?
-
-3. True or False: In a Poisson distribution, the mean can be different from the variance.
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Poisson distribution with λ = 12** - Events occurring at constant average rate in fixed interval.
+**Poisson distribution with λ = 12** - Events occurring at a constant average rate in a fixed interval.
+```
 
-2. **Mean = 7, Variance = 7** - For Poisson, both equal λ.
+2. For a Poisson distribution with λ = 7, what are the mean and variance?
 
-3. **False** - A key property of Poisson is that mean = variance = λ.
+```{admonition} Answer
+:class: dropdown
+
+**Mean = 7, Variance = 7** - For Poisson, both equal λ. This is a unique property of the Poisson distribution.
+```
+
+3. You count the number of typos on a random page of a book. The average is 2 typos per page. Which distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Poisson with λ = 2** - Counting discrete events (typos) occurring in a fixed space (one page) at a constant average rate.
+
+This fits Poisson's requirements:
+- Events happen independently
+- Constant average rate
+- Counting occurrences in fixed interval/space
+```
+
+4. True or False: In a Poisson distribution, the mean can be different from the variance.
+
+```{admonition} Answer
+:class: dropdown
+
+**False** - A key property of Poisson is that mean = variance = λ.
+
+This property can help you identify when Poisson might not be the best fit. If your data has variance much larger or smaller than the mean, consider other distributions (e.g., Negative Binomial for overdispersion).
+```
+
+5. When can Poisson approximate Binomial?
+
+```{admonition} Answer
+:class: dropdown
+
+**When n is large, p is small, and np is moderate** - Specifically:
+- n ≥ 20 and p ≤ 0.05, or
+- n ≥ 100 and np ≤ 10
+
+Then Binomial(n, p) ≈ Poisson(λ = np)
+
+Example: Binomial(n=1000, p=0.003) ≈ Poisson(λ=3)
+
+This works because rare events in many trials behave like events occurring at a constant rate.
 ```
 
 +++
