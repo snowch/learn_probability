@@ -228,6 +228,8 @@ print(f"Variance: {bernoulli_rv.var():.2f}")
 
 When we write `bernoulli_rv = stats.bernoulli(p=p_positive)`, we're creating a **frozen random variable** — a distribution object with parameters locked in.
 
+**Think of it like partial immutability:** Similar to how Python's immutable objects (strings, tuples) can't be changed after creation, a frozen RV's distribution parameters are fixed and can't be modified. The difference is that frozen RVs only "freeze" the parameters (like p=0.1), not the entire object.
+
 **Two ways to use scipy.stats:**
 
 1. **Non-frozen** (pass parameters every time):
