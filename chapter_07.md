@@ -425,6 +425,95 @@ The binomial coefficient $\binom{n}{k}$ is a **combination** that counts the num
 In our context, it counts **how many different sequences** of $n$ trials yield exactly $k$ successes. For example, with $n=3$ trials and $k=2$ successes: $\binom{3}{2} = 3$ represents the three sequences SSF, SFS, and FSS (where S=success, F=failure).
 
 **Why we multiply:** Each of the $\binom{n}{k}$ sequences has the same probability $p^k(1-p)^{n-k}$. To get the total probability of exactly $k$ successes (in any order), we multiply the number of sequences by the probability of each sequence.
+
+**Visual example:** Here's how it works for $n=3$ trials, $k=2$ successes, with $p=0.6$:
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 10)
+ax.axis('off')
+
+# Title
+ax.text(5, 9.5, r'Binomial Formula Breakdown: $n=3, k=2, p=0.6$',
+        ha='center', va='top', fontsize=14, weight='bold')
+
+# Draw the three sequences
+sequences = [
+    ('SSF', 2.5, 7),
+    ('SFS', 5, 7),
+    ('FSS', 7.5, 7)
+]
+
+p = 0.6
+prob_each = p**2 * (1-p)
+
+for seq_text, x, y in sequences:
+    # Box for sequence
+    box = FancyBboxPatch((x-0.6, y-0.3), 1.2, 0.6,
+                         boxstyle="round,pad=0.1",
+                         edgecolor='steelblue', facecolor='lightblue',
+                         linewidth=2)
+    ax.add_patch(box)
+
+    # Sequence text
+    ax.text(x, y, seq_text, ha='center', va='center',
+            fontsize=12, weight='bold', family='monospace')
+
+    # Probability calculation below
+    ax.text(x, y-0.8, f'{p}×{p}×{1-p:.1f}', ha='center', va='top',
+            fontsize=10, style='italic')
+    ax.text(x, y-1.2, f'= {prob_each:.3f}', ha='center', va='top',
+            fontsize=10, weight='bold')
+
+# Count annotation
+ax.text(5, 5.5, r'$\binom{3}{2} = 3$ sequences',
+        ha='center', va='center', fontsize=12, weight='bold',
+        bbox=dict(boxstyle='round', facecolor='lightyellow', edgecolor='orange', linewidth=2))
+
+# Formula breakdown
+ax.text(5, 4.2, 'Formula:', ha='center', va='center', fontsize=11, weight='bold')
+ax.text(5, 3.6, r'$P(X=2) = \binom{3}{2} \cdot p^2 \cdot (1-p)^1$',
+        ha='center', va='center', fontsize=12)
+ax.text(5, 2.9, r'$= 3 \times 0.36 \times 0.4$',
+        ha='center', va='center', fontsize=11)
+ax.text(5, 2.3, r'$= 0.432$',
+        ha='center', va='center', fontsize=12, weight='bold',
+        bbox=dict(boxstyle='round', facecolor='lightgreen', edgecolor='green', linewidth=2))
+
+# Annotations with arrows
+ax.annotate('Count sequences', xy=(5, 5.5), xytext=(1.5, 5.5),
+            arrowprops=dict(arrowstyle='->', color='orange', lw=2),
+            fontsize=9, color='orange', weight='bold')
+
+ax.annotate('Each sequence\nhas same\nprobability', xy=(5, 6.5), xytext=(8.5, 5),
+            arrowprops=dict(arrowstyle='->', color='steelblue', lw=2),
+            fontsize=9, color='steelblue', weight='bold', ha='center')
+
+ax.annotate('Multiply!', xy=(5, 2.7), xytext=(8, 2.7),
+            arrowprops=dict(arrowstyle='->', color='green', lw=2),
+            fontsize=9, color='green', weight='bold')
+
+# Bottom explanation
+ax.text(5, 1.2, 'Why it works: Each sequence occurs with probability 0.432/3 = 0.144,',
+        ha='center', va='center', fontsize=9, style='italic')
+ax.text(5, 0.7, 'and there are 3 ways to get exactly 2 successes, so total = 3 × 0.144 = 0.432',
+        ha='center', va='center', fontsize=9, style='italic')
+
+plt.tight_layout()
+plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Binomial Formula Breakdown](ch07_binomial_formula_breakdown.svg)
+
+The diagram shows how the formula components work together: we count the sequences (3), calculate the probability of each sequence (0.144), and multiply to get the total probability of exactly 2 successes (0.432).
 :::
 
 Let's verify this works for our coin flip example (n=10, p=0.5):
