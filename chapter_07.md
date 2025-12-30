@@ -84,11 +84,24 @@ $$P(X = k) = p^k (1-p)^{1-k} \text{ for } k \in \{0, 1\}$$
 
 Expanding this for both cases to make it crystal clear:
 
+**When k = 1 (success):**
 $$
-P(X = k) = \begin{cases}
-p^1 (1-p)^{1-1} = p^1 (1-p)^0 = p \times 1 = p & \text{if } k=1 \text{ (success)} \\
-p^0 (1-p)^{1-0} = p^0 (1-p)^1 = 1 \times (1-p) = 1-p & \text{if } k=0 \text{ (failure)}
-\end{cases}
+\begin{align}
+P(X=1) &= p^1 (1-p)^{1-1} \\
+&= p^1 (1-p)^0 \\
+&= p \times 1 \\
+&= p
+\end{align}
+$$
+
+**When k = 0 (failure):**
+$$
+\begin{align}
+P(X=0) &= p^0 (1-p)^{1-0} \\
+&= p^0 (1-p)^1 \\
+&= 1 \times (1-p) \\
+&= 1-p
+\end{align}
 $$
 
 Let's verify this works for our example where $p = 0.3$:
