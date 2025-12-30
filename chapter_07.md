@@ -283,7 +283,14 @@ This explains why the PMF formula multiplies the binomial coefficient by the pro
 :::
 
 Let's verify this works for our coin flip example (n=10, p=0.5):
-- $P(X=5) = \binom{10}{5} (0.5)^5 (0.5)^5 = 252 \times 0.03125 \times 0.03125 \approx 0.246$ ✓
+
+$$
+\begin{align}
+P(X=5) &= \binom{10}{5} (0.5)^5 (0.5)^5 \\
+&= 252 \times 0.03125 \times 0.03125 \\
+&\approx 0.246 \quad \checkmark
+\end{align}
+$$
 
 **Key Characteristics**
 
