@@ -1974,47 +1974,44 @@ Mastering these distributions provides a powerful toolkit for modeling various r
 
 Use this decision tree to help identify which distribution fits your scenario:
 
-```
-START: What are you modeling?
+```{mermaid}
+graph TD
+    Start{What are you<br/>modeling?}
 
-│
-├─ Single trial/experiment
-│  │
-│  ├─ Only 2 possible outcomes? → **Bernoulli**
-│  │
-│  └─ More than 2 possible outcomes?
-│     │
-│     ├─ All outcomes equally likely? → **Discrete Uniform**
-│     │
-│     └─ Different probabilities for each outcome? → **Categorical**
-│
-└─ Multiple trials/experiments
-   │
-   ├─ Fixed number of trials (n is known)
-   │  │
-   │  ├─ Only 2 outcomes per trial?
-   │  │  │
-   │  │  ├─ Sampling WITH replacement (or infinite population)? → **Binomial**
-   │  │  │
-   │  │  └─ Sampling WITHOUT replacement (finite population)? → **Hypergeometric**
-   │  │
-   │  └─ More than 2 outcomes per trial?
-   │     │
-   │     └─ Counting occurrences of each outcome? → **Multinomial**
-   │
-   ├─ Variable number of trials (waiting for successes)
-   │  │
-   │  ├─ Waiting for the FIRST success? → **Geometric**
-   │  │
-   │  └─ Waiting for the r-th success (r > 1)? → **Negative Binomial**
-   │
-   └─ Counting events in a continuous interval
-      │
-      ├─ Events occur at a constant average rate? → **Poisson**
-      │
-      └─ Need something else?
-         │
-         └─ See "Exploring Additional Distributions" section below
+    Start -->|Single trial| Single{How many<br/>outcomes?}
+    Start -->|Multiple trials| Multi{Fixed or<br/>variable trials?}
+    Start -->|Events in interval| IntervalQ{Constant<br/>average rate?}
+
+    Single -->|Only 2| Bernoulli[Bernoulli]
+    Single -->|More than 2| MultiOut{All outcomes<br/>equally likely?}
+
+    MultiOut -->|Yes| Uniform[Discrete Uniform]
+    MultiOut -->|No| Categorical[Categorical]
+
+    Multi -->|Fixed number n| Fixed{How many<br/>outcomes per trial?}
+    Multi -->|Variable waiting| Waiting{Waiting for<br/>which success?}
+
+    Fixed -->|Only 2| TwoOut{Sampling with or<br/>without replacement?}
+    Fixed -->|More than 2| Multinomial[Multinomial]
+
+    TwoOut -->|With replacement<br/>or infinite pop| Binomial[Binomial]
+    TwoOut -->|Without replacement<br/>finite pop| Hypergeometric[Hypergeometric]
+
+    Waiting -->|First success| Geometric[Geometric]
+    Waiting -->|r-th success r>1| NegBinom[Negative Binomial]
+
+    IntervalQ -->|Yes| PoissonDist[Poisson]
+    IntervalQ -->|Need other| Other[See Exploring<br/>Additional Distributions]
+
+    style Bernoulli fill:#e1f5ff
+    style Binomial fill:#e1f5ff
+    style Geometric fill:#e1f5ff
+    style NegBinom fill:#e1f5ff
+    style PoissonDist fill:#e1f5ff
+    style Hypergeometric fill:#e1f5ff
+    style Uniform fill:#ffe1f5
+    style Categorical fill:#ffe1f5
+    style Multinomial fill:#ffe1f5
 ```
 
 **Key Questions to Ask:**
@@ -2122,7 +2119,11 @@ If you have data or a scenario and need to find which distribution fits:
 
 6. **Consult domain literature**: See what distributions are commonly used in your field
 
-Remember: Understanding the underlying probabilistic structure is more important than memorizing formulas. Focus on building intuition about when and why to use each distribution!
+:::{admonition} Key Takeaway
+:class: tip
+
+Understanding the underlying probabilistic structure is more important than memorizing formulas. Focus on building intuition about when and why to use each distribution!
+:::
 
 ## Exercises
 
