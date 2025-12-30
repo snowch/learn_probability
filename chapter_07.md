@@ -175,27 +175,28 @@ plt.show()
 
 The CDF shows the step function: starts at 0 for x < 0, jumps to 0.7 at x=0 (the value when outcome is 0), stays flat at 0.7 until x=1, then jumps to 1.0 at x=1 (the value when including both outcomes 0 and 1).
 
-**Understanding PMF and CDF Charts**
+Note: Here, P(X ≤ 0) = P(X = 0) = 0.7 because X can't take negative values; in general, "X ≤ 0" means "at or below 0", not "exactly 0".
 
-Now that we've seen both types of visualizations, let's understand how to read and use them practically:
+**Reading the PMF**
 
-**PMF (Probability Mass Function) Charts:**
-- **What they show:** The height of each bar represents the probability of that exact outcome
+- **What it shows:** The height of each bar represents the probability of that exact outcome
 - **How to read:** Look at the bar height to find P(X = k) for any specific value k
 - **Practical use:** Answer questions like "What's the probability of success?" or "What's the probability of exactly 1 positive test?"
 - **Key property:** All bar heights must sum to 1.0 (total probability)
 
-**CDF (Cumulative Distribution Function) Charts:**
-- **What they show:** The cumulative probability P(X ≤ k) up to and including each value k
+**Reading the CDF**
+
+- **What it shows:** The cumulative probability P(X ≤ k) up to and including each value k
 - **How to read:** The height at position k tells you the probability of getting k or fewer successes
-- **Why step functions?** For discrete distributions, probability accumulates in jumps at each possible value. Between possible values, the CDF stays constant (no additional probability). The step occurs at each value where the distribution has mass.
+- **Why step functions?** For discrete distributions, probability accumulates in jumps at each possible value. Between possible values, the CDF stays constant (no additional probability)
+- **Key identity:** The jump at k equals P(X = k) — the size of each step up is the PMF value
 - **Practical uses:**
   - Find P(X ≤ k) directly by reading the height at k
   - Find P(X > k) by calculating 1 - P(X ≤ k)
   - Find P(a < X ≤ b) by calculating P(X ≤ b) - P(X ≤ a)
-- **Key property:** The CDF always increases (or stays flat) and approaches 1.0
+- **Key property:** The CDF is right-continuous, always increases (or stays flat), and approaches 1.0
 
-**Note on CDF visualization:** The charts use `where='post'` in the step plot to create proper right-continuous step functions. Discrete CDFs are right-continuous (they jump up at each value and include that value in the cumulative probability), which `where='post'` correctly represents.
+**Note on CDF visualization:** The charts use `where='post'` in the step plot to create proper right-continuous step functions. This means the CDF jumps up at each value and includes that value in the cumulative probability.
 
 :::{admonition} Example: Medical Diagnostic Test with p = 0.1
 :class: tip
@@ -450,7 +451,7 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf_generic.svg)
 
-The CDF shows the step function increasing from 0 to 1, representing the cumulative probability of getting k or fewer heads.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads.
 
 :::{admonition} Example: Sales Calls with n = 20, p = 0.15
 :class: tip
@@ -535,7 +536,7 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
 
-The CDF shows the step function increasing from 0 to 1, representing the cumulative probability of getting k or fewer successful calls.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls.
 
 :::
 
@@ -705,7 +706,7 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf_generic.svg)
 
-The CDF shows the step function increasing from 0 toward 1 as k increases (eventually you'll succeed).
+The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed).
 
 :::{admonition} Example: Certification Exam with p = 0.6
 :class: tip
@@ -803,7 +804,7 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
 
-The CDF shows the step function increasing from 0 toward 1 as the trial number increases.
+The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
 
 :::
 
@@ -971,7 +972,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
 
-The CDF shows the step function increasing from 0 to 1, representing the cumulative probability of achieving r successes within k trials.
+The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials.
 
 :::{admonition} Example: Quality Control with r = 3, p = 0.05
 :class: tip
@@ -1075,7 +1076,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
-The CDF shows the step function increasing from 0 to 1, representing the cumulative probability of finding 3 defective items within k tests.
+The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests.
 
 :::
 
@@ -1242,7 +1243,7 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf_generic.svg)
 
-The CDF shows the step function increasing from 0 to 1, useful for questions like "What's the probability of 6 or fewer calls?"
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?"
 
 :::{admonition} Example: Email Arrivals with λ = 5
 :class: tip
@@ -1327,7 +1328,7 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
-The CDF shows the step function increasing from 0 to 1, useful for questions like "What's the probability of 6 or fewer emails?"
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer emails?"
 
 :::
 
@@ -1497,7 +1498,7 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf_generic.svg)
 
-The CDF shows the step function increasing from 0 to 1, useful for questions like "What's the probability of getting at most 1 Ace?"
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?"
 
 :::{admonition} Example: Lottery Tickets with N=100, K=20, n=10
 :class: tip
@@ -1589,7 +1590,7 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
-The CDF shows the step function increasing from 0 to 1, representing the cumulative probability of getting k or fewer winning tickets.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets.
 
 :::
 
