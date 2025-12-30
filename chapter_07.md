@@ -107,7 +107,7 @@ The PMF shows two bars: P(X=0) = 0.7 for failure and P(X=1) = 0.3 for success.
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -122,25 +122,23 @@ plt.show()
 
 The CDF shows the cumulative probability: P(X ≤ 0) = 0.7 (just the failure outcome) and P(X ≤ 1) = 1.0 (both outcomes).
 
-:::{admonition} Example: Medical Diagnostic Test with p = 0.1
+:::{admonition} Example: Customer Purchase with p = 0.1
 :class: tip
 
-Modeling the outcome of a single diagnostic test for a disease where the probability of testing positive is 0.1.
+Modeling the outcome of a single customer purchase where the probability of purchase is 0.1.
 
 Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
 
-```{code-cell} ipython3
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
+:::{dropdown} Python Implementation
 
+```{code-cell} ipython3
 # Using scipy.stats.bernoulli
-p_positive = 0.1
-bernoulli_rv = stats.bernoulli(p=p_positive)
+p_purchase = 0.1
+bernoulli_rv = stats.bernoulli(p=p_purchase)
 
 # PMF: Probability of success (k=1) and failure (k=0)
-print(f"P(X=1) (Positive): {bernoulli_rv.pmf(1):.2f}")
-print(f"P(X=0) (Negative): {bernoulli_rv.pmf(0):.2f}")
+print(f"P(X=1) (Purchase): {bernoulli_rv.pmf(1):.2f}")
+print(f"P(X=0) (No Purchase): {bernoulli_rv.pmf(0):.2f}")
 
 # Mean and Variance
 print(f"Mean (Expected Value): {bernoulli_rv.mean():.2f}")
@@ -151,9 +149,11 @@ print(f"Variance: {bernoulli_rv.var():.2f}")
 # Generate random samples
 n_samples = 10
 samples = bernoulli_rv.rvs(size=n_samples)
-print(f"{n_samples} simulated test results (1=Positive, 0=Negative):")
+print(f"{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase):")
 print(samples)
 ```
+
+:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -163,8 +163,8 @@ k_values = [0, 1]
 pmf_values = bernoulli_rv.pmf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.bar(k_values, pmf_values, tick_label=["Negative (0)", "Positive (1)"], color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Bernoulli PMF (p={p_positive})")
+plt.bar(k_values, pmf_values, tick_label=["No Purchase (0)", "Purchase (1)"], color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Bernoulli PMF (p={p_purchase})")
 plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
@@ -175,7 +175,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
 
-The PMF shows the probability of each outcome. With p = 0.1, "Negative" has probability 0.9 and "Positive" has probability 0.1. For a Bernoulli distribution with only two outcomes, the PMF chart is quite simple—it merely visualizes what we already know from the probabilities. However, it serves as a useful introduction to how we visualize discrete distributions.
+The PMF shows the probability of each outcome. With p = 0.1, "No Purchase" has probability 0.9 and "Purchase" has probability 0.1.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -184,8 +184,8 @@ The PMF shows the probability of each outcome. With p = 0.1, "Negative" has prob
 cdf_values = bernoulli_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
-plt.title(f"Bernoulli CDF (p={p_positive})")
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Bernoulli CDF (p={p_purchase})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
@@ -197,7 +197,7 @@ plt.show()
 
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
 
-The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0. Again, with only two outcomes, the CDF is straightforward—but understanding this simple case helps build intuition for more complex distributions where the CDF becomes much more informative.
+The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
 
 :::
 
@@ -225,34 +225,102 @@ The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0. A
 
 The Binomial distribution models the number of successes in a *fixed number* of independent Bernoulli trials, where each trial has the same probability of success.
 
-- **Scenario**: The number of heads in 10 coin flips, the number of defective items in a batch of 50, the number of successful free throws out of 20 attempts, the number of correct answers on a 25-question multiple choice test (with random guessing), the number of customers who make a purchase out of 100 website visitors.
-- **Parameters**:
-    - $n$: the number of independent trials.
-    - $p$: the probability of success on each trial ($0 \le p \le 1$).
-- **Random Variable**: $X$, the total number of successes in $n$ trials. $X$ can take values $k = 0, 1, 2, ..., n$.
+**Concrete Example**
 
-**PMF:**
-The probability of getting exactly $k$ successes in $n$ trials is given by:
+Suppose you flip a fair coin 10 times. Each flip is a Bernoulli trial with p = 0.5 (probability of heads). How many heads will you get?
+
+We model this with a random variable $X$:
+- $X$ = the number of heads in 10 flips
+- $X$ can take values 0, 1, 2, ..., 10
+
+The probabilities are:
+- $P(X = 0)$ = probability of 0 heads (all tails)
+- $P(X = 5)$ = probability of exactly 5 heads
+- $P(X = 10)$ = probability of 10 heads (all heads)
+
+**The Binomial PMF**
+
+For $n$ independent trials with success probability $p$:
 
 $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 
-where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient, representing the number of ways to choose $k$ successes from $n$ trials.
+where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
+
+Let's verify this works for our coin flip example (n=10, p=0.5):
+- $P(X=5) = \binom{10}{5} (0.5)^5 (0.5)^5 = 252 \times 0.03125 \times 0.03125 \approx 0.246$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Number of heads in coin flips, defective items in a batch, successful free throws, correct guesses on a test, customers who purchase
+- **Parameters**:
+    - $n$: number of independent trials
+    - $p$: probability of success on each trial ($0 \le p \le 1$)
+- **Random Variable**: $X \in \{0, 1, 2, ..., n\}$
 
 **Mean:** $E[X] = np$
 
 **Variance:** $Var(X) = np(1-p)$
 
-**Example:** Modeling the number of successful sales calls out of $n=20$, if the probability of success ($p$) for each call is 0.15.
+**Visualizing the Distribution**
 
-We'll demonstrate how to use `scipy.stats.binom` to calculate PMF and CDF values, compute statistics, and generate random samples.
+Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin flip example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Binomial distribution for visualization (n=10, p=0.5)
+n_viz = 10
+p_viz = 0.5
+binomial_viz = stats.binom(n=n_viz, p=p_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(0, n_viz + 1)
+pmf_values_viz = binomial_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Binomial PMF (n={n_viz}, p={p_viz})")
+plt.xlabel("Number of Successes (k)")
+plt.ylabel("Probability")
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Binomial PMF](ch07_binomial_pmf_generic.svg)
+
+The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean (np = 5) since p = 0.5.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = binomial_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Binomial CDF (n={n_viz}, p={p_viz})")
+plt.xlabel("Number of Successes (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Binomial CDF](ch07_binomial_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads.
+
+:::{admonition} Example: Sales Calls with n = 20, p = 0.15
+:class: tip
+
+Modeling the number of successful sales calls out of 20, where each call has a 0.15 probability of success.
+
+We'll demonstrate how to use `scipy.stats.binom` to calculate probabilities, compute statistics, and generate random samples.
 
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
-
 # Using scipy.stats.binom
 n_calls = 20
 p_success_call = 0.15
@@ -306,7 +374,7 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the number of successful calls. With n = 20 trials and p = 0.15 (from our example), the distribution is centered around the expected value of np = 3 successes. Unlike the Bernoulli distribution, the Binomial PMF provides valuable visual insights—you can quickly see which outcomes are most likely, identify the range of probable values, and observe the distribution's shape (symmetric when p ≈ 0.5, skewed otherwise).
+The PMF shows the probability distribution for the number of successful calls. With n = 20 and p = 0.15, the distribution is centered around np = 3 successes.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -315,7 +383,7 @@ The PMF shows the probability distribution for the number of successful calls. W
 cdf_values = binomial_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -326,7 +394,29 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
 
-The CDF shows the cumulative probability P(X ≤ k) for each value of k. This is particularly useful for answering questions like "What's the probability of getting at most 5 successful calls?" or "What's the probability of getting more than 2 successes?" The step-like nature visualizes how cumulative probability increases as k increases.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You roll a die 12 times and count how many times you get a 6. Which distribution models this and what are the parameters?
+
+2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
+
+3. True or False: In a Binomial distribution, each trial must have the same probability of success.
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with same success probability (1/6).
+
+2. **E[X] = np = 8 × 0.25 = 2** - Expected number of successes is np.
+
+3. **True** - The Binomial distribution requires independent trials with constant success probability p.
+```
 
 +++
 
@@ -334,16 +424,35 @@ The CDF shows the cumulative probability P(X ≤ k) for each value of k. This is
 
 The Geometric distribution models the number of independent Bernoulli trials needed to get the *first* success.
 
-- **Scenario**: The number of coin flips until the first Head appears, the number of job applications until the first interview offer, the number of attempts needed to pass a certification exam, the number of customers contacted before making the first sale, the number of at-bats until a baseball player gets their first hit.
-- **Parameter**: $p$, the probability of success on each trial ($0 < p \le 1$).
-- **Random Variable**: $X$, the number of trials required to achieve the first success. $X$ can take values $k = 1, 2, 3, ...$.
+**Concrete Example**
 
-**PMF:**
-The probability that the first success occurs on the $k$-th trial is:
+You're shooting free throws until you make your first basket. Each shot has a 0.4 probability of success. How many shots will it take to make your first basket?
+
+We model this with a random variable $X$:
+- $X$ = the trial number on which the first success occurs
+- $X$ can take values 1, 2, 3, ... (first shot, second shot, etc.)
+
+The probabilities are:
+- $P(X = 1)$ = make it on first shot = 0.4
+- $P(X = 2)$ = miss first, make second = $(1-0.4) \times 0.4 = 0.24$
+- $P(X = 3)$ = miss first two, make third = $(1-0.4)^2 \times 0.4 = 0.144$
+
+**The Geometric PMF**
+
+For trials with success probability $p$:
 
 $$ P(X=k) = (1-p)^{k-1} p \quad \text{for } k = 1, 2, 3, \dots $$
 
-This means we have $k-1$ failures followed by one success.
+This means $k-1$ failures followed by one success.
+
+Let's verify for our example (p=0.4):
+- $P(X=2) = (0.6)^1 (0.4) = 0.24$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Coin flips until first Head, job applications until first offer, attempts to pass an exam, at-bats until first hit
+- **Parameter**: $p$, probability of success on each trial ($0 < p \le 1$)
+- **Random Variable**: $X \in \{1, 2, 3, ...\}$
 
 **Mean:** $E[X] = \frac{1}{p}$
 
@@ -352,20 +461,70 @@ This means we have $k-1$ failures followed by one success.
 :::{admonition} Note
 :class: note
 
-`scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$). This shifts the distribution by 1 compared to the definition above where $k$ is the trial number ($k=1, 2, 3, ...$). We'll use the `scipy` definition ($k=0, 1, 2, ...$) in the code examples, but state results in terms of the trial number ($k+1$).
+`scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$), which shifts by 1 from our definition. We'll use scipy's definition in code but state results in terms of trial numbers.
 :::
 
-**Example:** Modeling the number of attempts needed to pass a certification exam, where the probability of passing ($p$) on any given attempt is 0.6.
+**Visualizing the Distribution**
+
+Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Geometric distribution for visualization (p=0.4)
+p_viz = 0.4
+geom_viz = stats.geom(p=p_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(1, 11)
+pmf_values_viz = geom_viz.pmf(k_values_viz - 1)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Geometric PMF (p={p_viz})")
+plt.xlabel("Trial Number (k)")
+plt.ylabel("Probability P(X=k)")
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Geometric PMF](ch07_geometric_pmf_generic.svg)
+
+The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Geometric CDF (p={p_viz})")
+plt.xlabel("Trial Number (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Geometric CDF](ch07_geometric_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed).
+
+:::{admonition} Example: Certification Exam with p = 0.6
+:class: tip
+
+Modeling the number of attempts needed to pass a certification exam where the pass probability is 0.6.
 
 Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
 
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
-
 # Using scipy.stats.geom
 p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
@@ -420,7 +579,7 @@ pmf_values = geom_rv.pmf(k_values_trials - 1) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values_trials, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Geometric PMF (p={p_pass}) - Trial number of first success")
+plt.title(f"Geometric PMF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_trials)
@@ -431,7 +590,7 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
 
-The PMF shows the probability of the first success (passing the exam) occurring on each trial number. With p = 0.6 (from our example), the probabilities decrease exponentially as the number of trials increases. This exponential decay is characteristic of the Geometric distribution and clearly visualizes that earlier successes are more likely than later ones. The chart helps you understand the "waiting time" distribution for the first success.
+The PMF shows exponentially decreasing probabilities for the exam example with p = 0.6.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -440,8 +599,8 @@ The PMF shows the probability of the first success (passing the exam) occurring 
 cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
-plt.title(f"Geometric CDF (p={p_pass}) - Trial number of first success")
+plt.step(k_values_trials, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Geometric CDF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_trials)
@@ -452,7 +611,29 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the probability that the first success occurs on or before trial k. It increases toward 1 as k increases, since eventually success is nearly certain. The CDF is particularly useful for answering questions like "What's the probability I'll succeed within the first 5 attempts?" The curve's steepness reflects the success probability p—higher p values produce steeper curves.
+The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You flip a coin until you get your first Heads. What distribution models this and what is the parameter?
+
+2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
+
+3. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+
+2. **E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+
+3. **1st trial is more likely** - Geometric PMF decreases exponentially, so P(X=1) > P(X=3).
+```
 
 +++
 
@@ -460,18 +641,34 @@ The CDF shows P(X ≤ k), the probability that the first success occurs on or be
 
 The Negative Binomial distribution models the number of independent Bernoulli trials needed to achieve a *fixed number* of successes ($r$). It generalizes the Geometric distribution (where $r=1$).
 
-- **Scenario**: The number of coin flips needed to get 5 Heads, the number of products to inspect to find 3 defective items, the number of patients tested until finding 10 with a specific condition, the number of job interviews conducted until making 3 hires.
-- **Parameters**:
-    - $r$: the target number of successes ($r \ge 1$).
-    - $p$: the probability of success on each trial ($0 < p \le 1$).
-- **Random Variable**: $X$, the total number of trials required to achieve $r$ successes. $X$ can take values $k = r, r+1, r+2, ...$.
+**Concrete Example**
 
-**PMF:**
-The probability that the $r$-th success occurs on the $k$-th trial is:
+You're rolling a die until you get 3 sixes. Each roll has p = 1/6 probability of rolling a six. How many rolls will it take to get your 3rd six?
+
+We model this with a random variable $X$:
+- $X$ = the trial number on which the 3rd six appears
+- $X$ can take values 3, 4, 5, ... (minimum 3 rolls, could be more)
+
+The probabilities are:
+- $P(X = 3)$ = all three rolls are sixes = $(1/6)^3 \approx 0.0046$
+- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll
+- And so on...
+
+**The Negative Binomial PMF**
+
+For trials with success probability $p$ and target $r$ successes:
 
 $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, \dots $$
 
-This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
+This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
+
+**Key Characteristics**
+
+- **Scenarios**: Coin flips until getting r Heads, products inspected to find r defects, interviews until making r hires
+- **Parameters**:
+    - $r$: target number of successes ($r \ge 1$)
+    - $p$: probability of success on each trial ($0 < p \le 1$)
+- **Random Variable**: $X \in \{r, r+1, r+2, ...\}$
 
 **Mean:** $E[X] = \frac{r}{p}$
 
@@ -480,20 +677,69 @@ This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th tri
 :::{admonition} Note
 :class: note
 
-Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts the number of *failures* ($k$) that occur before the $r$-th success. So, the total number of trials in our definition is $k + r$ in SciPy's terms. We'll use the `scipy` definition ($k=0, 1, 2, ...$ failures) in the code, stating results in terms of the total number of trials.
+`scipy.stats.nbinom` counts the number of *failures* before the $r$-th success, not total trials. We'll use scipy's definition in code but state results in terms of total trials.
 :::
 
-**Example:** A quality control inspector tests electronic components until finding $r=3$ defective ones. If the probability that any component is defective ($p$) is 0.05, how many components should we expect to test?
+**Visualizing the Distribution**
+
+Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (easier to see than our 1/6 example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Negative Binomial distribution for visualization (r=3, p=0.2)
+r_viz = 3
+p_viz = 0.2
+nbinom_viz = stats.nbinom(n=r_viz, p=p_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(r_viz, 30)  # Total trials from r to 30
+pmf_values_viz = nbinom_viz.pmf(k_values_viz - r_viz)  # Adjust for scipy
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Negative Binomial PMF (r={r_viz}, p={p_viz})")
+plt.xlabel("Total Number of Trials (k)")
+plt.ylabel("Probability P(X=k)")
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
+
+The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Negative Binomial CDF (r={r_viz}, p={p_viz})")
+plt.xlabel("Total Number of Trials (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials.
+
+:::{admonition} Example: Quality Control with r = 3, p = 0.05
+:class: tip
+
+A quality control inspector tests electronic components until finding 3 defective ones. The defect rate is p = 0.05.
 
 We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
-
 # Using scipy.stats.nbinom
 r_defective = 3
 p_defective = 0.05
@@ -556,7 +802,7 @@ pmf_values_nb = nbinom_rv.pmf(k_values_components - r_defective) # Adjust k for 
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values_components, pmf_values_nb, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective}) - Components tested")
+plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
@@ -566,7 +812,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the total number of components tested to find r = 3 defective items. With p = 0.05 (from our example), the expected value is r/p = 60 components, though the distribution shows considerable variability. The Negative Binomial PMF is particularly useful for understanding uncertainty in "waiting time" scenarios—the spread of the distribution tells you how variable the number of trials might be before achieving your target number of successes.
+The PMF shows the distribution centered around r/p = 60 components with considerable variability.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -575,8 +821,8 @@ The PMF shows the probability distribution for the total number of components te
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_components, cdf_values_nb, where='post', color='darkgreen', linewidth=2)
-plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective}) - Components tested")
+plt.step(k_values_components, cdf_values_nb, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
@@ -586,41 +832,130 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability that we'll have found 3 defective items after testing k or fewer components. This is especially useful for planning and resource allocation—for example, "If I test 80 components, what's the probability I'll have found all 3 defective items by then?"
+The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You flip a fair coin until you get 5 Heads. What distribution models this and what are the parameters?
+
+2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
+
+3. How is Negative Binomial related to Geometric distribution?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+
+2. **E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+
+3. **Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+```
 
 +++
 
 ## 5. Poisson Distribution
 
-The Poisson distribution models the number of events occurring in a fixed interval of time or space, given the average rate of occurrence, assuming events happen independently and at a constant average rate.
+The Poisson distribution models the number of events occurring in a fixed interval of time or space when events happen independently at a constant average rate.
 
-- **Scenario**: Number of emails received per hour, number of customer arrivals at a store per day, number of typos per page of a book, number of mutations in a DNA strand of a certain length, number of emergency calls received at a fire station per shift, number of defects per square meter of fabric, number of meteor impacts per year in a region.
-- **Parameter**: $\lambda$ (lambda), the average number of events in the interval ($\lambda > 0$).
-- **Random Variable**: $X$, the number of events in the interval. $X$ can take values $k = 0, 1, 2, ...$.
+**Concrete Example**
 
-**PMF:**
+You receive an average of 4 customer calls per hour. How many calls will you get in the next hour?
+
+We model this with a random variable $X$:
+- $X$ = the number of calls in one hour
+- $X$ can take values 0, 1, 2, 3, ... (any non-negative integer)
+
+The average rate is $\lambda = 4$ calls/hour.
+
+**The Poisson PMF**
+
+For events occurring at average rate $\lambda$:
 
 $$ P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!} \quad \text{for } k = 0, 1, 2, \dots $$
 
 where $e \approx 2.71828$ is Euler's number.
 
+Let's verify for our example (λ=4):
+- $P(X=4) = \frac{e^{-4} \times 4^4}{4!} \approx 0.195$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Emails per hour, customer arrivals per day, typos per page, emergency calls per shift, defects per unit area
+- **Parameter**: $\lambda$, average number of events in the interval ($\lambda > 0$)
+- **Random Variable**: $X \in \{0, 1, 2, ...\}$
+
 **Mean:** $E[X] = \lambda$
 
 **Variance:** $Var(X) = \lambda$
 
-Note: The mean and variance are equal in a Poisson distribution.
+Note: Mean and variance are equal in a Poisson distribution.
 
-**Example:** Modeling the number of emails received per hour, if the average rate ($\lambda$) is 5 emails/hour.
+**Visualizing the Distribution**
+
+Let's visualize a Poisson distribution with $\lambda = 4$ (our call center example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Poisson distribution for visualization (λ=4)
+lambda_viz = 4
+poisson_viz = stats.poisson(mu=lambda_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(0, 15)
+pmf_values_viz = poisson_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Poisson PMF (λ={lambda_viz})")
+plt.xlabel("Number of Events (k)")
+plt.ylabel("Probability P(X=k)")
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Poisson PMF](ch07_poisson_pmf_generic.svg)
+
+The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = poisson_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Poisson CDF (λ={lambda_viz})")
+plt.xlabel("Number of Events (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Poisson CDF](ch07_poisson_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?"
+
+:::{admonition} Example: Email Arrivals with λ = 5
+:class: tip
+
+Modeling the number of emails received per hour with an average rate of λ = 5 emails/hour.
 
 Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
-
 # Using scipy.stats.poisson
 lambda_rate = 5
 poisson_rv = stats.poisson(mu=lambda_rate)
@@ -662,7 +997,7 @@ pmf_values = poisson_rv.pmf(k_values)
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Poisson PMF (lambda={lambda_rate})")
+plt.title(f"Poisson PMF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
@@ -673,7 +1008,7 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
 
-The PMF shows the probability distribution for the number of events (emails received per hour). With λ = 5 (from our example), the distribution is centered around 5 events, with reasonable probability for nearby values. The Poisson PMF is extremely valuable in practice—it shows both the most likely number of events and the full range of possibilities, helping you understand natural variation in event counts. The shape becomes more symmetric and bell-like as λ increases.
+The PMF shows the distribution centered around λ = 5 events.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -682,8 +1017,8 @@ The PMF shows the probability distribution for the number of events (emails rece
 cdf_values = poisson_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
-plt.title(f"Poisson CDF (lambda={lambda_rate})")
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Poisson CDF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
@@ -694,44 +1029,133 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of receiving 6 or fewer emails in an hour?" or for setting thresholds and alerts. For instance, if you want to know when event counts are unusually high, the CDF helps you identify appropriate cutoff values.
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer emails?"
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. A call center receives an average of 12 calls per hour. What distribution models the number of calls in one hour and what is the parameter?
+
+2. For a Poisson distribution with λ = 7, what are the mean and variance?
+
+3. True or False: In a Poisson distribution, the mean can be different from the variance.
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Poisson distribution with λ = 12** - Events occurring at constant average rate in fixed interval.
+
+2. **Mean = 7, Variance = 7** - For Poisson, both equal λ.
+
+3. **False** - A key property of Poisson is that mean = variance = λ.
+```
 
 +++
 
 ## 6. Hypergeometric Distribution
 
-The Hypergeometric distribution models the number of successes in a sample drawn *without replacement* from a finite population containing a known number of successes. Contrast this with the Binomial, which assumes independence (sampling *with* replacement or from a very large population).
+The Hypergeometric distribution models the number of successes in a sample drawn *without replacement* from a finite population. This is different from Binomial, which assumes sampling with replacement (or infinite population).
 
-- **Scenario**: Number of winning lottery tickets in a handful drawn from a box, number of defective items in a sample taken from a small batch, number of Aces drawn in a 5-card poker hand from a standard deck, number of tagged fish caught in a sample when studying wildlife populations, number of Democrats on a jury randomly selected from a pool of registered voters.
-- **Parameters**:
-    - $N$: the total size of the population.
-    - $K$: the total number of success items in the population.
-    - $n$: the size of the sample drawn from the population ($n \le N$).
-- **Random Variable**: $X$, the number of successes in the sample of size $n$. $X$ can take values $k$ such that $\max(0, n - (N-K)) \le k \le \min(n, K)$.
+**Concrete Example**
 
-**PMF:**
+You draw 5 cards from a standard deck of 52 cards. How many Aces will you get?
+
+We model this with a random variable $X$:
+- $X$ = the number of Aces in the 5-card hand
+- Population: N = 52 cards total
+- Successes in population: K = 4 Aces
+- Sample size: n = 5 cards drawn
+- $X$ can take values 0, 1, 2, 3, 4 (can't get more than 4 Aces!)
+
+**The Hypergeometric PMF**
+
+For sampling without replacement:
 
 $$ P(X=k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}} $$
 
-This represents (ways to choose $k$ successes from $K$) * (ways to choose $n-k$ failures from $N-K$) / (total ways to choose $n$ items from $N$).
+This is: (ways to choose k successes from K) × (ways to choose n-k failures from N-K) / (total ways to choose n items from N).
+
+**Key Characteristics**
+
+- **Scenarios**: Cards from a deck, defective items in small batch, tagged fish in sample, jury selection from finite pool
+- **Parameters**:
+    - $N$: total population size
+    - $K$: total number of successes in population
+    - $n$: sample size ($n \le N$)
+- **Random Variable**: $X$, bounded by $\max(0, n-(N-K)) \le X \le \min(n, K)$
 
 **Mean:** $E[X] = n \frac{K}{N}$
 
 **Variance:** $Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)$
 
-The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this factor approaches 1, and the Hypergeometric distribution approaches the Binomial distribution with $p = K/N$.
+The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this approaches 1, and Hypergeometric → Binomial with $p = K/N$.
 
-**Example:** Modeling the number of winning lottery tickets ($k$) in a sample of $n=10$ tickets drawn from a box containing $N=100$ tickets, where $K=20$ are winners.
+**Visualizing the Distribution**
+
+Let's visualize a Hypergeometric distribution with N=52, K=4, n=5 (our card example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Hypergeometric distribution for visualization (N=52, K=4, n=5)
+N_viz = 52
+K_viz = 4
+n_viz = 5
+hypergeom_viz = stats.hypergeom(M=N_viz, n=K_viz, N=n_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(0, min(n_viz, K_viz) + 1)
+pmf_values_viz = hypergeom_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Hypergeometric PMF (N={N_viz}, K={K_viz}, n={n_viz})")
+plt.xlabel("Number of Successes in Sample (k)")
+plt.ylabel("Probability P(X=k)")
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_hypergeometric_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Hypergeometric PMF](ch07_hypergeometric_pmf_generic.svg)
+
+The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = hypergeom_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Hypergeometric CDF (N={N_viz}, K={K_viz}, n={n_viz})")
+plt.xlabel("Number of Successes in Sample (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_hypergeometric_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Hypergeometric CDF](ch07_hypergeometric_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?"
+
+:::{admonition} Example: Lottery Tickets with N=100, K=20, n=10
+:class: tip
+
+Modeling the number of winning lottery tickets in a sample of 10 drawn from a box of 100 tickets where 20 are winners.
 
 We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
 
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
-import numpy as np
-from scipy import stats
-import matplotlib.pyplot as plt
-
 # Using scipy.stats.hypergeom
 N_population = 100
 K_successes_pop = 20
@@ -791,7 +1215,7 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
 
-The PMF shows the probability distribution for the number of winning tickets in a sample of n = 10 tickets. With N = 100 total tickets and K = 20 winners (from our example), the expected value is n × (K/N) = 10 × 0.2 = 2 winning tickets. The Hypergeometric PMF is crucial when sampling without replacement matters—it accounts for the changing composition of the population as items are drawn, making it more accurate than the Binomial for small populations or large sample sizes.
+The PMF shows the probability distribution for the number of winning tickets in a sample of n = 10 tickets. With N = 100 total tickets and K = 20 winners (from our example), the expected value is n × (K/N) = 10 × 0.2 = 2 winning tickets.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -800,7 +1224,7 @@ The PMF shows the probability distribution for the number of winning tickets in 
 cdf_values = hypergeom_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
 plt.title(f"Hypergeometric CDF (N={N_population}, K={K_successes_pop}, n={n_sample})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -812,7 +1236,29 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets in the sample. This helps answer questions like "What's the probability of drawing at most 3 winning tickets?" The CDF is particularly useful in quality control and acceptance sampling, where you need to decide whether to accept or reject a batch based on a sample.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You draw 7 cards from a deck of 52. You want to know how many hearts you get. What distribution models this and what are the parameters?
+
+2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
+
+3. What's the key difference between Binomial and Hypergeometric distributions?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from finite population (13 hearts in 52 cards).
+
+2. **E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in sample.
+
+3. **Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+```
 
 +++
 
