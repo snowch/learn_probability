@@ -15,9 +15,22 @@ kernelspec:
 
 In the previous chapter, we defined discrete random variables and learned how to describe their behavior using Probability Mass Functions (PMFs), Cumulative Distribution Functions (CDFs), expected value, and variance. While we can define custom PMFs for any situation, several specific discrete distributions appear so frequently in practice that they have been studied extensively and given names.
 
-These "common" distributions serve as powerful models for a wide variety of real-world processes. Understanding their properties and when to apply them is crucial for probabilistic modeling. In this chapter, we will explore the most important discrete distributions: Bernoulli, Binomial, Geometric, Negative Binomial, Poisson, and Hypergeometric.
+These "common" distributions serve as powerful models for a wide variety of real-world processes. Understanding their properties and when to apply them is crucial for probabilistic modeling. In this chapter, we will explore nine fundamental discrete distributions: Bernoulli, Binomial, Geometric, Negative Binomial, Poisson, Hypergeometric, Discrete Uniform, Categorical, and Multinomial.
 
 We'll examine the scenarios each distribution models, their key characteristics (PMF, mean, variance), and how to work with them efficiently using Python's `scipy.stats` library. This library provides tools to calculate probabilities (PMF, CDF), generate random samples, and more, significantly simplifying our practical work.
+
+:::{admonition} Focus on Understanding, Not Memorization
+:class: tip
+
+As you work through this chapter, remember: **understanding the underlying probabilistic structure is more important than memorizing formulas**.
+
+For each distribution, focus on:
+- **When to use it**: What real-world scenario does it model?
+- **Why it works**: What's the intuition behind the formula?
+- **How distributions relate**: How does it connect to other distributions you know?
+
+Don't worry about memorizing every PMF formula—you can always look them up or use `scipy.stats`. Instead, build intuition about when and why to use each distribution. This deeper understanding will serve you far better than rote memorization!
+:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
