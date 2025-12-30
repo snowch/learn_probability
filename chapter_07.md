@@ -997,7 +997,7 @@ pmf_values = poisson_rv.pmf(k_values)
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Poisson PMF (lambda={lambda_rate})")
+plt.title(f"Poisson PMF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
@@ -1008,7 +1008,7 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
 
-The PMF shows the probability distribution for the number of events (emails received per hour). With λ = 5 (from our example), the distribution is centered around 5 events, with reasonable probability for nearby values.
+The PMF shows the distribution centered around λ = 5 events.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1018,7 +1018,7 @@ cdf_values = poisson_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
 plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
-plt.title(f"Poisson CDF (lambda={lambda_rate})")
+plt.title(f"Poisson CDF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
@@ -1029,34 +1029,127 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of observing k or fewer events. This is useful for questions like "What's the probability of receiving 6 or fewer emails in an hour?"
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer emails?"
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. A call center receives an average of 12 calls per hour. What distribution models the number of calls in one hour and what is the parameter?
+
+2. For a Poisson distribution with λ = 7, what are the mean and variance?
+
+3. True or False: In a Poisson distribution, the mean can be different from the variance.
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Poisson distribution with λ = 12** - Events occurring at constant average rate in fixed interval.
+
+2. **Mean = 7, Variance = 7** - For Poisson, both equal λ.
+
+3. **False** - A key property of Poisson is that mean = variance = λ.
+```
 
 +++
 
 ## 6. Hypergeometric Distribution
 
-The Hypergeometric distribution models the number of successes in a sample drawn *without replacement* from a finite population containing a known number of successes. Contrast this with the Binomial, which assumes independence (sampling *with* replacement or from a very large population).
+The Hypergeometric distribution models the number of successes in a sample drawn *without replacement* from a finite population. This is different from Binomial, which assumes sampling with replacement (or infinite population).
 
-- **Scenario**: Number of winning lottery tickets in a handful drawn from a box, number of defective items in a sample taken from a small batch, number of Aces drawn in a 5-card poker hand from a standard deck, number of tagged fish caught in a sample when studying wildlife populations, number of Democrats on a jury randomly selected from a pool of registered voters.
-- **Parameters**:
-    - $N$: the total size of the population.
-    - $K$: the total number of success items in the population.
-    - $n$: the size of the sample drawn from the population ($n \le N$).
-- **Random Variable**: $X$, the number of successes in the sample of size $n$. $X$ can take values $k$ such that $\max(0, n - (N-K)) \le k \le \min(n, K)$.
+**Concrete Example**
 
-**PMF:**
+You draw 5 cards from a standard deck of 52 cards. How many Aces will you get?
+
+We model this with a random variable $X$:
+- $X$ = the number of Aces in the 5-card hand
+- Population: N = 52 cards total
+- Successes in population: K = 4 Aces
+- Sample size: n = 5 cards drawn
+- $X$ can take values 0, 1, 2, 3, 4 (can't get more than 4 Aces!)
+
+**The Hypergeometric PMF**
+
+For sampling without replacement:
 
 $$ P(X=k) = \frac{\binom{K}{k} \binom{N-K}{n-k}}{\binom{N}{n}} $$
 
-This represents (ways to choose $k$ successes from $K$) * (ways to choose $n-k$ failures from $N-K$) / (total ways to choose $n$ items from $N$).
+This is: (ways to choose k successes from K) × (ways to choose n-k failures from N-K) / (total ways to choose n items from N).
+
+**Key Characteristics**
+
+- **Scenarios**: Cards from a deck, defective items in small batch, tagged fish in sample, jury selection from finite pool
+- **Parameters**:
+    - $N$: total population size
+    - $K$: total number of successes in population
+    - $n$: sample size ($n \le N$)
+- **Random Variable**: $X$, bounded by $\max(0, n-(N-K)) \le X \le \min(n, K)$
 
 **Mean:** $E[X] = n \frac{K}{N}$
 
 **Variance:** $Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)$
 
-The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this factor approaches 1, and the Hypergeometric distribution approaches the Binomial distribution with $p = K/N$.
+The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this approaches 1, and Hypergeometric → Binomial with $p = K/N$.
 
-**Example:** Modeling the number of winning lottery tickets ($k$) in a sample of $n=10$ tickets drawn from a box containing $N=100$ tickets, where $K=20$ are winners.
+**Visualizing the Distribution**
+
+Let's visualize a Hypergeometric distribution with N=52, K=4, n=5 (our card example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Hypergeometric distribution for visualization (N=52, K=4, n=5)
+N_viz = 52
+K_viz = 4
+n_viz = 5
+hypergeom_viz = stats.hypergeom(M=N_viz, n=K_viz, N=n_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(0, min(n_viz, K_viz) + 1)
+pmf_values_viz = hypergeom_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Hypergeometric PMF (N={N_viz}, K={K_viz}, n={n_viz})")
+plt.xlabel("Number of Successes in Sample (k)")
+plt.ylabel("Probability P(X=k)")
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_hypergeometric_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Hypergeometric PMF](ch07_hypergeometric_pmf_generic.svg)
+
+The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = hypergeom_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Hypergeometric CDF (N={N_viz}, K={K_viz}, n={n_viz})")
+plt.xlabel("Number of Successes in Sample (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_hypergeometric_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Hypergeometric CDF](ch07_hypergeometric_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?"
+
+:::{admonition} Example: Lottery Tickets with N=100, K=20, n=10
+:class: tip
+
+Modeling the number of winning lottery tickets in a sample of 10 drawn from a box of 100 tickets where 20 are winners.
 
 We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
 
@@ -1143,7 +1236,29 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets in the sample. This helps answer questions like "What's the probability of drawing at most 3 winning tickets?"
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You draw 7 cards from a deck of 52. You want to know how many hearts you get. What distribution models this and what are the parameters?
+
+2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
+
+3. What's the key difference between Binomial and Hypergeometric distributions?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from finite population (13 hearts in 52 cards).
+
+2. **E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in sample.
+
+3. **Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+```
 
 +++
 
