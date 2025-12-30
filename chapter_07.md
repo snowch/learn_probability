@@ -152,6 +152,10 @@ Modeling the outcome of a single medical diagnostic test where the probability o
 Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.bernoulli
 p_positive = 0.1
 bernoulli_rv = stats.bernoulli(p=p_positive)
@@ -339,6 +343,10 @@ We'll demonstrate how to use `scipy.stats.binom` to calculate probabilities, com
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.binom
 n_calls = 20
 p_success_call = 0.15
@@ -543,6 +551,10 @@ Let's use `scipy.stats.geom` to explore probabilities and compute expected value
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.geom
 p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
@@ -758,6 +770,10 @@ We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.nbinom
 r_defective = 3
 p_defective = 0.05
@@ -974,6 +990,10 @@ Let's use `scipy.stats.poisson` to calculate the probability of observing differ
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.poisson
 lambda_rate = 5
 poisson_rv = stats.poisson(mu=lambda_rate)
@@ -1174,6 +1194,10 @@ We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling withou
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Using scipy.stats.hypergeom
 N_population = 100
 K_successes_pop = 20
@@ -1300,6 +1324,10 @@ Let's compare the PMF values of both distributions to see how well the Poisson a
 :::{dropdown} Python Implementation
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
 # Setup distributions
 n_binom_approx = 1000
 p_binom_approx = 0.005
@@ -1373,6 +1401,10 @@ Mastering these distributions provides a powerful toolkit for modeling various r
     a) Using the Poisson distribution with $\lambda = 10$:
 
     ```{code-cell} ipython3
+    import numpy as np
+    from scipy import stats
+    import matplotlib.pyplot as plt
+
     lambda_cafe = 10
     cafe_rv = stats.poisson(mu=lambda_cafe)
     prob_8 = cafe_rv.pmf(8)
@@ -1433,6 +1465,10 @@ Mastering these distributions provides a powerful toolkit for modeling various r
     a) This follows a Hypergeometric distribution since we're sampling without replacement from a finite population. The parameters are: $N=50$ (population size), $K=5$ (defective items in population), $n=8$ (sample size).
 
     ```{code-cell} ipython3
+    import numpy as np
+    from scipy import stats
+    import matplotlib.pyplot as plt
+
     N_qc = 50
     K_qc = 5
     n_qc = 8
@@ -1477,6 +1513,10 @@ Mastering these distributions provides a powerful toolkit for modeling various r
     a) This follows a Binomial distribution with $n=100$ trials and $p=0.03$:
 
     ```{code-cell} ipython3
+    import numpy as np
+    from scipy import stats
+    import matplotlib.pyplot as plt
+
     p_ws = 0.03
     n_ws = 100
     ws_binom_rv = stats.binom(n=n_ws, p=p_ws)
