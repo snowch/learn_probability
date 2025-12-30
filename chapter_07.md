@@ -2119,7 +2119,11 @@ If you have data or a scenario and need to find which distribution fits:
 
 6. **Consult domain literature**: See what distributions are commonly used in your field
 
-Remember: Understanding the underlying probabilistic structure is more important than memorizing formulas. Focus on building intuition about when and why to use each distribution!
+:::{admonition} Key Takeaway
+:class: tip
+
+Understanding the underlying probabilistic structure is more important than memorizing formulas. Focus on building intuition about when and why to use each distribution!
+:::
 
 ## Exercises
 
