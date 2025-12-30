@@ -253,18 +253,52 @@ The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
 
 1. A quality control inspector checks a single product. It's either defective or not defective. Which distribution models this?
 
-2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
-
-3. A basketball player has a 75% free throw success rate. If we model a single free throw, what are the mean and variance?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Bernoulli distribution** - Single trial with two possible outcomes.
+**Bernoulli distribution** - Single trial with two possible outcomes (defective vs. not defective).
+```
 
-2. **P(X = 0) = 1 - p = 0.7** - The probability of failure is 1 - p.
+2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
 
-3. **Mean = 0.75, Variance = 0.75 × 0.25 = 0.1875** - Use E[X] = p and Var(X) = p(1-p).
+```{admonition} Answer
+:class: dropdown
+
+**P(X = 0) = 1 - p = 0.7** - The probability of failure is 1 - p.
+```
+
+3. A basketball player has a 75% free throw success rate. If we model a single free throw as a Bernoulli trial, what are the mean and variance?
+
+```{admonition} Answer
+:class: dropdown
+
+**Mean = 0.75, Variance = 0.75 × 0.25 = 0.1875**
+
+Using the formulas E[X] = p and Var(X) = p(1-p):
+- E[X] = 0.75
+- Var(X) = 0.75 × (1 - 0.75) = 0.75 × 0.25 = 0.1875
+```
+
+4. You flip a coin 10 times and count the number of heads. Should you use a Bernoulli distribution or something else?
+
+```{admonition} Answer
+:class: dropdown
+
+**Use Binomial, not Bernoulli** - Bernoulli is for a *single* trial. When you have multiple trials (10 flips) and count successes, use the Binomial distribution with n=10.
+
+The Bernoulli distribution only applies to one flip at a time.
+```
+
+5. True or False: A Bernoulli random variable can only take on the values 0 and 1.
+
+```{admonition} Answer
+:class: dropdown
+
+**True** - By definition, a Bernoulli random variable X ∈ {0, 1}, where:
+- X = 1 represents "success" with probability p
+- X = 0 represents "failure" with probability 1-p
+
+These are the only two possible outcomes.
 ```
 
 +++
@@ -471,18 +505,52 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer succe
 
 1. You roll a die 12 times and count how many times you get a 6. Which distribution models this and what are the parameters?
 
-2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
-
-3. True or False: In a Binomial distribution, each trial must have the same probability of success.
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with same success probability (1/6).
+**Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with the same success probability (1/6 for rolling a 6).
+```
 
-2. **E[X] = np = 8 × 0.25 = 2** - Expected number of successes is np.
+2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
 
-3. **True** - The Binomial distribution requires independent trials with constant success probability p.
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = np = 8 × 0.25 = 2** - The expected number of successes in 8 trials is 2.
+```
+
+3. You're quality testing a batch of 100 products by examining each one. 5% are typically defective. Is this scenario best modeled by Binomial or Hypergeometric distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Binomial distribution** - Although you're sampling from a finite population, if the batch is large relative to your sample (or you replace items after testing), Binomial is appropriate. Each test is independent with constant p = 0.05.
+
+If you were sampling a significant fraction of the batch *without replacement*, then Hypergeometric would be more appropriate.
+```
+
+4. For a Binomial(n=20, p=0.3) distribution, what is the variance?
+
+```{admonition} Answer
+:class: dropdown
+
+**Var(X) = np(1-p) = 20 × 0.3 × 0.7 = 4.2**
+
+Using the variance formula for Binomial distributions.
+```
+
+5. True or False: In a Binomial distribution, each trial must have the same probability of success.
+
+```{admonition} Answer
+:class: dropdown
+
+**True** - The Binomial distribution requires:
+1. Fixed number of independent trials (n)
+2. Each trial has only two outcomes (success/failure)
+3. **Constant success probability (p) across all trials**
+4. Trials are independent
+
+If the success probability changes from trial to trial, Binomial doesn't apply.
 ```
 
 +++
@@ -686,18 +754,53 @@ The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
 
 1. You flip a coin until you get your first Heads. What distribution models this and what is the parameter?
 
-2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
-
-3. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+**Geometric distribution with p = 0.5** - Counting trials until first success, each trial has p = 0.5 success probability.
+```
 
-2. **E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+2. For a Geometric distribution with p = 0.25, what is the expected value (mean)?
 
-3. **1st trial is more likely** - Geometric PMF decreases exponentially, so P(X=1) > P(X=3).
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = 1/p = 1/0.25 = 4** - Expected number of trials until first success.
+```
+
+3. You're calling customer service and have a 20% chance each attempt of getting through. Should you model this with Geometric or Binomial?
+
+```{admonition} Answer
+:class: dropdown
+
+**Geometric distribution** - You're waiting for the *first* success (getting through), not counting successes in a fixed number of tries. Geometric models "how many attempts until success" with p = 0.20.
+
+Binomial would apply if you made a fixed number of calls and counted how many got through.
+```
+
+4. Which is more likely for a Geometric distribution with p = 0.5: success on the 1st trial or success on the 3rd trial?
+
+```{admonition} Answer
+:class: dropdown
+
+**1st trial is more likely** - The Geometric PMF decreases exponentially with k, so P(X=1) > P(X=3).
+
+Specifically: P(X=1) = 0.5, while P(X=3) = (0.5)³ = 0.125
+```
+
+5. For a Geometric distribution, why does the variance equal (1-p)/p²?
+
+```{admonition} Answer
+:class: dropdown
+
+The variance formula Var(X) = (1-p)/p² reflects the increasing uncertainty as p decreases:
+
+- When p is high (easy to succeed): variance is low (more predictable)
+- When p is low (hard to succeed): variance is high (could take many tries or get lucky early)
+
+For example:
+- p = 0.5: Var(X) = 0.5/0.25 = 2
+- p = 0.1: Var(X) = 0.9/0.01 = 90 (much more variable!)
 ```
 
 +++
@@ -905,18 +1008,55 @@ The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective item
 
 1. You flip a fair coin until you get 5 Heads. What distribution models this and what are the parameters?
 
-2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
-
-3. How is Negative Binomial related to Geometric distribution?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+**Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+```
 
-2. **E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
 
-3. **Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+```
+
+3. A basketball player practices free throws until making 10 successful shots. Each shot has a 70% success rate. Which distribution and why?
+
+```{admonition} Answer
+:class: dropdown
+
+**Negative Binomial with r = 10, p = 0.7** - We're waiting for a fixed number of successes (r = 10), not just the first success. Each trial (shot) is independent with constant probability p = 0.7.
+
+This is NOT Geometric because we need 10 successes, not just 1.
+```
+
+4. How is Negative Binomial related to Geometric distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+
+- Geometric: waiting for 1st success
+- Negative Binomial: waiting for r-th success (r ≥ 1)
+```
+
+5. For Negative Binomial, why is the variance r(1-p)/p²?
+
+```{admonition} Answer
+:class: dropdown
+
+The variance r(1-p)/p² grows with both r and uncertainty:
+
+- **Increases with r**: Waiting for more successes means more trials and more variability
+- **Increases as p decreases**: Lower success probability means higher uncertainty in when you'll reach r successes
+
+For example:
+- r=1, p=0.5: Var = 1×0.5/0.25 = 2
+- r=5, p=0.5: Var = 5×0.5/0.25 = 10 (more variable with more successes needed)
+- r=5, p=0.2: Var = 5×0.8/0.04 = 100 (much more variable with low p!)
 ```
 
 +++
@@ -1100,18 +1240,57 @@ The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6
 
 1. A call center receives an average of 12 calls per hour. What distribution models the number of calls in one hour and what is the parameter?
 
-2. For a Poisson distribution with λ = 7, what are the mean and variance?
-
-3. True or False: In a Poisson distribution, the mean can be different from the variance.
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Poisson distribution with λ = 12** - Events occurring at constant average rate in fixed interval.
+**Poisson distribution with λ = 12** - Events occurring at a constant average rate in a fixed interval.
+```
 
-2. **Mean = 7, Variance = 7** - For Poisson, both equal λ.
+2. For a Poisson distribution with λ = 7, what are the mean and variance?
 
-3. **False** - A key property of Poisson is that mean = variance = λ.
+```{admonition} Answer
+:class: dropdown
+
+**Mean = 7, Variance = 7** - For Poisson, both equal λ. This is a unique property of the Poisson distribution.
+```
+
+3. You count the number of typos on a random page of a book. The average is 2 typos per page. Which distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Poisson with λ = 2** - Counting discrete events (typos) occurring in a fixed space (one page) at a constant average rate.
+
+This fits Poisson's requirements:
+- Events happen independently
+- Constant average rate
+- Counting occurrences in fixed interval/space
+```
+
+4. True or False: In a Poisson distribution, the mean can be different from the variance.
+
+```{admonition} Answer
+:class: dropdown
+
+**False** - A key property of Poisson is that mean = variance = λ.
+
+This property can help you identify when Poisson might not be the best fit. If your data has variance much larger or smaller than the mean, consider other distributions (e.g., Negative Binomial for overdispersion).
+```
+
+5. When can Poisson approximate Binomial?
+
+```{admonition} Answer
+:class: dropdown
+
+**When n is large, p is small, and np is moderate** - Specifically:
+- n ≥ 20 and p ≤ 0.05, or
+- n ≥ 100 and np ≤ 10
+
+Then Binomial(n, p) ≈ Poisson(λ = np)
+
+Example: Binomial(n=1000, p=0.003) ≈ Poisson(λ=3)
+
+This works because rare events in many trials behave like events occurring at a constant rate.
 ```
 
 +++
@@ -1305,18 +1484,57 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winni
 
 1. You draw 7 cards from a deck of 52. You want to know how many hearts you get. What distribution models this and what are the parameters?
 
-2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
-
-3. What's the key difference between Binomial and Hypergeometric distributions?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from finite population (13 hearts in 52 cards).
+**Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from a finite population (13 hearts in 52 cards).
+```
 
-2. **E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in sample.
+2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
 
-3. **Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in the sample.
+```
+
+3. A quality inspector randomly selects 10 products from a batch of 100 (where 15 are defective) without replacement. Which distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Hypergeometric with N=100, K=15, n=10** - Sampling without replacement from a finite population.
+
+This is NOT Binomial because:
+- We're sampling without replacement
+- The sample size (10) is significant relative to population (100)
+- Each draw changes the probability for subsequent draws
+```
+
+4. What's the key difference between Binomial and Hypergeometric distributions?
+
+```{admonition} Answer
+:class: dropdown
+
+**Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+
+Key implications:
+- Hypergeometric: Trials are NOT independent (each draw affects the next)
+- Binomial: Trials ARE independent (constant probability p)
+
+Rule of thumb: If N > 20n, Hypergeometric ≈ Binomial because the sample is small relative to the population.
+```
+
+5. When can Hypergeometric be approximated by Binomial?
+
+```{admonition} Answer
+:class: dropdown
+
+**When the population is much larger than the sample** - Specifically, when N > 20n.
+
+In this case, Hypergeometric(N, K, n) ≈ Binomial(n, p=K/N)
+
+Example: Drawing 10 cards from a population of 1000 cards. The small sample barely affects the population proportions, so with/without replacement gives nearly identical results.
 ```
 
 +++
@@ -1505,18 +1723,55 @@ The CDF increases linearly in equal steps, showing the uniform nature of the dis
 
 1. You randomly select a card from a standard deck (52 cards). If X represents the card number (1-13, where 1=Ace, 11=Jack, 12=Queen, 13=King), what distribution models this and what are the parameters?
 
+```{admonition} Answer
+:class: dropdown
+
+**Discrete Uniform distribution with a = 1, b = 13** - Each card number is equally likely (4 of each in the deck).
+```
+
 2. For a Discrete Uniform distribution with a = 5 and b = 15, what is the probability of getting exactly 10?
+
+```{admonition} Answer
+:class: dropdown
+
+**P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** - All values in the range are equally likely.
+```
 
 3. What is the mean of a Discrete Uniform distribution on the integers from 1 to 100?
 
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Discrete Uniform distribution with a = 1, b = 13** - Each card number is equally likely (4 of each in the deck).
+**Mean = (1+100)/2 = 50.5** - The mean is the midpoint of the range.
+```
 
-2. **P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** - All values in the range are equally likely.
+4. You're modeling the outcome of rolling a fair six-sided die. Should you use Discrete Uniform or Categorical distribution?
 
-3. **Mean = (1+100)/2 = 50.5** - The mean is the midpoint of the range.
+```{admonition} Answer
+:class: dropdown
+
+**Discrete Uniform distribution** - Since it's a *fair* die, all outcomes (1-6) are equally likely with probability 1/6 each.
+
+Use Discrete Uniform(a=1, b=6).
+
+**Note:** If the die were *loaded* (unequal probabilities), you'd use the Categorical distribution instead.
+```
+
+5. For a Discrete Uniform distribution on integers from a to b, why is the variance equal to $\frac{(b-a)(b-a+2)}{12}$?
+
+```{admonition} Answer
+:class: dropdown
+
+The variance formula reflects how spread out the values are:
+
+- **Larger range (b-a)**: Higher variance - values are more spread out
+- **Formula intuition**: The variance grows with the *square* of the range, similar to continuous uniform distributions
+
+**Example:**
+- Discrete Uniform(1, 6): Variance = (6-1)(6-1+2)/12 = 5×7/12 ≈ 2.92
+- Discrete Uniform(1, 100): Variance = 99×101/12 ≈ 833.25
+
+Much larger range → much larger variance.
 ```
 
 +++
@@ -1707,18 +1962,56 @@ The CDF shows cumulative probabilities across the ordered choices.
 
 1. A traffic light can be red (50%), yellow (10%), or green (40%). What distribution models the color when you arrive at an intersection?
 
+```{admonition} Answer
+:class: dropdown
+
+**Categorical distribution with k=3 categories and probabilities p₁=0.5, p₂=0.1, p₃=0.4** - Single trial with three possible outcomes.
+```
+
 2. For a Categorical distribution with 4 equally likely outcomes, what is P(X = 2)?
+
+```{admonition} Answer
+:class: dropdown
+
+**P(X = 2) = 0.25** - For equally likely outcomes, each has probability 1/4.
+```
 
 3. How is the Categorical distribution related to the Bernoulli distribution?
 
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Categorical distribution with k=3 categories and probabilities p₁=0.5, p₂=0.1, p₃=0.4** - Single trial with three possible outcomes.
+**Bernoulli is a special case of Categorical with k=2** - When there are only two categories, Categorical reduces to Bernoulli.
 
-2. **P(X = 2) = 0.25** - For equally likely outcomes, each has probability 1/4.
+Categorical generalizes Bernoulli from 2 outcomes to k outcomes.
+```
 
-3. **Bernoulli is a special case of Categorical with k=2** - When there are only two categories, Categorical reduces to Bernoulli.
+4. You're observing a single customer's choice from a menu with 5 items having probabilities [0.3, 0.25, 0.2, 0.15, 0.1]. Should you use Categorical or Multinomial distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Categorical distribution** - You're observing a *single trial* (one customer making one choice).
+
+**Key distinction:**
+- **Categorical**: Single trial, multiple outcomes (this scenario)
+- **Multinomial**: Multiple trials, counting how many times each outcome occurs
+
+If you observed 100 customers and counted how many chose each item, *that* would be Multinomial.
+```
+
+5. When can you model a Categorical distribution as a Discrete Uniform distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**When all k categories have equal probability** - If p₁ = p₂ = ... = pₖ = 1/k.
+
+**Example:**
+- Rolling a fair die (6 equally likely outcomes): Can use either Categorical(p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) or Discrete Uniform(a=1, b=6)
+- Rolling a loaded die (unequal probabilities): Must use Categorical
+
+Discrete Uniform is just a special case of Categorical where all probabilities are equal.
 ```
 
 +++
@@ -1886,18 +2179,60 @@ Each category's marginal distribution is Binomial with parameters (n=50, p=categ
 
 1. You flip a fair coin 30 times and count heads and tails. What distribution models the counts?
 
+```{admonition} Answer
+:class: dropdown
+
+**Multinomial distribution with n=30, k=2, and p₁=p₂=0.5** - Or equivalently, Binomial(n=30, p=0.5) for the number of heads, since there are only 2 categories.
+
+When k=2, Multinomial is the same as Binomial.
+```
+
 2. For a Multinomial distribution with n=100 trials and k=4 equally likely categories, what is the expected count for any one category?
+
+```{admonition} Answer
+:class: dropdown
+
+**E[X_i] = n × p_i = 100 × 0.25 = 25** - Each category is expected to appear 25 times.
+
+Since all 4 categories are equally likely, p_i = 1/4 = 0.25 for each.
+```
 
 3. How is the Multinomial distribution related to the Binomial distribution?
 
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Multinomial distribution with n=30, k=2, and p₁=p₂=0.5** - Or equivalently, Binomial(n=30, p=0.5) for the number of heads, since there are only 2 categories.
+**Binomial is a special case of Multinomial with k=2** - When there are only two categories, Multinomial reduces to Binomial.
 
-2. **E[X_i] = n × p_i = 100 × 0.25 = 25** - Each category is expected to appear 25 times.
+Multinomial generalizes Binomial from 2 outcomes to k outcomes across multiple trials.
+```
 
-3. **Binomial is a special case of Multinomial with k=2** - When there are only two categories, Multinomial reduces to Binomial.
+4. You roll a die 100 times and count how many times each face (1-6) appears. Should you use Categorical or Multinomial distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Multinomial distribution** - You're performing *multiple trials* (100 rolls) and counting how many times each outcome occurs.
+
+**Key distinction:**
+- **Categorical**: Single trial, multiple possible outcomes (one roll)
+- **Multinomial**: Multiple trials, counting occurrences of each outcome (100 rolls)
+
+Use Multinomial(n=100, k=6, p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) for a fair die.
+```
+
+5. In a Multinomial distribution, what is the relationship between the individual category counts X₁, X₂, ..., Xₖ?
+
+```{admonition} Answer
+:class: dropdown
+
+**They must sum to n** - The constraint is: X₁ + X₂ + ... + Xₖ = n
+
+This is because every trial must result in exactly one category, so the total count across all categories equals the number of trials.
+
+**Important implication:** The counts are *not independent* - if you know k-1 of the counts, you can determine the last one.
+
+**Example:** If n=100 and you know X₁=30, X₂=25, X₃=20 in a k=4 category case, then X₄ must equal 25 (since 30+25+20+25=100).
 ```
 
 +++
