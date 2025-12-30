@@ -367,6 +367,23 @@ $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 
 where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
 
+:::{admonition} Connection to Bernoulli Trials
+:class: note
+
+The Binomial PMF formula directly reflects $n$ independent **Bernoulli trials**:
+
+$$P(X=k) = \binom{n}{k} \cdot p^k \cdot (1-p)^{n-k}$$
+
+Breaking this down:
+- **$p^k$**: Probability of $k$ successes — each of the $k$ successes is an independent Bernoulli trial with probability $p$
+- **$(1-p)^{n-k}$**: Probability of $(n-k)$ failures — each failure is an independent Bernoulli trial with probability $1-p$
+- **$\binom{n}{k}$**: Number of ways to arrange $k$ successes among $n$ trial positions
+
+**Why this works:** Any specific sequence of $k$ successes and $(n-k)$ failures has probability $p^k(1-p)^{n-k}$ (by independence). Since there are $\binom{n}{k}$ such sequences, we multiply by the binomial coefficient.
+
+This shows why Binomial "counts successes in repeated Bernoulli trials": it's built from the ground up using the Bernoulli probability $p$ for each trial.
+:::
+
 :::{admonition} Connection to Counting Techniques
 :class: note
 
