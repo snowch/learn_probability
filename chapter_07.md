@@ -400,35 +400,31 @@ $$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
 
 where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
 
-:::{admonition} Connection to Bernoulli Trials
+:::{admonition} Understanding the Binomial Formula
 :class: note
 
-The Binomial PMF formula directly reflects $n$ independent **Bernoulli trials**:
+The Binomial PMF formula combines probability and counting:
 
 $$P(X=k) = \binom{n}{k} \cdot p^k \cdot (1-p)^{n-k}$$
 
-Breaking this down:
-- **$p^k$**: Probability of $k$ successes — each of the $k$ successes is an independent Bernoulli trial with probability $p$
+**Breaking down the formula:**
+- **$p^k$**: Probability of $k$ successes — each success is an independent Bernoulli trial with probability $p$
 - **$(1-p)^{n-k}$**: Probability of $(n-k)$ failures — each failure is an independent Bernoulli trial with probability $1-p$
 - **$\binom{n}{k}$**: Number of ways to arrange $k$ successes among $n$ trial positions
 
-**Why this works:** Any specific sequence of $k$ successes and $(n-k)$ failures has probability $p^k(1-p)^{n-k}$ (by independence). Since there are $\binom{n}{k}$ such sequences, we multiply by the binomial coefficient.
+**The probabilistic view (Bernoulli trials):**
+
+Any specific sequence of $k$ successes and $(n-k)$ failures has probability $p^k(1-p)^{n-k}$ (by independence of trials). For example, the sequence "success, success, failure" has probability $p \cdot p \cdot (1-p) = p^2(1-p)$.
 
 This shows why Binomial "counts successes in repeated Bernoulli trials": it's built from the ground up using the Bernoulli probability $p$ for each trial.
-:::
 
-:::{admonition} Connection to Counting Techniques
-:class: note
+**The combinatorial view (counting techniques):**
 
-The binomial coefficient $\binom{n}{k}$ is a **combination** - it counts the number of ways to choose $k$ items from $n$ items when order doesn't matter (see [Chapter 3: Combinations](chapter_03.md#combinations-when-order-doesnt-matter)).
+The binomial coefficient $\binom{n}{k}$ is a **combination** that counts the number of ways to choose $k$ items from $n$ items when order doesn't matter (see [Chapter 3: Combinations](chapter_03.md#combinations-when-order-doesnt-matter)).
 
-In the binomial distribution context:
-- We perform $n$ independent trials
-- We want exactly $k$ successes (in any order)
-- The binomial coefficient counts **how many different sequences** of trials yield exactly $k$ successes
-- For example, with $n=3$ trials and $k=2$ successes: $\binom{3}{2} = 3$ represents the sequences SSF, SFS, and FSS (where S=success, F=failure)
+In our context, it counts **how many different sequences** of $n$ trials yield exactly $k$ successes. For example, with $n=3$ trials and $k=2$ successes: $\binom{3}{2} = 3$ represents the three sequences SSF, SFS, and FSS (where S=success, F=failure).
 
-This explains why the PMF formula multiplies the binomial coefficient by the probability of any specific sequence: the coefficient counts the sequences, while $p^k(1-p)^{n-k}$ gives the probability of each sequence.
+**Why we multiply:** Each of the $\binom{n}{k}$ sequences has the same probability $p^k(1-p)^{n-k}$. To get the total probability of exactly $k$ successes (in any order), we multiply the number of sequences by the probability of each sequence.
 :::
 
 Let's verify this works for our coin flip example (n=10, p=0.5):
