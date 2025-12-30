@@ -283,7 +283,14 @@ This explains why the PMF formula multiplies the binomial coefficient by the pro
 :::
 
 Let's verify this works for our coin flip example (n=10, p=0.5):
-- $P(X=5) = \binom{10}{5} (0.5)^5 (0.5)^5 = 252 \times 0.03125 \times 0.03125 \approx 0.246$ ✓
+
+$$
+\begin{align}
+P(X=5) &= \binom{10}{5} (0.5)^5 (0.5)^5 \\
+&= 252 \times 0.03125 \times 0.03125 \\
+&\approx 0.246 \quad \checkmark
+\end{align}
+$$
 
 **Key Characteristics**
 
@@ -354,8 +361,6 @@ Modeling the number of successful sales calls out of 20, where each call has a 0
 
 We'll demonstrate how to use `scipy.stats.binom` to calculate probabilities, compute statistics, and generate random samples.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -392,8 +397,6 @@ n_simulations = 1000
 samples = binomial_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of successes in {n_calls} calls ({n_simulations} simulations): {samples[:20]}...") # Print first 20
 ```
-
-:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -562,8 +565,6 @@ Modeling the number of attempts needed to pass a certification exam where the pa
 
 Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -611,8 +612,6 @@ samples_failures = geom_rv.rvs(size=n_simulations)
 samples_trials = samples_failures + 1
 # print(f"\nSimulated number of attempts until first pass ({n_simulations} simulations): {samples_trials[:20]}...")
 ```
-
-:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -781,8 +780,6 @@ A quality control inspector tests electronic components until finding 3 defectiv
 
 We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -838,8 +835,6 @@ samples_good_nb = nbinom_rv.rvs(size=n_simulations)
 samples_components_nb = samples_good_nb + r_defective
 # print(f"\nSimulated components tested to find {r_defective} defective ({n_simulations} sims): {samples_components_nb[:20]}...")
 ```
-
-:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1001,8 +996,6 @@ Modeling the number of emails received per hour with an average rate of λ = 5 e
 
 Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1037,8 +1030,6 @@ n_simulations = 1000
 samples = poisson_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of emails per hour ({n_simulations} simulations): {samples[:20]}...")
 ```
-
-:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1205,8 +1196,6 @@ Modeling the number of winning lottery tickets in a sample of 10 drawn from a bo
 
 We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1245,8 +1234,6 @@ n_simulations = 1000
 samples = hypergeom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of winning tickets ({n_simulations} simulations): {samples[:20]}...")
 ```
-
-:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1335,8 +1322,6 @@ Consider $Binomial(n=1000, p=0.005)$. Here $n$ is large, $p$ is small. The mean 
 
 Let's compare the PMF values of both distributions to see how well the Poisson approximation works in practice.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1360,8 +1345,6 @@ print("k\tBinomial P(X=k)\tPoisson P(X=k)\tDifference")
 for k, bp, pp in zip(k_vals_compare, binom_pmf, poisson_pmf):
     print(f"{k}\t{bp:.6f}\t{pp:.6f}\t{abs(bp-pp):.6f}")
 ```
-
-:::
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
