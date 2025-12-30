@@ -492,9 +492,9 @@ ax.annotate('Count sequences', xy=(3.8, 5.5), xytext=(0.3, 5.0),
             arrowprops=dict(arrowstyle='->', color='orange', lw=2.5),
             fontsize=20, color='orange', weight='bold')
 
-ax.annotate('Each sequence\nhas same\nprobability', xy=(7.5, 7.5), xytext=(7.5, 9.0),
+ax.annotate('Each sequence\nhas same\nprobability', xy=(8.1, 7.0), xytext=(9.2, 7.8),
             arrowprops=dict(arrowstyle='->', color='steelblue', lw=2.5),
-            fontsize=20, color='steelblue', weight='bold', ha='center')
+            fontsize=20, color='steelblue', weight='bold', ha='left')
 
 ax.annotate('Multiply!', xy=(6.2, 2.3), xytext=(7.8, 1.5),
             arrowprops=dict(arrowstyle='->', color='green', lw=2.5),
