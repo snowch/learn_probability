@@ -279,14 +279,18 @@ Using the formulas E[X] = p and Var(X) = p(1-p):
 - Var(X) = 0.75 × (1 - 0.75) = 0.75 × 0.25 = 0.1875
 ```
 
-4. You flip a coin 10 times and count the number of heads. Should you use a Bernoulli distribution or something else?
+4. You roll a six-sided die once. Is this well-modeled by a Bernoulli distribution?
 
 ```{admonition} Answer
 :class: dropdown
 
-**Use Binomial, not Bernoulli** - Bernoulli is for a *single* trial. When you have multiple trials (10 flips) and count successes, use the Binomial distribution with n=10.
+**No** - A Bernoulli distribution requires exactly **two possible outcomes**. A die roll has 6 outcomes (1, 2, 3, 4, 5, 6), so Bernoulli doesn't apply directly.
 
-The Bernoulli distribution only applies to one flip at a time.
+**However**, you *could* use Bernoulli if you redefined the experiment with a binary outcome:
+- "Does the die show a 6?" (Yes/No) → Bernoulli with p = 1/6
+- "Is the result even?" (Yes/No) → Bernoulli with p = 1/2
+
+The key: Bernoulli requires exactly two outcomes.
 ```
 
 5. True or False: A Bernoulli random variable can only take on the values 0 and 1.
