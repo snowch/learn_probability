@@ -122,6 +122,28 @@ plt.show()
 
 The CDF shows the cumulative probability: P(X ≤ 0) = 0.7 (just the negative test outcome) and P(X ≤ 1) = 1.0 (both outcomes).
 
+**Understanding PMF and CDF Charts**
+
+Now that we've seen both types of visualizations, let's understand how to read and use them practically:
+
+**PMF (Probability Mass Function) Charts:**
+- **What they show:** The height of each bar represents the probability of that exact outcome
+- **How to read:** Look at the bar height to find P(X = k) for any specific value k
+- **Practical use:** Answer questions like "What's the probability of getting exactly 3 successes?"
+- **Key property:** All bar heights must sum to 1.0 (total probability)
+
+**CDF (Cumulative Distribution Function) Charts:**
+- **What they show:** The cumulative probability P(X ≤ k) up to and including each value k
+- **How to read:** The height at position k tells you the probability of getting k or fewer successes
+- **Why step functions?** For discrete distributions, probability accumulates in jumps at each possible value. Between possible values, the CDF stays constant (no additional probability). The step occurs at each value where the distribution has mass.
+- **Practical uses:**
+  - Find P(X ≤ k) directly by reading the height at k
+  - Find P(X > k) by calculating 1 - P(X ≤ k)
+  - Find P(a < X ≤ b) by calculating P(X ≤ b) - P(X ≤ a)
+- **Key property:** The CDF always increases (or stays flat) and approaches 1.0
+
+**Note on CDF visualization:** The charts use `where='mid'` in the step plot for visual clarity, which centers the step between points. In mathematical terms, discrete CDFs are right-continuous functions (they jump up at each value and include that value in the cumulative probability).
+
 :::{admonition} Example: Medical Diagnostic Test with p = 0.1
 :class: tip
 
