@@ -251,12 +251,17 @@ The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
 
 **Quick Check Questions**
 
-1. A quality control inspector checks a single product. It's either defective or not defective. Which distribution models this?
+1. A quality control inspector checks a single product. It's either defective or not defective. Is this scenario well-modeled by a Bernoulli distribution? Why or why not?
 
 ```{admonition} Answer
 :class: dropdown
 
-**Bernoulli distribution** - Single trial with two possible outcomes (defective vs. not defective).
+**Yes** - This scenario perfectly fits the Bernoulli distribution requirements:
+- **Single trial**: Checking one product
+- **Two possible outcomes**: Defective (success/1) or not defective (failure/0)
+- **Fixed probability**: The defect rate is constant for each product
+
+If the defect rate is 5%, we'd use Bernoulli(p=0.05).
 ```
 
 2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
