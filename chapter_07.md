@@ -34,6 +34,19 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 The Bernoulli distribution models a single trial with two possible outcomes: "success" (1) or "failure" (0).
 
+:::{admonition} Why Start with Something So Simple?
+:class: note
+
+The Bernoulli distribution might seem almost trivially simple—it's just a single trial with two outcomes! However, it's incredibly important because:
+
+- **It's the fundamental building block**: All the other distributions in this chapter (Binomial, Geometric, Negative Binomial, Categorical) build directly on the Bernoulli trial concept
+- **Single binary events are everywhere**: Many real-world scenarios involve a single yes/no, success/failure, or on/off decision
+- **It establishes key patterns**: The $p$ and $(1-p)$ structure appears throughout probability theory
+- **Mathematical note**: The Bernoulli distribution is technically just the Binomial distribution with $n=1$, but we give it its own name because of its foundational importance
+
+Think of it like learning to add before learning to multiply—simple, but essential!
+:::
+
 **Concrete Example**
 
 Suppose you're conducting a medical screening test for a disease in a high-risk population. Each test either shows positive or negative. From epidemiological data, you know that 30% of individuals in this population test positive.
