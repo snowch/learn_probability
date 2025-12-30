@@ -198,7 +198,7 @@ Note: Here, P(X ≤ 0) = P(X = 0) = 0.7 because X can't take negative values; in
 
 **Note on CDF visualization:** The charts use `where='post'` in the step plot to create proper right-continuous step functions. This means the CDF jumps up at each value and includes that value in the cumulative probability.
 
-:::{admonition} Example: Medical Diagnostic Test with p = 0.1
+::::{admonition} Example: Medical Diagnostic Test with p = 0.1
 :class: tip
 
 Modeling the outcome of a single medical diagnostic test where the probability of a positive result is 0.1.
@@ -308,7 +308,7 @@ plt.show()
 
 The CDF shows the step function: starts at 0 for x < 0, jumps to 0.9 at x=0, stays flat at 0.9 until x=1, then jumps to 1.0 at x=1.
 
-:::
+::::
 
 **Quick Check Questions**
 
