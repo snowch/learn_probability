@@ -157,7 +157,7 @@ The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a 
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -192,7 +192,7 @@ Now that we've seen both types of visualizations, let's understand how to read a
   - Find P(a < X ≤ b) by calculating P(X ≤ b) - P(X ≤ a)
 - **Key property:** The CDF always increases (or stays flat) and approaches 1.0
 
-**Note on CDF visualization:** The charts use `where='mid'` in the step plot for visual clarity, which centers the step between points. In mathematical terms, discrete CDFs are right-continuous functions (they jump up at each value and include that value in the cumulative probability).
+**Note on CDF visualization:** The charts use `where='post'` in the step plot to create proper right-continuous step functions. Discrete CDFs are right-continuous (they jump up at each value and include that value in the cumulative probability), which `where='post'` correctly represents.
 
 :::{admonition} Example: Medical Diagnostic Test with p = 0.1
 :class: tip
@@ -256,7 +256,7 @@ The PMF shows the probability of each outcome. With p = 0.1, "Negative" has prob
 cdf_values = bernoulli_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_positive})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -434,7 +434,7 @@ The PMF shows the probability distribution for the number of heads in 10 coin fl
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_viz}, p={p_viz})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -519,7 +519,7 @@ The PMF shows the probability distribution for the number of successful calls. W
 cdf_values = binomial_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -688,7 +688,7 @@ The PMF shows exponentially decreasing probabilities - you're most likely to suc
 cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Geometric CDF (p={p_viz})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -786,7 +786,7 @@ The PMF shows exponentially decreasing probabilities for the exam example with p
 cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_trials, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Geometric CDF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -955,7 +955,7 @@ The PMF shows the distribution is centered around the expected value r/p = 3/0.2
 cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Negative Binomial CDF (r={r_viz}, p={p_viz})")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1059,7 +1059,7 @@ The PMF shows the distribution centered around r/p = 60 components with consider
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_components, cdf_values_nb, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_components, cdf_values_nb, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1225,7 +1225,7 @@ The PMF shows the distribution centered around λ = 4 with reasonable probabilit
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Poisson CDF (λ={lambda_viz})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1310,7 +1310,7 @@ The PMF shows the distribution centered around λ = 5 events.
 cdf_values = poisson_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Poisson CDF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1480,7 +1480,7 @@ The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to
 cdf_values_viz = hypergeom_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Hypergeometric CDF (N={N_viz}, K={K_viz}, n={n_viz})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1572,7 +1572,7 @@ The PMF shows the probability distribution for the number of winning tickets in 
 cdf_values = hypergeom_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Hypergeometric CDF (N={N_population}, K={K_successes_pop}, n={n_sample})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1741,7 +1741,7 @@ The PMF shows six equal bars, each with probability 1/6, representing the fair d
 cdf_values_viz = uniform_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Discrete Uniform CDF (a={a_viz}, b={b_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1829,7 +1829,7 @@ All 20 values have equal probability of 0.05 (1/20).
 cdf_values = uniform_rv.cdf(k_values)
 
 plt.figure(figsize=(10, 4))
-plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Discrete Uniform CDF (a={a_sel}, b={b_sel})")
 plt.xlabel("Value")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -1996,7 +1996,7 @@ The PMF shows the different probabilities for each face of the loaded die.
 cdf_values_viz = categorical_viz.cdf(values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.step(values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title("Categorical CDF (Loaded Die)")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
@@ -2082,7 +2082,7 @@ Coffee is the most popular choice, followed by tea, juice, and water.
 cdf_vals = categorical_rv.cdf(choices)
 
 plt.figure(figsize=(8, 4))
-plt.step(choices, cdf_vals, where='mid', color='darkgreen', linewidth=2)
+plt.step(choices, cdf_vals, where='post', color='darkgreen', linewidth=2)
 plt.xticks(choices, labels)
 plt.title("Categorical CDF (Customer Drink Choice)")
 plt.xlabel("Choice")
