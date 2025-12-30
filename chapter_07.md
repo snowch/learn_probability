@@ -154,14 +154,17 @@ The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a 
 :tags: [remove-input, remove-output]
 
 # Plotting the CDF
+k_values_viz = [0, 1]
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+# Add points to show the full step function including the start at 0
+plt.step([-0.5] + k_values_viz, [0] + list(cdf_values_viz), where='post', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
+plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
@@ -256,11 +259,13 @@ The PMF shows the probability of each outcome. With p = 0.1, "Negative" has prob
 cdf_values = bernoulli_rv.cdf(k_values)
 
 plt.figure(figsize=(8, 4))
-plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
+# Add points to show the full step function including the start at 0
+plt.step([-0.5] + k_values, [0] + list(cdf_values), where='post', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_positive})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
+plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
