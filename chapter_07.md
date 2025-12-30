@@ -641,18 +641,34 @@ The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
 
 The Negative Binomial distribution models the number of independent Bernoulli trials needed to achieve a *fixed number* of successes ($r$). It generalizes the Geometric distribution (where $r=1$).
 
-- **Scenario**: The number of coin flips needed to get 5 Heads, the number of products to inspect to find 3 defective items, the number of patients tested until finding 10 with a specific condition, the number of job interviews conducted until making 3 hires.
-- **Parameters**:
-    - $r$: the target number of successes ($r \ge 1$).
-    - $p$: the probability of success on each trial ($0 < p \le 1$).
-- **Random Variable**: $X$, the total number of trials required to achieve $r$ successes. $X$ can take values $k = r, r+1, r+2, ...$.
+**Concrete Example**
 
-**PMF:**
-The probability that the $r$-th success occurs on the $k$-th trial is:
+You're rolling a die until you get 3 sixes. Each roll has p = 1/6 probability of rolling a six. How many rolls will it take to get your 3rd six?
+
+We model this with a random variable $X$:
+- $X$ = the trial number on which the 3rd six appears
+- $X$ can take values 3, 4, 5, ... (minimum 3 rolls, could be more)
+
+The probabilities are:
+- $P(X = 3)$ = all three rolls are sixes = $(1/6)^3 \approx 0.0046$
+- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll
+- And so on...
+
+**The Negative Binomial PMF**
+
+For trials with success probability $p$ and target $r$ successes:
 
 $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, \dots $$
 
-This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
+This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
+
+**Key Characteristics**
+
+- **Scenarios**: Coin flips until getting r Heads, products inspected to find r defects, interviews until making r hires
+- **Parameters**:
+    - $r$: target number of successes ($r \ge 1$)
+    - $p$: probability of success on each trial ($0 < p \le 1$)
+- **Random Variable**: $X \in \{r, r+1, r+2, ...\}$
 
 **Mean:** $E[X] = \frac{r}{p}$
 
@@ -661,10 +677,63 @@ This means we have $r-1$ successes in the first $k-1$ trials, and the $k$-th tri
 :::{admonition} Note
 :class: note
 
-Like `geom`, `scipy.stats.nbinom` defines the variable differently: it counts the number of *failures* ($k$) that occur before the $r$-th success. So, the total number of trials in our definition is $k + r$ in SciPy's terms. We'll use the `scipy` definition ($k=0, 1, 2, ...$ failures) in the code, stating results in terms of the total number of trials.
+`scipy.stats.nbinom` counts the number of *failures* before the $r$-th success, not total trials. We'll use scipy's definition in code but state results in terms of total trials.
 :::
 
-**Example:** A quality control inspector tests electronic components until finding $r=3$ defective ones. If the probability that any component is defective ($p$) is 0.05, how many components should we expect to test?
+**Visualizing the Distribution**
+
+Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (easier to see than our 1/6 example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Negative Binomial distribution for visualization (r=3, p=0.2)
+r_viz = 3
+p_viz = 0.2
+nbinom_viz = stats.nbinom(n=r_viz, p=p_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(r_viz, 30)  # Total trials from r to 30
+pmf_values_viz = nbinom_viz.pmf(k_values_viz - r_viz)  # Adjust for scipy
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Negative Binomial PMF (r={r_viz}, p={p_viz})")
+plt.xlabel("Total Number of Trials (k)")
+plt.ylabel("Probability P(X=k)")
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
+
+The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Negative Binomial CDF (r={r_viz}, p={p_viz})")
+plt.xlabel("Total Number of Trials (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials.
+
+:::{admonition} Example: Quality Control with r = 3, p = 0.05
+:class: tip
+
+A quality control inspector tests electronic components until finding 3 defective ones. The defect rate is p = 0.05.
 
 We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
@@ -733,7 +802,7 @@ pmf_values_nb = nbinom_rv.pmf(k_values_components - r_defective) # Adjust k for 
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values_components, pmf_values_nb, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective}) - Components tested")
+plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
@@ -743,7 +812,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the total number of components tested to find r = 3 defective items. With p = 0.05 (from our example), the expected value is r/p = 60 components, though the distribution shows considerable variability.
+The PMF shows the distribution centered around r/p = 60 components with considerable variability.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -753,7 +822,7 @@ cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for 
 
 plt.figure(figsize=(8, 4))
 plt.step(k_values_components, cdf_values_nb, where='mid', color='darkgreen', linewidth=2)
-plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective}) - Components tested")
+plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
@@ -763,31 +832,124 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability that we'll have found 3 defective items after testing k or fewer components.
+The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests.
+
+:::
+
+:::
+
+**Quick Check Questions**
+
+1. You flip a fair coin until you get 5 Heads. What distribution models this and what are the parameters?
+
+2. For a Negative Binomial distribution with r = 4 and p = 0.5, what is the expected value (mean)?
+
+3. How is Negative Binomial related to Geometric distribution?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Negative Binomial with r = 5, p = 0.5** - Counting trials until getting r successes, each trial has p = 0.5.
+
+2. **E[X] = r/p = 4/0.5 = 8** - Expected number of trials to get 4 successes.
+
+3. **Geometric is a special case where r = 1** - Negative Binomial with r=1 is identical to Geometric.
+```
 
 +++
 
 ## 5. Poisson Distribution
 
-The Poisson distribution models the number of events occurring in a fixed interval of time or space, given the average rate of occurrence, assuming events happen independently and at a constant average rate.
+The Poisson distribution models the number of events occurring in a fixed interval of time or space when events happen independently at a constant average rate.
 
-- **Scenario**: Number of emails received per hour, number of customer arrivals at a store per day, number of typos per page of a book, number of mutations in a DNA strand of a certain length, number of emergency calls received at a fire station per shift, number of defects per square meter of fabric, number of meteor impacts per year in a region.
-- **Parameter**: $\lambda$ (lambda), the average number of events in the interval ($\lambda > 0$).
-- **Random Variable**: $X$, the number of events in the interval. $X$ can take values $k = 0, 1, 2, ...$.
+**Concrete Example**
 
-**PMF:**
+You receive an average of 4 customer calls per hour. How many calls will you get in the next hour?
+
+We model this with a random variable $X$:
+- $X$ = the number of calls in one hour
+- $X$ can take values 0, 1, 2, 3, ... (any non-negative integer)
+
+The average rate is $\lambda = 4$ calls/hour.
+
+**The Poisson PMF**
+
+For events occurring at average rate $\lambda$:
 
 $$ P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!} \quad \text{for } k = 0, 1, 2, \dots $$
 
 where $e \approx 2.71828$ is Euler's number.
 
+Let's verify for our example (λ=4):
+- $P(X=4) = \frac{e^{-4} \times 4^4}{4!} \approx 0.195$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Emails per hour, customer arrivals per day, typos per page, emergency calls per shift, defects per unit area
+- **Parameter**: $\lambda$, average number of events in the interval ($\lambda > 0$)
+- **Random Variable**: $X \in \{0, 1, 2, ...\}$
+
 **Mean:** $E[X] = \lambda$
 
 **Variance:** $Var(X) = \lambda$
 
-Note: The mean and variance are equal in a Poisson distribution.
+Note: Mean and variance are equal in a Poisson distribution.
 
-**Example:** Modeling the number of emails received per hour, if the average rate ($\lambda$) is 5 emails/hour.
+**Visualizing the Distribution**
+
+Let's visualize a Poisson distribution with $\lambda = 4$ (our call center example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Poisson distribution for visualization (λ=4)
+lambda_viz = 4
+poisson_viz = stats.poisson(mu=lambda_viz)
+
+# Plotting the PMF
+k_values_viz = np.arange(0, 15)
+pmf_values_viz = poisson_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Poisson PMF (λ={lambda_viz})")
+plt.xlabel("Number of Events (k)")
+plt.ylabel("Probability P(X=k)")
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Poisson PMF](ch07_poisson_pmf_generic.svg)
+
+The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = poisson_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Poisson CDF (λ={lambda_viz})")
+plt.xlabel("Number of Events (k)")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Poisson CDF](ch07_poisson_cdf_generic.svg)
+
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?"
+
+:::{admonition} Example: Email Arrivals with λ = 5
+:class: tip
+
+Modeling the number of emails received per hour with an average rate of λ = 5 emails/hour.
 
 Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
