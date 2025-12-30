@@ -129,7 +129,7 @@ Now that we've seen both types of visualizations, let's understand how to read a
 **PMF (Probability Mass Function) Charts:**
 - **What they show:** The height of each bar represents the probability of that exact outcome
 - **How to read:** Look at the bar height to find P(X = k) for any specific value k
-- **Practical use:** Answer questions like "What's the probability of getting exactly 3 successes?"
+- **Practical use:** Answer questions like "What's the probability of success?" or "What's the probability of exactly 1 positive test?"
 - **Key property:** All bar heights must sum to 1.0 (total probability)
 
 **CDF (Cumulative Distribution Function) Charts:**
