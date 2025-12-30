@@ -173,7 +173,7 @@ plt.show()
 
 ![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
 
-The CDF shows the cumulative probability: P(X ≤ 0) = 0.7 (just the negative test outcome) and P(X ≤ 1) = 1.0 (both outcomes).
+The CDF shows the step function: starts at 0, then jumps to P(X ≤ 0) = 0.7 at x=0 (including the negative test outcome), stays flat at 0.7, then jumps to P(X ≤ 1) = 1.0 at x=1 (including both outcomes).
 
 **Understanding PMF and CDF Charts**
 
@@ -274,7 +274,7 @@ plt.show()
 
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
 
-The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
+The CDF shows the step function: starts at 0, jumps to P(X ≤ 0) = 0.9 at x=0, stays flat at 0.9, then jumps to P(X ≤ 1) = 1.0 at x=1.
 
 :::
 
