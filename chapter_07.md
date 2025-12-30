@@ -129,8 +129,6 @@ Modeling the outcome of a single customer purchase where the probability of purc
 
 Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
 
-:::{dropdown} Python Implementation
-
 ```{code-cell} ipython3
 # Using scipy.stats.bernoulli
 p_purchase = 0.1
