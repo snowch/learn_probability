@@ -175,7 +175,7 @@ Now that we've seen both types of visualizations, let's understand how to read a
 
 Modeling the outcome of a single medical diagnostic test where the probability of a positive result is 0.1.
 
-Let's use `scipy.stats.bernoulli` to calculate probabilities, compute the mean and variance, and generate random samples.
+Let's use [`scipy.stats.bernoulli`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bernoulli.html) to calculate probabilities, compute the mean and variance, and generate random samples.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -428,7 +428,7 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads
 
 Modeling the number of successful sales calls out of 20, where each call has a 0.15 probability of success.
 
-We'll demonstrate how to use `scipy.stats.binom` to calculate probabilities, compute statistics, and generate random samples.
+We'll demonstrate how to use [`scipy.stats.binom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html) to calculate probabilities, compute statistics, and generate random samples.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -664,7 +664,7 @@ The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succee
 
 Modeling the number of attempts needed to pass a certification exam where the pass probability is 0.6.
 
-Let's use `scipy.stats.geom` to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
+Let's use [`scipy.stats.geom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.geom.html) to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -912,7 +912,7 @@ The CDF shows P(X ≤ k), the cumulative probability of achieving r successes wi
 
 A quality control inspector tests electronic components until finding 3 defective ones. The defect rate is p = 0.05.
 
-We'll use `scipy.stats.nbinom` to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
+We'll use [`scipy.stats.nbinom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html) to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1163,7 +1163,7 @@ The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6
 
 Modeling the number of emails received per hour with an average rate of λ = 5 emails/hour.
 
-Let's use `scipy.stats.poisson` to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
+Let's use [`scipy.stats.poisson`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html) to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1400,7 +1400,7 @@ The CDF shows P(X ≤ k), useful for questions like "What's the probability of g
 
 Modeling the number of winning lottery tickets in a sample of 10 drawn from a box of 100 tickets where 20 are winners.
 
-We'll use `scipy.stats.hypergeom` to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
+We'll use [`scipy.stats.hypergeom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hypergeom.html) to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1645,7 +1645,7 @@ The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maxim
 
 Modeling a random integer selection from 1 to 20, where each number is equally likely to be chosen.
 
-Let's use `scipy.stats.randint` to calculate probabilities and generate samples.
+Let's use [`scipy.stats.randint`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.randint.html) to calculate probabilities and generate samples.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -1884,7 +1884,7 @@ The CDF increases by different amounts at each value, reflecting the varying pro
 
 A coffee shop tracks customer drink preferences: 40% choose coffee, 30% choose tea, 20% choose juice, and 10% choose water.
 
-Let's model this using a Categorical distribution.
+Let's model this using a Categorical distribution with [`scipy.stats.rv_discrete`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_discrete.html).
 
 ```{code-cell} ipython3
 import numpy as np
@@ -2114,7 +2114,7 @@ The marginal distribution of any single category in a Multinomial distribution i
 
 A store tracks purchases across 4 product categories: Electronics (30%), Clothing (25%), Home Goods (25%), Food (20%). We observe 50 customers and count how many purchase from each category.
 
-Let's use `numpy.random.multinomial` to work with this distribution.
+Let's use [`numpy.random.multinomial`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.multinomial.html) to work with this distribution.
 
 ```{code-cell} ipython3
 import numpy as np
