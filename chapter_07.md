@@ -1295,7 +1295,588 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winni
 
 +++
 
-## 7. Relationships Between Distributions
+## 7. Discrete Uniform Distribution
+
+The Discrete Uniform distribution models selecting one outcome from a finite set where all outcomes are equally likely.
+
+**Concrete Example**
+
+Suppose you roll a fair six-sided die. Each face (1, 2, 3, 4, 5, 6) has an equal probability of appearing.
+
+We model this with a random variable $X$:
+- $X$ = the number showing on the die
+- $X$ can take values 1, 2, 3, 4, 5, 6
+
+The probabilities are:
+- $P(X = 1) = P(X = 2) = \cdots = P(X = 6) = \frac{1}{6}$
+
+**The Discrete Uniform PMF**
+
+For a Discrete Uniform distribution on the integers from $a$ to $b$ (inclusive):
+
+$$ P(X=k) = \begin{cases} \frac{1}{b-a+1} & \text{if } k \in \{a, a+1, \ldots, b\} \\ 0 & \text{otherwise} \end{cases} $$
+
+For our die example with $a = 1$ and $b = 6$:
+- $P(X=k) = \frac{1}{6-1+1} = \frac{1}{6}$ for $k \in \{1, 2, 3, 4, 5, 6\}$
+
+**Key Characteristics**
+
+- **Scenarios**: Fair die roll, random selection from a list, lottery number selection, random password digit
+- **Parameters**:
+    - $a$: minimum value (integer)
+    - $b$: maximum value (integer, $b \ge a$)
+- **Random Variable**: $X \in \{a, a+1, \ldots, b\}$
+
+**Mean:** $E[X] = \frac{a+b}{2}$
+
+**Variance:** $Var(X) = \frac{(b-a+1)^2 - 1}{12}$
+
+**Visualizing the Distribution**
+
+Let's visualize a Discrete Uniform distribution for a fair die ($a = 1$, $b = 6$):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Discrete Uniform distribution for visualization (fair die)
+a_viz = 1
+b_viz = 6
+from scipy.stats import randint
+# scipy.stats.randint uses [low, high) so we add 1 to b
+uniform_viz = randint(low=a_viz, high=b_viz+1)
+
+# Plotting the PMF
+k_values_viz = np.arange(a_viz, b_viz+1)
+pmf_values_viz = uniform_viz.pmf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Discrete Uniform PMF (a={a_viz}, b={b_viz})")
+plt.xlabel("Outcome")
+plt.ylabel("Probability")
+plt.ylim(0, 0.25)
+plt.xticks(k_values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_discrete_uniform_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Discrete Uniform PMF](ch07_discrete_uniform_pmf.svg)
+
+The PMF shows six equal bars, each with probability 1/6, representing the fair die.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = uniform_viz.cdf(k_values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(k_values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Discrete Uniform CDF (a={a_viz}, b={b_viz})")
+plt.xlabel("Outcome")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.ylim(0, 1.1)
+plt.xticks(k_values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_discrete_uniform_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Discrete Uniform CDF](ch07_discrete_uniform_cdf.svg)
+
+The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maximum value.
+
+:::{admonition} Example: Random Selection from 1 to 20
+:class: tip
+
+Modeling a random integer selection from 1 to 20, where each number is equally likely to be chosen.
+
+Let's use `scipy.stats.randint` to calculate probabilities and generate samples.
+
+```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# Using scipy.stats.randint (note: uses [low, high) interval)
+a_sel = 1
+b_sel = 20
+uniform_rv = stats.randint(low=a_sel, high=b_sel+1)
+
+# PMF: Probability of any specific value
+k_val = 7
+print(f"P(X={k_val}): {uniform_rv.pmf(k_val):.4f}")
+print(f"This equals 1/{b_sel-a_sel+1} = {1/(b_sel-a_sel+1):.4f}")
+```
+
+```{code-cell} ipython3
+# CDF: Probability of k or fewer
+k_threshold = 10
+print(f"P(X <= {k_threshold}): {uniform_rv.cdf(k_threshold):.4f}")
+print(f"P(X > {k_threshold}): {uniform_rv.sf(k_threshold):.4f}")
+```
+
+```{code-cell} ipython3
+# Mean and Variance
+print(f"Mean (Expected value): {uniform_rv.mean():.2f}")
+print(f"Theoretical mean (a+b)/2: {(a_sel+b_sel)/2:.2f}")
+print(f"Variance: {uniform_rv.var():.2f}")
+```
+
+```{code-cell} ipython3
+# Generate random samples
+n_samples = 10
+samples = uniform_rv.rvs(size=n_samples)
+print(f"{n_samples} random selections from 1 to {b_sel}:")
+print(samples)
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the PMF
+k_values = np.arange(a_sel, b_sel+1)
+pmf_values = uniform_rv.pmf(k_values)
+
+plt.figure(figsize=(10, 4))
+plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Discrete Uniform PMF (a={a_sel}, b={b_sel})")
+plt.xlabel("Value")
+plt.ylabel("Probability")
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_discrete_uniform_pmf_example.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Discrete Uniform PMF](ch07_discrete_uniform_pmf_example.svg)
+
+All 20 values have equal probability of 0.05 (1/20).
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values = uniform_rv.cdf(k_values)
+
+plt.figure(figsize=(10, 4))
+plt.step(k_values, cdf_values, where='mid', color='darkgreen', linewidth=2)
+plt.title(f"Discrete Uniform CDF (a={a_sel}, b={b_sel})")
+plt.xlabel("Value")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_discrete_uniform_cdf_example.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Discrete Uniform CDF](ch07_discrete_uniform_cdf_example.svg)
+
+The CDF increases linearly in equal steps, showing the uniform nature of the distribution.
+
+:::
+
+**Quick Check Questions**
+
+1. You randomly select a card from a standard deck (52 cards). If X represents the card number (1-13, where 1=Ace, 11=Jack, 12=Queen, 13=King), what distribution models this and what are the parameters?
+
+2. For a Discrete Uniform distribution with a = 5 and b = 15, what is the probability of getting exactly 10?
+
+3. What is the mean of a Discrete Uniform distribution on the integers from 1 to 100?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Discrete Uniform distribution with a = 1, b = 13** - Each card number is equally likely (4 of each in the deck).
+
+2. **P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** - All values in the range are equally likely.
+
+3. **Mean = (1+100)/2 = 50.5** - The mean is the midpoint of the range.
+```
+
++++
+
+## 8. Categorical Distribution
+
+The Categorical distribution models a single trial with multiple possible outcomes (more than 2), where each outcome has its own probability. It's the generalization of the Bernoulli distribution to more than two categories.
+
+**Concrete Example**
+
+Suppose you're rolling a loaded six-sided die where the faces have different probabilities:
+- Face 1: probability 0.1
+- Face 2: probability 0.15
+- Face 3: probability 0.20
+- Face 4: probability 0.25
+- Face 5: probability 0.20
+- Face 6: probability 0.10
+
+We model this with a random variable $X$:
+- $X$ = the face that appears
+- $X$ can take values in $\{1, 2, 3, 4, 5, 6\}$
+- Each value has its own probability: $P(X=1)=0.1, P(X=2)=0.15,$ etc.
+
+**The Categorical PMF**
+
+For a Categorical distribution with $k$ possible outcomes and probabilities $p_1, p_2, \ldots, p_k$ where $\sum_{i=1}^k p_i = 1$:
+
+$$ P(X=i) = p_i \quad \text{for } i = 1, 2, \ldots, k $$
+
+For our loaded die example:
+- $P(X=1) = 0.1,\, P(X=2) = 0.15,\, P(X=3) = 0.20$
+- $P(X=4) = 0.25,\, P(X=5) = 0.20,\, P(X=6) = 0.10$
+- Sum: $0.1 + 0.15 + 0.20 + 0.25 + 0.20 + 0.10 = 1.0$ ✓
+
+**Key Characteristics**
+
+- **Scenarios**: Loaded die, customer choosing from menu categories, survey response (multiple choice), weather outcome (sunny/cloudy/rainy/snowy)
+- **Parameters**:
+    - $k$: number of categories
+    - $p_1, p_2, \ldots, p_k$: probabilities for each category (must sum to 1)
+- **Random Variable**: $X \in \{1, 2, \ldots, k\}$
+
+**Mean:** $E[X] = \sum_{i=1}^k i \cdot p_i$ (weighted average of outcomes)
+
+**Variance:** $Var(X) = \sum_{i=1}^k i^2 \cdot p_i - \left(\sum_{i=1}^k i \cdot p_i\right)^2$
+
+**Visualizing the Distribution**
+
+Let's visualize our loaded die Categorical distribution:
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Create Categorical distribution for visualization (loaded die)
+probs_viz = np.array([0.1, 0.15, 0.20, 0.25, 0.20, 0.10])
+from scipy.stats import rv_discrete
+values_viz = np.arange(1, 7)
+categorical_viz = rv_discrete(values=(values_viz, probs_viz))
+
+# Plotting the PMF
+plt.figure(figsize=(8, 4))
+plt.bar(values_viz, probs_viz, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title("Categorical PMF (Loaded Die)")
+plt.xlabel("Outcome")
+plt.ylabel("Probability")
+plt.ylim(0, 0.3)
+plt.xticks(values_viz)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_categorical_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Categorical PMF](ch07_categorical_pmf.svg)
+
+The PMF shows the different probabilities for each face of the loaded die.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_values_viz = categorical_viz.cdf(values_viz)
+
+plt.figure(figsize=(8, 4))
+plt.step(values_viz, cdf_values_viz, where='mid', color='darkgreen', linewidth=2)
+plt.title("Categorical CDF (Loaded Die)")
+plt.xlabel("Outcome")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.ylim(0, 1.1)
+plt.xticks(values_viz)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_categorical_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Categorical CDF](ch07_categorical_cdf.svg)
+
+The CDF increases by different amounts at each value, reflecting the varying probabilities.
+
+:::{admonition} Example: Customer Product Choice
+:class: tip
+
+A coffee shop tracks customer drink preferences: 40% choose coffee, 30% choose tea, 20% choose juice, and 10% choose water.
+
+Let's model this using a Categorical distribution.
+
+```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# Define the categorical distribution
+choices = np.array([1, 2, 3, 4])  # 1=Coffee, 2=Tea, 3=Juice, 4=Water
+probs = np.array([0.40, 0.30, 0.20, 0.10])
+categorical_rv = stats.rv_discrete(values=(choices, probs))
+
+# PMF: Probability of each choice
+labels = ['Coffee', 'Tea', 'Juice', 'Water']
+for i, (choice, label) in enumerate(zip(choices, labels)):
+    print(f"P(X={choice}) [{label}]: {probs[i]:.2f}")
+```
+
+```{code-cell} ipython3
+# CDF: Probability of choice i or lower
+print(f"P(X <= 2) [Coffee or Tea]: {categorical_rv.cdf(2):.2f}")
+print(f"P(X > 2) [Juice or Water]: {1 - categorical_rv.cdf(2):.2f}")
+```
+
+```{code-cell} ipython3
+# Mean and Variance
+print(f"Mean (Expected value): {categorical_rv.mean():.2f}")
+print(f"Variance: {categorical_rv.var():.2f}")
+```
+
+```{code-cell} ipython3
+# Generate random samples
+n_customers = 100
+samples = categorical_rv.rvs(size=n_customers)
+print(f"\nSimulated choices for {n_customers} customers:")
+for i, label in enumerate(labels, 1):
+    count = np.sum(samples == i)
+    print(f"{label}: {count} ({count/n_customers:.1%})")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the PMF
+plt.figure(figsize=(8, 4))
+plt.bar(choices, probs, tick_label=labels, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title("Categorical PMF (Customer Drink Choice)")
+plt.xlabel("Choice")
+plt.ylabel("Probability")
+plt.ylim(0, 0.5)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_categorical_pmf_example.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Categorical PMF](ch07_categorical_pmf_example.svg)
+
+Coffee is the most popular choice, followed by tea, juice, and water.
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plotting the CDF
+cdf_vals = categorical_rv.cdf(choices)
+
+plt.figure(figsize=(8, 4))
+plt.step(choices, cdf_vals, where='mid', color='darkgreen', linewidth=2)
+plt.xticks(choices, labels)
+plt.title("Categorical CDF (Customer Drink Choice)")
+plt.xlabel("Choice")
+plt.ylabel("Cumulative Probability P(X <= k)")
+plt.ylim(0, 1.1)
+plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.savefig('ch07_categorical_cdf_example.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Categorical CDF](ch07_categorical_cdf_example.svg)
+
+The CDF shows cumulative probabilities across the ordered choices.
+
+:::
+
+**Quick Check Questions**
+
+1. A traffic light can be red (50%), yellow (10%), or green (40%). What distribution models the color when you arrive at an intersection?
+
+2. For a Categorical distribution with 4 equally likely outcomes, what is P(X = 2)?
+
+3. How is the Categorical distribution related to the Bernoulli distribution?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Categorical distribution with k=3 categories and probabilities p₁=0.5, p₂=0.1, p₃=0.4** - Single trial with three possible outcomes.
+
+2. **P(X = 2) = 0.25** - For equally likely outcomes, each has probability 1/4.
+
+3. **Bernoulli is a special case of Categorical with k=2** - When there are only two categories, Categorical reduces to Bernoulli.
+```
+
++++
+
+## 9. Multinomial Distribution
+
+The Multinomial distribution models performing a fixed number of independent trials where each trial has multiple possible outcomes (more than 2), and we count how many times each outcome occurs. It's the generalization of the Binomial distribution to more than two categories.
+
+**Concrete Example**
+
+Suppose you roll a fair six-sided die 20 times. We want to know how many times each face (1, 2, 3, 4, 5, 6) appears.
+
+We model this with a random vector $\mathbf{X} = (X_1, X_2, X_3, X_4, X_5, X_6)$ where:
+- $X_1$ = number of times face 1 appears
+- $X_2$ = number of times face 2 appears
+- ... and so on
+- Constraint: $X_1 + X_2 + X_3 + X_4 + X_5 + X_6 = 20$
+
+The probabilities for a fair die are:
+- $p_1 = p_2 = p_3 = p_4 = p_5 = p_6 = \frac{1}{6}$
+
+**The Multinomial PMF**
+
+For $n$ independent trials with $k$ possible outcomes and probabilities $p_1, p_2, \ldots, p_k$ where $\sum_{i=1}^k p_i = 1$:
+
+$$ P(X_1=x_1, X_2=x_2, \ldots, X_k=x_k) = \frac{n!}{x_1! x_2! \cdots x_k!} \, p_1^{x_1} p_2^{x_2} \cdots p_k^{x_k} $$
+
+where $x_1 + x_2 + \cdots + x_k = n$.
+
+The term $\frac{n!}{x_1! x_2! \cdots x_k!}$ is the multinomial coefficient (see [Chapter 3: Permutations of Identical Objects](chapter_03.md#permutations-of-identical-objects)).
+
+For our die example, the probability of getting exactly (3, 4, 2, 5, 4, 2) of each face:
+
+$$
+\begin{align}
+P(X_1=3, X_2=4, X_3=2, X_4=5, X_5=4, X_6=2) &= \frac{20!}{3! \, 4! \, 2! \, 5! \, 4! \, 2!} \left(\frac{1}{6}\right)^{20} \\
+&= 1.34 \times 10^{13} \times 3.39 \times 10^{-16} \\
+&\approx 0.00454
+\end{align}
+$$
+
+**Key Characteristics**
+
+- **Scenarios**: Rolling a die n times (counting each face), survey with multiple choice options, customer purchases across product categories, DNA base frequencies in a sequence
+- **Parameters**:
+    - $n$: number of trials
+    - $k$: number of categories
+    - $p_1, p_2, \ldots, p_k$: probabilities for each category (must sum to 1)
+- **Random Variables**: $X_1, X_2, \ldots, X_k$ where $X_i$ = count for category $i$, and $\sum_{i=1}^k X_i = n$
+
+**Mean for each category:** $E[X_i] = n p_i$
+
+**Variance for each category:** $Var(X_i) = n p_i (1-p_i)$
+
+**Visualizing the Distribution**
+
+Multinomial distributions are challenging to visualize since they involve multiple variables. Let's look at a simple case with $k=3$ categories:
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Simulate multinomial: rolling a 3-sided die 15 times
+n_trials = 15
+probs_3 = np.array([1/3, 1/3, 1/3])
+
+# Generate many samples
+n_sims = 10000
+samples = np.random.multinomial(n_trials, probs_3, size=n_sims)
+
+# Plot distribution of outcomes for Category 1 (marginal distribution)
+category_1_counts = samples[:, 0]
+
+plt.figure(figsize=(8, 4))
+plt.hist(category_1_counts, bins=np.arange(0, n_trials+2)-0.5, density=True,
+         color='skyblue', edgecolor='black', alpha=0.7)
+plt.title(f"Marginal Distribution of Category 1\n(Multinomial with n={n_trials}, k=3, all p=1/3)")
+plt.xlabel("Count for Category 1")
+plt.ylabel("Probability")
+plt.xticks(range(0, n_trials+1))
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.savefig('ch07_multinomial_marginal.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Multinomial Marginal](ch07_multinomial_marginal.svg)
+
+The marginal distribution of any single category in a Multinomial distribution is actually a Binomial distribution! Here, Category 1 follows Binomial(n=15, p=1/3).
+
+:::{admonition} Example: Customer Product Purchases
+:class: tip
+
+A store tracks purchases across 4 product categories: Electronics (30%), Clothing (25%), Home Goods (25%), Food (20%). We observe 50 customers and count how many purchase from each category.
+
+Let's use `numpy.random.multinomial` to work with this distribution.
+
+```{code-cell} ipython3
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+
+# Define parameters
+n_customers = 50
+categories = ['Electronics', 'Clothing', 'Home Goods', 'Food']
+probs = np.array([0.30, 0.25, 0.25, 0.20])
+
+# Expected counts
+expected_counts = n_customers * probs
+print("Expected purchases per category:")
+for cat, exp in zip(categories, expected_counts):
+    print(f"  {cat}: {exp:.1f}")
+```
+
+```{code-cell} ipython3
+# Generate one sample (one set of 50 customers)
+one_sample = np.random.multinomial(n_customers, probs)
+print(f"\nOne simulation of {n_customers} customers:")
+for cat, count in zip(categories, one_sample):
+    print(f"  {cat}: {count}")
+print(f"Total: {np.sum(one_sample)}")
+```
+
+```{code-cell} ipython3
+# Generate many samples to see the distribution
+n_sims = 10000
+samples = np.random.multinomial(n_customers, probs, size=n_sims)
+
+# Compute mean and std for each category
+for i, cat in enumerate(categories):
+    counts = samples[:, i]
+    print(f"{cat}:")
+    print(f"  Mean: {np.mean(counts):.2f} (theoretical: {n_customers * probs[i]:.2f})")
+    print(f"  Std: {np.std(counts):.2f} (theoretical: {np.sqrt(n_customers * probs[i] * (1-probs[i])):.2f})")
+```
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Plot distributions for each category
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+axes = axes.flatten()
+
+for i, (cat, ax) in enumerate(zip(categories, axes)):
+    counts = samples[:, i]
+    ax.hist(counts, bins=np.arange(0, n_customers+2)-0.5, density=True,
+            color='skyblue', edgecolor='black', alpha=0.7)
+    ax.axvline(expected_counts[i], color='red', linestyle='--', linewidth=2, label=f'Expected: {expected_counts[i]:.1f}')
+    ax.set_title(f"{cat} (p={probs[i]})")
+    ax.set_xlabel("Number of Purchases")
+    ax.set_ylabel("Probability")
+    ax.legend()
+    ax.grid(axis='y', linestyle='--', alpha=0.6)
+
+plt.tight_layout()
+plt.savefig('ch07_multinomial_example.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Multinomial Example](ch07_multinomial_example.svg)
+
+Each category's marginal distribution is Binomial with parameters (n=50, p=category probability).
+
+:::
+
+**Quick Check Questions**
+
+1. You flip a fair coin 30 times and count heads and tails. What distribution models the counts?
+
+2. For a Multinomial distribution with n=100 trials and k=4 equally likely categories, what is the expected count for any one category?
+
+3. How is the Multinomial distribution related to the Binomial distribution?
+
+```{admonition} Answers
+:class: dropdown
+
+1. **Multinomial distribution with n=30, k=2, and p₁=p₂=0.5** - Or equivalently, Binomial(n=30, p=0.5) for the number of heads, since there are only 2 categories.
+
+2. **E[X_i] = n × p_i = 100 × 0.25 = 25** - Each category is expected to appear 25 times.
+
+3. **Binomial is a special case of Multinomial with k=2** - When there are only two categories, Multinomial reduces to Binomial.
+```
+
++++
+
+## 10. Relationships Between Distributions
 
 Understanding the connections between these distributions can deepen insight and provide useful approximations.
 
@@ -1357,11 +1938,19 @@ plt.show()
 
 The chart compares the Binomial(100, 0.03) distribution (blue bars) with the Poisson(3.0) approximation (red bars). The distributions are nearly identical, demonstrating that when n is large and p is small, the Poisson provides an excellent and computationally simpler approximation to the Binomial.
 
+5.  **Categorical as generalization of Bernoulli**: A Categorical distribution with $k=2$ categories ($Categorical(p_1, p_2)$ where $p_1 + p_2 = 1$) is equivalent to a Bernoulli distribution ($Bernoulli(p_1)$). Categorical extends Bernoulli to handle more than two outcomes in a single trial.
+
+6.  **Multinomial as generalization of Binomial**: A Multinomial distribution with $k=2$ categories ($Multinomial(n, p_1, p_2)$ where $p_1 + p_2 = 1$) is equivalent to a Binomial distribution ($Binomial(n, p_1)$). Multinomial extends Binomial to count outcomes across more than two categories.
+
+7.  **Discrete Uniform as special case of Categorical**: A Categorical distribution where all $k$ probabilities are equal ($p_1 = p_2 = \cdots = p_k = \frac{1}{k}$) is a Discrete Uniform distribution on $k$ values. This represents maximum uncertainty about a single trial's outcome.
+
+8.  **Marginal distributions of Multinomial are Binomial**: If $(X_1, X_2, \ldots, X_k) \sim Multinomial(n, p_1, p_2, \ldots, p_k)$, then each individual count $X_i$ follows a Binomial distribution: $X_i \sim Binomial(n, p_i)$. This makes sense because we're just counting successes (category $i$) vs. failures (all other categories) across $n$ trials.
+
 +++
 
 ## Summary
 
-In this chapter, we explored six fundamental discrete probability distributions:
+In this chapter, we explored nine fundamental discrete probability distributions:
 
 * **Bernoulli**: Single trial, two outcomes (Success/Failure).
 * **Binomial**: Fixed number of independent trials, counts successes.
@@ -1369,10 +1958,171 @@ In this chapter, we explored six fundamental discrete probability distributions:
 * **Negative Binomial**: Number of trials until a *fixed number* ($r$) of successes.
 * **Poisson**: Number of events in a fixed interval of time/space, given an average rate.
 * **Hypergeometric**: Number of successes in a sample drawn *without* replacement from a finite population.
+* **Discrete Uniform**: Single trial where all outcomes are equally likely.
+* **Categorical**: Single trial with multiple possible outcomes, each with its own probability.
+* **Multinomial**: Fixed number of trials with multiple possible outcomes, counting occurrences of each outcome.
 
-We learned the scenarios each distribution models, their parameters, PMFs, means, and variances. Critically, we saw how to leverage `scipy.stats` functions (`pmf`, `cdf`, `rvs`, `mean`, `var`, `std`, `sf`) to perform calculations, generate simulations, and visualize these distributions. We also discussed important relationships, such as the Poisson approximation to the Binomial and the Binomial approximation to the Hypergeometric.
+We learned the scenarios each distribution models, their parameters, PMFs, means, and variances. Critically, we saw how to leverage `scipy.stats` functions (`pmf`, `cdf`, `rvs`, `mean`, `var`, `std`, `sf`) to perform calculations, generate simulations, and visualize these distributions. We also discussed important relationships, such as:
+- Bernoulli ↔ Binomial ↔ Categorical ↔ Multinomial (generalizations)
+- Discrete Uniform as a special case of Categorical
+- Poisson approximation to Binomial
+- Binomial approximation to Hypergeometric
 
 Mastering these distributions provides a powerful toolkit for modeling various random phenomena encountered in data analysis, science, engineering, and business. In the next chapters, we will transition to continuous random variables and their corresponding common distributions.
+
+**Decision Tree: Choosing the Right Distribution**
+
+Use this decision tree to help identify which distribution fits your scenario:
+
+```
+START: What are you modeling?
+
+│
+├─ Single trial/experiment
+│  │
+│  ├─ Only 2 possible outcomes? → **Bernoulli**
+│  │
+│  └─ More than 2 possible outcomes?
+│     │
+│     ├─ All outcomes equally likely? → **Discrete Uniform**
+│     │
+│     └─ Different probabilities for each outcome? → **Categorical**
+│
+└─ Multiple trials/experiments
+   │
+   ├─ Fixed number of trials (n is known)
+   │  │
+   │  ├─ Only 2 outcomes per trial?
+   │  │  │
+   │  │  ├─ Sampling WITH replacement (or infinite population)? → **Binomial**
+   │  │  │
+   │  │  └─ Sampling WITHOUT replacement (finite population)? → **Hypergeometric**
+   │  │
+   │  └─ More than 2 outcomes per trial?
+   │     │
+   │     └─ Counting occurrences of each outcome? → **Multinomial**
+   │
+   ├─ Variable number of trials (waiting for successes)
+   │  │
+   │  ├─ Waiting for the FIRST success? → **Geometric**
+   │  │
+   │  └─ Waiting for the r-th success (r > 1)? → **Negative Binomial**
+   │
+   └─ Counting events in a continuous interval
+      │
+      ├─ Events occur at a constant average rate? → **Poisson**
+      │
+      └─ Need something else?
+         │
+         └─ See "Exploring Additional Distributions" section below
+```
+
+**Key Questions to Ask:**
+
+1. **How many trials?** Single → Bernoulli/Categorical/Discrete Uniform. Fixed number → Binomial/Multinomial/Hypergeometric. Variable → Geometric/Negative Binomial.
+
+2. **How many outcomes per trial?** Two → Bernoulli/Binomial/Geometric/Negative Binomial. More than two → Categorical/Multinomial/Discrete Uniform.
+
+3. **With or without replacement?** With replacement (or infinite population) → Binomial. Without replacement (finite population) → Hypergeometric.
+
+4. **What are you counting?** Successes in fixed trials → Binomial/Multinomial. Trials until success → Geometric/Negative Binomial. Events in interval → Poisson.
+
+5. **Are probabilities equal?** Yes → Discrete Uniform. No → Categorical.
+
+**Example Applications:**
+
+- "Flip a coin once" → Bernoulli (single trial, 2 outcomes)
+- "Flip a coin 10 times, count heads" → Binomial (fixed trials, 2 outcomes, with replacement)
+- "Roll a die until you get a 6" → Geometric (variable trials, waiting for first success)
+- "Draw 5 cards from a deck, count hearts" → Hypergeometric (fixed trials, 2 outcomes, without replacement)
+- "Count customers arriving per hour" → Poisson (events in interval)
+- "Roll a die once" → Discrete Uniform (single trial, 6 equally likely outcomes)
+- "Traffic light color when you arrive" → Categorical (single trial, 3 outcomes with different probabilities)
+- "Roll a die 20 times, count each face" → Multinomial (fixed trials, 6 outcomes)
+
+## Exploring Additional Distributions
+
+While this chapter covers nine fundamental discrete distributions, many other distributions exist for specialized scenarios. Here's how to learn about distributions beyond this chapter:
+
+**How to Approach Learning a New Distribution:**
+
+When you encounter a new distribution, follow these steps:
+
+1. **Understand the Scenario**: What real-world process does it model? What makes it different from distributions you already know?
+
+2. **Identify the Parameters**: What values define the distribution? (like $n$ and $p$ for Binomial, $\lambda$ for Poisson)
+
+3. **Study the PMF/PDF**: How are probabilities calculated? What's the formula?
+
+4. **Learn Key Properties**: What are the mean and variance? Are there special characteristics?
+
+5. **Explore Relationships**: How does it relate to distributions you already know? Is it a special case or generalization of something familiar?
+
+6. **See Examples**: Find concrete examples and visualizations to build intuition.
+
+7. **Practice with Code**: Use `scipy.stats` or similar libraries to work with the distribution hands-on.
+
+**Key Resources for Learning About Other Distributions:**
+
+1. **Wikipedia** - Each distribution has a comprehensive article with a standardized format:
+   - Definition and scenario
+   - Parameters and support (possible values)
+   - PMF/PDF formula
+   - Mean, variance, and other properties
+   - Relationships to other distributions
+   - Examples and applications
+   - Search for: "[Distribution name] distribution" (e.g., "Beta-Binomial distribution")
+
+2. **SciPy Documentation** - Python's `scipy.stats` module includes 100+ distributions:
+   - Complete reference: https://docs.scipy.org/doc/scipy/reference/stats.html
+   - Each distribution has: PMF/PDF, CDF, mean, variance, random sampling
+   - Includes code examples showing how to use each distribution
+   - Discrete distributions: `bernoulli`, `binom`, `geom`, `hypergeom`, `poisson`, `nbinom`, `randint`, and many more
+
+3. **Interactive Distribution Explorers**:
+   - Search for "distribution explorer" or "probability distribution visualizer"
+   - These tools let you adjust parameters and see how distributions change
+   - Helps build intuition about distribution behavior
+
+4. **Classic Textbooks**:
+   - *Introduction to Probability* by Bertsekas & Tsitsiklis
+   - *A First Course in Probability* by Sheldon Ross
+   - *Probability and Statistics* by DeGroot & Schervish
+   - These provide rigorous treatment with proofs and derivations
+
+5. **Online Resources**:
+   - **NIST Engineering Statistics Handbook**: Comprehensive reference for common distributions
+   - **Wolfram MathWorld**: Mathematical encyclopedia with detailed distribution information
+   - **Stack Exchange (Cross Validated)**: Q&A site for statistics questions
+
+**Examples of Other Discrete Distributions:**
+
+Here are some distributions you might encounter that we didn't cover in detail:
+
+- **Beta-Binomial**: Like Binomial, but the success probability $p$ itself is random (varies from trial to trial)
+- **Logarithmic Distribution**: Used in ecology and information theory
+- **Zipf Distribution**: Models frequency of words, website visits (follows power law)
+- **Zero-Inflated Poisson**: Poisson with extra zeros, common in count data
+- **Conway-Maxwell-Poisson**: Generalization of Poisson with extra dispersion parameter
+- **Benford's Law**: Distribution of leading digits in real-world datasets
+
+**Finding the Right Distribution:**
+
+If you have data or a scenario and need to find which distribution fits:
+
+1. **Identify the process**: Single trial? Fixed trials? Waiting time? Events in interval?
+
+2. **Check the support**: What values can the random variable take? (e.g., 0/1, non-negative integers, finite range)
+
+3. **Consider the parameters**: What aspects of the process can vary? (success probability, rate, sample size, etc.)
+
+4. **Use the decision tree** (see below) to narrow down candidates
+
+5. **Test candidate distributions** using visualizations and goodness-of-fit tests
+
+6. **Consult domain literature**: See what distributions are commonly used in your field
+
+Remember: Understanding the underlying probabilistic structure is more important than memorizing formulas. Focus on building intuition about when and why to use each distribution!
 
 ## Exercises
 
