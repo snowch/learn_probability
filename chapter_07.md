@@ -441,8 +441,6 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer succe
 
 :::
 
-:::
-
 **Quick Check Questions**
 
 1. You roll a die 12 times and count how many times you get a 6. Which distribution models this and what are the parameters?
@@ -655,8 +653,6 @@ plt.show()
 ![Geometric CDF](ch07_geometric_cdf.svg)
 
 The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
-
-:::
 
 :::
 
@@ -879,8 +875,6 @@ The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective item
 
 :::
 
-:::
-
 **Quick Check Questions**
 
 1. You flip a fair coin until you get 5 Heads. What distribution models this and what are the parameters?
@@ -1073,8 +1067,6 @@ plt.show()
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
 The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer emails?"
-
-:::
 
 :::
 
@@ -1280,8 +1272,6 @@ plt.show()
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets.
-
-:::
 
 :::
 
