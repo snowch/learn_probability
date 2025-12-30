@@ -253,18 +253,52 @@ The CDF shows cumulative probabilities: P(X ≤ 0) = 0.9 and P(X ≤ 1) = 1.0.
 
 1. A quality control inspector checks a single product. It's either defective or not defective. Which distribution models this?
 
-2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
-
-3. A basketball player has a 75% free throw success rate. If we model a single free throw, what are the mean and variance?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Bernoulli distribution** - Single trial with two possible outcomes.
+**Bernoulli distribution** - Single trial with two possible outcomes (defective vs. not defective).
+```
 
-2. **P(X = 0) = 1 - p = 0.7** - The probability of failure is 1 - p.
+2. For a Bernoulli distribution with p = 0.3, what is P(X = 0)?
 
-3. **Mean = 0.75, Variance = 0.75 × 0.25 = 0.1875** - Use E[X] = p and Var(X) = p(1-p).
+```{admonition} Answer
+:class: dropdown
+
+**P(X = 0) = 1 - p = 0.7** - The probability of failure is 1 - p.
+```
+
+3. A basketball player has a 75% free throw success rate. If we model a single free throw as a Bernoulli trial, what are the mean and variance?
+
+```{admonition} Answer
+:class: dropdown
+
+**Mean = 0.75, Variance = 0.75 × 0.25 = 0.1875**
+
+Using the formulas E[X] = p and Var(X) = p(1-p):
+- E[X] = 0.75
+- Var(X) = 0.75 × (1 - 0.75) = 0.75 × 0.25 = 0.1875
+```
+
+4. You flip a coin 10 times and count the number of heads. Should you use a Bernoulli distribution or something else?
+
+```{admonition} Answer
+:class: dropdown
+
+**Use Binomial, not Bernoulli** - Bernoulli is for a *single* trial. When you have multiple trials (10 flips) and count successes, use the Binomial distribution with n=10.
+
+The Bernoulli distribution only applies to one flip at a time.
+```
+
+5. True or False: A Bernoulli random variable can only take on the values 0 and 1.
+
+```{admonition} Answer
+:class: dropdown
+
+**True** - By definition, a Bernoulli random variable X ∈ {0, 1}, where:
+- X = 1 represents "success" with probability p
+- X = 0 represents "failure" with probability 1-p
+
+These are the only two possible outcomes.
 ```
 
 +++
@@ -471,18 +505,52 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer succe
 
 1. You roll a die 12 times and count how many times you get a 6. Which distribution models this and what are the parameters?
 
-2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
-
-3. True or False: In a Binomial distribution, each trial must have the same probability of success.
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with same success probability (1/6).
+**Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with the same success probability (1/6 for rolling a 6).
+```
 
-2. **E[X] = np = 8 × 0.25 = 2** - Expected number of successes is np.
+2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
 
-3. **True** - The Binomial distribution requires independent trials with constant success probability p.
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = np = 8 × 0.25 = 2** - The expected number of successes in 8 trials is 2.
+```
+
+3. You're quality testing a batch of 100 products by examining each one. 5% are typically defective. Is this scenario best modeled by Binomial or Hypergeometric distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Binomial distribution** - Although you're sampling from a finite population, if the batch is large relative to your sample (or you replace items after testing), Binomial is appropriate. Each test is independent with constant p = 0.05.
+
+If you were sampling a significant fraction of the batch *without replacement*, then Hypergeometric would be more appropriate.
+```
+
+4. For a Binomial(n=20, p=0.3) distribution, what is the variance?
+
+```{admonition} Answer
+:class: dropdown
+
+**Var(X) = np(1-p) = 20 × 0.3 × 0.7 = 4.2**
+
+Using the variance formula for Binomial distributions.
+```
+
+5. True or False: In a Binomial distribution, each trial must have the same probability of success.
+
+```{admonition} Answer
+:class: dropdown
+
+**True** - The Binomial distribution requires:
+1. Fixed number of independent trials (n)
+2. Each trial has only two outcomes (success/failure)
+3. **Constant success probability (p) across all trials**
+4. Trials are independent
+
+If the success probability changes from trial to trial, Binomial doesn't apply.
 ```
 
 +++
