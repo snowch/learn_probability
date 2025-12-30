@@ -34,6 +34,19 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 The Bernoulli distribution models a single trial with two possible outcomes: "success" (1) or "failure" (0).
 
+:::{admonition} Why Start with Something So Simple?
+:class: note
+
+The Bernoulli distribution might seem almost trivially simple—it's just a single trial with two outcomes! However, it's incredibly important because:
+
+- **It's the fundamental building block**: All the other distributions in this chapter (Binomial, Geometric, Negative Binomial, Categorical) build directly on the Bernoulli trial concept
+- **Single binary events are everywhere**: Many real-world scenarios involve a single yes/no, success/failure, or on/off decision
+- **It establishes key patterns**: The $p$ and $(1-p)$ structure appears throughout probability theory
+- **Mathematical note**: The Bernoulli distribution is technically just the Binomial distribution with $n=1$, but we give it its own name because of its foundational importance
+
+Think of it like learning to add before learning to multiply—simple, but essential!
+:::
+
 **Concrete Example**
 
 Suppose you're conducting a medical screening test for a disease in a high-risk population. Each test either shows positive or negative. From epidemiological data, you know that 30% of individuals in this population test positive.
@@ -2049,7 +2062,9 @@ When you encounter a new distribution, follow these steps:
 
 2. **Identify the Parameters**: What values define the distribution? (like $n$ and $p$ for Binomial, $\lambda$ for Poisson)
 
-3. **Study the PMF/PDF**: How are probabilities calculated? What's the formula?
+3. **Study the PMF (or PDF for continuous)**: How are probabilities calculated? What's the formula?
+   - PMF = Probability Mass Function (discrete distributions, like those in this chapter)
+   - PDF = Probability Density Function (continuous distributions, covered in Chapters 8-9)
 
 4. **Learn Key Properties**: What are the mean and variance? Are there special characteristics?
 
@@ -2064,7 +2079,7 @@ When you encounter a new distribution, follow these steps:
 1. **Wikipedia** - Each distribution has a comprehensive article with a standardized format:
    - Definition and scenario
    - Parameters and support (possible values)
-   - PMF/PDF formula
+   - PMF formula (discrete) or PDF formula (continuous)
    - Mean, variance, and other properties
    - Relationships to other distributions
    - Examples and applications
@@ -2072,7 +2087,7 @@ When you encounter a new distribution, follow these steps:
 
 2. **SciPy Documentation** - Python's `scipy.stats` module includes 100+ distributions:
    - Complete reference: https://docs.scipy.org/doc/scipy/reference/stats.html
-   - Each distribution has: PMF/PDF, CDF, mean, variance, random sampling
+   - Each distribution has: PMF (discrete) or PDF (continuous), CDF, mean, variance, random sampling
    - Includes code examples showing how to use each distribution
    - Discrete distributions: `bernoulli`, `binom`, `geom`, `hypergeom`, `poisson`, `nbinom`, `randint`, and many more
 
