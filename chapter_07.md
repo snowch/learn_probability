@@ -153,8 +153,6 @@ print(f"{n_samples} simulated customer outcomes (1=Purchase, 0=No Purchase):")
 print(samples)
 ```
 
-:::
-
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
