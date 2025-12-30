@@ -2062,7 +2062,9 @@ When you encounter a new distribution, follow these steps:
 
 2. **Identify the Parameters**: What values define the distribution? (like $n$ and $p$ for Binomial, $\lambda$ for Poisson)
 
-3. **Study the PMF/PDF**: How are probabilities calculated? What's the formula?
+3. **Study the PMF (or PDF for continuous)**: How are probabilities calculated? What's the formula?
+   - PMF = Probability Mass Function (discrete distributions, like those in this chapter)
+   - PDF = Probability Density Function (continuous distributions, covered in Chapters 8-9)
 
 4. **Learn Key Properties**: What are the mean and variance? Are there special characteristics?
 
@@ -2077,7 +2079,7 @@ When you encounter a new distribution, follow these steps:
 1. **Wikipedia** - Each distribution has a comprehensive article with a standardized format:
    - Definition and scenario
    - Parameters and support (possible values)
-   - PMF/PDF formula
+   - PMF formula (discrete) or PDF formula (continuous)
    - Mean, variance, and other properties
    - Relationships to other distributions
    - Examples and applications
@@ -2085,7 +2087,7 @@ When you encounter a new distribution, follow these steps:
 
 2. **SciPy Documentation** - Python's `scipy.stats` module includes 100+ distributions:
    - Complete reference: https://docs.scipy.org/doc/scipy/reference/stats.html
-   - Each distribution has: PMF/PDF, CDF, mean, variance, random sampling
+   - Each distribution has: PMF (discrete) or PDF (continuous), CDF, mean, variance, random sampling
    - Includes code examples showing how to use each distribution
    - Discrete distributions: `bernoulli`, `binom`, `geom`, `hypergeom`, `poisson`, `nbinom`, `randint`, and many more
 
