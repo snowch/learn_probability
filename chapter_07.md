@@ -442,7 +442,7 @@ ax.axis('off')
 
 # Title
 ax.text(5, 9.5, r'Binomial Formula Breakdown: $n=3, k=2, p=0.6$',
-        ha='center', va='top', fontsize=18, weight='bold')
+        ha='center', va='top', fontsize=24, weight='bold')
 
 # Draw the three sequences
 sequences = [
@@ -464,47 +464,47 @@ for seq_text, x, y in sequences:
 
     # Sequence text
     ax.text(x, y, seq_text, ha='center', va='center',
-            fontsize=16, weight='bold', family='monospace')
+            fontsize=22, weight='bold', family='monospace')
 
     # Probability calculation below
     ax.text(x, y-0.8, f'{p}×{p}×{1-p:.1f}', ha='center', va='top',
-            fontsize=14, style='italic')
+            fontsize=20, style='italic')
     ax.text(x, y-1.2, f'= {prob_each:.3f}', ha='center', va='top',
-            fontsize=14, weight='bold')
+            fontsize=20, weight='bold')
 
 # Count annotation
 ax.text(5, 5.5, r'$\binom{3}{2} = 3$ sequences',
-        ha='center', va='center', fontsize=15, weight='bold',
+        ha='center', va='center', fontsize=20, weight='bold',
         bbox=dict(boxstyle='round', facecolor='lightyellow', edgecolor='orange', linewidth=2))
 
 # Formula breakdown
-ax.text(5, 4.2, 'Formula:', ha='center', va='center', fontsize=15, weight='bold')
+ax.text(5, 4.2, 'Formula:', ha='center', va='center', fontsize=20, weight='bold')
 ax.text(5, 3.6, r'$P(X=2) = \binom{3}{2} \cdot p^2 \cdot (1-p)^1$',
-        ha='center', va='center', fontsize=15)
+        ha='center', va='center', fontsize=20)
 ax.text(5, 2.9, r'$= 3 \times 0.36 \times 0.4$',
-        ha='center', va='center', fontsize=15)
+        ha='center', va='center', fontsize=20)
 ax.text(5, 2.3, r'$= 0.432$',
-        ha='center', va='center', fontsize=16, weight='bold',
+        ha='center', va='center', fontsize=22, weight='bold',
         bbox=dict(boxstyle='round', facecolor='lightgreen', edgecolor='green', linewidth=2))
 
 # Annotations with arrows - repositioned to avoid all overlaps
 ax.annotate('Count sequences', xy=(4.0, 5.5), xytext=(0.5, 4.8),
             arrowprops=dict(arrowstyle='->', color='orange', lw=2),
-            fontsize=13, color='orange', weight='bold')
+            fontsize=18, color='orange', weight='bold')
 
 ax.annotate('Each sequence\nhas same\nprobability', xy=(8.1, 7), xytext=(8.5, 8.5),
             arrowprops=dict(arrowstyle='->', color='steelblue', lw=2),
-            fontsize=13, color='steelblue', weight='bold', ha='left')
+            fontsize=18, color='steelblue', weight='bold', ha='left')
 
 ax.annotate('Multiply!', xy=(6.0, 2.5), xytext=(7.8, 1.8),
             arrowprops=dict(arrowstyle='->', color='green', lw=2),
-            fontsize=13, color='green', weight='bold')
+            fontsize=18, color='green', weight='bold')
 
 # Bottom explanation
 ax.text(5, 1.0, 'Why it works: Each sequence occurs with probability 0.432/3 = 0.144,',
-        ha='center', va='center', fontsize=13, style='italic')
+        ha='center', va='center', fontsize=18, style='italic')
 ax.text(5, 0.5, 'and there are 3 ways to get exactly 2 successes, so total = 3 × 0.144 = 0.432',
-        ha='center', va='center', fontsize=13, style='italic')
+        ha='center', va='center', fontsize=18, style='italic')
 
 plt.tight_layout()
 plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
