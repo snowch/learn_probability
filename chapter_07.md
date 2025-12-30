@@ -85,6 +85,7 @@ $$P(X = k) = p^k (1-p)^{1-k} \text{ for } k \in \{0, 1\}$$
 Expanding this for both cases to make it crystal clear:
 
 **When k = 1 (success):**
+
 $$
 \begin{align}
 P(X=1) &= p^1 (1-p)^{1-1} \\
@@ -95,6 +96,7 @@ P(X=1) &= p^1 (1-p)^{1-1} \\
 $$
 
 **When k = 0 (failure):**
+
 $$
 \begin{align}
 P(X=0) &= p^0 (1-p)^{1-0} \\
