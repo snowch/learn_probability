@@ -223,6 +223,37 @@ print(f"Mean (Expected Value): {bernoulli_rv.mean():.2f}")
 print(f"Variance: {bernoulli_rv.var():.2f}")
 ```
 
+:::{admonition} Working with Frozen Random Variables in scipy.stats
+:class: note
+
+When we write `bernoulli_rv = stats.bernoulli(p=p_positive)`, we're creating a **frozen random variable** — a distribution object with parameters locked in.
+
+**Two ways to use scipy.stats:**
+
+1. **Non-frozen** (pass parameters every time):
+   ```python
+   stats.bernoulli.pmf(1, p=0.1)
+   stats.bernoulli.cdf(0, p=0.1)
+   stats.bernoulli.mean(p=0.1)
+   ```
+
+2. **Frozen** (set parameters once, reuse):
+   ```python
+   rv = stats.bernoulli(p=0.1)  # Create frozen RV
+   rv.pmf(1)                     # Use it multiple times
+   rv.cdf(0)
+   rv.mean()
+   ```
+
+**Benefits of frozen RVs:**
+- Cleaner, more readable code
+- More efficient (parameters validated once)
+- Easier to pass distributions to functions
+- Matches the pattern in scipy documentation
+
+Throughout this chapter, we use frozen RVs for all examples. This is the recommended approach when working with the same distribution parameters multiple times.
+:::
+
 ```{code-cell} ipython3
 # Generate random samples
 n_samples = 10
