@@ -1484,18 +1484,57 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winni
 
 1. You draw 7 cards from a deck of 52. You want to know how many hearts you get. What distribution models this and what are the parameters?
 
-2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
-
-3. What's the key difference between Binomial and Hypergeometric distributions?
-
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from finite population (13 hearts in 52 cards).
+**Hypergeometric with N=52, K=13, n=7** - Sampling without replacement from a finite population (13 hearts in 52 cards).
+```
 
-2. **E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in sample.
+2. For a Hypergeometric distribution with N=50, K=10, n=5, what is the expected value (mean)?
 
-3. **Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+```{admonition} Answer
+:class: dropdown
+
+**E[X] = n(K/N) = 5 × (10/50) = 1** - Expected number of successes in the sample.
+```
+
+3. A quality inspector randomly selects 10 products from a batch of 100 (where 15 are defective) without replacement. Which distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Hypergeometric with N=100, K=15, n=10** - Sampling without replacement from a finite population.
+
+This is NOT Binomial because:
+- We're sampling without replacement
+- The sample size (10) is significant relative to population (100)
+- Each draw changes the probability for subsequent draws
+```
+
+4. What's the key difference between Binomial and Hypergeometric distributions?
+
+```{admonition} Answer
+:class: dropdown
+
+**Hypergeometric samples WITHOUT replacement** (finite population), while Binomial samples WITH replacement (or assumes infinite population).
+
+Key implications:
+- Hypergeometric: Trials are NOT independent (each draw affects the next)
+- Binomial: Trials ARE independent (constant probability p)
+
+Rule of thumb: If N > 20n, Hypergeometric ≈ Binomial because the sample is small relative to the population.
+```
+
+5. When can Hypergeometric be approximated by Binomial?
+
+```{admonition} Answer
+:class: dropdown
+
+**When the population is much larger than the sample** - Specifically, when N > 20n.
+
+In this case, Hypergeometric(N, K, n) ≈ Binomial(n, p=K/N)
+
+Example: Drawing 10 cards from a population of 1000 cards. The small sample barely affects the population proportions, so with/without replacement gives nearly identical results.
 ```
 
 +++
@@ -1684,18 +1723,55 @@ The CDF increases linearly in equal steps, showing the uniform nature of the dis
 
 1. You randomly select a card from a standard deck (52 cards). If X represents the card number (1-13, where 1=Ace, 11=Jack, 12=Queen, 13=King), what distribution models this and what are the parameters?
 
+```{admonition} Answer
+:class: dropdown
+
+**Discrete Uniform distribution with a = 1, b = 13** - Each card number is equally likely (4 of each in the deck).
+```
+
 2. For a Discrete Uniform distribution with a = 5 and b = 15, what is the probability of getting exactly 10?
+
+```{admonition} Answer
+:class: dropdown
+
+**P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** - All values in the range are equally likely.
+```
 
 3. What is the mean of a Discrete Uniform distribution on the integers from 1 to 100?
 
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Discrete Uniform distribution with a = 1, b = 13** - Each card number is equally likely (4 of each in the deck).
+**Mean = (1+100)/2 = 50.5** - The mean is the midpoint of the range.
+```
 
-2. **P(X = 10) = 1/(15-5+1) = 1/11 ≈ 0.091** - All values in the range are equally likely.
+4. You're modeling the outcome of rolling a fair six-sided die. Should you use Discrete Uniform or Categorical distribution?
 
-3. **Mean = (1+100)/2 = 50.5** - The mean is the midpoint of the range.
+```{admonition} Answer
+:class: dropdown
+
+**Discrete Uniform distribution** - Since it's a *fair* die, all outcomes (1-6) are equally likely with probability 1/6 each.
+
+Use Discrete Uniform(a=1, b=6).
+
+**Note:** If the die were *loaded* (unequal probabilities), you'd use the Categorical distribution instead.
+```
+
+5. For a Discrete Uniform distribution on integers from a to b, why is the variance equal to $\frac{(b-a)(b-a+2)}{12}$?
+
+```{admonition} Answer
+:class: dropdown
+
+The variance formula reflects how spread out the values are:
+
+- **Larger range (b-a)**: Higher variance - values are more spread out
+- **Formula intuition**: The variance grows with the *square* of the range, similar to continuous uniform distributions
+
+**Example:**
+- Discrete Uniform(1, 6): Variance = (6-1)(6-1+2)/12 = 5×7/12 ≈ 2.92
+- Discrete Uniform(1, 100): Variance = 99×101/12 ≈ 833.25
+
+Much larger range → much larger variance.
 ```
 
 +++
@@ -1886,18 +1962,56 @@ The CDF shows cumulative probabilities across the ordered choices.
 
 1. A traffic light can be red (50%), yellow (10%), or green (40%). What distribution models the color when you arrive at an intersection?
 
+```{admonition} Answer
+:class: dropdown
+
+**Categorical distribution with k=3 categories and probabilities p₁=0.5, p₂=0.1, p₃=0.4** - Single trial with three possible outcomes.
+```
+
 2. For a Categorical distribution with 4 equally likely outcomes, what is P(X = 2)?
+
+```{admonition} Answer
+:class: dropdown
+
+**P(X = 2) = 0.25** - For equally likely outcomes, each has probability 1/4.
+```
 
 3. How is the Categorical distribution related to the Bernoulli distribution?
 
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Categorical distribution with k=3 categories and probabilities p₁=0.5, p₂=0.1, p₃=0.4** - Single trial with three possible outcomes.
+**Bernoulli is a special case of Categorical with k=2** - When there are only two categories, Categorical reduces to Bernoulli.
 
-2. **P(X = 2) = 0.25** - For equally likely outcomes, each has probability 1/4.
+Categorical generalizes Bernoulli from 2 outcomes to k outcomes.
+```
 
-3. **Bernoulli is a special case of Categorical with k=2** - When there are only two categories, Categorical reduces to Bernoulli.
+4. You're observing a single customer's choice from a menu with 5 items having probabilities [0.3, 0.25, 0.2, 0.15, 0.1]. Should you use Categorical or Multinomial distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Categorical distribution** - You're observing a *single trial* (one customer making one choice).
+
+**Key distinction:**
+- **Categorical**: Single trial, multiple outcomes (this scenario)
+- **Multinomial**: Multiple trials, counting how many times each outcome occurs
+
+If you observed 100 customers and counted how many chose each item, *that* would be Multinomial.
+```
+
+5. When can you model a Categorical distribution as a Discrete Uniform distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**When all k categories have equal probability** - If p₁ = p₂ = ... = pₖ = 1/k.
+
+**Example:**
+- Rolling a fair die (6 equally likely outcomes): Can use either Categorical(p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) or Discrete Uniform(a=1, b=6)
+- Rolling a loaded die (unequal probabilities): Must use Categorical
+
+Discrete Uniform is just a special case of Categorical where all probabilities are equal.
 ```
 
 +++
@@ -2065,18 +2179,60 @@ Each category's marginal distribution is Binomial with parameters (n=50, p=categ
 
 1. You flip a fair coin 30 times and count heads and tails. What distribution models the counts?
 
+```{admonition} Answer
+:class: dropdown
+
+**Multinomial distribution with n=30, k=2, and p₁=p₂=0.5** - Or equivalently, Binomial(n=30, p=0.5) for the number of heads, since there are only 2 categories.
+
+When k=2, Multinomial is the same as Binomial.
+```
+
 2. For a Multinomial distribution with n=100 trials and k=4 equally likely categories, what is the expected count for any one category?
+
+```{admonition} Answer
+:class: dropdown
+
+**E[X_i] = n × p_i = 100 × 0.25 = 25** - Each category is expected to appear 25 times.
+
+Since all 4 categories are equally likely, p_i = 1/4 = 0.25 for each.
+```
 
 3. How is the Multinomial distribution related to the Binomial distribution?
 
-```{admonition} Answers
+```{admonition} Answer
 :class: dropdown
 
-1. **Multinomial distribution with n=30, k=2, and p₁=p₂=0.5** - Or equivalently, Binomial(n=30, p=0.5) for the number of heads, since there are only 2 categories.
+**Binomial is a special case of Multinomial with k=2** - When there are only two categories, Multinomial reduces to Binomial.
 
-2. **E[X_i] = n × p_i = 100 × 0.25 = 25** - Each category is expected to appear 25 times.
+Multinomial generalizes Binomial from 2 outcomes to k outcomes across multiple trials.
+```
 
-3. **Binomial is a special case of Multinomial with k=2** - When there are only two categories, Multinomial reduces to Binomial.
+4. You roll a die 100 times and count how many times each face (1-6) appears. Should you use Categorical or Multinomial distribution?
+
+```{admonition} Answer
+:class: dropdown
+
+**Multinomial distribution** - You're performing *multiple trials* (100 rolls) and counting how many times each outcome occurs.
+
+**Key distinction:**
+- **Categorical**: Single trial, multiple possible outcomes (one roll)
+- **Multinomial**: Multiple trials, counting occurrences of each outcome (100 rolls)
+
+Use Multinomial(n=100, k=6, p=[1/6, 1/6, 1/6, 1/6, 1/6, 1/6]) for a fair die.
+```
+
+5. In a Multinomial distribution, what is the relationship between the individual category counts X₁, X₂, ..., Xₖ?
+
+```{admonition} Answer
+:class: dropdown
+
+**They must sum to n** - The constraint is: X₁ + X₂ + ... + Xₖ = n
+
+This is because every trial must result in exactly one category, so the total count across all categories equals the number of trials.
+
+**Important implication:** The counts are *not independent* - if you know k-1 of the counts, you can determine the last one.
+
+**Example:** If n=100 and you know X₁=30, X₂=25, X₃=20 in a k=4 category case, then X₄ must equal 25 (since 30+25+20+25=100).
 ```
 
 +++
