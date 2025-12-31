@@ -923,11 +923,11 @@ def draw_sequence(ax, cx, cy, label, k, prob_val):
 
     ax.text(cx, cy - 0.065, formula_text,
             transform=ax.transAxes, ha="center", va="top",
-            fontsize=32, zorder=4)
+            fontsize=24, zorder=4)
 
     ax.text(cx, cy - 0.100, rf"$= {prob_val:.4f}$",
             transform=ax.transAxes, ha="center", va="top",
-            fontsize=32, weight="bold", zorder=4)
+            fontsize=24, weight="bold", zorder=4)
 
     return (cx - w/2, cy - h/2, cx + w/2, cy + h/2)
 
@@ -961,7 +961,7 @@ ax.text(0.5, 0.67, "Each sequence shows trials until first success",
         fontsize=18, weight="bold", zorder=4)
 ax.text(0.5, 0.625, "Probability decreases exponentially with more failures",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=32, style="italic", zorder=4)
+        fontsize=24, style="italic", zorder=4)
 
 # Formula block
 ax.text(0.5, 0.50, "General Formula:", transform=ax.transAxes,
@@ -984,10 +984,10 @@ ax.text(0.5, 0.255, "Key Insight:",
         fontsize=18, weight="bold", zorder=4)
 ax.text(0.5, 0.215, rf"All trials before the $k$-th must fail: $(1-p)^{{k-1}}$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=32, zorder=4)
+        fontsize=24, zorder=4)
 ax.text(0.5, 0.180, rf"The $k$-th trial must succeed: $p$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=32, zorder=4)
+        fontsize=24, zorder=4)
 
 # ---- Callouts ----
 # Arrow pointing to decreasing probabilities
@@ -999,7 +999,7 @@ ax.annotate("Most likely:\nsucceed early",
                             connectionstyle="arc3,rad=-0.15",
                             lw=2.5, color="green",
                             shrinkA=6, shrinkB=8),
-            fontsize=30, color="green", weight="bold",
+            fontsize=22, color="green", weight="bold",
             ha="center", va="center", zorder=5)
 
 # Arrow pointing to later trials
@@ -1011,7 +1011,7 @@ ax.annotate("Less likely:\nmany failures",
                             connectionstyle="arc3,rad=0.15",
                             lw=2.5, color="red",
                             shrinkA=6, shrinkB=8),
-            fontsize=30, color="red", weight="bold",
+            fontsize=22, color="red", weight="bold",
             ha="center", va="center", zorder=5)
 
 # Bottom explanation
@@ -1022,7 +1022,7 @@ why = (
 )
 ax.text(0.5, 0.06, why,
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=28, style="italic", wrap=True, zorder=4)
+        fontsize=21, style="italic", wrap=True, zorder=4)
 
 plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
