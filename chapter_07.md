@@ -877,6 +877,161 @@ The formula $(1-p)^{k-1} p$ has an intuitive structure:
 This is why the formula captures "trials until first success" - it requires all previous trials to fail and the final trial to succeed.
 :::
 
+**Visual example:** Here's how the geometric distribution works with $p=0.4$ (our free throw example):
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+
+# --- Parameters ---
+p = 0.4
+q = 1 - p  # 0.6
+
+fig, ax = plt.subplots(figsize=(14, 10), constrained_layout=True)
+ax.set_axis_off()
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+
+# ---------------- helpers ----------------
+def rounded_box(ax, xy, w, h, fc, ec, lw=2, pad=0.012, r=0.02, z=3):
+    x, y = xy
+    patch = FancyBboxPatch(
+        (x, y), w, h,
+        boxstyle=f"round,pad={pad},rounding_size={r}",
+        transform=ax.transAxes,
+        facecolor=fc, edgecolor=ec, linewidth=lw, zorder=z
+    )
+    ax.add_patch(patch)
+    return patch
+
+def draw_sequence(ax, cx, cy, label, k, prob_val):
+    w, h = 0.16, 0.07
+    rounded_box(ax, (cx - w/2, cy - h/2), w, h,
+                fc="lightblue", ec="steelblue", lw=2.2, r=0.02)
+
+    ax.text(cx, cy, label, transform=ax.transAxes,
+            ha="center", va="center",
+            fontsize=22, weight="bold", family="monospace", zorder=4)
+
+    # Formula showing the calculation
+    if k == 1:
+        formula_text = rf"${p:.1f}$"
+    else:
+        formula_text = rf"${q:.1f}^{{{k-1}}} \times {p:.1f}$"
+
+    ax.text(cx, cy - 0.065, formula_text,
+            transform=ax.transAxes, ha="center", va="top",
+            fontsize=16, zorder=4)
+
+    ax.text(cx, cy - 0.100, rf"$= {prob_val:.4f}$",
+            transform=ax.transAxes, ha="center", va="top",
+            fontsize=16, weight="bold", zorder=4)
+
+    return (cx - w/2, cy - h/2, cx + w/2, cy + h/2)
+
+# ---------------- layout ----------------
+ax.text(0.5, 0.96, rf"Geometric Distribution: Trials Until First Success ($p={p}$)",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=24, weight="bold", zorder=4)
+
+# Draw sequences at different positions
+sequences = [
+    ("S", 1, 0.20, 0.84),           # Success on trial 1
+    ("FS", 2, 0.38, 0.84),          # Fail then Success
+    ("FFS", 3, 0.56, 0.84),         # Fail Fail then Success
+    ("FFFS", 4, 0.74, 0.84),        # Fail Fail Fail then Success
+    ("FFFFS", 5, 0.92, 0.84),       # Fail Fail Fail Fail then Success
+]
+
+seq_boxes = {}
+for label, k, x, y in sequences:
+    prob_val = (q ** (k-1)) * p
+    seq_boxes[label] = draw_sequence(ax, x, y, label, k, prob_val)
+
+# Explanation box
+expl_w, expl_h = 0.70, 0.10
+expl_xy = (0.5 - expl_w/2, 0.64 - expl_h/2)
+rounded_box(ax, expl_xy, expl_w, expl_h,
+            fc="lightyellow", ec="orange", lw=2.2, r=0.02)
+
+ax.text(0.5, 0.67, "Each sequence shows trials until first success",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, weight="bold", zorder=4)
+ax.text(0.5, 0.625, "Probability decreases exponentially with more failures",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=16, style="italic", zorder=4)
+
+# Formula block
+ax.text(0.5, 0.50, "General Formula:", transform=ax.transAxes,
+        ha="center", va="center", fontsize=20, weight="bold", zorder=4)
+
+ax.text(0.5, 0.445, r"$P(X=k) = (1-p)^{k-1} \cdot p$",
+        transform=ax.transAxes, ha="center", va="center", fontsize=20, zorder=4)
+
+ax.text(0.5, 0.39, r"$P(X=k) = (\text{fail})^{k-1} \times \text{succeed}$",
+        transform=ax.transAxes, ha="center", va="center", fontsize=18, zorder=4)
+
+# Key insight box
+key_w, key_h = 0.60, 0.12
+key_xy = (0.5 - key_w/2, 0.22 - key_h/2)
+rounded_box(ax, key_xy, key_w, key_h,
+            fc="lightgreen", ec="green", lw=2.2, r=0.02)
+
+ax.text(0.5, 0.255, "Key Insight:",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, weight="bold", zorder=4)
+ax.text(0.5, 0.215, rf"All trials before the $k$-th must fail: $(1-p)^{{k-1}}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=16, zorder=4)
+ax.text(0.5, 0.180, rf"The $k$-th trial must succeed: $p$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=16, zorder=4)
+
+# ---- Callouts ----
+# Arrow pointing to decreasing probabilities
+x0, y0, x1, y1 = seq_boxes["S"]
+ax.annotate("Most likely:\nsucceed early",
+            xy=((x0 + x1)/2, y0), xycoords=ax.transAxes,
+            xytext=(0.08, 0.75), textcoords=ax.transAxes,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=-0.15",
+                            lw=2.5, color="green",
+                            shrinkA=6, shrinkB=8),
+            fontsize=15, color="green", weight="bold",
+            ha="center", va="center", zorder=5)
+
+# Arrow pointing to later trials
+x0, y0, x1, y1 = seq_boxes["FFFFS"]
+ax.annotate("Less likely:\nmany failures",
+            xy=((x0 + x1)/2, y0), xycoords=ax.transAxes,
+            xytext=(0.92, 0.70), textcoords=ax.transAxes,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=0.15",
+                            lw=2.5, color="red",
+                            shrinkA=6, shrinkB=8),
+            fontsize=15, color="red", weight="bold",
+            ha="center", va="center", zorder=5)
+
+# Bottom explanation
+why = (
+    f"Example: P(X=3) means getting your first success on the 3rd trial. "
+    f"This requires exactly 2 failures followed by 1 success: "
+    f"P(X=3) = (0.6)² × 0.4 = 0.36 × 0.4 = 0.144"
+)
+ax.text(0.5, 0.06, why,
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=14, style="italic", wrap=True, zorder=4)
+
+plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Geometric Formula Breakdown](ch07_geometric_formula_breakdown.svg)
+
+The diagram shows how the geometric distribution works: each additional failure before success makes the outcome less likely. The probability decreases exponentially - notice how P(X=1) = 0.4000 is much larger than P(X=5) = 0.0518.
+
 **Key Characteristics**
 
 - **Scenarios**: Coin flips until first Head, job applications until first offer, attempts to pass an exam, at-bats until first hit
