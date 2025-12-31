@@ -1097,7 +1097,7 @@ The diagram shows how the geometric distribution works: each additional failure 
 :::{admonition} Note
 :class: note
 
-`scipy.stats.geom` defines $k$ as the number of *failures before* the first success ($k=0, 1, 2, ...$), which shifts by 1 from our definition. We'll use scipy's definition in code but state results in terms of trial numbers.
+`scipy.stats.geom` uses the same "trial number" definition as we do, where $k \in \{1, 2, 3, ...\}$ represents the trial on which the first success occurs. The PMF is $P(X=k) = (1-p)^{k-1}p$ for $k \geq 1$.
 :::
 
 **Visualizing the Distribution**
@@ -1121,7 +1121,7 @@ std_viz = np.sqrt((1 - p_viz) / p_viz**2)
 
 # Plotting the PMF
 k_values_viz = np.arange(1, 11)
-pmf_values_viz = geom_viz.pmf(k_values_viz - 1)
+pmf_values_viz = geom_viz.pmf(k_values_viz)
 
 plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
@@ -1155,7 +1155,7 @@ if os.path.exists('ch07_geometric_cdf_generic.svg'):
     os.remove('ch07_geometric_cdf_generic.svg')
 
 # Plotting the CDF
-cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
+cdf_values_viz = geom_viz.cdf(k_values_viz)
 
 plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
@@ -1194,41 +1194,30 @@ p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
 
 # PMF: Probability that the first success occurs on trial k (k=1, 2, ...)
-# Using scipy: geom_rv.pmf(k-1)
 k_trial = 3 # Third attempt
-print(f"P(First pass on attempt {k_trial}): {geom_rv.pmf(k_trial - 1):.4f}")
+print(f"P(First pass on attempt {k_trial}): {geom_rv.pmf(k_trial):.4f}")
 ```
 
 ```{code-cell} ipython3
 # CDF: Probability that the first success occurs on or before trial k
 k_or_before = 2
-print(f"P(First pass on or before attempt {k_or_before}): {geom_rv.cdf(k_or_before - 1):.4f}")
-print(f"P(First pass takes more than {k_or_before} attempts): {1 - geom_rv.cdf(k_or_before - 1):.4f}")
-print(f"P(First pass takes more than {k_or_before} attempts) (using sf): {geom_rv.sf(k_or_before - 1):.4f}")
+print(f"P(First pass on or before attempt {k_or_before}): {geom_rv.cdf(k_or_before):.4f}")
+print(f"P(First pass takes more than {k_or_before} attempts): {1 - geom_rv.cdf(k_or_before):.4f}")
+print(f"P(First pass takes more than {k_or_before} attempts) (using sf): {geom_rv.sf(k_or_before):.4f}")
 ```
 
 ```{code-cell} ipython3
-# Mean and Variance (based on scipy's definition k=0, 1, 2...)
-mean_scipy = geom_rv.mean()
-var_scipy = geom_rv.var()
-print(f"Mean number of failures before success (scipy): {mean_scipy:.2f}")
-print(f"Variance of failures before success (scipy): {var_scipy:.2f}")
-```
-
-```{code-cell} ipython3
-# Mean and Variance (based on our definition k=1, 2, 3...)
-mean_trials = 1 / p_pass
-var_trials = (1 - p_pass) / p_pass**2
+# Mean and Variance
+mean_trials = geom_rv.mean()
+var_trials = geom_rv.var()
 print(f"Mean number of attempts until first pass: {mean_trials:.2f}")
 print(f"Variance of number of attempts: {var_trials:.2f}")
 ```
 
 ```{code-cell} ipython3
-# Generate random samples (number of failures before first success)
+# Generate random samples (trial numbers until first success)
 n_simulations = 1000
-samples_failures = geom_rv.rvs(size=n_simulations)
-# Convert to trial number (failures + 1)
-samples_trials = samples_failures + 1
+samples_trials = geom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of attempts until first pass ({n_simulations} simulations): {samples_trials[:20]}...")
 ```
 
@@ -1241,7 +1230,7 @@ if os.path.exists('ch07_geometric_pmf.svg'):
 
 # Plotting the PMF (using trial number k=1, 2, ...)
 k_values_trials = np.arange(1, 11) # Plot first 10 trials
-pmf_values = geom_rv.pmf(k_values_trials - 1) # Adjust k for scipy
+pmf_values = geom_rv.pmf(k_values_trials)
 
 plt.figure(figsize=(8, 4))
 plt.bar(k_values_trials, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
@@ -1266,7 +1255,7 @@ if os.path.exists('ch07_geometric_cdf.svg'):
     os.remove('ch07_geometric_cdf.svg')
 
 # Plotting the CDF (using trial number k=1, 2, ...)
-cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
+cdf_values = geom_rv.cdf(k_values_trials)
 
 plt.figure(figsize=(8, 4))
 plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
