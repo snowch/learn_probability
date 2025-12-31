@@ -721,6 +721,8 @@ print(f"P(X > {k_or_fewer} successes out of {n_calls}): {1 - binomial_rv.cdf(k_o
 print(f"P(X > {k_or_fewer} successes out of {n_calls}) (using sf): {binomial_rv.sf(k_or_fewer):.4f}")
 ```
 
+**Note on Survival Function (`sf`):** The `sf()` method computes the **survival function**, which is P(X > k) = 1 - P(X ≤ k). While mathematically equivalent to `1 - cdf(k)`, using `sf(k)` directly is preferable because it provides better numerical accuracy when dealing with very small or very large probabilities, and makes the code's intent clearer.
+
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected number of successes): {binomial_rv.mean():.2f}")
