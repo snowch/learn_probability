@@ -599,6 +599,8 @@ $$
 
 **Variance:** $Var(X) = np(1-p)$
 
+**Standard Deviation:** $SD(X) = \sqrt{np(1-p)}$
+
 **Visualizing the Distribution**
 
 Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin flip example):
@@ -611,15 +613,28 @@ n_viz = 10
 p_viz = 0.5
 binomial_viz = stats.binom(n=n_viz, p=p_viz)
 
+# Calculate mean and std
+mean_viz = binomial_viz.mean()
+std_viz = binomial_viz.std()
+
 # Plotting the PMF
 k_values_viz = np.arange(0, n_viz + 1)
 pmf_values_viz = binomial_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
+
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.1f}, {mean_viz + std_viz:.1f}]')
+
 plt.title(f"Binomial PMF (n={n_viz}, p={p_viz})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -627,7 +642,7 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf_generic.svg)
 
-The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean (np = 5) since p = 0.5.
+The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean ($np = 5$) since $p = 0.5$. The shaded region shows mean ± 1 standard deviation ($\sqrt{np(1-p)} = \sqrt{2.5} \approx 1.58$).
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -635,11 +650,16 @@ The PMF shows the probability distribution for the number of heads in 10 coin fl
 # Plotting the CDF
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
+
 plt.title(f"Binomial CDF (n={n_viz}, p={p_viz})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -647,7 +667,7 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads. The red dashed line marks the mean.
 
 :::{admonition} Example: Sales Calls with n = 20, p = 0.15
 :class: tip
