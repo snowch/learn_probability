@@ -1737,6 +1737,8 @@ The formula is essentially: **(favorable outcomes) / (total possible outcomes)**
 
 **Variance:** $Var(X) = n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)$
 
+**Standard Deviation:** $SD(X) = \sqrt{n \frac{K}{N} \left(1 - \frac{K}{N}\right) \left(\frac{N-n}{N-1}\right)}$
+
 The term $\frac{N-n}{N-1}$ is the *finite population correction factor*. As $N \to \infty$, this approaches 1, and Hypergeometric → Binomial with $p = K/N$.
 
 **Visualizing the Distribution**
@@ -1752,16 +1754,25 @@ K_viz = 4
 n_viz = 5
 hypergeom_viz = stats.hypergeom(M=N_viz, n=K_viz, N=n_viz)
 
+# Calculate mean and std
+mean_viz = hypergeom_viz.mean()
+std_viz = hypergeom_viz.std()
+
 # Plotting the PMF
 k_values_viz = np.arange(0, min(n_viz, K_viz) + 1)
 pmf_values_viz = hypergeom_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
 plt.title(f"Hypergeometric PMF (N={N_viz}, K={K_viz}, n={n_viz})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -1769,7 +1780,7 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf_generic.svg)
 
-The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2.
+The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2. The red dashed line marks the mean.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1777,12 +1788,17 @@ The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to
 # Plotting the CDF
 cdf_values_viz = hypergeom_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
 plt.title(f"Hypergeometric CDF (N={N_viz}, K={K_viz}, n={n_viz})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_hypergeometric_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -1790,7 +1806,7 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?"
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?" The red dashed line marks the mean.
 
 :::{admonition} Example: Lottery Tickets with N=100, K=20, n=10
 :class: tip
@@ -1996,6 +2012,8 @@ This directly implements the classical definition of probability: **(favorable o
 
 **Variance:** $Var(X) = \frac{(b-a+1)^2 - 1}{12}$
 
+**Standard Deviation:** $SD(X) = \sqrt{\frac{(b-a+1)^2 - 1}{12}}$
+
 **Relationship to Other Distributions:** The Discrete Uniform distribution is a special case of the **Categorical distribution** where all $k$ categories have equal probability $p_i = 1/k$. If outcomes aren't equally likely, use Categorical instead.
 
 **Visualizing the Distribution**
@@ -2012,17 +2030,30 @@ from scipy.stats import randint
 # scipy.stats.randint uses [low, high) so we add 1 to b
 uniform_viz = randint(low=a_viz, high=b_viz+1)
 
+# Calculate mean and std
+mean_viz = uniform_viz.mean()
+std_viz = uniform_viz.std()
+
 # Plotting the PMF
 k_values_viz = np.arange(a_viz, b_viz+1)
 pmf_values_viz = uniform_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.2f}, {mean_viz + std_viz:.2f}]')
+
 plt.title(f"Discrete Uniform PMF (a={a_viz}, b={b_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 0.25)
 plt.xticks(k_values_viz)
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_discrete_uniform_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -2030,7 +2061,7 @@ plt.show()
 
 ![Discrete Uniform PMF](ch07_discrete_uniform_pmf.svg)
 
-The PMF shows six equal bars, each with probability 1/6, representing the fair die.
+The PMF shows six equal bars, each with probability 1/6, representing the fair die. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2038,13 +2069,18 @@ The PMF shows six equal bars, each with probability 1/6, representing the fair d
 # Plotting the CDF
 cdf_values_viz = uniform_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
 plt.title(f"Discrete Uniform CDF (a={a_viz}, b={b_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
 plt.xticks(k_values_viz)
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_discrete_uniform_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -2052,7 +2088,7 @@ plt.show()
 
 ![Discrete Uniform CDF](ch07_discrete_uniform_cdf.svg)
 
-The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maximum value.
+The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maximum value. The red dashed line marks the mean.
 
 :::{admonition} Example: Random Selection from 1 to 20
 :class: tip
