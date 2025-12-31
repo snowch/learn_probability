@@ -1,0 +1,57 @@
+name: Auto-merge on Build Pass
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+      - '!main'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Python requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install MyST Markdown
+        run: npm install -g mystmd
+
+      - name: Build HTML Assets (execute)
+        run: myst build --execute --html
+
+      - name: Merge to main
+        if: success()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Fetch latest main
+          git fetch origin main
+
+          # Switch to main
+          git checkout main
+
+          # Merge the branch
+          git merge --no-ff ${{ github.sha }} -m "Auto-merge ${{ github.ref_name }} after successful build"
+
+          # Push to main
+          git push origin main
