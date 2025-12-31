@@ -38,6 +38,7 @@ Don't worry about memorizing every PMF formula—you can always look them up or 
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
+import os
 
 # Configure plots
 plt.style.use('seaborn-v0_8-whitegrid')
@@ -129,6 +130,10 @@ Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test exampl
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_bernoulli_pmf_generic.svg'):
+    os.remove('ch07_bernoulli_pmf_generic.svg')
+
 # Create Bernoulli distribution for visualization (p=0.3)
 p_viz = 0.3
 bernoulli_viz = stats.bernoulli(p=p_viz)
@@ -167,6 +172,10 @@ The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a 
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_bernoulli_cdf_generic.svg'):
+    os.remove('ch07_bernoulli_cdf_generic.svg')
 
 # Plotting the CDF
 k_values_viz = [0, 1]
@@ -289,6 +298,10 @@ print(samples)
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_bernoulli_pmf.svg'):
+    os.remove('ch07_bernoulli_pmf.svg')
+
 # Plotting the PMF
 k_values = [0, 1]
 pmf_values = bernoulli_rv.pmf(k_values)
@@ -310,6 +323,10 @@ The PMF shows the probability of each outcome. With p = 0.1, "Negative" has prob
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_bernoulli_cdf.svg'):
+    os.remove('ch07_bernoulli_cdf.svg')
 
 # Plotting the CDF
 cdf_values = bernoulli_rv.cdf(k_values)
@@ -452,6 +469,10 @@ In our context, it counts **how many different sequences** of $n$ trials yield e
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_binomial_formula_breakdown.svg'):
+    os.remove('ch07_binomial_formula_breakdown.svg')
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
@@ -630,6 +651,10 @@ Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin fl
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_binomial_pmf_generic.svg'):
+    os.remove('ch07_binomial_pmf_generic.svg')
+
 # Create Binomial distribution for visualization (n=10, p=0.5)
 n_viz = 10
 p_viz = 0.5
@@ -668,6 +693,10 @@ The PMF shows the probability distribution for the number of heads in 10 coin fl
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_binomial_cdf_generic.svg'):
+    os.remove('ch07_binomial_cdf_generic.svg')
 
 # Plotting the CDF
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
@@ -740,6 +769,10 @@ samples = binomial_rv.rvs(size=n_simulations)
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_binomial_pmf.svg'):
+    os.remove('ch07_binomial_pmf.svg')
+
 # Plotting the PMF
 k_values = np.arange(0, n_calls + 1)
 pmf_values = binomial_rv.pmf(k_values)
@@ -760,6 +793,10 @@ The PMF shows the probability distribution for the number of successful calls. W
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_binomial_cdf.svg'):
+    os.remove('ch07_binomial_cdf.svg')
 
 # Plotting the CDF
 cdf_values = binomial_rv.cdf(k_values)
@@ -881,6 +918,10 @@ This is why the formula captures "trials until first success" - it requires all 
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_geometric_formula_breakdown.svg'):
+    os.remove('ch07_geometric_formula_breakdown.svg')
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
@@ -1066,6 +1107,10 @@ Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example)
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_geometric_pmf_generic.svg'):
+    os.remove('ch07_geometric_pmf_generic.svg')
+
 # Create Geometric distribution for visualization (p=0.4)
 p_viz = 0.4
 geom_viz = stats.geom(p=p_viz)
@@ -1104,6 +1149,10 @@ The PMF shows exponentially decreasing probabilities - you're most likely to suc
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_geometric_cdf_generic.svg'):
+    os.remove('ch07_geometric_cdf_generic.svg')
 
 # Plotting the CDF
 cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
@@ -1186,6 +1235,10 @@ samples_trials = samples_failures + 1
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_geometric_pmf.svg'):
+    os.remove('ch07_geometric_pmf.svg')
+
 # Plotting the PMF (using trial number k=1, 2, ...)
 k_values_trials = np.arange(1, 11) # Plot first 10 trials
 pmf_values = geom_rv.pmf(k_values_trials - 1) # Adjust k for scipy
@@ -1207,6 +1260,10 @@ The PMF shows exponentially decreasing probabilities for the exam example with p
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_geometric_cdf.svg'):
+    os.remove('ch07_geometric_cdf.svg')
 
 # Plotting the CDF (using trial number k=1, 2, ...)
 cdf_values = geom_rv.cdf(k_values_trials - 1) # Adjust k for scipy
@@ -1353,6 +1410,10 @@ Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (eas
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_negative_binomial_pmf_generic.svg'):
+    os.remove('ch07_negative_binomial_pmf_generic.svg')
+
 # Create Negative Binomial distribution for visualization (r=3, p=0.2)
 r_viz = 3
 p_viz = 0.2
@@ -1391,6 +1452,10 @@ The PMF shows the distribution is centered around the expected value r/p = 3/0.2
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_negative_binomial_cdf_generic.svg'):
+    os.remove('ch07_negative_binomial_cdf_generic.svg')
 
 # Plotting the CDF
 cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
@@ -1480,6 +1545,10 @@ samples_components_nb = samples_good_nb + r_defective
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_negative_binomial_pmf.svg'):
+    os.remove('ch07_negative_binomial_pmf.svg')
+
 # Plotting the PMF (using total components tested k = r, r+1, ...)
 k_values_components = np.arange(r_defective, r_defective + 150) # Plot a range
 pmf_values_nb = nbinom_rv.pmf(k_values_components - r_defective) # Adjust k for scipy
@@ -1500,6 +1569,10 @@ The PMF shows the distribution centered around r/p = 60 components with consider
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_negative_binomial_cdf.svg'):
+    os.remove('ch07_negative_binomial_cdf.svg')
 
 # Plotting the CDF (using total components tested k = r, r+1, ...)
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
@@ -1643,6 +1716,10 @@ Let's visualize a Poisson distribution with $\lambda = 4$ (our call center examp
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_poisson_pmf_generic.svg'):
+    os.remove('ch07_poisson_pmf_generic.svg')
+
 # Create Poisson distribution for visualization (λ=4)
 lambda_viz = 4
 poisson_viz = stats.poisson(mu=lambda_viz)
@@ -1681,6 +1758,10 @@ The PMF shows the distribution centered around λ = 4 with reasonable probabilit
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_poisson_cdf_generic.svg'):
+    os.remove('ch07_poisson_cdf_generic.svg')
 
 # Plotting the CDF
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
@@ -1750,6 +1831,10 @@ samples = poisson_rv.rvs(size=n_simulations)
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_poisson_pmf.svg'):
+    os.remove('ch07_poisson_pmf.svg')
+
 # Plotting the PMF
 k_values = np.arange(0, 16) # Plot for k=0 to 15
 pmf_values = poisson_rv.pmf(k_values)
@@ -1771,6 +1856,10 @@ The PMF shows the distribution centered around λ = 5 events.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_poisson_cdf.svg'):
+    os.remove('ch07_poisson_cdf.svg')
 
 # Plotting the CDF
 cdf_values = poisson_rv.cdf(k_values)
@@ -1916,6 +2005,10 @@ Let's visualize a Hypergeometric distribution with N=52, K=4, n=5 (our card exam
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_hypergeometric_pmf_generic.svg'):
+    os.remove('ch07_hypergeometric_pmf_generic.svg')
+
 # Create Hypergeometric distribution for visualization (N=52, K=4, n=5)
 N_viz = 52
 K_viz = 4
@@ -1956,6 +2049,10 @@ The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_hypergeometric_cdf_generic.svg'):
+    os.remove('ch07_hypergeometric_cdf_generic.svg')
 
 # Plotting the CDF
 cdf_values_viz = hypergeom_viz.cdf(k_values_viz)
@@ -2029,6 +2126,10 @@ samples = hypergeom_rv.rvs(size=n_simulations)
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_hypergeometric_pmf.svg'):
+    os.remove('ch07_hypergeometric_pmf.svg')
+
 # Plotting the PMF
 # Determine possible k values: max(0, n-(N-K)) <= k <= min(n, K)
 min_k = max(0, n_sample - (N_population - K_successes_pop))
@@ -2053,6 +2154,10 @@ The PMF shows the probability distribution for the number of winning tickets in 
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_hypergeometric_cdf.svg'):
+    os.remove('ch07_hypergeometric_cdf.svg')
 
 # Plotting the CDF
 cdf_values = hypergeom_rv.cdf(k_values)
@@ -2195,6 +2300,10 @@ Let's visualize a Discrete Uniform distribution for a fair die ($a = 1$, $b = 6$
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_discrete_uniform_pmf.svg'):
+    os.remove('ch07_discrete_uniform_pmf.svg')
+
 # Create Discrete Uniform distribution for visualization (fair die)
 a_viz = 1
 b_viz = 6
@@ -2237,6 +2346,10 @@ The PMF shows six equal bars, each with probability 1/6, representing the fair d
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_discrete_uniform_cdf.svg'):
+    os.remove('ch07_discrete_uniform_cdf.svg')
 
 # Plotting the CDF
 cdf_values_viz = uniform_viz.cdf(k_values_viz)
@@ -2310,6 +2423,10 @@ print(samples)
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_discrete_uniform_pmf_example.svg'):
+    os.remove('ch07_discrete_uniform_pmf_example.svg')
+
 # Plotting the PMF
 k_values = np.arange(a_sel, b_sel+1)
 pmf_values = uniform_rv.pmf(k_values)
@@ -2330,6 +2447,10 @@ All 20 values have equal probability of 0.05 (1/20).
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_discrete_uniform_cdf_example.svg'):
+    os.remove('ch07_discrete_uniform_cdf_example.svg')
 
 # Plotting the CDF
 cdf_values = uniform_rv.cdf(k_values)
@@ -2472,6 +2593,10 @@ Let's visualize our loaded die Categorical distribution:
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_categorical_pmf.svg'):
+    os.remove('ch07_categorical_pmf.svg')
+
 # Create Categorical distribution for visualization (loaded die)
 probs_viz = np.array([0.1, 0.15, 0.20, 0.25, 0.20, 0.10])
 from scipy.stats import rv_discrete
@@ -2497,6 +2622,10 @@ The PMF shows the different probabilities for each face of the loaded die.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_categorical_cdf.svg'):
+    os.remove('ch07_categorical_cdf.svg')
 
 # Plotting the CDF
 cdf_values_viz = categorical_viz.cdf(values_viz)
@@ -2565,6 +2694,10 @@ for i, label in enumerate(labels, 1):
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_categorical_pmf_example.svg'):
+    os.remove('ch07_categorical_pmf_example.svg')
+
 # Plotting the PMF
 plt.figure(figsize=(8, 4))
 plt.bar(choices, probs, tick_label=labels, color='skyblue', edgecolor='black', alpha=0.7)
@@ -2583,6 +2716,10 @@ Coffee is the most popular choice, followed by tea, juice, and water.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_categorical_cdf_example.svg'):
+    os.remove('ch07_categorical_cdf_example.svg')
 
 # Plotting the CDF
 cdf_vals = categorical_rv.cdf(choices)
@@ -2738,6 +2875,10 @@ Multinomial distributions are challenging to visualize since they involve multip
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
+# Remove existing SVG if present
+if os.path.exists('ch07_multinomial_marginal.svg'):
+    os.remove('ch07_multinomial_marginal.svg')
+
 # Simulate multinomial: rolling a 3-sided die 15 times
 n_trials = 15
 probs_3 = np.array([1/3, 1/3, 1/3])
@@ -2813,6 +2954,10 @@ for i, cat in enumerate(categories):
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_multinomial_example.svg'):
+    os.remove('ch07_multinomial_example.svg')
 
 # Plot distributions for each category
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
@@ -2945,6 +3090,10 @@ for k, bp, pp in zip(k_vals_compare, binom_pmf, poisson_pmf):
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_poisson_binomial_approximation.svg'):
+    os.remove('ch07_poisson_binomial_approximation.svg')
 
 # Plotting the comparison
 plt.figure(figsize=(10, 5))
