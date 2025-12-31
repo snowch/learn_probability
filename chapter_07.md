@@ -120,6 +120,8 @@ Let's verify this works for our example where $p = 0.3$:
 
 **Variance:** $Var(X) = p(1-p)$
 
+**Standard Deviation:** $SD(X) = \sqrt{p(1-p)}$
+
 **Visualizing the Distribution**
 
 Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test example from above):
@@ -131,16 +133,25 @@ Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test exampl
 p_viz = 0.3
 bernoulli_viz = stats.bernoulli(p=p_viz)
 
+# Calculate mean and std
+mean_viz = bernoulli_viz.mean()
+std_viz = bernoulli_viz.std()
+
 # Plotting the PMF
 k_values_viz = [0, 1]
 pmf_values_viz = bernoulli_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, tick_label=["Failure (0)", "Success (1)"], color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
 plt.title(f"Bernoulli PMF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -148,7 +159,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
 
-The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test.
+The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$).
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -157,15 +168,20 @@ The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a 
 k_values_viz = [0, 1]
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 # Add points to show the full step function including the start at 0
 plt.step([-0.5] + k_values_viz, [0] + list(cdf_values_viz), where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
 plt.title(f"Bernoulli CDF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
 plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -173,7 +189,7 @@ plt.show()
 
 ![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
 
-The CDF shows the step function: starts at 0 for x < 0, jumps to 0.7 at x=0 (the value when outcome is 0), stays flat at 0.7 until x=1, then jumps to 1.0 at x=1 (the value when including both outcomes 0 and 1).
+The CDF shows the step function: starts at 0 for x < 0, jumps to 0.7 at x=0 (the value when outcome is 0), stays flat at 0.7 until x=1, then jumps to 1.0 at x=1 (the value when including both outcomes 0 and 1). The red dashed line marks the mean.
 
 Note: Here, P(X ≤ 0) = P(X = 0) = 0.7 because X can't take negative values; in general, "X ≤ 0" means "at or below 0", not "exactly 0".
 
@@ -865,6 +881,8 @@ This is why the formula captures "trials until first success" - it requires all 
 
 **Variance:** $Var(X) = \frac{1-p}{p^2}$
 
+**Standard Deviation:** $SD(X) = \frac{\sqrt{1-p}}{p}$
+
 **Relationship to Other Distributions:** The Geometric distribution is built from independent **Bernoulli trials** and is a special case of the **Negative Binomial distribution** with $r=1$ (waiting for just one success instead of $r$ successes).
 
 :::{admonition} Note
@@ -884,16 +902,29 @@ Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example)
 p_viz = 0.4
 geom_viz = stats.geom(p=p_viz)
 
+# Calculate mean and std (adjusted for trial number definition)
+mean_viz = 1 / p_viz
+std_viz = np.sqrt((1 - p_viz) / p_viz**2)
+
 # Plotting the PMF
 k_values_viz = np.arange(1, 11)
 pmf_values_viz = geom_viz.pmf(k_values_viz - 1)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.1f}, {mean_viz + std_viz:.1f}]')
+
 plt.title(f"Geometric PMF (p={p_viz})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -901,7 +932,7 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf_generic.svg)
 
-The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials.
+The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -909,12 +940,17 @@ The PMF shows exponentially decreasing probabilities - you're most likely to suc
 # Plotting the CDF
 cdf_values_viz = geom_viz.cdf(k_values_viz - 1)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
+
 plt.title(f"Geometric CDF (p={p_viz})")
 plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -922,7 +958,7 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed).
+The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed). The red dashed line marks the mean.
 
 :::{admonition} Example: Certification Exam with p = 0.6
 :class: tip
@@ -1134,6 +1170,8 @@ The binomial coefficient ensures we count all possible arrangements where the $r
 
 **Variance:** $Var(X) = \frac{r(1-p)}{p^2}$
 
+**Standard Deviation:** $SD(X) = \frac{\sqrt{r(1-p)}}{p}$
+
 :::{admonition} Note
 :class: note
 
@@ -1152,15 +1190,28 @@ r_viz = 3
 p_viz = 0.2
 nbinom_viz = stats.nbinom(n=r_viz, p=p_viz)
 
+# Calculate mean and std
+mean_viz = r_viz / p_viz
+std_viz = np.sqrt(r_viz * (1 - p_viz)) / p_viz
+
 # Plotting the PMF
 k_values_viz = np.arange(r_viz, 30)  # Total trials from r to 30
 pmf_values_viz = nbinom_viz.pmf(k_values_viz - r_viz)  # Adjust for scipy
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
+
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.1f}, {mean_viz + std_viz:.1f}]')
+
 plt.title(f"Negative Binomial PMF (r={r_viz}, p={p_viz})")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -1168,7 +1219,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
 
-The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials.
+The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1176,11 +1227,16 @@ The PMF shows the distribution is centered around the expected value r/p = 3/0.2
 # Plotting the CDF
 cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
+
 plt.title(f"Negative Binomial CDF (r={r_viz}, p={p_viz})")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -1188,7 +1244,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials.
+The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials. The red dashed line marks the mean.
 
 :::{admonition} Example: Quality Control with r = 3, p = 0.05
 :class: tip
@@ -1406,7 +1462,9 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 
 **Variance:** $Var(X) = \lambda$
 
-Note: Mean and variance are equal in a Poisson distribution.
+**Standard Deviation:** $SD(X) = \sqrt{\lambda}$
+
+Note: Mean and variance are equal in a Poisson distribution, so the standard deviation is simply the square root of λ.
 
 **Relationship to Other Distributions:** The Poisson distribution is an approximation to the **Binomial distribution** when $n$ is large, $p$ is small, and $\lambda = np$ is moderate. Rule of thumb: use Poisson approximation when $n \ge 20$ and $p \le 0.05$.
 
@@ -1421,16 +1479,29 @@ Let's visualize a Poisson distribution with $\lambda = 4$ (our call center examp
 lambda_viz = 4
 poisson_viz = stats.poisson(mu=lambda_viz)
 
+# Calculate mean and std
+mean_viz = poisson_viz.mean()
+std_viz = poisson_viz.std()
+
 # Plotting the PMF
 k_values_viz = np.arange(0, 15)
 pmf_values_viz = poisson_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
+
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.1f}, {mean_viz + std_viz:.1f}]')
+
 plt.title(f"Poisson PMF (λ={lambda_viz})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
+plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -1438,7 +1509,7 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf_generic.svg)
 
-The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values.
+The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values. The shaded region shows mean ± 1 standard deviation ($\sqrt{4} = 2$).
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1446,12 +1517,17 @@ The PMF shows the distribution centered around λ = 4 with reasonable probabilit
 # Plotting the CDF
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 5))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
+
+# Add mean line
+plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
+
 plt.title(f"Poisson CDF (λ={lambda_viz})")
 plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
+plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
@@ -1459,7 +1535,7 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?"
+The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?" The red dashed line marks the mean.
 
 :::{admonition} Example: Email Arrivals with λ = 5
 :class: tip
