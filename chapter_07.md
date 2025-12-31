@@ -782,12 +782,12 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer succe
 
 **Quick Check Questions**
 
-1. You roll a die 12 times and count how many times you get a 6. Which distribution models this and what are the parameters?
+1. You roll a die 12 times and count how many times you get a 6. Is this a good fit for the Binomial distribution? Why or why not?
 
 ```{admonition} Answer
 :class: dropdown
 
-**Binomial distribution with n = 12, p = 1/6** - Fixed number of trials (12 rolls), each with the same success probability (1/6 for rolling a 6).
+**Yes, this is a good fit for Binomial.** It satisfies all the requirements: (1) fixed number of trials (n = 12 rolls), (2) each trial is independent, (3) only two outcomes per trial (rolling a 6 vs not rolling a 6), and (4) constant success probability (p = 1/6 for each roll). The parameters would be n = 12 and p = 1/6.
 ```
 
 2. For a Binomial distribution with n = 8 and p = 0.25, what is the expected value (mean)?
@@ -798,14 +798,12 @@ The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer succe
 **E[X] = np = 8 × 0.25 = 2** - The expected number of successes in 8 trials is 2.
 ```
 
-3. You're quality testing a batch of 100 products by examining each one. 5% are typically defective. Is this scenario best modeled by Binomial or Hypergeometric distribution?
+3. A basketball player has a 70% free throw success rate. You watch her take 15 free throws. Does this scenario fit the Binomial distribution assumptions?
 
 ```{admonition} Answer
 :class: dropdown
 
-**Binomial distribution** - Although you're sampling from a finite population, if the batch is large relative to your sample (or you replace items after testing), Binomial is appropriate. Each test is independent with constant p = 0.05.
-
-If you were sampling a significant fraction of the batch *without replacement*, then Hypergeometric would be more appropriate.
+**Yes, this fits the Binomial distribution** with n = 15 and p = 0.7. Each free throw is independent, has two outcomes (make or miss), and the success probability remains constant at 0.7 for each attempt. We can use this to calculate probabilities like "What's the chance she makes at least 12 out of 15?"
 ```
 
 4. For a Binomial(n=20, p=0.3) distribution, what is the variance?
