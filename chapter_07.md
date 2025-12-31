@@ -999,25 +999,25 @@ ax.text(0.5, 0.185, r"(Each trial is independent)",
 # Arrow pointing to decreasing probabilities
 x0, y0, x1, y1 = seq_boxes["S"]
 ax.annotate("Most likely:\nsucceed early",
-            xy=((x0 + x1)/2, y0 - 0.02), xycoords=ax.transAxes,
-            xytext=(0.08, 0.76), textcoords=ax.transAxes,
+            xy=((x0 + x1)/2, y1), xycoords=ax.transAxes,
+            xytext=(0.05, 0.72), textcoords=ax.transAxes,
             arrowprops=dict(arrowstyle="->",
-                            connectionstyle="arc3,rad=-0.2",
+                            connectionstyle="arc3,rad=-0.25",
                             lw=2.5, color="green",
                             shrinkA=6, shrinkB=8),
-            fontsize=20, color="green", weight="bold",
+            fontsize=18, color="green", weight="bold",
             ha="center", va="center", zorder=5)
 
 # Arrow pointing to later trials
 x0, y0, x1, y1 = seq_boxes["FFFFS"]
 ax.annotate("Less likely:\nmany failures",
-            xy=((x0 + x1)/2, y0 - 0.02), xycoords=ax.transAxes,
-            xytext=(0.92, 0.76), textcoords=ax.transAxes,
+            xy=((x0 + x1)/2, y1), xycoords=ax.transAxes,
+            xytext=(0.95, 0.72), textcoords=ax.transAxes,
             arrowprops=dict(arrowstyle="->",
-                            connectionstyle="arc3,rad=0.2",
+                            connectionstyle="arc3,rad=0.25",
                             lw=2.5, color="red",
                             shrinkA=6, shrinkB=8),
-            fontsize=20, color="red", weight="bold",
+            fontsize=18, color="red", weight="bold",
             ha="center", va="center", zorder=5)
 
 # Bottom explanation
