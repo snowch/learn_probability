@@ -147,6 +147,10 @@ plt.bar(k_values_viz, pmf_values_viz, tick_label=["Failure (0)", "Success (1)"],
 # Add mean line
 plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
 
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.2f}, {mean_viz + std_viz:.2f}]')
+
 plt.title(f"Bernoulli PMF (p={p_viz})")
 plt.xlabel("Outcome")
 plt.ylabel("Probability")
@@ -159,7 +163,7 @@ plt.show()
 
 ![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
 
-The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$).
+The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$), and the orange shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -199,6 +203,7 @@ Note: Here, P(X ≤ 0) = P(X = 0) = 0.7 because X can't take negative values; in
 - **How to read:** Look at the bar height to find P(X = k) for any specific value k
 - **Practical use:** Answer questions like "What's the probability of success?" or "What's the probability of exactly 1 positive test?"
 - **Key property:** All bar heights must sum to 1.0 (total probability)
+- **Visualization aids:** The red dashed line marks the mean (expected value), and the orange shaded region shows mean ± 1 standard deviation (where ~68% of values typically fall)
 
 **Reading the CDF**
 
@@ -211,6 +216,7 @@ Note: Here, P(X ≤ 0) = P(X = 0) = 0.7 because X can't take negative values; in
   - Find P(X > k) by calculating 1 - P(X ≤ k)
   - Find P(a < X ≤ b) by calculating P(X ≤ b) - P(X ≤ a)
 - **Key property:** The CDF is right-continuous, always increases (or stays flat), and approaches 1.0
+- **Visualization aids:** The red dashed line marks the mean (expected value) as a reference point
 
 **Note on CDF visualization:** The charts use `where='post'` in the step plot to create proper right-continuous step functions. This means the CDF jumps up at each value and includes that value in the cumulative probability.
 
@@ -1768,6 +1774,10 @@ plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=
 # Add mean line
 plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.2f}')
 
+# Add mean ± 1 std region
+plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
+            label=f'Mean ± 1 SD = [{mean_viz - std_viz:.2f}, {mean_viz + std_viz:.2f}]')
+
 plt.title(f"Hypergeometric PMF (N={N_viz}, K={K_viz}, n={n_viz})")
 plt.xlabel("Number of Successes in Sample (k)")
 plt.ylabel("Probability P(X=k)")
@@ -1780,7 +1790,7 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf_generic.svg)
 
-The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2. The red dashed line marks the mean.
+The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2. The red dashed line marks the mean, and the orange shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
