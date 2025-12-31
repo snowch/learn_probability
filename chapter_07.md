@@ -938,11 +938,11 @@ ax.text(0.5, 0.96, rf"Geometric Distribution: Trials Until First Success ($p={p}
 
 # Draw sequences at different positions
 sequences = [
-    ("S", 1, 0.20, 0.84),           # Success on trial 1
-    ("FS", 2, 0.38, 0.84),          # Fail then Success
-    ("FFS", 3, 0.56, 0.84),         # Fail Fail then Success
-    ("FFFS", 4, 0.74, 0.84),        # Fail Fail Fail then Success
-    ("FFFFS", 5, 0.92, 0.84),       # Fail Fail Fail Fail then Success
+    ("S", 1, 0.16, 0.84),           # Success on trial 1
+    ("FS", 2, 0.34, 0.84),          # Fail then Success
+    ("FFS", 3, 0.52, 0.84),         # Fail Fail then Success
+    ("FFFS", 4, 0.70, 0.84),        # Fail Fail Fail then Success
+    ("FFFFS", 5, 0.88, 0.84),       # Fail Fail Fail Fail then Success
 ]
 
 seq_boxes = {}
@@ -1006,7 +1006,7 @@ ax.annotate("Most likely:\nsucceed early",
 x0, y0, x1, y1 = seq_boxes["FFFFS"]
 ax.annotate("Less likely:\nmany failures",
             xy=((x0 + x1)/2, y0), xycoords=ax.transAxes,
-            xytext=(0.92, 0.70), textcoords=ax.transAxes,
+            xytext=(0.88, 0.70), textcoords=ax.transAxes,
             arrowprops=dict(arrowstyle="->",
                             connectionstyle="arc3,rad=0.15",
                             lw=2.5, color="red",
