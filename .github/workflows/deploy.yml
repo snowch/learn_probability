@@ -6,7 +6,6 @@ on:
     workflows: ["Auto-merge on Build Pass"]
     types:
       - completed
-    branches: [main]
 
 env:
   BASE_URL: "/${{ github.event.repository.name }}"
