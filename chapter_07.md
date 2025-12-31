@@ -913,7 +913,7 @@ def draw_sequence(ax, cx, cy, label, k, prob_val):
 
     ax.text(cx, cy, label, transform=ax.transAxes,
             ha="center", va="center",
-            fontsize=22, weight="bold", family="monospace", zorder=4)
+            fontsize=20, weight="bold", family="monospace", zorder=4)
 
     # Formula showing the calculation
     if k == 1:
@@ -921,13 +921,13 @@ def draw_sequence(ax, cx, cy, label, k, prob_val):
     else:
         formula_text = rf"${q:.1f}^{{{k-1}}} \times {p:.1f}$"
 
-    ax.text(cx, cy - 0.065, formula_text,
+    ax.text(cx, cy - 0.062, formula_text,
             transform=ax.transAxes, ha="center", va="top",
-            fontsize=24, zorder=4)
+            fontsize=20, zorder=4)
 
-    ax.text(cx, cy - 0.100, rf"$= {prob_val:.4f}$",
+    ax.text(cx, cy - 0.095, rf"$= {prob_val:.4f}$",
             transform=ax.transAxes, ha="center", va="top",
-            fontsize=24, weight="bold", zorder=4)
+            fontsize=20, weight="bold", zorder=4)
 
     return (cx - w/2, cy - h/2, cx + w/2, cy + h/2)
 
@@ -938,11 +938,11 @@ ax.text(0.5, 0.96, rf"Geometric Distribution: Trials Until First Success ($p={p}
 
 # Draw sequences at different positions
 sequences = [
-    ("S", 1, 0.20, 0.84),           # Success on trial 1
-    ("FS", 2, 0.38, 0.84),          # Fail then Success
-    ("FFS", 3, 0.56, 0.84),         # Fail Fail then Success
-    ("FFFS", 4, 0.74, 0.84),        # Fail Fail Fail then Success
-    ("FFFFS", 5, 0.92, 0.84),       # Fail Fail Fail Fail then Success
+    ("S", 1, 0.16, 0.86),           # Success on trial 1
+    ("FS", 2, 0.34, 0.86),          # Fail then Success
+    ("FFS", 3, 0.52, 0.86),         # Fail Fail then Success
+    ("FFFS", 4, 0.70, 0.86),        # Fail Fail Fail then Success
+    ("FFFFS", 5, 0.88, 0.86),       # Fail Fail Fail Fail then Success
 ]
 
 seq_boxes = {}
@@ -951,78 +951,85 @@ for label, k, x, y in sequences:
     seq_boxes[label] = draw_sequence(ax, x, y, label, k, prob_val)
 
 # Explanation box
-expl_w, expl_h = 0.70, 0.10
-expl_xy = (0.5 - expl_w/2, 0.64 - expl_h/2)
+expl_w, expl_h = 0.70, 0.11
+expl_xy = (0.5 - expl_w/2, 0.66 - expl_h/2)
 rounded_box(ax, expl_xy, expl_w, expl_h,
             fc="lightyellow", ec="orange", lw=2.2, r=0.02)
 
-ax.text(0.5, 0.67, "Each sequence shows trials until first success",
+ax.text(0.5, 0.695, "Each sequence shows trials until first success",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=18, weight="bold", zorder=4)
-ax.text(0.5, 0.625, "Probability decreases exponentially with more failures",
+ax.text(0.5, 0.635, "Probability decreases exponentially with more failures",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=24, style="italic", zorder=4)
+        fontsize=22, style="italic", zorder=4)
 
 # Formula block
-ax.text(0.5, 0.50, "General Formula:", transform=ax.transAxes,
+ax.text(0.5, 0.545, "General Formula:", transform=ax.transAxes,
         ha="center", va="center", fontsize=20, weight="bold", zorder=4)
 
-ax.text(0.5, 0.445, r"$P(X=k) = (1-p)^{k-1} \cdot p$",
+ax.text(0.5, 0.495, r"$P(X=k) = (1-p)^{k-1} \cdot p$",
         transform=ax.transAxes, ha="center", va="center", fontsize=20, zorder=4)
 
-ax.text(0.5, 0.39, r"$P(X=k) = (\text{fail})^{k-1} \times \text{succeed}$",
+ax.text(0.5, 0.45, r"$P(X=k) = (\text{fail})^{k-1} \times \text{succeed}$",
         transform=ax.transAxes, ha="center", va="center", fontsize=18, zorder=4)
 
+ax.text(0.5, 0.405, "where $k$ is the trial number of first success",
+        transform=ax.transAxes, ha="center", va="center", fontsize=16, zorder=4)
+
 # Key insight box
-key_w, key_h = 0.60, 0.12
-key_xy = (0.5 - key_w/2, 0.22 - key_h/2)
+key_w, key_h = 0.68, 0.15
+key_xy = (0.5 - key_w/2, 0.25 - key_h/2)
 rounded_box(ax, key_xy, key_w, key_h,
             fc="lightgreen", ec="green", lw=2.2, r=0.02)
 
-ax.text(0.5, 0.255, "Key Insight:",
+ax.text(0.5, 0.305, "Key Insight:",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=18, weight="bold", zorder=4)
-ax.text(0.5, 0.215, rf"All trials before the $k$-th must fail: $(1-p)^{{k-1}}$",
+ax.text(0.5, 0.260, rf"All trials before the $k$-th must fail: $(1-p)^{{k-1}}$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=24, zorder=4)
-ax.text(0.5, 0.180, rf"The $k$-th trial must succeed: $p$",
+        fontsize=20, zorder=4)
+ax.text(0.5, 0.220, rf"The $k$-th trial must succeed: $p$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=24, zorder=4)
+        fontsize=20, zorder=4)
+ax.text(0.5, 0.185, r"(Each trial is independent)",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=16, style="italic", zorder=4)
 
 # ---- Callouts ----
 # Arrow pointing to decreasing probabilities
 x0, y0, x1, y1 = seq_boxes["S"]
 ax.annotate("Most likely:\nsucceed early",
-            xy=((x0 + x1)/2, y0), xycoords=ax.transAxes,
-            xytext=(0.08, 0.75), textcoords=ax.transAxes,
+            xy=(x0, y1), xycoords=ax.transAxes,
+            xytext=(0.05, 0.66), textcoords=ax.transAxes,
             arrowprops=dict(arrowstyle="->",
-                            connectionstyle="arc3,rad=-0.15",
+                            connectionstyle="arc3,rad=-0.3",
                             lw=2.5, color="green",
                             shrinkA=6, shrinkB=8),
-            fontsize=22, color="green", weight="bold",
+            fontsize=18, color="green", weight="bold",
             ha="center", va="center", zorder=5)
 
 # Arrow pointing to later trials
 x0, y0, x1, y1 = seq_boxes["FFFFS"]
 ax.annotate("Less likely:\nmany failures",
-            xy=((x0 + x1)/2, y0), xycoords=ax.transAxes,
-            xytext=(0.92, 0.70), textcoords=ax.transAxes,
+            xy=(x1, y1), xycoords=ax.transAxes,
+            xytext=(0.95, 0.66), textcoords=ax.transAxes,
             arrowprops=dict(arrowstyle="->",
-                            connectionstyle="arc3,rad=0.15",
+                            connectionstyle="arc3,rad=0.3",
                             lw=2.5, color="red",
                             shrinkA=6, shrinkB=8),
-            fontsize=22, color="red", weight="bold",
+            fontsize=18, color="red", weight="bold",
             ha="center", va="center", zorder=5)
 
 # Bottom explanation
-why = (
-    f"Example: P(X=3) means getting your first success on the 3rd trial. "
-    f"This requires exactly 2 failures followed by 1 success: "
-    f"P(X=3) = (0.6)² × 0.4 = 0.36 × 0.4 = 0.144"
-)
-ax.text(0.5, 0.06, why,
+ax.text(0.5, 0.10, "Example: P(X=3) means getting your first success on the 3rd trial.",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=21, style="italic", wrap=True, zorder=4)
+        fontsize=19, style="italic", zorder=4)
+ax.text(0.5, 0.068, "This requires exactly 2 failures followed by 1 success:",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=19, style="italic", zorder=4)
+ax.text(0.5, 0.036, r"$P(X=3) = (0.6)^2 \times 0.4 = 0.36 \times 0.4 = 0.144$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=19, zorder=4)
 
 plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
