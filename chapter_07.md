@@ -1354,6 +1354,20 @@ $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, 
 
 **Understanding the formula:** This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
 
+:::{admonition} Remembering r vs k
+:class: tip
+
+Think of **r** as "**r**equired" or "**r**epeat" - the fixed target number of successes you need.
+
+Think of **k** as "it too**k** this many trials" - the variable total number of trials.
+
+In our die example:
+- **r = 3** (we **r**equire 3 sixes - this is fixed)
+- **k = ?** (it could take **k** = 3, 4, 5, ... trials - this varies)
+
+Key: **r is fixed, k is random**
+:::
+
 :::{admonition} Why This Formula Works
 :class: note
 
