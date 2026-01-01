@@ -1398,9 +1398,10 @@ The formula breaks down into three parts:
 - Need exactly 2 successes in first 4 trials: $\binom{4}{2} = 6$ ways (e.g., SSFF, SFSF, SFFS, FSSF, FSFS, FFSS)
 - Each arrangement has probability $(0.4)^2 (0.6)^2$ for the first 4 trials
 - 5th trial must succeed: $0.4$
-- Combined: $6 \times (0.4)^3 \times (0.6)^2$
+- Combined: $6 \times (0.4)^3 \times (0.6)^2 = 0.2304$
 
 The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
+:::
 
 **Applying the formula to our die example:** For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
 
