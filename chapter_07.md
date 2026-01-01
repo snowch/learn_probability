@@ -1404,8 +1404,12 @@ The binomial coefficient ensures we count all possible arrangements where the $r
 
 **Applying the formula to our die example:** For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
 
+Substituting $k=4$, $r=3$, $p=1/6$ into the formula:
+
 \begin{align}
-P(X=4) &= \binom{3}{2}(1/6)^3(5/6)^1 \\
+P(X=4) &= \binom{k-1}{r-1} p^r (1-p)^{k-r} \\
+&= \binom{4-1}{3-1}(1/6)^3(5/6)^{4-3} \\
+&= \binom{3}{2}(1/6)^3(5/6)^1 \\
 &= 3 \times \frac{1}{216} \times \frac{5}{6} \\
 &= \frac{15}{1296} \\
 &\approx 0.0116
