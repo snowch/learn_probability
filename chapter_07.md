@@ -1656,7 +1656,7 @@ Now that we understand the formula and its visualization, let's summarize the es
 
 **Visualizing the Distribution**
 
-Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (easier to see than our 1/6 example):
+Let's visualize our die example: Negative Binomial distribution with $r = 3$ sixes and $p = 1/6$:
 
 :::{admonition} Note
 :class: note
@@ -1671,9 +1671,9 @@ Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (eas
 if os.path.exists('ch07_negative_binomial_pmf_generic.svg'):
     os.remove('ch07_negative_binomial_pmf_generic.svg')
 
-# Create Negative Binomial distribution for visualization (r=3, p=0.2)
+# Create Negative Binomial distribution for our die example (r=3, p=1/6)
 r_viz = 3
-p_viz = 0.2
+p_viz = 1/6
 nbinom_viz = stats.nbinom(n=r_viz, p=p_viz)
 
 # Calculate mean and std
@@ -1681,7 +1681,7 @@ mean_viz = r_viz / p_viz
 std_viz = np.sqrt(r_viz * (1 - p_viz)) / p_viz
 
 # Plotting the PMF
-k_values_viz = np.arange(r_viz, 30)  # Total trials from r to 30
+k_values_viz = np.arange(r_viz, 45)  # Total trials from r to 45 (wider range for p=1/6)
 pmf_values_viz = nbinom_viz.pmf(k_values_viz - r_viz)  # Adjust for scipy
 
 plt.figure(figsize=(10, 5))
@@ -1694,7 +1694,7 @@ plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {
 plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
             label=f'Mean ± 1 SD = [{mean_viz - std_viz:.1f}, {mean_viz + std_viz:.1f}]')
 
-plt.title(f"Negative Binomial PMF (r={r_viz}, p={p_viz})")
+plt.title(f"Negative Binomial PMF: Rolling Until 3 Sixes (r={r_viz}, p=1/6)")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
 plt.legend(loc='upper right', fontsize=10)
@@ -1705,9 +1705,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
 
-The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials. The shaded region shows mean ± 1 standard deviation.
-
-**Connecting to our die example:** With p = 0.2 (higher success rate), we expect the 3rd success around trial 15. Our die example uses p = 1/6 ≈ 0.167 (lower success rate), so it would be centered around r/p = 3/(1/6) = 18 trials, with our calculated P(X=4) ≈ 0.0116 appearing as a small bar near the left tail.
+The PMF shows the distribution is centered around the expected value r/p = 3/(1/6) = 18 trials. You can see our calculated P(X=4) ≈ 0.0116 as a small bar near the left tail at k=4. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1725,7 +1723,7 @@ plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidt
 # Add mean line
 plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
 
-plt.title(f"Negative Binomial CDF (r={r_viz}, p={p_viz})")
+plt.title(f"Negative Binomial CDF: Rolling Until 3 Sixes (r={r_viz}, p=1/6)")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
@@ -1736,9 +1734,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials. The red dashed line marks the mean.
-
-**Connecting to our die example:** For our dice problem, P(X ≤ 4) would show the probability of getting 3 sixes within the first 4 rolls. From our earlier calculation, P(X=4) ≈ 0.0116, so the CDF at k=4 accumulates this plus P(X=3) ≈ 0.0046, giving a very low cumulative probability in the left tail.
+The CDF shows P(X ≤ k), the cumulative probability of getting 3 sixes within k rolls. At k=4, the CDF shows P(X ≤ 4) = P(X=3) + P(X=4) ≈ 0.0046 + 0.0116 ≈ 0.0162, which is the very low cumulative probability in the left tail. The red dashed line marks the mean (18 trials).
 
 :::{admonition} Example: Quality Control with r = 3, p = 0.05
 :class: tip
