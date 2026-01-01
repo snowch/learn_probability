@@ -435,7 +435,9 @@ The probabilities are:
 
 For $n$ independent trials with success probability $p$:
 
-$$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} \quad \text{for } k = 0, 1, \dots, n $$
+$$ P(X=k) = \binom{n}{k} p^k (1-p)^{n-k} $$
+
+for $k = 0, 1, \dots, n$
 
 where $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the binomial coefficient (number of ways to choose $k$ successes from $n$ trials).
 
@@ -890,7 +892,9 @@ The probabilities are:
 
 For trials with success probability $p$:
 
-$$ P(X=k) = (1-p)^{k-1} p \quad \text{for } k = 1, 2, 3, \dots $$
+$$ P(X=k) = (1-p)^{k-1} p $$
+
+for $k = 1, 2, 3, \dots$
 
 This means $k-1$ failures followed by one success.
 
