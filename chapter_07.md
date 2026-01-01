@@ -1337,6 +1337,17 @@ For example:
 
 The Negative Binomial distribution models the number of independent Bernoulli trials needed to achieve a *fixed number* of successes ($r$). It generalizes the Geometric distribution (where $r=1$).
 
+:::{admonition} Why "Negative Binomial"?
+:class: note
+
+The name comes from a mathematical connection to the binomial theorem with negative exponents, not because anything is negative! A more intuitive name might be "inverse binomial":
+
+- **Binomial**: Fix number of trials → count successes
+- **Negative Binomial**: Fix number of successes → count trials
+
+Think of it as the binomial distribution "in reverse."
+:::
+
 **Concrete Example**
 
 You're rolling a die until you get 3 sixes. Each roll has p = 1/6 probability of rolling a six. How many rolls will it take to get your 3rd six?
