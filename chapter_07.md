@@ -1343,10 +1343,8 @@ We model this with a random variable $X$:
 
 The probabilities are:
 - $P(X = 3)$ = all three rolls are sixes = $(1/6)^3 \approx 0.0046$
-- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll = $\binom{3}{2}(1/6)^3(5/6)^1 \approx 0.0116$
+- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll
 - And so on...
-
-We use the negative binomial formula (shown below) to calculate these probabilities.
 
 **The Negative Binomial PMF**
 
@@ -1372,6 +1370,10 @@ The formula breaks down into three parts:
 - Combined: $6 \times (0.4)^3 \times (0.6)^2$
 
 The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
+
+**Applying the formula to our die example:** For $P(X=4)$ with $r=3$ sixes and $p=1/6$:
+
+$$P(X=4) = \binom{3}{2}(1/6)^3(5/6)^1 = 3 \times \frac{1}{216} \times \frac{5}{6} = \frac{15}{1296} \approx 0.0116$$
 :::
 
 ```{code-cell} ipython3
