@@ -1398,7 +1398,9 @@ The formula breaks down into three parts:
 - Need exactly 2 successes in first 4 trials: $\binom{4}{2} = 6$ ways (e.g., SSFF, SFSF, SFFS, FSSF, FSFS, FFSS)
 - Each arrangement has probability $(0.4)^2 (0.6)^2$ for the first 4 trials
 - 5th trial must succeed: $0.4$
-- Combined: $6 \times (0.4)^3 \times (0.6)^2 = 0.2304$
+- **Combined:** $P(X=5) = \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 6 \times (0.4)^3 \times (0.6)^2 = 0.2304$
+
+This matches our formula: $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ with $k=5$, $r=3$, $p=0.4$.
 
 The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
 
