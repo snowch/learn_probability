@@ -1707,6 +1707,8 @@ plt.show()
 
 The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials. The shaded region shows mean ± 1 standard deviation.
 
+**Connecting to our die example:** With p = 0.2 (higher success rate), we expect the 3rd success around trial 15. Our die example uses p = 1/6 ≈ 0.167 (lower success rate), so it would be centered around r/p = 3/(1/6) = 18 trials, with our calculated P(X=4) ≈ 0.0116 appearing as a small bar near the left tail.
+
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
 
@@ -1735,6 +1737,8 @@ plt.show()
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials. The red dashed line marks the mean.
+
+**Connecting to our die example:** For our dice problem, P(X ≤ 4) would show the probability of getting 3 sixes within the first 4 rolls. From our earlier calculation, P(X=4) ≈ 0.0116, so the CDF at k=4 accumulates this plus P(X=3) ≈ 0.0046, giving a very low cumulative probability in the left tail.
 
 :::{admonition} Example: Quality Control with r = 3, p = 0.05
 :class: tip
