@@ -1413,7 +1413,7 @@ sequences = ["SSFF•S", "SFSF•S", "SFFS•S", "FSSF•S", "FSFS•S", "FFSS�
 seq_boxes = {}
 
 y_start = 0.77
-y_spacing = 0.09
+y_spacing = 0.10
 box_width = 0.27
 box_height = 0.05
 
@@ -1438,90 +1438,61 @@ for i, seq in enumerate(sequences):
     # Store box coordinates for arrows (center_x, bottom_y)
     seq_boxes[seq] = (x_pos + box_width/2, y_pos)
 
-# Counting explanation - moved lower with more spacing
-count_box = mpatches.FancyBboxPatch((0.10, 0.50), 0.80, 0.07,
+# Counting explanation - much more spacing, no arrow needed
+count_box = mpatches.FancyBboxPatch((0.10, 0.44), 0.80, 0.09,
                                     boxstyle="round,pad=0.01",
                                     linewidth=2.5, edgecolor='darkorange',
                                     facecolor='lightyellow', zorder=1)
 ax.add_patch(count_box)
-ax.text(0.5, 0.535, r"6 ways to arrange 2 successes in first 4 trials = $\binom{4}{2} = \binom{k-1}{r-1} = 6$",
+ax.text(0.5, 0.51, r"Count all sequences:",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=20, weight="bold", color='darkorange', zorder=4)
+        fontsize=18, weight="bold", color='darkorange', zorder=4)
+ax.text(0.5, 0.47, r"6 ways to arrange 2 successes in first 4 trials = $\binom{4}{2} = \binom{k-1}{r-1} = 6$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=19, weight="bold", color='darkorange', zorder=4)
 
-# Probability calculation - more spacing
-prob_box = mpatches.FancyBboxPatch((0.08, 0.34), 0.84, 0.13,
+# Probability calculation - much more spacing, no arrow needed
+prob_box = mpatches.FancyBboxPatch((0.08, 0.27), 0.84, 0.13,
                                    boxstyle="round,pad=0.012",
                                    linewidth=2.5, edgecolor='darkgreen',
                                    facecolor='lightgreen', zorder=1)
 ax.add_patch(prob_box)
 
-ax.text(0.5, 0.44, "Each sequence has the same probability:",
+ax.text(0.5, 0.37, "Each sequence has the same probability:",
         transform=ax.transAxes, ha="center", va="top",
         fontsize=19, weight="bold", color='darkgreen', zorder=4)
 
-ax.text(0.5, 0.40, r"First 4 trials: $(0.4)^2 \times (0.6)^2 = 0.0576$",
+ax.text(0.5, 0.33, r"First 4 trials: $(0.4)^2 \times (0.6)^2 = 0.0576$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=18, color='darkgreen', zorder=4)
 
-ax.text(0.5, 0.36, r"5th trial (must succeed): $0.4$",
+ax.text(0.5, 0.29, r"5th trial (must succeed): $0.4$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=18, color='darkgreen', zorder=4)
 
-# Final result - more spacing
-result_box = mpatches.FancyBboxPatch((0.10, 0.19), 0.80, 0.11,
+# Final result - much more spacing
+result_box = mpatches.FancyBboxPatch((0.10, 0.12), 0.80, 0.11,
                                      boxstyle="round,pad=0.012",
                                      linewidth=3, edgecolor='red',
                                      facecolor='mistyrose', zorder=1)
 ax.add_patch(result_box)
 
-ax.text(0.5, 0.27, r"$P(X=5) = 6 \times 0.0576 \times 0.4 = 0.1382$",
+ax.text(0.5, 0.20, r"$P(X=5) = 6 \times 0.0576 \times 0.4 = 0.1382$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=22, weight="bold", color='red', zorder=4)
 
-ax.text(0.5, 0.22, r"$= \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 0.1382$",
+ax.text(0.5, 0.15, r"$= \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 0.1382$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=20, color='red', zorder=4)
 
-# Arrow from first sequence to counting box - point well above box
-x0, y0 = seq_boxes["SSFF•S"]
-ax.annotate("Count all\nsequences",
-            xy=(0.30, 0.57), xycoords=ax.transAxes,
-            xytext=(0.16, 0.62), textcoords=ax.transAxes,
-            arrowprops=dict(arrowstyle="->",
-                            connectionstyle="arc3,rad=-0.2",
-                            lw=2.5, color="darkorange",
-                            shrinkA=0, shrinkB=5),
-            fontsize=17, color="darkorange", weight="bold",
-            ha="center", va="center", zorder=5)
-
-# Arrow from last sequence to probability box - point well above box
-x1, y1 = seq_boxes["FFSS•S"]
-ax.annotate("Each has same\nprobability",
-            xy=(0.70, 0.47), xycoords=ax.transAxes,
-            xytext=(0.84, 0.58), textcoords=ax.transAxes,
-            arrowprops=dict(arrowstyle="->",
-                            connectionstyle="arc3,rad=0.2",
-                            lw=2.5, color="darkgreen",
-                            shrinkA=0, shrinkB=5),
-            fontsize=17, color="darkgreen", weight="bold",
-            ha="center", va="center", zorder=5)
-
 # Key insight at bottom - more spacing
-ax.text(0.5, 0.12, "Key Insight: Last trial MUST be the r-th success!",
+ax.text(0.5, 0.06, "Key Insight: Last trial MUST be the r-th success!",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=20, style="italic", weight="bold", color='purple', zorder=4)
 
-ax.text(0.5, 0.08, r"So we arrange $(r-1)$ successes in the first $(k-1)$ trials, then guarantee success on trial $k$.",
+ax.text(0.5, 0.02, r"So we arrange $(r-1)$ successes in the first $(k-1)$ trials, then guarantee success on trial $k$.",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=18, style="italic", zorder=4)
-
-# Bottom explanation - more spacing
-why = (
-    r"Formula: $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ gives probability that the $r$-th success occurs on trial $k$."
-)
-ax.text(0.5, 0.04, why,
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, style="italic", wrap=True, zorder=4)
 
 plt.savefig('ch07_negative_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
