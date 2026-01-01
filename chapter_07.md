@@ -1400,11 +1400,11 @@ The formula breaks down into three parts:
 - 5th trial must succeed: $0.4$
 - **Combined:** $P(X=5) = \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 6 \times (0.4)^3 \times (0.6)^2 = 0.2304$
 
-This matches our formula: $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ with $k=5$, $r=3$, $p=0.4$.
+This demonstrates how the formula $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ combines all three parts.
 
 The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
 
-**Applying the formula to our die example:** For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
+**Now applying the same formula to our die example** with different parameters: For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
 
 Substituting $k=4$, $r=3$, $p=1/6$ into the formula:
 
