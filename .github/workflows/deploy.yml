@@ -4,6 +4,8 @@ on:
     workflows: ["Auto-merge on Build Pass"]
     types:
       - completed
+    branches:
+      - 'claude/**'
   workflow_dispatch:
 
 env:
