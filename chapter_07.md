@@ -1342,7 +1342,7 @@ We model this with a random variable $X$:
 - $X$ can take values 3, 4, 5, ... (minimum 3 rolls, could be more)
 
 The probabilities are:
-- $P(X = 3)$ = all three rolls are sixes = $(1/6)^3 \approx 0.0046$
+- $P(X = 3)$ = all three rolls are sixes
 - $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll
 - And so on...
 
