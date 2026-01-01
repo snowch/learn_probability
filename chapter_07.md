@@ -1352,7 +1352,7 @@ For trials with success probability $p$ and target $r$ successes:
 
 $$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, \dots $$
 
-This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
+**Understanding the formula:** This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
 
 :::{admonition} Why This Formula Works
 :class: note
@@ -1373,8 +1373,15 @@ The binomial coefficient ensures we count all possible arrangements where the $r
 
 **Applying the formula to our die example:** For $P(X=4)$ with $r=3$ sixes and $p=1/6$:
 
-$$P(X=4) = \binom{3}{2}(1/6)^3(5/6)^1 = 3 \times \frac{1}{216} \times \frac{5}{6} = \frac{15}{1296} \approx 0.0116$$
+\begin{align}
+P(X=4) &= \binom{3}{2}(1/6)^3(5/6)^1 \\
+&= 3 \times \frac{1}{216} \times \frac{5}{6} \\
+&= \frac{15}{1296} \\
+&\approx 0.0116
+\end{align}
 :::
+
+**Visual breakdown:** The following diagram shows how the negative binomial formula counts all possible sequences and combines their probabilities:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1594,6 +1601,8 @@ plt.show()
 
 The diagram shows how the negative binomial formula works: we need exactly $r-1$ successes in the first $k-1$ trials (which can be arranged in $\binom{k-1}{r-1}$ ways), and then the $k$-th trial must be a success. Each of the 6 sequences shown has the same probability, and we multiply by the number of sequences to get the total probability.
 
+Now that we understand the formula and its visualization, let's summarize the essential properties of the negative binomial distribution:
+
 **Key Characteristics**
 
 - **Scenarios**: Coin flips until getting r Heads, products inspected to find r defects, interviews until making r hires
@@ -1608,15 +1617,15 @@ The diagram shows how the negative binomial formula works: we need exactly $r-1$
 
 **Standard Deviation:** $SD(X) = \frac{\sqrt{r(1-p)}}{p}$
 
+**Visualizing the Distribution**
+
+Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (easier to see than our 1/6 example):
+
 :::{admonition} Note
 :class: note
 
 `scipy.stats.nbinom` counts the number of *failures* before the $r$-th success, not total trials. We'll use scipy's definition in code but state results in terms of total trials.
 :::
-
-**Visualizing the Distribution**
-
-Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (easier to see than our 1/6 example):
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
