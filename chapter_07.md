@@ -1343,8 +1343,10 @@ We model this with a random variable $X$:
 
 The probabilities are:
 - $P(X = 3)$ = all three rolls are sixes = $(1/6)^3 \approx 0.0046$
-- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll
+- $P(X = 4)$ = 2 sixes in first 3 rolls, then a six on 4th roll = $\binom{3}{2}(1/6)^3(5/6)^1 \approx 0.0116$
 - And so on...
+
+We use the negative binomial formula (shown below) to calculate these probabilities.
 
 **The Negative Binomial PMF**
 
