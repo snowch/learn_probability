@@ -1350,7 +1350,10 @@ The probabilities are:
 
 For trials with success probability $p$ and target $r$ successes:
 
-$$ P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r} \quad \text{for } k = r, r+1, r+2, \dots $$
+\begin{align}
+P(X=k) &= \binom{k-1}{r-1} p^r (1-p)^{k-r} \\
+&\quad \text{for } k = r, r+1, r+2, \dots
+\end{align}
 
 **Understanding the formula:** This means $r-1$ successes in the first $k-1$ trials, and the $k$-th trial is the $r$-th success.
 
