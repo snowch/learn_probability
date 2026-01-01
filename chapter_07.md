@@ -1402,7 +1402,7 @@ The formula breaks down into three parts:
 
 The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
 
-**Applying the formula to our die example:** For $P(X=4)$ with $r=3$ sixes and $p=1/6$:
+**Applying the formula to our die example:** For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
 
 \begin{align}
 P(X=4) &= \binom{3}{2}(1/6)^3(5/6)^1 \\
