@@ -1384,119 +1384,207 @@ if os.path.exists('ch07_negative_binomial_formula_breakdown.svg'):
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
+# --- Settings ---
+BOX_PAD = 0.01  # single, consistent pad for every rounded box (fixes uneven visible gaps)
+
 # Create figure for formula breakdown
-fig, ax = plt.subplots(figsize=(16, 12))
+fig, ax = plt.subplots(figsize=(16, 16))
+
+# Make axes fill the whole figure so "axes coords" behave predictably
+fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+
 ax.set_xlim(0, 1)
 ax.set_ylim(0, 1)
 ax.axis('off')
 
+# Define all CONTENT heights (actual elements)
+title_height = 0.03
+subtitle_height = 0.025
+param_box_height = 0.04
+seq_box_height = 0.05
+count_box_height = 0.08
+prob_box_height = 0.15
+result_box_height = 0.12
+key_insight_text_height = 0.025
+key_explain_text_height = 0.025
+formula_box_height = 0.08
+
+# Calculate total content height
+total_content_height = (
+    title_height +
+    subtitle_height +
+    param_box_height +
+    seq_box_height * 2 +  # Two rows of sequence boxes
+    count_box_height +
+    prob_box_height +
+    result_box_height +
+    key_insight_text_height +
+    key_explain_text_height +
+    formula_box_height
+)
+
+# Calculate available space for gaps
+top_margin = 0.02
+bottom_margin = 0.03
+usable_height = 1.0 - top_margin - bottom_margin
+whitespace = usable_height - total_content_height
+
+# Number of gaps between sections
+num_gaps = 10
+
+# Calculate uniform gap size
+gap = whitespace / num_gaps
+
+def add_box(x, y, w, h, edge, face, lw, z=1):
+    """Consistent rounded box with a single pad value."""
+    patch = mpatches.FancyBboxPatch(
+        (x, y), w, h,
+        boxstyle=f"round,pad={BOX_PAD}",
+        linewidth=lw,
+        edgecolor=edge,
+        facecolor=face,
+        zorder=z
+    )
+    ax.add_patch(patch)
+    return patch
+
+# Build layout from top down with calculated gaps
+current_y = 1.0 - top_margin
+
 # Title
-ax.text(0.5, 0.96, "Negative Binomial Formula Breakdown",
+ax.text(0.5, current_y, "Negative Binomial Formula Breakdown",
         transform=ax.transAxes, ha="center", va="top",
         fontsize=26, weight="bold")
+current_y -= title_height + gap
 
 # Subtitle
-ax.text(0.5, 0.91, r"Example: $r=3$ successes, $k=5$ total trials, $p=0.4$",
+ax.text(0.5, current_y, r"Example: $r=3$ successes, $k=5$ total trials, $p=0.4$",
         transform=ax.transAxes, ha="center", va="top",
-        fontsize=22, style="italic")
+        fontsize=19, style="italic")
+current_y -= subtitle_height + gap
 
-# Parameters note
-param_box = mpatches.FancyBboxPatch((0.05, 0.83), 0.90, 0.05,
-                                    boxstyle="round,pad=0.01",
-                                    linewidth=2, edgecolor='purple',
-                                    facecolor='lavender', zorder=1)
-ax.add_patch(param_box)
-ax.text(0.5, 0.855, "Need exactly 2 successes in first 4 trials, then success on 5th trial",
+# Parameters box
+param_box_bottom = current_y - param_box_height
+add_box(0.05, param_box_bottom, 0.90, param_box_height,
+        edge='purple', face='lavender', lw=2, z=1)
+ax.text(0.5, param_box_bottom + param_box_height/2,
+        "Need exactly 2 successes in first 4 trials, then success on 5th trial  (S = Success, F = Failure)",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, weight="bold", color="purple")
+        fontsize=16.5, weight="bold", color="purple")
+current_y = param_box_bottom - gap
 
-# Section 1: Show all 6 sequences
+# Sequence boxes - First row
 sequences = ["SSFF•S", "SFSF•S", "SFFS•S", "FSSF•S", "FSFS•S", "FFSS•S"]
-seq_boxes = {}
-
-y_start = 0.77
-y_spacing = 0.10
-box_width = 0.27
-box_height = 0.05
-
-for i, seq in enumerate(sequences):
-    col = i % 3
-    row = i // 3
-    x_pos = 0.09 + col * 0.31
-    y_pos = y_start - row * y_spacing
-
-    # Draw sequence box
-    seq_box = mpatches.FancyBboxPatch((x_pos, y_pos), box_width, box_height,
-                                      boxstyle="round,pad=0.008",
-                                      linewidth=2.5, edgecolor='darkblue',
-                                      facecolor='lightblue', zorder=2)
-    ax.add_patch(seq_box)
-
-    # Sequence text with bullet separating first 4 from 5th trial
-    ax.text(x_pos + box_width/2, y_pos + box_height/2, seq,
+seq_row1_bottom = current_y - seq_box_height
+for i in range(3):
+    x_pos = 0.055 + i * 0.31
+    add_box(x_pos, seq_row1_bottom, 0.27, seq_box_height,
+            edge='darkblue', face='lightblue', lw=2.5, z=2)
+    ax.text(x_pos + 0.135, seq_row1_bottom + seq_box_height/2, sequences[i],
             transform=ax.transAxes, ha="center", va="center",
             fontsize=20, weight="bold", family='monospace', zorder=3)
 
-    # Store box coordinates for arrows (center_x, bottom_y)
-    seq_boxes[seq] = (x_pos + box_width/2, y_pos)
+# Sequence boxes - Second row
+current_y = seq_row1_bottom - gap
+seq_row2_bottom = current_y - seq_box_height
+for i in range(3):
+    x_pos = 0.055 + i * 0.31
+    add_box(x_pos, seq_row2_bottom, 0.27, seq_box_height,
+            edge='darkblue', face='lightblue', lw=2.5, z=2)
+    ax.text(x_pos + 0.135, seq_row2_bottom + seq_box_height/2, sequences[i+3],
+            transform=ax.transAxes, ha="center", va="center",
+            fontsize=20, weight="bold", family='monospace', zorder=3)
+current_y = seq_row2_bottom - gap
 
-# Counting explanation - much more spacing, no arrow needed
-count_box = mpatches.FancyBboxPatch((0.10, 0.44), 0.80, 0.09,
-                                    boxstyle="round,pad=0.01",
-                                    linewidth=2.5, edgecolor='darkorange',
-                                    facecolor='lightyellow', zorder=1)
-ax.add_patch(count_box)
-ax.text(0.5, 0.51, r"Count all sequences:",
+# Counting explanation box
+count_box_bottom = current_y - count_box_height
+add_box(0.10, count_box_bottom, 0.80, count_box_height,
+        edge='darkorange', face='lightyellow', lw=2.5, z=1)
+ax.text(0.5, count_box_bottom + count_box_height * 0.70, r"Count all sequences:",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=18, weight="bold", color='darkorange', zorder=4)
-ax.text(0.5, 0.47, r"6 ways to arrange 2 successes in first 4 trials = $\binom{4}{2} = \binom{k-1}{r-1} = 6$",
+ax.text(0.5, count_box_bottom + count_box_height * 0.30,
+        r"6 ways to arrange 2 successes in first 4 trials = $\binom{4}{2} = \binom{k-1}{r-1} = 6$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=19, weight="bold", color='darkorange', zorder=4)
+        fontsize=19, weight="bold", color='#CC6600', zorder=4)
+current_y = count_box_bottom - gap
 
-# Probability calculation - much more spacing, no arrow needed
-prob_box = mpatches.FancyBboxPatch((0.08, 0.27), 0.84, 0.13,
-                                   boxstyle="round,pad=0.012",
-                                   linewidth=2.5, edgecolor='darkgreen',
-                                   facecolor='lightgreen', zorder=1)
-ax.add_patch(prob_box)
-
-ax.text(0.5, 0.37, "Each sequence has the same probability:",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=19, weight="bold", color='darkgreen', zorder=4)
-
-ax.text(0.5, 0.33, r"First 4 trials: $(0.4)^2 \times (0.6)^2 = 0.0576$",
+# Probability calculation box
+prob_box_bottom = current_y - prob_box_height
+add_box(0.08, prob_box_bottom, 0.84, prob_box_height,
+        edge='darkgreen', face='lightgreen', lw=2.5, z=1)
+ax.text(0.5, prob_box_bottom + prob_box_height * 0.85,
+        "Each sequence has the same probability:",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, color='darkgreen', zorder=4)
-
-ax.text(0.5, 0.29, r"5th trial (must succeed): $0.4$",
+        fontsize=18, weight="bold", color='darkgreen', zorder=4)
+ax.text(0.5, prob_box_bottom + prob_box_height * 0.62,
+        r"First 4 trials (2 successes AND 2 failures): $(0.4)^2 \times (0.6)^2 = 0.0576$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, color='darkgreen', zorder=4)
-
-# Final result - much more spacing
-result_box = mpatches.FancyBboxPatch((0.10, 0.12), 0.80, 0.11,
-                                     boxstyle="round,pad=0.012",
-                                     linewidth=3, edgecolor='red',
-                                     facecolor='mistyrose', zorder=1)
-ax.add_patch(result_box)
-
-ax.text(0.5, 0.20, r"$P(X=5) = 6 \times 0.0576 \times 0.4 = 0.1382$",
+        fontsize=17, color='darkgreen', zorder=4)
+ax.text(0.5, prob_box_bottom + prob_box_height * 0.40,
+        r"5th trial (must succeed): $0.4$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=22, weight="bold", color='red', zorder=4)
-
-ax.text(0.5, 0.15, r"$= \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 0.1382$",
+        fontsize=17, color='darkgreen', zorder=4)
+ax.text(0.5, prob_box_bottom + prob_box_height * 0.16,
+        r"Total: $0.0576 \times 0.4 = 0.02304$ per sequence",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=20, color='red', zorder=4)
+        fontsize=17, style="italic", color='darkgreen', zorder=4)
+current_y = prob_box_bottom - gap
 
-# Key insight at bottom - more spacing
-ax.text(0.5, 0.06, "Key Insight: Last trial MUST be the r-th success!",
+# Final result box
+result_box_bottom = current_y - result_box_height
+add_box(0.10, result_box_bottom, 0.80, result_box_height,
+        edge='red', face='mistyrose', lw=3, z=1)
+ax.text(0.5, result_box_bottom + result_box_height * 0.83,
+        r"Multiply: count $\times$ probability (sequences are mutually exclusive)",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=20, style="italic", weight="bold", color='purple', zorder=4)
-
-ax.text(0.5, 0.02, r"So we arrange $(r-1)$ successes in the first $(k-1)$ trials, then guarantee success on trial $k$.",
+        fontsize=17, style="italic", color='darkred', zorder=4)
+ax.text(0.5, result_box_bottom + result_box_height * 0.50,
+        r"$P(X=5) = 6 \times 0.02304 = 0.1382$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, style="italic", zorder=4)
+        fontsize=21, weight="bold", color='red', zorder=4)
+ax.text(0.5, result_box_bottom + result_box_height * 0.17,
+        r"$= \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 0.1382$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=19, color='red', zorder=4)
+current_y = result_box_bottom - gap
 
-plt.savefig('ch07_negative_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
+# Key insight text
+key_insight_y = current_y - key_insight_text_height/2
+ax.text(0.5, key_insight_y,
+        "Key Insight: Last trial MUST be the r-th success!",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, style="italic", weight="bold", color='purple', zorder=4)
+current_y -= key_insight_text_height + gap
+
+# Explanation text
+key_explain_y = current_y - key_explain_text_height/2
+ax.text(0.5, key_explain_y,
+        r"So we arrange $(r-1)$ successes in the first $(k-1)$ trials, then guarantee success on trial $k$.",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=16, style="italic", zorder=4)
+current_y -= key_explain_text_height + gap
+
+# General formula box
+formula_box_bottom = current_y - formula_box_height
+add_box(0.08, formula_box_bottom, 0.84, formula_box_height,
+        edge='darkblue', face='aliceblue', lw=2.5, z=1)
+ax.text(0.5, formula_box_bottom + formula_box_height * 0.65,
+        r"General Formula:  $P(X = k) = \binom{k-1}{r-1} \times p^r \times (1-p)^{k-r}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, weight="bold", color='darkblue', zorder=4)
+ax.text(0.5, formula_box_bottom + formula_box_height * 0.25,
+        r"where $X$ = trial number of $r$-th success, and $k \geq r$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=15, style="italic", color='darkblue', zorder=4)
+
+# Save as SVG (tight crop, but with a little padding)
+plt.savefig(
+    'ch07_negative_binomial_formula_breakdown.svg',
+    format='svg',
+    bbox_inches='tight',
+    pad_inches=0.25
+)
 plt.show()
 ```
 
