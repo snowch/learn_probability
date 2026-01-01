@@ -1372,6 +1372,169 @@ The formula breaks down into three parts:
 The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
 :::
 
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_negative_binomial_formula_breakdown.svg'):
+    os.remove('ch07_negative_binomial_formula_breakdown.svg')
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+
+# Create figure for formula breakdown
+fig, ax = plt.subplots(figsize=(16, 11))
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.axis('off')
+
+# Title
+ax.text(0.5, 0.95, "Negative Binomial Formula Breakdown",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=26, weight="bold")
+
+# Subtitle
+ax.text(0.5, 0.90, r"Example: $r=3$ successes, $k=5$ total trials, $p=0.4$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=22, style="italic")
+
+# Parameters note
+param_box = mpatches.FancyBboxPatch((0.05, 0.82), 0.90, 0.045,
+                                    boxstyle="round,pad=0.01",
+                                    linewidth=2, edgecolor='purple',
+                                    facecolor='lavender', zorder=1)
+ax.add_patch(param_box)
+ax.text(0.5, 0.843, "Need exactly 2 successes in first 4 trials, then success on 5th trial",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, weight="bold", color="purple")
+
+# Section 1: Show all 6 sequences
+sequences = ["SSFF•S", "SFSF•S", "SFFS•S", "FSSF•S", "FSFS•S", "FFSS•S"]
+seq_boxes = {}
+
+y_start = 0.74
+y_spacing = 0.065
+box_width = 0.28
+box_height = 0.05
+
+for i, seq in enumerate(sequences):
+    col = i % 3
+    row = i // 3
+    x_pos = 0.08 + col * 0.32
+    y_pos = y_start - row * y_spacing
+
+    # Draw sequence box
+    seq_box = mpatches.FancyBboxPatch((x_pos, y_pos), box_width, box_height,
+                                      boxstyle="round,pad=0.008",
+                                      linewidth=2.5, edgecolor='darkblue',
+                                      facecolor='lightblue', zorder=2)
+    ax.add_patch(seq_box)
+
+    # Sequence text with bullet separating first 4 from 5th trial
+    ax.text(x_pos + box_width/2, y_pos + box_height/2, seq,
+            transform=ax.transAxes, ha="center", va="center",
+            fontsize=20, weight="bold", family='monospace', zorder=3)
+
+    # Store box coordinates for arrows
+    seq_boxes[seq] = (x_pos + box_width/2, y_pos)
+
+# Counting explanation
+count_box = mpatches.FancyBboxPatch((0.12, 0.54), 0.76, 0.06,
+                                    boxstyle="round,pad=0.01",
+                                    linewidth=2.5, edgecolor='darkorange',
+                                    facecolor='lightyellow', zorder=1)
+ax.add_patch(count_box)
+ax.text(0.5, 0.57, r"6 ways to arrange 2 successes in first 4 trials = $\binom{4}{2} = \binom{k-1}{r-1} = 6$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, weight="bold", color='darkorange', zorder=4)
+
+# Probability calculation
+prob_box = mpatches.FancyBboxPatch((0.08, 0.40), 0.84, 0.11,
+                                   boxstyle="round,pad=0.012",
+                                   linewidth=2.5, edgecolor='darkgreen',
+                                   facecolor='lightgreen', zorder=1)
+ax.add_patch(prob_box)
+
+ax.text(0.5, 0.48, "Each sequence has the same probability:",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=19, weight="bold", color='darkgreen', zorder=4)
+
+ax.text(0.5, 0.445, r"First 4 trials: $(0.4)^2 \times (0.6)^2 = 0.0576$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, color='darkgreen', zorder=4)
+
+ax.text(0.5, 0.415, r"5th trial (must succeed): $0.4$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, color='darkgreen', zorder=4)
+
+# Final result
+result_box = mpatches.FancyBboxPatch((0.15, 0.27), 0.70, 0.10,
+                                     boxstyle="round,pad=0.012",
+                                     linewidth=3, edgecolor='red',
+                                     facecolor='mistyrose', zorder=1)
+ax.add_patch(result_box)
+
+ax.text(0.5, 0.34, r"$P(X=5) = 6 \times 0.0576 \times 0.4 = 0.1382$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=22, weight="bold", color='red', zorder=4)
+
+ax.text(0.5, 0.295, r"$= \binom{4}{2} \times (0.4)^3 \times (0.6)^2 = 0.1382$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, color='red', zorder=4)
+
+# Arrow from first sequence to counting box
+x0, y0 = seq_boxes["SSFF•S"]
+ax.annotate("Count all\nsequences",
+            xy=(x0, y0), xycoords=ax.transAxes,
+            xytext=(0.25, 0.605), textcoords=ax.transAxes,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=-0.3",
+                            lw=2.5, color="darkorange",
+                            shrinkA=6, shrinkB=8),
+            fontsize=17, color="darkorange", weight="bold",
+            ha="center", va="center", zorder=5)
+
+# Arrow from last sequence to probability box
+x1, y1 = seq_boxes["FFSS•S"]
+ax.annotate("Each has same\nprobability",
+            xy=(x1, y1), xycoords=ax.transAxes,
+            xytext=(0.75, 0.515), textcoords=ax.transAxes,
+            arrowprops=dict(arrowstyle="->",
+                            connectionstyle="arc3,rad=0.3",
+                            lw=2.5, color="darkgreen",
+                            shrinkA=6, shrinkB=8),
+            fontsize=17, color="darkgreen", weight="bold",
+            ha="center", va="center", zorder=5)
+
+# Key insight at bottom
+ax.text(0.5, 0.18, "Key Insight: Last trial MUST be the r-th success!",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, style="italic", weight="bold", color='purple', zorder=4)
+
+ax.text(0.5, 0.14, r"So we arrange $(r-1)$ successes in the first $(k-1)$ trials, then guarantee success on trial $k$.",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, style="italic", zorder=4)
+
+# Bottom explanation
+why = (
+    r"Formula: $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ gives probability that the $r$-th success occurs on trial $k$."
+)
+ax.text(0.5, 0.08, why,
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, style="italic", wrap=True, zorder=4)
+
+ax.text(0.5, 0.04, r"This combines: choosing positions for $(r-1)$ successes × probability of $r$ successes × probability of $(k-r)$ failures.",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=17, style="italic", color='gray', zorder=4)
+
+plt.savefig('ch07_negative_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Negative Binomial Formula Breakdown](ch07_negative_binomial_formula_breakdown.svg)
+
+The diagram shows how the negative binomial formula works: we need exactly $r-1$ successes in the first $k-1$ trials (which can be arranged in $\binom{k-1}{r-1}$ ways), and then the $k$-th trial must be a success. Each of the 6 sequences shown has the same probability, and we multiply by the number of sequences to get the total probability.
+
 **Key Characteristics**
 
 - **Scenarios**: Coin flips until getting r Heads, products inspected to find r defects, interviews until making r hires
