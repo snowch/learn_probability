@@ -1388,13 +1388,13 @@ Key: **r is fixed, k is random**
 :::{admonition} Why This Formula Works
 :class: note
 
-The formula breaks down into three parts:
+To build intuition, let's see how the formula breaks down into three parts:
 
 - **$\binom{k-1}{r-1}$**: Choose which $r-1$ of the first $k-1$ trials are successes (the $k$-th trial must be a success, so we only choose positions for $r-1$ successes)
 - **$p^r$**: Probability of $r$ successes
 - **$(1-p)^{k-r}$**: Probability of $k-r$ failures
 
-**Example:** For $r=3$ successes in $k=5$ trials with $p=0.4$:
+**Intuitive example:** For $r=3$ successes in $k=5$ trials with $p=0.4$:
 - Need exactly 2 successes in first 4 trials: $\binom{4}{2} = 6$ ways (e.g., SSFF, SFSF, SFFS, FSSF, FSFS, FFSS)
 - Each arrangement has probability $(0.4)^2 (0.6)^2$ for the first 4 trials
 - 5th trial must succeed: $0.4$
@@ -1402,9 +1402,9 @@ The formula breaks down into three parts:
 
 This demonstrates how the formula $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ combines all three parts.
 
-The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
+The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$. (We'll see this visually in the diagram below.)
 
-**Now applying the same formula to our die example** with different parameters: For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
+**Now let's mechanically apply the formula to our die example** with different parameters: For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
 
 Substituting $k=4$, $r=3$, $p=1/6$ into the formula:
 
