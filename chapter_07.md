@@ -3167,6 +3167,8 @@ plt.show()
 
 The marginal distribution of any single category in a Multinomial distribution is actually a Binomial distribution! Here, Category 1 follows Binomial(n=15, p=1/3).
 
+**Connecting to our die example:** We simplified to 3 categories for easier visualization, but the same principle applies to our 6-sided die example (n=20 rolls). Each face count would follow Binomial(n=20, p=1/6). The histogram would be similar but centered around 20/6 ≈ 3.33 instead of 15/3 = 5.
+
 :::{admonition} Example: Customer Product Purchases
 :class: tip
 
