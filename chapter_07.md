@@ -2177,32 +2177,32 @@ ax.text(comp3_x + comp_w/2, comp_y - 0.03, rf"${k_val}! = {k_factorial}$",
         transform=ax.transAxes, ha="center", va="top",
         fontsize=17, zorder=4)
 
-# --- Explanatory callouts (positioned well above boxes) ---
-callout_y = 0.85  # Fixed position between title and boxes
+# --- Explanatory callouts (positioned well above boxes to avoid overlap) ---
+callout_y = 0.83  # Fixed position between title and boxes with more spacing
 
 # Callout for e^(-λ)
-ax.text(comp1_x + comp_w/2, callout_y + 0.02, "Ensures probabilities",
+ax.text(comp1_x + comp_w/2, callout_y + 0.025, "Ensures probabilities",
         transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=12, color='darkviolet', style='italic', zorder=4)
+        fontsize=11, color='darkviolet', style='italic', zorder=4)
 ax.text(comp1_x + comp_w/2, callout_y, "sum to 1",
         transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=12, color='darkviolet', style='italic', zorder=4)
+        fontsize=11, color='darkviolet', style='italic', zorder=4)
 
 # Callout for λ^k
-ax.text(comp2_x + comp_w/2, callout_y + 0.02, "Expected events",
+ax.text(comp2_x + comp_w/2, callout_y + 0.025, "Expected events",
         transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=12, color='steelblue', style='italic', zorder=4)
+        fontsize=11, color='steelblue', style='italic', zorder=4)
 ax.text(comp2_x + comp_w/2, callout_y, "raised to k",
         transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=12, color='steelblue', style='italic', zorder=4)
+        fontsize=11, color='steelblue', style='italic', zorder=4)
 
 # Callout for k!
-ax.text(comp3_x + comp_w/2, callout_y + 0.02, "Ways to arrange",
+ax.text(comp3_x + comp_w/2, callout_y + 0.025, "Ways to arrange",
         transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=12, color='orange', style='italic', zorder=4)
+        fontsize=11, color='orange', style='italic', zorder=4)
 ax.text(comp3_x + comp_w/2, callout_y, "k events",
         transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=12, color='orange', style='italic', zorder=4)
+        fontsize=11, color='orange', style='italic', zorder=4)
 
 # --- Middle: Numerator (e^(-λ) × λ^k) ---
 numer_y = 0.54
@@ -2252,13 +2252,14 @@ ax.annotate('', xy=(0.5, formula_y + 0.05),
             xytext=(0.5, numer_y),
             arrowprops=dict(arrowstyle='->', lw=2.5, color='gray', zorder=2),
             transform=ax.transAxes)
-# Division sign with k! on the side
-ax.text(0.58, numer_y - 0.04, r"$\div$",
+# Division sign with k! on the side (positioned to avoid overlap with numerator value)
+div_y = (numer_y + formula_y) / 2 + 0.02  # Position between numerator box and formula
+ax.text(0.58, div_y, r"$\div$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=26, weight="bold", zorder=4, color='orange')
-ax.text(0.68, numer_y - 0.04, rf"${k_factorial}$",
+        fontsize=24, weight="bold", zorder=4, color='orange')
+ax.text(0.67, div_y, rf"${k_factorial}$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=22, weight="bold", zorder=4, color='orange')
+        fontsize=20, weight="bold", zorder=4, color='orange')
 
 # --- Result box ---
 res_y = 0.14
