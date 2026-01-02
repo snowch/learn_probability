@@ -164,13 +164,13 @@ plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
@@ -205,13 +205,13 @@ plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
@@ -329,13 +329,13 @@ plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
@@ -364,13 +364,13 @@ plt.ylim(0, 1.1)
 plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
@@ -641,13 +641,13 @@ ax.text(0.5, 0.10, why,
         transform=ax.transAxes, ha="center", va="center",
         fontsize=14, style="italic", wrap=True, zorder=4)
 
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Binomial Formula Breakdown](ch07_binomial_formula_breakdown.svg)
@@ -722,13 +722,13 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Binomial PMF](ch07_binomial_pmf_generic.svg)
@@ -758,13 +758,13 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Binomial CDF](ch07_binomial_cdf_generic.svg)
@@ -870,13 +870,13 @@ plt.title(f"Binomial PMF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
@@ -905,13 +905,13 @@ plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
@@ -1179,13 +1179,13 @@ ax.text(0.5, 0.036, r"$P(X=3) = (0.6)^2 \times 0.4 = 0.36 \times 0.4 = 0.144$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=19, zorder=4)
 
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Geometric Formula Breakdown](ch07_geometric_formula_breakdown.svg)
@@ -1253,13 +1253,13 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Geometric PMF](ch07_geometric_pmf_generic.svg)
@@ -1290,13 +1290,13 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Geometric CDF](ch07_geometric_cdf_generic.svg)
@@ -1401,13 +1401,13 @@ plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_trials)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
@@ -1437,13 +1437,13 @@ plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_trials)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
@@ -1882,13 +1882,13 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
@@ -1918,13 +1918,13 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
@@ -2053,13 +2053,13 @@ plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
@@ -2088,13 +2088,13 @@ plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
@@ -2405,13 +2405,13 @@ ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, th
         fontsize=14, style='italic', zorder=4,
         bbox=dict(boxstyle='round,pad=0.5', facecolor='wheat', alpha=0.3))
 
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Poisson Formula Breakdown](ch07_poisson_formula_breakdown.svg)
@@ -2475,13 +2475,13 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Poisson PMF](ch07_poisson_pmf_generic.svg)
@@ -2512,13 +2512,13 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Poisson CDF](ch07_poisson_cdf_generic.svg)
@@ -2621,13 +2621,13 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
@@ -2657,13 +2657,13 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
