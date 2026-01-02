@@ -2070,6 +2070,211 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 **Why mean = variance = λ?** This unique property reflects the "memoryless" nature of the Poisson process - events occur randomly and independently at a constant average rate.
 :::
 
+**Visual breakdown:** The following diagram shows how the Poisson formula combines its components to calculate probabilities:
+
+```{code-cell} ipython3
+:tags: [remove-input, remove-output]
+
+# Remove existing SVG if present
+if os.path.exists('ch07_poisson_formula_breakdown.svg'):
+    os.remove('ch07_poisson_formula_breakdown.svg')
+
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+import numpy as np
+
+# --- Parameters for the example ---
+lambda_val = 4
+k_val = 2
+e_val = np.e
+
+# Calculate components
+e_neg_lambda = np.exp(-lambda_val)
+lambda_k = lambda_val ** k_val
+k_factorial = np.math.factorial(k_val)
+numerator = e_neg_lambda * lambda_k
+result = numerator / k_factorial
+
+# Create figure
+fig, ax = plt.subplots(figsize=(14, 9), constrained_layout=True)
+ax.set_axis_off()
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+
+# Helper function for rounded boxes
+def rounded_box(ax, xy, w, h, fc, ec, lw=2, pad=0.012, r=0.02, z=3):
+    x, y = xy
+    patch = FancyBboxPatch(
+        (x, y), w, h,
+        boxstyle=f"round,pad={pad},rounding_size={r}",
+        transform=ax.transAxes,
+        facecolor=fc, edgecolor=ec, linewidth=lw, zorder=z
+    )
+    ax.add_patch(patch)
+    return patch
+
+# Title
+ax.text(0.5, 0.96, f"Poisson Formula Breakdown: λ={lambda_val}, k={k_val}",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=26, weight="bold", zorder=4)
+
+# --- Top row: Three components ---
+comp_y = 0.82
+comp_w, comp_h = 0.20, 0.12
+
+# Component 1: e^(-λ)
+comp1_x = 0.17
+rounded_box(ax, (comp1_x, comp_y), comp_w, comp_h,
+            fc="lavender", ec="darkviolet", lw=2.5, r=0.02)
+ax.text(comp1_x + comp_w/2, comp_y + comp_h*0.65, r"$e^{-\lambda}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=28, weight="bold", zorder=4)
+ax.text(comp1_x + comp_w/2, comp_y + comp_h*0.25, f"Normalization",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=14, style="italic", zorder=4)
+ax.text(comp1_x + comp_w/2, comp_y - 0.025, rf"$e^{{-{lambda_val}}} = {e_neg_lambda:.4f}$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=16, zorder=4)
+
+# Component 2: λ^k
+comp2_x = 0.40
+rounded_box(ax, (comp2_x, comp_y), comp_w, comp_h,
+            fc="lightblue", ec="steelblue", lw=2.5, r=0.02)
+ax.text(comp2_x + comp_w/2, comp_y + comp_h*0.65, r"$\lambda^k$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=28, weight="bold", zorder=4)
+ax.text(comp2_x + comp_w/2, comp_y + comp_h*0.25, f"Rate Power",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=14, style="italic", zorder=4)
+ax.text(comp2_x + comp_w/2, comp_y - 0.025, rf"${lambda_val}^{{{k_val}}} = {lambda_k}$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=16, zorder=4)
+
+# Component 3: k!
+comp3_x = 0.63
+rounded_box(ax, (comp3_x, comp_y), comp_w, comp_h,
+            fc="lightyellow", ec="orange", lw=2.5, r=0.02)
+ax.text(comp3_x + comp_w/2, comp_y + comp_h*0.65, r"$k!$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=28, weight="bold", zorder=4)
+ax.text(comp3_x + comp_w/2, comp_y + comp_h*0.25, f"Arrangements",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=14, style="italic", zorder=4)
+ax.text(comp3_x + comp_w/2, comp_y - 0.025, rf"${k_val}! = {k_factorial}$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=16, zorder=4)
+
+# --- Middle: Numerator (e^(-λ) × λ^k) ---
+numer_y = 0.58
+numer_w, numer_h = 0.35, 0.10
+numer_x = 0.5 - numer_w/2
+rounded_box(ax, (numer_x, numer_y), numer_w, numer_h,
+            fc="lightcyan", ec="teal", lw=2.5, r=0.02)
+ax.text(0.5, numer_y + numer_h*0.6, r"$e^{-\lambda} \times \lambda^k$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=24, weight="bold", zorder=4)
+ax.text(0.5, numer_y + numer_h*0.2, f"Numerator",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=13, style="italic", zorder=4)
+ax.text(0.5, numer_y - 0.025, rf"${e_neg_lambda:.4f} \times {lambda_k} = {numerator:.4f}$",
+        transform=ax.transAxes, ha="center", va="top",
+        fontsize=16, zorder=4)
+
+# Arrows from components to numerator
+arrow_props = dict(arrowstyle='->', lw=2.5, color='gray', zorder=2,
+                   connectionstyle="arc3,rad=0")
+# From comp1 to numerator
+ax.annotate('', xy=(numer_x + 0.08, numer_y + numer_h),
+            xytext=(comp1_x + comp_w/2, comp_y),
+            arrowprops=arrow_props, transform=ax.transAxes)
+# From comp2 to numerator
+ax.annotate('', xy=(numer_x + numer_w - 0.08, numer_y + numer_h),
+            xytext=(comp2_x + comp_w/2, comp_y),
+            arrowprops=arrow_props, transform=ax.transAxes)
+
+# --- Formula section ---
+formula_y = 0.40
+ax.text(0.5, formula_y, "Complete Formula:",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, weight="bold", zorder=4)
+ax.text(0.5, formula_y - 0.055, r"$P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=22, zorder=4)
+ax.text(0.5, formula_y - 0.11, rf"$P(X={k_val}) = \frac{{{e_neg_lambda:.4f} \times {lambda_k}}}{{{k_factorial}}}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, zorder=4)
+ax.text(0.5, formula_y - 0.16, rf"$= \frac{{{numerator:.4f}}}{{{k_factorial}}}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=18, zorder=4)
+
+# Arrow from numerator to formula (showing division by k!)
+ax.annotate('', xy=(0.5, formula_y + 0.05),
+            xytext=(0.5, numer_y),
+            arrowprops=dict(arrowstyle='->', lw=2.5, color='gray', zorder=2),
+            transform=ax.transAxes)
+# Division sign with k! on the side
+ax.text(0.58, numer_y - 0.035, r"$\div$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=24, weight="bold", zorder=4, color='orange')
+ax.text(0.68, numer_y - 0.035, rf"${k_factorial}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=20, weight="bold", zorder=4, color='orange')
+
+# --- Result box ---
+res_y = 0.16
+res_w, res_h = 0.22, 0.09
+res_x = 0.5 - res_w/2
+rounded_box(ax, (res_x, res_y), res_w, res_h,
+            fc="lightgreen", ec="green", lw=3, r=0.02)
+ax.text(0.5, res_y + res_h/2, rf"$P(X={k_val}) = {result:.4f}$",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=24, weight="bold", zorder=4)
+
+# Arrow to result
+ax.annotate('', xy=(0.5, res_y + res_h),
+            xytext=(0.5, formula_y - 0.19),
+            arrowprops=dict(arrowstyle='->', lw=2.5, color='green', zorder=2),
+            transform=ax.transAxes)
+
+# --- Explanatory callouts ---
+# Callout for e^(-λ)
+ax.text(comp1_x + comp_w/2, 0.92, "Ensures probabilities",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=11, color='darkviolet', style='italic', zorder=4)
+ax.text(comp1_x + comp_w/2, 0.905, "sum to 1",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=11, color='darkviolet', style='italic', zorder=4)
+
+# Callout for λ^k
+ax.text(comp2_x + comp_w/2, 0.92, "Expected events",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=11, color='steelblue', style='italic', zorder=4)
+ax.text(comp2_x + comp_w/2, 0.905, "raised to k",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=11, color='steelblue', style='italic', zorder=4)
+
+# Callout for k!
+ax.text(comp3_x + comp_w/2, 0.92, "Ways to arrange",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=11, color='orange', style='italic', zorder=4)
+ax.text(comp3_x + comp_w/2, 0.905, "k events",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=11, color='orange', style='italic', zorder=4)
+
+# Bottom explanation
+ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, the probability of exactly k={k_val} events is {result:.4f} ({result*100:.2f}%)",
+        transform=ax.transAxes, ha="center", va="center",
+        fontsize=13, style='italic', zorder=4,
+        bbox=dict(boxstyle='round,pad=0.5', facecolor='wheat', alpha=0.3))
+
+plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
+```
+
+![Poisson Formula Breakdown](ch07_poisson_formula_breakdown.svg)
+
+The diagram illustrates how the Poisson formula works: the normalization factor $e^{-\lambda}$ ensures all probabilities sum to 1, the rate power $\lambda^k$ represents the expected occurrence of k events, and we divide by $k!$ to account for the different arrangements of those events. For λ=4 and k=2, we get approximately 14.65% probability.
+
 **Key Characteristics**
 
 - **Scenarios**: Emails per hour, customer arrivals per day, typos per page, emergency calls per shift, defects per unit area
