@@ -1388,13 +1388,13 @@ Key: **r is fixed, k is random**
 :::{admonition} Why This Formula Works
 :class: note
 
-The formula breaks down into three parts:
+To build intuition, let's see how the formula breaks down into three parts:
 
 - **$\binom{k-1}{r-1}$**: Choose which $r-1$ of the first $k-1$ trials are successes (the $k$-th trial must be a success, so we only choose positions for $r-1$ successes)
 - **$p^r$**: Probability of $r$ successes
 - **$(1-p)^{k-r}$**: Probability of $k-r$ failures
 
-**Example:** For $r=3$ successes in $k=5$ trials with $p=0.4$:
+**Intuitive example:** For $r=3$ successes in $k=5$ trials with $p=0.4$:
 - Need exactly 2 successes in first 4 trials: $\binom{4}{2} = 6$ ways (e.g., SSFF, SFSF, SFFS, FSSF, FSFS, FFSS)
 - Each arrangement has probability $(0.4)^2 (0.6)^2$ for the first 4 trials
 - 5th trial must succeed: $0.4$
@@ -1402,9 +1402,9 @@ The formula breaks down into three parts:
 
 This demonstrates how the formula $P(X=k) = \binom{k-1}{r-1} p^r (1-p)^{k-r}$ combines all three parts.
 
-The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$.
+The binomial coefficient ensures we count all possible arrangements where the $r$-th success occurs exactly on trial $k$. (We'll see this visually in the diagram below.)
 
-**Now applying the same formula to our die example** with different parameters: For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
+**Now let's mechanically apply the formula to our die example** with different parameters: For $P(X=4)$ (the probability it takes exactly 4 rolls to get the 3rd six) with $r=3$ sixes and $p=1/6$:
 
 Substituting $k=4$, $r=3$, $p=1/6$ into the formula:
 
@@ -1656,7 +1656,7 @@ Now that we understand the formula and its visualization, let's summarize the es
 
 **Visualizing the Distribution**
 
-Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (easier to see than our 1/6 example):
+Let's visualize our die example: Negative Binomial distribution with $r = 3$ sixes and $p = 1/6$:
 
 :::{admonition} Note
 :class: note
@@ -1671,9 +1671,9 @@ Let's visualize a Negative Binomial distribution with $r = 3$ and $p = 0.2$ (eas
 if os.path.exists('ch07_negative_binomial_pmf_generic.svg'):
     os.remove('ch07_negative_binomial_pmf_generic.svg')
 
-# Create Negative Binomial distribution for visualization (r=3, p=0.2)
+# Create Negative Binomial distribution for our die example (r=3, p=1/6)
 r_viz = 3
-p_viz = 0.2
+p_viz = 1/6
 nbinom_viz = stats.nbinom(n=r_viz, p=p_viz)
 
 # Calculate mean and std
@@ -1681,7 +1681,7 @@ mean_viz = r_viz / p_viz
 std_viz = np.sqrt(r_viz * (1 - p_viz)) / p_viz
 
 # Plotting the PMF
-k_values_viz = np.arange(r_viz, 30)  # Total trials from r to 30
+k_values_viz = np.arange(r_viz, 45)  # Total trials from r to 45 (wider range for p=1/6)
 pmf_values_viz = nbinom_viz.pmf(k_values_viz - r_viz)  # Adjust for scipy
 
 plt.figure(figsize=(10, 5))
@@ -1694,7 +1694,7 @@ plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {
 plt.axvspan(mean_viz - std_viz, mean_viz + std_viz, alpha=0.2, color='orange',
             label=f'Mean ± 1 SD = [{mean_viz - std_viz:.1f}, {mean_viz + std_viz:.1f}]')
 
-plt.title(f"Negative Binomial PMF (r={r_viz}, p={p_viz})")
+plt.title(f"Negative Binomial PMF: Rolling Until 3 Sixes (r={r_viz}, p=1/6)")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
 plt.legend(loc='upper right', fontsize=10)
@@ -1705,7 +1705,7 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
 
-The PMF shows the distribution is centered around the expected value r/p = 3/0.2 = 15 trials. The shaded region shows mean ± 1 standard deviation.
+The PMF shows the distribution is centered around the expected value r/p = 3/(1/6) = 18 trials. You can see our calculated P(X=4) ≈ 0.0116 as a small bar near the left tail at k=4. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1723,7 +1723,7 @@ plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidt
 # Add mean line
 plt.axvline(mean_viz, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_viz:.1f}')
 
-plt.title(f"Negative Binomial CDF (r={r_viz}, p={p_viz})")
+plt.title(f"Negative Binomial CDF: Rolling Until 3 Sixes (r={r_viz}, p=1/6)")
 plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
@@ -1734,7 +1734,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of achieving r successes within k trials. The red dashed line marks the mean.
+The CDF shows P(X ≤ k), the cumulative probability of getting 3 sixes within k rolls. At k=4, the CDF shows P(X ≤ 4) = P(X=3) + P(X=4) ≈ 0.0046 + 0.0116 ≈ 0.0162, which is the very low cumulative probability in the left tail. The red dashed line marks the mean (18 trials).
 
 :::{admonition} Example: Quality Control with r = 3, p = 0.05
 :class: tip
@@ -3162,6 +3162,8 @@ plt.show()
 ![Multinomial Marginal](ch07_multinomial_marginal.svg)
 
 The marginal distribution of any single category in a Multinomial distribution is actually a Binomial distribution! Here, Category 1 follows Binomial(n=15, p=1/3).
+
+**Connecting to our die example:** We simplified to 3 categories for easier visualization, but the same principle applies to our 6-sided die example (n=20 rolls). Each face count would follow Binomial(n=20, p=1/6). The histogram would be similar but centered around 20/6 ≈ 3.33 instead of 15/3 = 5.
 
 :::{admonition} Example: Customer Product Purchases
 :class: tip
