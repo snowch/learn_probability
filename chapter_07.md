@@ -2108,8 +2108,8 @@ k_factorial = math.factorial(k_val)
 numerator = e_neg_lambda * lambda_k
 result = numerator / k_factorial
 
-# Create figure with more vertical space
-fig, ax = plt.subplots(figsize=(14, 11), constrained_layout=True)
+# Create figure with better proportions for mobile
+fig, ax = plt.subplots(figsize=(14, 9.5), constrained_layout=True)
 ax.set_axis_off()
 ax.set_xlim(0, 1)
 ax.set_ylim(0, 1)
@@ -2126,13 +2126,13 @@ def rounded_box(ax, xy, w, h, fc, ec, lw=2, pad=0.012, r=0.02, z=3):
     ax.add_patch(patch)
     return patch
 
-# Title
-ax.text(0.5, 0.97, f"Poisson Formula Breakdown: λ={lambda_val}, k={k_val}",
+# Title (moved down slightly for better spacing)
+ax.text(0.5, 0.95, f"Poisson Formula Breakdown: λ={lambda_val}, k={k_val}",
         transform=ax.transAxes, ha="center", va="top",
-        fontsize=28, weight="bold", zorder=4)
+        fontsize=26, weight="bold", zorder=4)
 
 # --- Top row: Three components ---
-comp_y = 0.72
+comp_y = 0.70
 comp_w, comp_h = 0.20, 0.11
 
 # Component 1: e^(-λ)
@@ -2178,7 +2178,7 @@ ax.text(comp3_x + comp_w/2, comp_y - 0.03, rf"${k_val}! = {k_factorial}$",
         fontsize=17, zorder=4)
 
 # --- Explanatory callouts (positioned well above boxes) ---
-callout_y = 0.88  # Fixed position between title and boxes
+callout_y = 0.85  # Fixed position between title and boxes
 
 # Callout for e^(-λ)
 ax.text(comp1_x + comp_w/2, callout_y + 0.02, "Ensures probabilities",
