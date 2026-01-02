@@ -128,14 +128,12 @@ Let's verify this works for our example where $p = 0.3$:
 Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test example from above):
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_bernoulli_pmf_generic.svg'):
     os.remove('ch07_bernoulli_pmf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Create Bernoulli distribution for visualization (p=0.3)
 p_viz = 0.3
 bernoulli_viz = stats.bernoulli(p=p_viz)
@@ -164,26 +162,19 @@ plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$), and the orange shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_bernoulli_cdf_generic.svg'):
     os.remove('ch07_bernoulli_cdf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Plotting the CDF
 k_values_viz = [0, 1]
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
@@ -203,13 +194,8 @@ plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The CDF shows the step function: starts at 0 for x < 0, jumps to 0.7 at x=0 (the value when outcome is 0), stays flat at 0.7 until x=1, then jumps to 1.0 at x=1 (the value when including both outcomes 0 and 1). The red dashed line marks the mean.
@@ -490,14 +476,12 @@ In our context, it counts **how many different sequences** of $n$ trials yield e
 **Visual example:** Here's how it works for $n=3$ trials, $k=2$ successes, with $p=0.6$:
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_formula_breakdown.svg'):
     os.remove('ch07_binomial_formula_breakdown.svg')
-```
 
-```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
@@ -633,12 +617,8 @@ ax.text(0.5, 0.10, why,
         transform=ax.transAxes, ha="center", va="center",
         fontsize=14, style="italic", wrap=True, zorder=4)
 
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The diagram shows how the formula components work together: we count the sequences (3), calculate the probability of each sequence (0.144), and multiply to get the total probability of exactly 2 successes (0.432).
@@ -675,14 +655,12 @@ $$
 Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin flip example):
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_pmf_generic.svg'):
     os.remove('ch07_binomial_pmf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Create Binomial distribution for visualization (n=10, p=0.5)
 n_viz = 10
 p_viz = 0.5
@@ -711,26 +689,19 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean ($np = 5$) since $p = 0.5$. The shaded region shows mean ± 1 standard deviation ($\sqrt{np(1-p)} = \sqrt{2.5} \approx 1.58$).
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_cdf_generic.svg'):
     os.remove('ch07_binomial_cdf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
 
@@ -745,13 +716,8 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads. The red dashed line marks the mean.
@@ -1003,14 +969,12 @@ This is why the formula captures "trials until first success" - it requires all 
 **Visual example:** Here's how the geometric distribution works with $p=0.4$ (our free throw example):
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_formula_breakdown.svg'):
     os.remove('ch07_geometric_formula_breakdown.svg')
-```
 
-```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
@@ -1160,12 +1124,8 @@ ax.text(0.5, 0.036, r"$P(X=3) = (0.6)^2 \times 0.4 = 0.36 \times 0.4 = 0.144$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=19, zorder=4)
 
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The diagram shows how the geometric distribution works: each additional failure before success makes the outcome less likely. The probability decreases exponentially - notice how P(X=1) = 0.4000 is much larger than P(X=5) = 0.0518.
@@ -1195,14 +1155,12 @@ The diagram shows how the geometric distribution works: each additional failure 
 Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example):
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_pmf_generic.svg'):
     os.remove('ch07_geometric_pmf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Create Geometric distribution for visualization (p=0.4)
 p_viz = 0.4
 geom_viz = stats.geom(p=p_viz)
@@ -1231,26 +1189,19 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_cdf_generic.svg'):
     os.remove('ch07_geometric_cdf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = geom_viz.cdf(k_values_viz)
 
@@ -1266,13 +1217,8 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed). The red dashed line marks the mean.
@@ -1565,14 +1511,12 @@ P(X=4) &= \binom{4-1}{3-1}(1/6)^3(5/6)^{4-3} \\
 **Visual breakdown:** The following diagram shows how the negative binomial formula counts all possible sequences and combines their probabilities:
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_formula_breakdown.svg'):
     os.remove('ch07_negative_binomial_formula_breakdown.svg')
-```
 
-```{code-cell} ipython3
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -1770,19 +1714,8 @@ ax.text(0.5, formula_box_bottom + formula_box_height * 0.25,
         transform=ax.transAxes, ha="center", va="center",
         fontsize=15, style="italic", color='darkblue', zorder=4)
 
+plt.savefig('ch07_negative_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight', pad_inches=0.25)
 plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
-# Save as SVG (tight crop, but with a little padding)
-plt.savefig(
-    'ch07_negative_binomial_formula_breakdown.svg',
-    format='svg',
-    bbox_inches='tight',
-    pad_inches=0.25
-)
 ```
 
 The diagram shows how the negative binomial formula works: we need exactly $r-1$ successes in the first $k-1$ trials (which can be arranged in $\binom{k-1}{r-1}$ ways), and then the $k$-th trial must be a success. Each of the 6 sequences shown has the same probability, and we multiply by the number of sequences to get the total probability.
@@ -1814,14 +1747,12 @@ Let's visualize our die example: Negative Binomial distribution with $r = 3$ six
 :::
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_pmf_generic.svg'):
     os.remove('ch07_negative_binomial_pmf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Create Negative Binomial distribution for our die example (r=3, p=1/6)
 r_viz = 3
 p_viz = 1/6
@@ -1850,26 +1781,19 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The PMF shows the distribution is centered around the expected value r/p = 3/(1/6) = 18 trials. You can see our calculated P(X=4) ≈ 0.0116 as a small bar near the left tail at k=4. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_cdf_generic.svg'):
     os.remove('ch07_negative_binomial_cdf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
 
@@ -1884,13 +1808,8 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The CDF shows P(X ≤ k), the cumulative probability of getting 3 sixes within k rolls. At k=4, the CDF shows P(X ≤ 4) = P(X=3) + P(X=4) ≈ 0.0046 + 0.0116 ≈ 0.0162, which is the very low cumulative probability in the left tail. The red dashed line marks the mean (18 trials).
@@ -2166,14 +2085,12 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 **Visual breakdown:** The following diagram shows how the Poisson formula combines its components to calculate probabilities:
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_formula_breakdown.svg'):
     os.remove('ch07_poisson_formula_breakdown.svg')
-```
 
-```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
@@ -2365,12 +2282,8 @@ ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, th
         fontsize=14, style='italic', zorder=4,
         bbox=dict(boxstyle='round,pad=0.5', facecolor='wheat', alpha=0.3))
 
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The diagram illustrates how the Poisson formula works: the normalization factor $e^{-\lambda}$ ensures all probabilities sum to 1, the rate power $\lambda^k$ represents the expected occurrence of k events, and we divide by $k!$ to account for the different arrangements of those events. For λ=4 and k=2, we get approximately 14.65% probability.
@@ -2396,14 +2309,12 @@ Note: Mean and variance are equal in a Poisson distribution, so the standard dev
 Let's visualize a Poisson distribution with $\lambda = 4$ (our call center example):
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_pmf_generic.svg'):
     os.remove('ch07_poisson_pmf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Create Poisson distribution for visualization (λ=4)
 lambda_viz = 4
 poisson_viz = stats.poisson(mu=lambda_viz)
@@ -2432,26 +2343,19 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values. The shaded region shows mean ± 1 standard deviation ($\sqrt{4} = 2$).
 
 ```{code-cell} ipython3
-:tags: [remove-cell]
+:tags: [remove-input]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_cdf_generic.svg'):
     os.remove('ch07_poisson_cdf_generic.svg')
-```
 
-```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
 
@@ -2467,13 +2371,8 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.show()
-```
-
-```{code-cell} ipython3
-:tags: [remove-cell]
-
 plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
+plt.show()
 ```
 
 The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?" The red dashed line marks the mean.
