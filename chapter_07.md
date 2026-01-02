@@ -148,7 +148,7 @@ std_viz = bernoulli_viz.std()
 k_values_viz = [0, 1]
 pmf_values_viz = bernoulli_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, tick_label=["Failure (0)", "Success (1)"], color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -190,7 +190,7 @@ if os.path.exists('ch07_bernoulli_cdf_generic.svg'):
 k_values_viz = [0, 1]
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 # Add points to show the full step function including the start at 0
 plt.step([-0.5] + k_values_viz, [0] + list(cdf_values_viz), where='post', color='darkgreen', linewidth=2)
 
@@ -322,7 +322,7 @@ if os.path.exists('ch07_bernoulli_pmf.svg'):
 k_values = [0, 1]
 pmf_values = bernoulli_rv.pmf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(k_values, pmf_values, tick_label=["Negative (0)", "Positive (1)"], color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Bernoulli PMF (p={p_positive})")
 plt.xlabel("Outcome")
@@ -354,7 +354,7 @@ if os.path.exists('ch07_bernoulli_cdf.svg'):
 # Plotting the CDF
 cdf_values = bernoulli_rv.cdf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 # Add points to show the full step function including the start at 0
 plt.step([-0.5] + k_values, [0] + list(cdf_values), where='post', color='darkgreen', linewidth=2)
 plt.title(f"Bernoulli CDF (p={p_positive})")
@@ -707,7 +707,7 @@ std_viz = binomial_viz.std()
 k_values_viz = np.arange(0, n_viz + 1)
 pmf_values_viz = binomial_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -747,7 +747,7 @@ if os.path.exists('ch07_binomial_cdf_generic.svg'):
 # Plotting the CDF
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 
 # Add mean line
@@ -864,7 +864,7 @@ if os.path.exists('ch07_binomial_pmf.svg'):
 k_values = np.arange(0, n_calls + 1)
 pmf_values = binomial_rv.pmf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Binomial PMF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
@@ -899,7 +899,7 @@ if os.path.exists('ch07_binomial_cdf.svg'):
 # Plotting the CDF
 cdf_values = binomial_rv.cdf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
@@ -1237,7 +1237,7 @@ std_viz = np.sqrt((1 - p_viz) / p_viz**2)
 k_values_viz = np.arange(1, 11)
 pmf_values_viz = geom_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -1278,7 +1278,7 @@ if os.path.exists('ch07_geometric_cdf_generic.svg'):
 # Plotting the CDF
 cdf_values_viz = geom_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 
 # Add mean line
@@ -1394,7 +1394,7 @@ if os.path.exists('ch07_geometric_pmf.svg'):
 k_values_trials = np.arange(1, 11) # Plot first 10 trials
 pmf_values = geom_rv.pmf(k_values_trials)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(k_values_trials, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Geometric PMF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
@@ -1430,7 +1430,7 @@ if os.path.exists('ch07_geometric_cdf.svg'):
 # Plotting the CDF (using trial number k=1, 2, ...)
 cdf_values = geom_rv.cdf(k_values_trials)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(k_values_trials, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Geometric CDF (p={p_pass})")
 plt.xlabel("Trial Number (k)")
@@ -1867,7 +1867,7 @@ std_viz = np.sqrt(r_viz * (1 - p_viz)) / p_viz
 k_values_viz = np.arange(r_viz, 45)  # Total trials from r to 45 (wider range for p=1/6)
 pmf_values_viz = nbinom_viz.pmf(k_values_viz - r_viz)  # Adjust for scipy
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -1907,7 +1907,7 @@ if os.path.exists('ch07_negative_binomial_cdf_generic.svg'):
 # Plotting the CDF
 cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 
 # Add mean line
@@ -2047,7 +2047,7 @@ if os.path.exists('ch07_negative_binomial_pmf.svg'):
 k_values_components = np.arange(r_defective, r_defective + 150) # Plot a range
 pmf_values_nb = nbinom_rv.pmf(k_values_components - r_defective) # Adjust k for scipy
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(k_values_components, pmf_values_nb, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
@@ -2082,7 +2082,7 @@ if os.path.exists('ch07_negative_binomial_cdf.svg'):
 # Plotting the CDF (using total components tested k = r, r+1, ...)
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(k_values_components, cdf_values_nb, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
@@ -2459,7 +2459,7 @@ std_viz = poisson_viz.std()
 k_values_viz = np.arange(0, 15)
 pmf_values_viz = poisson_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -2500,7 +2500,7 @@ if os.path.exists('ch07_poisson_cdf_generic.svg'):
 # Plotting the CDF
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 
 # Add mean line
@@ -2614,7 +2614,7 @@ if os.path.exists('ch07_poisson_pmf.svg'):
 k_values = np.arange(0, 16) # Plot for k=0 to 15
 pmf_values = poisson_rv.pmf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Poisson PMF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
@@ -2650,7 +2650,7 @@ if os.path.exists('ch07_poisson_cdf.svg'):
 # Plotting the CDF
 cdf_values = poisson_rv.cdf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Poisson CDF (λ={lambda_rate})")
 plt.xlabel("Number of Events (k)")
@@ -2814,7 +2814,7 @@ std_viz = hypergeom_viz.std()
 k_values_viz = np.arange(0, min(n_viz, K_viz) + 1)
 pmf_values_viz = hypergeom_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -2848,7 +2848,7 @@ if os.path.exists('ch07_hypergeometric_cdf_generic.svg'):
 # Plotting the CDF
 cdf_values_viz = hypergeom_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 
 # Add mean line
@@ -2962,7 +2962,7 @@ max_k = min(n_sample, K_successes_pop)
 k_values = np.arange(min_k, max_k + 1)
 pmf_values = hypergeom_rv.pmf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(k_values, pmf_values, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Hypergeometric PMF (N={N_population}, K={K_successes_pop}, n={n_sample})")
 plt.xlabel("Number of Successes in Sample (k)")
@@ -2991,7 +2991,7 @@ if os.path.exists('ch07_hypergeometric_cdf.svg'):
 # Plotting the CDF
 cdf_values = hypergeom_rv.cdf(k_values)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(k_values, cdf_values, where='post', color='darkgreen', linewidth=2)
 plt.title(f"Hypergeometric CDF (N={N_population}, K={K_successes_pop}, n={n_sample})")
 plt.xlabel("Number of Successes in Sample (k)")
@@ -3148,7 +3148,7 @@ std_viz = uniform_viz.std()
 k_values_viz = np.arange(a_viz, b_viz+1)
 pmf_values_viz = uniform_viz.pmf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_values_viz, pmf_values_viz, color='skyblue', edgecolor='black', alpha=0.7)
 
 # Add mean line
@@ -3183,7 +3183,7 @@ if os.path.exists('ch07_discrete_uniform_cdf.svg'):
 # Plotting the CDF
 cdf_values_viz = uniform_viz.cdf(k_values_viz)
 
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.step(k_values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 
 # Add mean line
@@ -3471,7 +3471,7 @@ values_viz = np.arange(1, 7)
 categorical_viz = rv_discrete(values=(values_viz, probs_viz))
 
 # Plotting the PMF
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(values_viz, probs_viz, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title("Categorical PMF (Loaded Die)")
 plt.xlabel("Outcome")
@@ -3497,7 +3497,7 @@ if os.path.exists('ch07_categorical_cdf.svg'):
 # Plotting the CDF
 cdf_values_viz = categorical_viz.cdf(values_viz)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(values_viz, cdf_values_viz, where='post', color='darkgreen', linewidth=2)
 plt.title("Categorical CDF (Loaded Die)")
 plt.xlabel("Outcome")
@@ -3600,7 +3600,7 @@ if os.path.exists('ch07_categorical_pmf_example.svg'):
     os.remove('ch07_categorical_pmf_example.svg')
 
 # Plotting the PMF
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.bar(choices, probs, tick_label=labels, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title("Categorical PMF (Customer Drink Choice)")
 plt.xlabel("Choice")
@@ -3625,7 +3625,7 @@ if os.path.exists('ch07_categorical_cdf_example.svg'):
 # Plotting the CDF
 cdf_vals = categorical_rv.cdf(choices)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.step(choices, cdf_vals, where='post', color='darkgreen', linewidth=2)
 plt.xticks(choices, labels)
 plt.title("Categorical CDF (Customer Drink Choice)")
@@ -3791,7 +3791,7 @@ samples = np.random.multinomial(n_trials, probs_3, size=n_sims)
 # Plot distribution of outcomes for Category 1 (marginal distribution)
 category_1_counts = samples[:, 0]
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(8, 3.5))
 plt.hist(category_1_counts, bins=np.arange(0, n_trials+2)-0.5, density=True,
          color='skyblue', edgecolor='black', alpha=0.7)
 plt.title(f"Marginal Distribution of Category 1\n(Multinomial with n={n_trials}, k=3, all p=1/3)")
@@ -4021,7 +4021,7 @@ if os.path.exists('ch07_poisson_binomial_approximation.svg'):
     os.remove('ch07_poisson_binomial_approximation.svg')
 
 # Plotting the comparison
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 4))
 plt.bar(k_vals_compare - 0.2, binom_pmf, width=0.4, label=f'Binomial(n={n_binom_approx}, p={p_binom_approx})', align='center', color='skyblue', edgecolor='black', alpha=0.7)
 plt.bar(k_vals_compare + 0.2, poisson_pmf, width=0.4, label=f'Poisson(lambda={lambda_approx:.1f})', align='center', color='lightcoral', edgecolor='black', alpha=0.7)
 plt.title("Poisson Approximation to Binomial")
@@ -4271,7 +4271,7 @@ Understanding the underlying probabilistic structure is more important than memo
     n_sim_hours = 1000
     sim_arrivals = cafe_rv.rvs(size=n_sim_hours)
 
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(10, 4))
     max_observed = np.max(sim_arrivals)
     bins = np.arange(0, max_observed + 2) - 0.5
     plt.hist(sim_arrivals, bins=bins, density=True, alpha=0.6, color='lightgreen', edgecolor='black', label='Simulated Arrivals')
