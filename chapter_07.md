@@ -164,16 +164,14 @@ plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
 
 The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$), and the orange shaded region shows mean ± 1 standard deviation.
 
@@ -205,16 +203,14 @@ plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
 
 The CDF shows the step function: starts at 0 for x < 0, jumps to 0.7 at x=0 (the value when outcome is 0), stays flat at 0.7 until x=1, then jumps to 1.0 at x=1 (the value when including both outcomes 0 and 1). The red dashed line marks the mean.
 
@@ -329,16 +325,14 @@ plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Bernoulli PMF](ch07_bernoulli_pmf.svg)
 
 The PMF shows the probability of each outcome. With p = 0.1, "Negative" has probability 0.9 and "Positive" has probability 0.1.
 
@@ -364,16 +358,14 @@ plt.ylim(0, 1.1)
 plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Bernoulli CDF](ch07_bernoulli_cdf.svg)
 
 The CDF shows the step function: starts at 0 for x < 0, jumps to 0.9 at x=0, stays flat at 0.9 until x=1, then jumps to 1.0 at x=1.
 
@@ -647,10 +639,7 @@ ax.text(0.5, 0.10, why,
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Binomial Formula Breakdown](ch07_binomial_formula_breakdown.svg)
 
 The diagram shows how the formula components work together: we count the sequences (3), calculate the probability of each sequence (0.144), and multiply to get the total probability of exactly 2 successes (0.432).
 :::
@@ -722,16 +711,14 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Binomial PMF](ch07_binomial_pmf_generic.svg)
 
 The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean ($np = 5$) since $p = 0.5$. The shaded region shows mean ± 1 standard deviation ($\sqrt{np(1-p)} = \sqrt{2.5} \approx 1.58$).
 
@@ -758,16 +745,14 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Binomial CDF](ch07_binomial_cdf_generic.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer heads. The red dashed line marks the mean.
 
@@ -870,16 +855,14 @@ plt.title(f"Binomial PMF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Binomial PMF](ch07_binomial_pmf.svg)
 
 The PMF shows the probability distribution for the number of successful calls. With n = 20 and p = 0.15, the distribution is centered around np = 3 successes (the peak). The distribution is slightly right-skewed because p < 0.5. Notice that getting 0, 1, or 2 successes is quite likely, while getting more than 8 successes is very unlikely.
 
@@ -905,16 +888,14 @@ plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Binomial CDF](ch07_binomial_cdf.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls. We can see that P(X ≤ 3) ≈ 0.65 (matching our earlier calculation), and by k = 8, we've accumulated nearly all the probability (close to 1.0).
 
@@ -1185,10 +1166,7 @@ ax.text(0.5, 0.036, r"$P(X=3) = (0.6)^2 \times 0.4 = 0.36 \times 0.4 = 0.144$",
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Geometric Formula Breakdown](ch07_geometric_formula_breakdown.svg)
 
 The diagram shows how the geometric distribution works: each additional failure before success makes the outcome less likely. The probability decreases exponentially - notice how P(X=1) = 0.4000 is much larger than P(X=5) = 0.0518.
 
@@ -1253,16 +1231,14 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Geometric PMF](ch07_geometric_pmf_generic.svg)
 
 The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials. The shaded region shows mean ± 1 standard deviation.
 
@@ -1290,16 +1266,14 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Geometric CDF](ch07_geometric_cdf_generic.svg)
 
 The CDF shows P(X ≤ k), approaching 1 as k increases (eventually you'll succeed). The red dashed line marks the mean.
 
@@ -1401,16 +1375,14 @@ plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_trials)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Geometric PMF](ch07_geometric_pmf.svg)
 
 The PMF shows exponentially decreasing probabilities - you're most likely to pass on the first attempt (60%), then second attempt (24%), and so on. This characteristic "memoryless" exponential decay is unique to the geometric distribution. Notice how the bars get progressively smaller, with very low probabilities by attempt 5 or 6.
 
@@ -1437,16 +1409,14 @@ plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_trials)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Geometric CDF](ch07_geometric_cdf.svg)
 
 The CDF shows P(X ≤ k), rapidly approaching 1 as the attempt number increases. By attempt 2, there's an 84% chance of having passed, and by attempt 5, it's over 99%. This confirms that with p = 0.6, most people will pass within the first few attempts.
 
@@ -1815,8 +1785,6 @@ plt.savefig(
 )
 ```
 
-![Negative Binomial Formula Breakdown](ch07_negative_binomial_formula_breakdown.svg)
-
 The diagram shows how the negative binomial formula works: we need exactly $r-1$ successes in the first $k-1$ trials (which can be arranged in $\binom{k-1}{r-1}$ ways), and then the $k$-th trial must be a success. Each of the 6 sequences shown has the same probability, and we multiply by the number of sequences to get the total probability.
 
 Now that we understand the formula and its visualization, let's summarize the essential properties of the negative binomial distribution:
@@ -1882,16 +1850,14 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
 
 The PMF shows the distribution is centered around the expected value r/p = 3/(1/6) = 18 trials. You can see our calculated P(X=4) ≈ 0.0116 as a small bar near the left tail at k=4. The shaded region shows mean ± 1 standard deviation.
 
@@ -1918,16 +1884,14 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability of getting 3 sixes within k rolls. At k=4, the CDF shows P(X ≤ 4) = P(X=3) + P(X=4) ≈ 0.0046 + 0.0116 ≈ 0.0162, which is the very low cumulative probability in the left tail. The red dashed line marks the mean (18 trials).
 
@@ -2053,16 +2017,14 @@ plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
 The PMF shows the distribution centered around r/p = 60 components with considerable variability. The distribution is right-skewed, meaning there's a long tail of possibilities where we might need many more components than average. Notice how the probability at k=80 (which we calculated earlier as 0.0074) appears as a small bar in the right tail.
 
@@ -2088,16 +2050,14 @@ plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests. The S-curve shape is characteristic of CDFs. We can see that by k=100 tests, the CDF reaches approximately 0.88 (matching our earlier calculation of 88.17%). The CDF crosses 0.5 around k=53, meaning there's a 50% chance we'll need 53 or fewer tests to find all 3 defective components.
 
@@ -2411,10 +2371,7 @@ ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, th
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Poisson Formula Breakdown](ch07_poisson_formula_breakdown.svg)
 
 The diagram illustrates how the Poisson formula works: the normalization factor $e^{-\lambda}$ ensures all probabilities sum to 1, the rate power $\lambda^k$ represents the expected occurrence of k events, and we divide by $k!$ to account for the different arrangements of those events. For λ=4 and k=2, we get approximately 14.65% probability.
 
@@ -2475,16 +2432,14 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Poisson PMF](ch07_poisson_pmf_generic.svg)
 
 The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values. The shaded region shows mean ± 1 standard deviation ($\sqrt{4} = 2$).
 
@@ -2512,16 +2467,14 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Poisson CDF](ch07_poisson_cdf_generic.svg)
 
 The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer calls?" The red dashed line marks the mean.
 
@@ -2621,16 +2574,14 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Poisson PMF](ch07_poisson_pmf.svg)
 
 The PMF shows the distribution centered around λ = 5 emails, with highest probabilities at k = 4 and k = 5. The distribution is roughly symmetric for this value of λ. Values far from 5 (like 0-1 or 11+) have very low probabilities. Notice how the probability at k = 3 (which we calculated as 0.1404) appears as a moderate-height bar.
 
@@ -2657,16 +2608,14 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
+plt.show()
 ```
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
 
 plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Poisson CDF](ch07_poisson_cdf.svg)
 
 The CDF shows P(X ≤ k), the cumulative probability. We can see that by k = 6, the CDF reaches about 0.76 (matching our earlier calculation of 76.22%), and by k = 10, it's close to 1.0, meaning it's very unlikely to receive more than 10 emails in an hour.
 
@@ -2831,10 +2780,7 @@ plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Hypergeometric PMF](ch07_hypergeometric_pmf_generic.svg)
 
 The PMF shows most likely to get 0 Aces (about 0.66 probability), less likely to get 1 or 2. The red dashed line marks the mean, and the orange shaded region shows mean ± 1 standard deviation.
 
@@ -2861,10 +2807,7 @@ plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_hypergeometric_cdf_generic.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Hypergeometric CDF](ch07_hypergeometric_cdf_generic.svg)
 
 The CDF shows P(X ≤ k), useful for questions like "What's the probability of getting at most 1 Ace?" The red dashed line marks the mean.
 
@@ -2970,10 +2913,7 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_hypergeometric_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
 
 The PMF is centered around 2 winners (the expected value), with highest probabilities at 1, 2, and 3 winners. Getting 0 winners or 5+ winners is much less likely. The distribution looks roughly bell-shaped, which is typical for hypergeometric distributions when the sample size is small relative to the population. Notice that k = 3 (which we calculated as 20.13%) appears as one of the tallest bars.
 
@@ -2999,10 +2939,7 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_hypergeometric_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
 The CDF shows the cumulative probability. We can see that P(X ≤ 2) ≈ 0.68 (matching our earlier calculation of 67.67%), and by k = 5, nearly all probability has accumulated (close to 1.0).
 
@@ -3166,10 +3103,7 @@ plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_discrete_uniform_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Discrete Uniform PMF](ch07_discrete_uniform_pmf.svg)
 
 The PMF shows six equal bars, each with probability 1/6, representing the fair die. The shaded region shows mean ± 1 standard deviation.
 
@@ -3197,10 +3131,7 @@ plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_discrete_uniform_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Discrete Uniform CDF](ch07_discrete_uniform_cdf.svg)
 
 The CDF increases in equal steps of 1/6 at each value, reaching 1.0 at the maximum value. The red dashed line marks the mean.
 
@@ -3301,10 +3232,7 @@ plt.xlabel("Value")
 plt.ylabel("Probability")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_discrete_uniform_pmf_example.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Discrete Uniform PMF](ch07_discrete_uniform_pmf_example.svg)
 
 All 20 values have equal probability of 0.05 (1/20). This flat distribution is the signature of the discrete uniform—no value is more likely than any other.
 
@@ -3329,10 +3257,7 @@ plt.xlabel("Value")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_discrete_uniform_cdf_example.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Discrete Uniform CDF](ch07_discrete_uniform_cdf_example.svg)
 
 The CDF increases in equal steps of 1/20 = 0.05, perfectly linear. At k=10, the CDF is exactly 0.5 (the median), confirming our earlier calculation.
 
@@ -3480,10 +3405,7 @@ plt.ylim(0, 0.3)
 plt.xticks(values_viz)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_categorical_pmf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Categorical PMF](ch07_categorical_pmf.svg)
 
 The PMF shows the different probabilities for each face of the loaded die.
 
@@ -3506,10 +3428,7 @@ plt.ylim(0, 1.1)
 plt.xticks(values_viz)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_categorical_cdf.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Categorical CDF](ch07_categorical_cdf.svg)
 
 The CDF increases by different amounts at each value, reflecting the varying probabilities.
 
@@ -3608,10 +3527,7 @@ plt.ylabel("Probability")
 plt.ylim(0, 0.5)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_categorical_pmf_example.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Categorical PMF](ch07_categorical_pmf_example.svg)
 
 The PMF shows unequal bar heights, distinguishing this from a discrete uniform distribution. Coffee (40%) has the tallest bar, while water (10%) has the shortest, clearly visualizing customer preferences.
 
@@ -3634,10 +3550,7 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.ylim(0, 1.1)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
 plt.savefig('ch07_categorical_cdf_example.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Categorical CDF](ch07_categorical_cdf_example.svg)
 
 The CDF shows cumulative probabilities across the ordered choices.
 
@@ -3800,10 +3713,7 @@ plt.ylabel("Probability")
 plt.xticks(range(0, n_trials+1))
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.savefig('ch07_multinomial_marginal.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Multinomial Marginal](ch07_multinomial_marginal.svg)
 
 The marginal distribution of any single category in a Multinomial distribution is actually a Binomial distribution! Here, Category 1 follows Binomial(n=15, p=1/3).
 
@@ -3901,10 +3811,7 @@ for i, (cat, ax) in enumerate(zip(categories, axes)):
 
 plt.tight_layout()
 plt.savefig('ch07_multinomial_example.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Multinomial Example](ch07_multinomial_example.svg)
 
 Each subplot shows one category's distribution across 10,000 simulations. The histograms are bell-shaped and centered on the expected values (red dashed lines). Electronics (p=0.30) has the highest expected count (15), while Food (p=0.20) has the lowest (10). Each category's marginal distribution is binomial with parameters (n=50, p=category probability), but importantly, these counts are NOT independent—they must sum to 50.
 
@@ -4031,10 +3938,7 @@ plt.xticks(k_vals_compare)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
 plt.legend()
 plt.savefig('ch07_poisson_binomial_approximation.svg', format='svg', bbox_inches='tight')
-plt.show()
 ```
-
-![Poisson Approximation to Binomial](ch07_poisson_binomial_approximation.svg)
 
 The chart compares the Binomial(100, 0.03) distribution (blue bars) with the Poisson(3.0) approximation (red bars). The distributions are nearly identical, demonstrating that when n is large and p is small, the Poisson provides an excellent and computationally simpler approximation to the Binomial.
 
