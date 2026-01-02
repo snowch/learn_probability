@@ -2109,8 +2109,8 @@ lambda_k = lambda_val ** k_val
 k_factorial = math.factorial(k_val)
 result = (e_neg_lambda * lambda_k) / k_factorial
 
-# Create figure
-fig, ax = plt.subplots(figsize=(16, 18))
+# Create figure - reduced height for better mobile display
+fig, ax = plt.subplots(figsize=(16, 12))
 
 # Make axes fill the whole figure
 fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
@@ -2119,16 +2119,16 @@ ax.set_xlim(0, 1)
 ax.set_ylim(0, 1)
 ax.axis('off')
 
-# Define all CONTENT heights
-title_height = 0.03
-subtitle_height = 0.02
-question_box_height = 0.08
-step_label_height = 0.025
-step_box_height = 0.12
-step_explain_height = 0.045
-transition_text_height = 0.02
-final_box_height = 0.10
-formula_box_height = 0.08
+# Define all CONTENT heights - reduced for better mobile fit
+title_height = 0.025
+subtitle_height = 0.018
+question_box_height = 0.055
+step_label_height = 0.020
+step_box_height = 0.095
+step_explain_height = 0.028
+transition_text_height = 0.015
+final_box_height = 0.075
+formula_box_height = 0.055
 
 # Calculate total content height
 total_content_height = (
@@ -2174,31 +2174,27 @@ current_y = 1.0 - top_margin
 # Title
 ax.text(0.5, current_y, "The Poisson Distribution Algorithm",
         transform=ax.transAxes, ha="center", va="top",
-        fontsize=28, weight="bold")
+        fontsize=22, weight="bold")
 current_y -= title_height + gap
 
 # Subtitle
 ax.text(0.5, current_y, "A Visual Mental Model",
         transform=ax.transAxes, ha="center", va="top",
-        fontsize=20, style="italic", color='gray')
+        fontsize=15, style="italic", color='gray')
 current_y -= subtitle_height + gap
 
 # Question box
 question_box_bottom = current_y - question_box_height
 add_box(0.08, question_box_bottom, 0.84, question_box_height,
         edge='darkslategray', face='lightgray', lw=2.5, z=1)
-ax.text(0.5, question_box_bottom + question_box_height * 0.75,
+ax.text(0.5, question_box_bottom + question_box_height * 0.70,
         "The Question:",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, weight="bold", color='black', zorder=4)
-ax.text(0.5, question_box_bottom + question_box_height * 0.45,
-        rf"Events arrive randomly at an average rate of $\lambda = {lambda_val}$ per time period.",
+        fontsize=14, weight="bold", color='black', zorder=4)
+ax.text(0.5, question_box_bottom + question_box_height * 0.40,
+        rf"Events arrive randomly at rate $\lambda = {lambda_val}$ per time period. What's the probability of exactly $k = {k_val}$ events?",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=16, zorder=4)
-ax.text(0.5, question_box_bottom + question_box_height * 0.15,
-        rf"What's the probability of getting exactly $k = {k_val}$ events?",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=16, weight="bold", color='darkred', zorder=4)
+        fontsize=12, zorder=4)
 current_y = question_box_bottom - gap
 
 # --- STEP 1: THE BASELINE ---
@@ -2209,7 +2205,7 @@ add_box(0.15, step1_label_bottom, 0.35, step_label_height,
 ax.text(0.325, step1_label_bottom + step_label_height/2,
         "STEP 1: THE BASELINE",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=16, weight="bold", color='white', zorder=4)
+        fontsize=13, weight="bold", color='white', zorder=4)
 current_y = step1_label_bottom - gap/2
 
 # Step 1 box
@@ -2218,63 +2214,55 @@ add_box(0.08, step1_box_bottom, 0.84, step_box_height,
         edge='darkviolet', face='lavender', lw=2.5, z=1)
 
 # Left side: Visual box for e^-λ
-add_box(0.12, step1_box_bottom + step_box_height*0.20, 0.25, step_box_height*0.65,
+add_box(0.12, step1_box_bottom + step_box_height*0.18, 0.22, step_box_height*0.68,
         edge='purple', face='mediumpurple', lw=2, z=2)
-ax.text(0.245, step1_box_bottom + step_box_height*0.75,
+ax.text(0.23, step1_box_bottom + step_box_height*0.72,
         "Probability of",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, color='white', weight='bold', zorder=4)
-ax.text(0.245, step1_box_bottom + step_box_height*0.55,
+        fontsize=11, color='white', weight='bold', zorder=4)
+ax.text(0.23, step1_box_bottom + step_box_height*0.52,
         "ZERO",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=22, color='white', weight='bold', zorder=4)
-ax.text(0.245, step1_box_bottom + step_box_height*0.32,
+        fontsize=17, color='white', weight='bold', zorder=4)
+ax.text(0.23, step1_box_bottom + step_box_height*0.30,
         "events happening",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, color='white', style='italic', zorder=4)
+        fontsize=10, color='white', style='italic', zorder=4)
 
 # Math notation
-ax.text(0.41, step1_box_bottom + step_box_height*0.68,
+ax.text(0.38, step1_box_bottom + step_box_height*0.65,
         r"$e^{-\lambda}$",
         transform=ax.transAxes, ha="left", va="center",
-        fontsize=28, weight='bold', color='darkviolet', zorder=4)
+        fontsize=22, weight='bold', color='darkviolet', zorder=4)
 
 # Right side: Explanation
-ax.text(0.54, step1_box_bottom + step_box_height*0.78,
+ax.text(0.50, step1_box_bottom + step_box_height*0.80,
         'Start with "Nothing Happens"',
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=16, weight='bold', color='darkviolet', zorder=4)
-ax.text(0.54, step1_box_bottom + step_box_height*0.58,
-        f"This is your foundation. When events arrive",
+        fontsize=13, weight='bold', color='darkviolet', zorder=4)
+ax.text(0.50, step1_box_bottom + step_box_height*0.58,
+        rf"When events arrive randomly at rate $\lambda = {lambda_val}$,",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step1_box_bottom + step_box_height*0.43,
-        rf"randomly at rate $\lambda = {lambda_val}$, there's a {e_neg_lambda:.1%} chance",
+        fontsize=11, zorder=4)
+ax.text(0.50, step1_box_bottom + step_box_height*0.40,
+        rf"there's a {e_neg_lambda:.1%} chance of zero events.",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step1_box_bottom + step_box_height*0.28,
-        "of getting zero events.",
-        transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
+        fontsize=11, zorder=4)
 
 # Calculation
-ax.text(0.54, step1_box_bottom + step_box_height*0.08,
+ax.text(0.50, step1_box_bottom + step_box_height*0.12,
         rf"So far: $e^{{-{lambda_val}}} = {e_neg_lambda:.4f}$",
         transform=ax.transAxes, ha="left", va="bottom",
-        fontsize=14, style='italic', color='purple', zorder=4)
+        fontsize=11, style='italic', color='purple', zorder=4)
 
 current_y = step1_box_bottom - gap/2
 
 # Step 1 explanation
 step1_explain_y = current_y - step_explain_height/2
-ax.text(0.5, step1_explain_y + 0.015,
-        r"Why $e^{-\lambda}$? This comes from the exponential distribution—the probability",
+ax.text(0.5, step1_explain_y,
+        r"Why $e^{-\lambda}$? This comes from the exponential distribution—the probability the first event takes too long to arrive.",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, style='italic', color='darkviolet', zorder=4)
-ax.text(0.5, step1_explain_y - 0.015,
-        "the first event takes too long to arrive (i.e., we get zero events in our time period).",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, style='italic', color='darkviolet', zorder=4)
+        fontsize=10, style='italic', color='darkviolet', zorder=4)
 current_y -= step_explain_height + gap
 
 # Transition text
@@ -2282,7 +2270,7 @@ transition1_y = current_y - transition_text_height/2
 ax.text(0.5, transition1_y,
         rf"NOW BUILD UP TO {k_val} EVENTS",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, weight='bold', color='gray', style='italic', zorder=4)
+        fontsize=11, weight='bold', color='gray', style='italic', zorder=4)
 current_y -= transition_text_height + gap
 
 # --- STEP 2: AMPLIFY BY RATE ---
@@ -2292,7 +2280,7 @@ add_box(0.15, step2_label_bottom, 0.38, step_label_height,
 ax.text(0.34, step2_label_bottom + step_label_height/2,
         "STEP 2: AMPLIFY BY RATE",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=16, weight="bold", color='white', zorder=4)
+        fontsize=13, weight="bold", color='white', zorder=4)
 current_y = step2_label_bottom - gap/2
 
 # Step 2 box
@@ -2301,67 +2289,59 @@ add_box(0.08, step2_box_bottom, 0.84, step_box_height,
         edge='darkgreen', face='lightgreen', lw=2.5, z=1)
 
 # Left side: Visual box for λ^k
-add_box(0.12, step2_box_bottom + step_box_height*0.20, 0.25, step_box_height*0.65,
+add_box(0.12, step2_box_bottom + step_box_height*0.18, 0.22, step_box_height*0.68,
         edge='green', face='limegreen', lw=2, z=2)
-ax.text(0.245, step2_box_bottom + step_box_height*0.75,
+ax.text(0.23, step2_box_bottom + step_box_height*0.72,
         "Multiply by λ for",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, color='white', weight='bold', zorder=4)
-ax.text(0.245, step2_box_bottom + step_box_height*0.55,
+        fontsize=11, color='white', weight='bold', zorder=4)
+ax.text(0.23, step2_box_bottom + step_box_height*0.52,
         "EACH",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=22, color='white', weight='bold', zorder=4)
-ax.text(0.245, step2_box_bottom + step_box_height*0.32,
+        fontsize=17, color='white', weight='bold', zorder=4)
+ax.text(0.23, step2_box_bottom + step_box_height*0.30,
         "event we want",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, color='white', style='italic', zorder=4)
+        fontsize=10, color='white', style='italic', zorder=4)
 
 # Math notation
-ax.text(0.41, step2_box_bottom + step_box_height*0.68,
+ax.text(0.38, step2_box_bottom + step_box_height*0.65,
         r"$\lambda^k$",
         transform=ax.transAxes, ha="left", va="center",
-        fontsize=28, weight='bold', color='darkgreen', zorder=4)
-ax.text(0.41, step2_box_bottom + step_box_height*0.38,
+        fontsize=22, weight='bold', color='darkgreen', zorder=4)
+ax.text(0.38, step2_box_bottom + step_box_height*0.38,
         rf"${lambda_val}^{k_val} = {lambda_k}$",
         transform=ax.transAxes, ha="left", va="center",
-        fontsize=15, color='darkgreen', zorder=4)
+        fontsize=12, color='darkgreen', zorder=4)
 
 # Right side: Explanation
-ax.text(0.54, step2_box_bottom + step_box_height*0.78,
+ax.text(0.50, step2_box_bottom + step_box_height*0.80,
         "Scale Up for Each Event",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=16, weight='bold', color='darkgreen', zorder=4)
-ax.text(0.54, step2_box_bottom + step_box_height*0.58,
-        f"For each event you want, multiply by λ.",
+        fontsize=13, weight='bold', color='darkgreen', zorder=4)
+ax.text(0.50, step2_box_bottom + step_box_height*0.58,
+        rf"For each event you want, multiply by $\lambda$. Higher rate = more events.",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step2_box_bottom + step_box_height*0.43,
-        f"Higher rate = more likely to get events.",
+        fontsize=11, zorder=4)
+ax.text(0.50, step2_box_bottom + step_box_height*0.35,
+        rf"We raise $\lambda$ to power $k$ to compound this effect.",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step2_box_bottom + step_box_height*0.28,
-        rf"We raise $\lambda$ to the power $k$ to compound this effect.",
-        transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
+        fontsize=11, zorder=4)
 
 # Calculation
-ax.text(0.54, step2_box_bottom + step_box_height*0.08,
+ax.text(0.50, step2_box_bottom + step_box_height*0.12,
         rf"So far: ${e_neg_lambda:.4f} \times {lambda_k} = {e_neg_lambda * lambda_k:.4f}$",
         transform=ax.transAxes, ha="left", va="bottom",
-        fontsize=14, style='italic', color='green', zorder=4)
+        fontsize=11, style='italic', color='green', zorder=4)
 
 current_y = step2_box_bottom - gap/2
 
 # Step 2 explanation
 step2_explain_y = current_y - step_explain_height/2
-ax.text(0.5, step2_explain_y + 0.015,
-        rf"The logic: If $\lambda$ is high, events are common, so getting $k$ of them",
+ax.text(0.5, step2_explain_y,
+        rf"The logic: If $\lambda$ is high, events are common, so getting $k$ of them is more probable. We raise $\lambda$ to power $k$ for each event.",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, style='italic', color='darkgreen', zorder=4)
-ax.text(0.5, step2_explain_y - 0.015,
-        rf"is more probable. We raise $\lambda$ to the power $k$ to account for each event occurring.",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, style='italic', color='darkgreen', zorder=4)
+        fontsize=10, style='italic', color='darkgreen', zorder=4)
 current_y -= step_explain_height + gap
 
 # Transition text
@@ -2369,7 +2349,7 @@ transition2_y = current_y - transition_text_height/2
 ax.text(0.5, transition2_y,
         "BUT WE OVERCOUNTED!",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, weight='bold', color='gray', style='italic', zorder=4)
+        fontsize=11, weight='bold', color='gray', style='italic', zorder=4)
 current_y -= transition_text_height + gap
 
 # --- STEP 3: FIX OVERCOUNTING ---
@@ -2379,7 +2359,7 @@ add_box(0.15, step3_label_bottom, 0.42, step_label_height,
 ax.text(0.36, step3_label_bottom + step_label_height/2,
         "STEP 3: FIX OVERCOUNTING",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=16, weight="bold", color='white', zorder=4)
+        fontsize=13, weight="bold", color='white', zorder=4)
 current_y = step3_label_bottom - gap/2
 
 # Step 3 box
@@ -2388,97 +2368,85 @@ add_box(0.08, step3_box_bottom, 0.84, step_box_height,
         edge='darkorange', face='lightyellow', lw=2.5, z=1)
 
 # Left side: Visual box for k!
-add_box(0.12, step3_box_bottom + step_box_height*0.20, 0.25, step_box_height*0.65,
+add_box(0.12, step3_box_bottom + step_box_height*0.18, 0.22, step_box_height*0.68,
         edge='orange', face='gold', lw=2, z=2)
-ax.text(0.245, step3_box_bottom + step_box_height*0.75,
+ax.text(0.23, step3_box_bottom + step_box_height*0.72,
         "Order doesn't",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, color='black', weight='bold', zorder=4)
-ax.text(0.245, step3_box_bottom + step_box_height*0.55,
+        fontsize=11, color='black', weight='bold', zorder=4)
+ax.text(0.23, step3_box_bottom + step_box_height*0.52,
         "MATTER",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=22, color='black', weight='bold', zorder=4)
-ax.text(0.245, step3_box_bottom + step_box_height*0.32,
+        fontsize=17, color='black', weight='bold', zorder=4)
+ax.text(0.23, step3_box_bottom + step_box_height*0.30,
         "so divide by k!",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, color='black', style='italic', zorder=4)
+        fontsize=10, color='black', style='italic', zorder=4)
 
 # Math notation
-ax.text(0.41, step3_box_bottom + step_box_height*0.68,
+ax.text(0.38, step3_box_bottom + step_box_height*0.65,
         r"$k!$",
         transform=ax.transAxes, ha="left", va="center",
-        fontsize=28, weight='bold', color='darkorange', zorder=4)
-ax.text(0.41, step3_box_bottom + step_box_height*0.38,
+        fontsize=22, weight='bold', color='darkorange', zorder=4)
+ax.text(0.38, step3_box_bottom + step_box_height*0.38,
         rf"${k_val}! = {k_factorial}$",
         transform=ax.transAxes, ha="left", va="center",
-        fontsize=15, color='darkorange', zorder=4)
+        fontsize=12, color='darkorange', zorder=4)
 
 # Right side: Explanation
-ax.text(0.54, step3_box_bottom + step_box_height*0.78,
+ax.text(0.50, step3_box_bottom + step_box_height*0.80,
         "Remove Duplicate Orderings",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=16, weight='bold', color='darkorange', zorder=4)
-ax.text(0.54, step3_box_bottom + step_box_height*0.58,
-        rf"We only care that we got {k_val} events total—not",
+        fontsize=13, weight='bold', color='darkorange', zorder=4)
+ax.text(0.50, step3_box_bottom + step_box_height*0.58,
+        rf"We only care that we got {k_val} events total—not whether event A came before B.",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step3_box_bottom + step_box_height*0.43,
-        f"whether event A came before B or vice versa.",
+        fontsize=11, zorder=4)
+ax.text(0.50, step3_box_bottom + step_box_height*0.35,
+        rf"All arrangements are the same outcome, so divide by $k!$",
         transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step3_box_bottom + step_box_height*0.28,
-        rf"Since all arrangements represent the",
-        transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
-ax.text(0.54, step3_box_bottom + step_box_height*0.13,
-        rf"same outcome, we divide by $k!$ to count each unique outcome only once.",
-        transform=ax.transAxes, ha="left", va="top",
-        fontsize=13, zorder=4)
+        fontsize=11, zorder=4)
 
 current_y = step3_box_bottom - gap/2
 
 # Step 3 explanation
 step3_explain_y = current_y - step_explain_height/2
-ax.text(0.5, step3_explain_y + 0.015,
-        rf"Why $k!$? There are $k!$ ways to arrange $k$ events.",
+ax.text(0.5, step3_explain_y,
+        rf"Why $k!$? There are $k!$ ways to arrange $k$ events. All arrangements represent the same outcome, so divide by $k!$ to count each once.",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, style='italic', color='darkorange', zorder=4)
-ax.text(0.5, step3_explain_y - 0.015,
-        "Since all arrangements represent the same outcome, we divide by k! to count each unique outcome only once.",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=13, style='italic', color='darkorange', zorder=4)
+        fontsize=10, style='italic', color='darkorange', zorder=4)
 current_y -= step_explain_height + gap
 
 # --- FINAL PROBABILITY ---
 final_box_bottom = current_y - final_box_height
 add_box(0.10, final_box_bottom, 0.80, final_box_height,
         edge='blue', face='lightcyan', lw=3, z=1)
-ax.text(0.5, final_box_bottom + final_box_height * 0.80,
+ax.text(0.5, final_box_bottom + final_box_height * 0.78,
         "FINAL PROBABILITY",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=18, weight="bold", color='darkblue', zorder=4)
-ax.text(0.5, final_box_bottom + final_box_height * 0.50,
+        fontsize=15, weight="bold", color='darkblue', zorder=4)
+ax.text(0.5, final_box_bottom + final_box_height * 0.48,
         rf"$P(X = k) = \dfrac{{e^{{-\lambda}} \times \lambda^k}}{{k!}}$",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=26, weight='bold', color='blue', zorder=4)
+        fontsize=20, weight='bold', color='blue', zorder=4)
 ax.text(0.5, final_box_bottom + final_box_height * 0.15,
-        rf"$P(X = {k_val}) = \dfrac{{e^{{-{lambda_val}}} \times {lambda_val}^{k_val}}}{{{k_val}!}} = \dfrac{{{e_neg_lambda:.4f} \times {lambda_k}}}{{{k_factorial}}} = {result:.4f}$ ({result*100:.1f}%)",
+        rf"$P(X = {k_val}) = {result:.4f}$ ({result*100:.1f}%)",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=15, color='darkblue', zorder=4)
+        fontsize=13, color='darkblue', zorder=4)
 current_y = final_box_bottom - gap
 
 # --- GENERAL FORMULA ---
 formula_box_bottom = current_y - formula_box_height
 add_box(0.08, formula_box_bottom, 0.84, formula_box_height,
         edge='darkred', face='mistyrose', lw=2.5, z=1)
-ax.text(0.5, formula_box_bottom + formula_box_height * 0.70,
-        rf"With an average rate of $\lambda={lambda_val}$ events per period, there's a {result*100:.1f}% chance of exactly {k_val} events.",
+ax.text(0.5, formula_box_bottom + formula_box_height * 0.65,
+        rf"With average rate $\lambda={lambda_val}$, there's a {result*100:.1f}% chance of exactly {k_val} events.",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=15, style='italic', color='darkred', zorder=4)
-ax.text(0.5, formula_box_bottom + formula_box_height * 0.30,
-        r"This 3-step algorithm—baseline $\rightarrow$ amplify $\rightarrow$ fix overcounting—builds the intuition behind the Poisson formula.",
+        fontsize=12, style='italic', color='darkred', zorder=4)
+ax.text(0.5, formula_box_bottom + formula_box_height * 0.28,
+        r"This 3-step algorithm—baseline $\rightarrow$ amplify $\rightarrow$ fix overcounting—builds intuition behind the formula.",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style='italic', color='black', zorder=4)
+        fontsize=11, style='italic', color='black', zorder=4)
 
 plt.savefig('ch07_poisson_algorithm.svg', format='svg', bbox_inches='tight', pad_inches=0.25)
 plt.show()
