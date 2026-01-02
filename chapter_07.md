@@ -1595,12 +1595,14 @@ P(X=4) &= \binom{4-1}{3-1}(1/6)^3(5/6)^{4-3} \\
 **Visual breakdown:** The following diagram shows how the negative binomial formula counts all possible sequences and combines their probabilities:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_formula_breakdown.svg'):
     os.remove('ch07_negative_binomial_formula_breakdown.svg')
+```
 
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
@@ -1798,6 +1800,12 @@ ax.text(0.5, formula_box_bottom + formula_box_height * 0.25,
         transform=ax.transAxes, ha="center", va="center",
         fontsize=15, style="italic", color='darkblue', zorder=4)
 
+plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
 # Save as SVG (tight crop, but with a little padding)
 plt.savefig(
     'ch07_negative_binomial_formula_breakdown.svg',
@@ -1805,7 +1813,6 @@ plt.savefig(
     bbox_inches='tight',
     pad_inches=0.25
 )
-plt.show()
 ```
 
 ![Negative Binomial Formula Breakdown](ch07_negative_binomial_formula_breakdown.svg)
@@ -1839,12 +1846,14 @@ Let's visualize our die example: Negative Binomial distribution with $r = 3$ six
 :::
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_pmf_generic.svg'):
     os.remove('ch07_negative_binomial_pmf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Create Negative Binomial distribution for our die example (r=3, p=1/6)
 r_viz = 3
 p_viz = 1/6
@@ -1873,8 +1882,13 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Probability P(X=k)")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_negative_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf_generic.svg)
@@ -1882,12 +1896,14 @@ plt.show()
 The PMF shows the distribution is centered around the expected value r/p = 3/(1/6) = 18 trials. You can see our calculated P(X=4) ≈ 0.0116 as a small bar near the left tail at k=4. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_cdf_generic.svg'):
     os.remove('ch07_negative_binomial_cdf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = nbinom_viz.cdf(k_values_viz - r_viz)
 
@@ -1902,8 +1918,13 @@ plt.xlabel("Total Number of Trials (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_negative_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf_generic.svg)
@@ -2014,12 +2035,14 @@ These samples could be used for Monte Carlo simulation or to verify our theoreti
 Let's visualize the full probability distribution to see the range of likely outcomes:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_pmf.svg'):
     os.remove('ch07_negative_binomial_pmf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the PMF (using total components tested k = r, r+1, ...)
 k_values_components = np.arange(r_defective, r_defective + 150) # Plot a range
 pmf_values_nb = nbinom_rv.pmf(k_values_components - r_defective) # Adjust k for scipy
@@ -2030,8 +2053,13 @@ plt.title(f"Negative Binomial PMF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Probability P(X=k)")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_negative_binomial_pmf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
@@ -2043,12 +2071,14 @@ The PMF shows the distribution centered around r/p = 60 components with consider
 The cumulative distribution function helps us answer questions like "What's the probability we'll be done within k tests?"
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_negative_binomial_cdf.svg'):
     os.remove('ch07_negative_binomial_cdf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF (using total components tested k = r, r+1, ...)
 cdf_values_nb = nbinom_rv.cdf(k_values_components - r_defective) # Adjust k for scipy
 
@@ -2058,8 +2088,13 @@ plt.title(f"Negative Binomial CDF (r={r_defective}, p={p_defective})")
 plt.xlabel("Total Number of Components Tested (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_negative_binomial_cdf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
