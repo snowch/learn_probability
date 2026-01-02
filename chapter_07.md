@@ -128,12 +128,14 @@ Let's verify this works for our example where $p = 0.3$:
 Let's visualize a Bernoulli distribution with $p = 0.3$ (our medical test example from above):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_bernoulli_pmf_generic.svg'):
     os.remove('ch07_bernoulli_pmf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Create Bernoulli distribution for visualization (p=0.3)
 p_viz = 0.3
 bernoulli_viz = stats.bernoulli(p=p_viz)
@@ -162,8 +164,13 @@ plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_bernoulli_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Bernoulli PMF](ch07_bernoulli_pmf_generic.svg)
@@ -171,12 +178,14 @@ plt.show()
 The PMF shows two bars: P(X=0) = 0.7 for a negative test and P(X=1) = 0.3 for a positive test. The red dashed line marks the mean ($p = 0.3$), and the orange shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_bernoulli_cdf_generic.svg'):
     os.remove('ch07_bernoulli_cdf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 k_values_viz = [0, 1]
 cdf_values_viz = bernoulli_viz.cdf(k_values_viz)
@@ -196,8 +205,13 @@ plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_bernoulli_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Bernoulli CDF](ch07_bernoulli_cdf_generic.svg)
@@ -296,12 +310,14 @@ print(samples)
 ```
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_bernoulli_pmf.svg'):
     os.remove('ch07_bernoulli_pmf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the PMF
 k_values = [0, 1]
 pmf_values = bernoulli_rv.pmf(k_values)
@@ -313,8 +329,13 @@ plt.xlabel("Outcome")
 plt.ylabel("Probability")
 plt.ylim(0, 1)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_bernoulli_pmf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Bernoulli PMF](ch07_bernoulli_pmf.svg)
@@ -322,12 +343,14 @@ plt.show()
 The PMF shows the probability of each outcome. With p = 0.1, "Negative" has probability 0.9 and "Positive" has probability 0.1.
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_bernoulli_cdf.svg'):
     os.remove('ch07_bernoulli_cdf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = bernoulli_rv.cdf(k_values)
 
@@ -341,8 +364,13 @@ plt.ylim(0, 1.1)
 plt.xlim(-0.5, 1.5)
 plt.xticks([0, 1])
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_bernoulli_cdf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Bernoulli CDF](ch07_bernoulli_cdf.svg)
