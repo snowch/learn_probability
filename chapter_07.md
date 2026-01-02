@@ -729,6 +729,10 @@ Modeling the number of successful sales calls out of 20, where each call has a 0
 
 We'll demonstrate how to use [`scipy.stats.binom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html) to calculate probabilities, compute statistics, and generate random samples.
 
+**Setting up the distribution:**
+
+We create a binomial distribution object with our parameters (20 trials, 0.15 success probability):
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -738,11 +742,23 @@ import matplotlib.pyplot as plt
 n_calls = 20
 p_success_call = 0.15
 binomial_rv = stats.binom(n=n_calls, p=p_success_call)
+```
 
+**Calculating specific probabilities using the PMF:**
+
+What's the probability of getting exactly 5 successful sales out of 20 calls?
+
+```{code-cell} ipython3
 # PMF: Probability of exactly k successes
 k_successes = 5
 print(f"P(X={k_successes} successes out of {n_calls}): {binomial_rv.pmf(k_successes):.4f}")
 ```
+
+With a 10.23% probability, 5 successes is reasonably likely but not the most probable outcome (the mode is at 3 successes, matching the mean of np = 20 × 0.15 = 3).
+
+**Calculating cumulative probabilities using the CDF:**
+
+What's the probability of getting 3 or fewer successes? Or more than 3?
 
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer successes
@@ -752,7 +768,13 @@ print(f"P(X > {k_or_fewer} successes out of {n_calls}): {1 - binomial_rv.cdf(k_o
 print(f"P(X > {k_or_fewer} successes out of {n_calls}) (using sf): {binomial_rv.sf(k_or_fewer):.4f}")
 ```
 
+There's a 64.85% chance of getting 3 or fewer successes, meaning there's a 35.15% chance of getting more than 3 successes.
+
 **Note on Survival Function (`sf`):** The `sf()` method computes the **survival function**, which is P(X > k) = 1 - P(X ≤ k). While mathematically equivalent to `1 - cdf(k)`, using `sf(k)` directly is preferable because it provides better numerical accuracy when dealing with very small or very large probabilities, and makes the code's intent clearer.
+
+**Computing mean and variance:**
+
+Let's verify the theoretical formulas E[X] = np and Var(X) = np(1-p):
 
 ```{code-cell} ipython3
 # Mean and Variance
@@ -761,12 +783,24 @@ print(f"Variance: {binomial_rv.var():.2f}")
 print(f"Standard Deviation: {binomial_rv.std():.2f}")
 ```
 
+As expected, we get a mean of 3.00 successes (20 × 0.15) with a standard deviation of about 1.6, indicating moderate variability around the mean.
+
+**Generating random samples:**
+
+We can simulate many rounds of 20 sales calls to see the distribution of outcomes:
+
 ```{code-cell} ipython3
 # Generate random samples
 n_simulations = 1000
 samples = binomial_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of successes in {n_calls} calls ({n_simulations} simulations): {samples[:20]}...") # Print first 20
 ```
+
+These samples represent 1000 different salespeople each making 20 calls, showing the natural variation in outcomes.
+
+**Visualizing the PMF:**
+
+Let's see the complete probability distribution across all possible outcomes (0 to 20 successes):
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -791,7 +825,11 @@ plt.show()
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
 
-The PMF shows the probability distribution for the number of successful calls. With n = 20 and p = 0.15, the distribution is centered around np = 3 successes.
+The PMF shows the probability distribution for the number of successful calls. With n = 20 and p = 0.15, the distribution is centered around np = 3 successes (the peak). The distribution is slightly right-skewed because p < 0.5. Notice that getting 0, 1, or 2 successes is quite likely, while getting more than 8 successes is very unlikely.
+
+**Visualizing the CDF:**
+
+The cumulative distribution shows how probability accumulates as we move from 0 to 20 successes:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -815,7 +853,7 @@ plt.show()
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls.
+The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer successful calls. We can see that P(X ≤ 3) ≈ 0.65 (matching our earlier calculation), and by k = 8, we've accumulated nearly all the probability (close to 1.0).
 
 :::
 
@@ -1188,6 +1226,10 @@ Modeling the number of attempts needed to pass a certification exam where the pa
 
 Let's use [`scipy.stats.geom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.geom.html) to explore probabilities and compute expected values. Remember that scipy's definition counts failures before the first success, so we'll translate between the two interpretations.
 
+**Setting up the distribution:**
+
+We create a geometric distribution with a success probability of 0.6 (60% pass rate):
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1196,11 +1238,23 @@ import matplotlib.pyplot as plt
 # Using scipy.stats.geom
 p_pass = 0.6
 geom_rv = stats.geom(p=p_pass)
+```
 
+**Calculating specific probabilities using the PMF:**
+
+What's the probability of passing for the first time on the 3rd attempt? This means failing the first two attempts and passing on the third:
+
+```{code-cell} ipython3
 # PMF: Probability that the first success occurs on trial k (k=1, 2, ...)
 k_trial = 3 # Third attempt
 print(f"P(First pass on attempt {k_trial}): {geom_rv.pmf(k_trial):.4f}")
 ```
+
+There's a 9.6% chance of passing on exactly the 3rd attempt. This is calculated as (1-0.6)² × 0.6 = 0.4² × 0.6 = 0.096.
+
+**Calculating cumulative probabilities using the CDF:**
+
+What's the probability of passing within the first 2 attempts?
 
 ```{code-cell} ipython3
 # CDF: Probability that the first success occurs on or before trial k
@@ -1210,6 +1264,12 @@ print(f"P(First pass takes more than {k_or_before} attempts): {1 - geom_rv.cdf(k
 print(f"P(First pass takes more than {k_or_before} attempts) (using sf): {geom_rv.sf(k_or_before):.4f}")
 ```
 
+There's an 84% chance of passing within 2 attempts, meaning only a 16% chance you'll need more than 2 attempts.
+
+**Computing mean and variance:**
+
+Let's find the expected number of attempts needed:
+
 ```{code-cell} ipython3
 # Mean and Variance
 mean_trials = geom_rv.mean()
@@ -1218,12 +1278,24 @@ print(f"Mean number of attempts until first pass: {mean_trials:.2f}")
 print(f"Variance of number of attempts: {var_trials:.2f}")
 ```
 
+On average, you expect to need 1.67 attempts (which matches the formula 1/p = 1/0.6). The relatively low variance suggests most people will pass within the first few attempts.
+
+**Generating random samples:**
+
+We can simulate many students taking the exam repeatedly until they pass:
+
 ```{code-cell} ipython3
 # Generate random samples (trial numbers until first success)
 n_simulations = 1000
 samples_trials = geom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of attempts until first pass ({n_simulations} simulations): {samples_trials[:20]}...")
 ```
+
+These 1000 samples show the natural variation in how many attempts different students might need.
+
+**Visualizing the PMF:**
+
+Let's visualize the probability of passing on each attempt number (showing the first 10 attempts):
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1249,7 +1321,11 @@ plt.show()
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
 
-The PMF shows exponentially decreasing probabilities for the exam example with p = 0.6.
+The PMF shows exponentially decreasing probabilities - you're most likely to pass on the first attempt (60%), then second attempt (24%), and so on. This characteristic "memoryless" exponential decay is unique to the geometric distribution. Notice how the bars get progressively smaller, with very low probabilities by attempt 5 or 6.
+
+**Visualizing the CDF:**
+
+The cumulative distribution shows the probability of passing by a given attempt:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1274,7 +1350,7 @@ plt.show()
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
 
-The CDF shows P(X ≤ k), increasing toward 1 as the trial number increases.
+The CDF shows P(X ≤ k), rapidly approaching 1 as the attempt number increases. By attempt 2, there's an 84% chance of having passed, and by attempt 5, it's over 99%. This confirms that with p = 0.6, most people will pass within the first few attempts.
 
 :::
 
@@ -1743,6 +1819,10 @@ A quality control inspector tests electronic components until finding 3 defectiv
 
 We'll use [`scipy.stats.nbinom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.nbinom.html) to calculate the probability of needing a certain number of trials and compute expected values, keeping in mind scipy's definition of counting failures.
 
+**Setting up the distribution:**
+
+First, we create the negative binomial distribution object with our parameters:
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -1752,7 +1832,13 @@ import matplotlib.pyplot as plt
 r_defective = 3
 p_defective = 0.05
 nbinom_rv = stats.nbinom(n=r_defective, p=p_defective)
+```
 
+**Calculating specific probabilities using the PMF:**
+
+What's the probability we need to test exactly 80 components to find 3 defective ones? Remember that scipy counts *failures* (good components), so we need to convert:
+
+```{code-cell} ipython3
 # PMF: Probability of needing k components tested to find r defective
 k_components = 80
 num_good = k_components - r_defective
@@ -1762,6 +1848,12 @@ if num_good >= 0:
 else:
     print(f"Cannot find {r_defective} defective in fewer than {r_defective} components.")
 ```
+
+This probability is quite low (0.0074 or 0.74%) because 80 components is far from the expected value.
+
+**Calculating cumulative probabilities using the CDF:**
+
+What if we want to know the probability of finding 3 defective components within 100 tests?
 
 ```{code-cell} ipython3
 # CDF: Probability of needing k or fewer components
@@ -1774,6 +1866,12 @@ else:
     print(f"Cannot find {r_defective} defective in fewer than {r_defective} components.")
 ```
 
+There's an 88.17% chance we'll find all 3 defective components within the first 100 tests. This makes sense because 100 is well above the expected value (as we'll see below).
+
+**Understanding scipy's parameterization:**
+
+Scipy's `nbinom` counts the number of *non-defective* (good) components before finding r defective ones. This is subtly different from counting total components tested:
+
 ```{code-cell} ipython3
 # Mean and Variance (scipy's definition: number of non-defective items)
 mean_good_scipy = nbinom_rv.mean()
@@ -1781,6 +1879,12 @@ var_good_scipy = nbinom_rv.var()
 print(f"Mean number of good components before {r_defective} defective (scipy): {mean_good_scipy:.2f}")
 print(f"Variance of good components before {r_defective} defective (scipy): {var_good_scipy:.2f}")
 ```
+
+Scipy tells us we expect to see 57 good components before finding 3 defective ones.
+
+**Converting to total components (our interpretation):**
+
+For practical purposes, we often care about the *total* number of components we need to test (good + defective). We can calculate this directly using our formulas $E[X] = r/p$ and $Var(X) = r(1-p)/p^2$:
 
 ```{code-cell} ipython3
 # Mean and Variance (our definition: total components tested)
@@ -1790,6 +1894,12 @@ print(f"Mean number of components to test for {r_defective} defective: {mean_com
 print(f"Variance of number of components: {var_components:.2f}")
 ```
 
+On average, we expect to test 60 components total to find 3 defective ones (57 good + 3 defective). Note that the variance is the same (1140) in both parameterizations—we're just shifting the distribution by adding the constant r = 3.
+
+**Generating random samples:**
+
+We can simulate the inspection process by generating random samples. Each sample represents one complete "run" of testing components until we find 3 defective ones:
+
 ```{code-cell} ipython3
 # Generate random samples (number of good components before r defective)
 n_simulations = 1000
@@ -1798,6 +1908,12 @@ samples_good_nb = nbinom_rv.rvs(size=n_simulations)
 samples_components_nb = samples_good_nb + r_defective
 # print(f"\nSimulated components tested to find {r_defective} defective ({n_simulations} sims): {samples_components_nb[:20]}...")
 ```
+
+These samples could be used for Monte Carlo simulation or to verify our theoretical calculations.
+
+**Visualizing the PMF:**
+
+Let's visualize the full probability distribution to see the range of likely outcomes:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1822,7 +1938,11 @@ plt.show()
 
 ![Negative Binomial PMF](ch07_negative_binomial_pmf.svg)
 
-The PMF shows the distribution centered around r/p = 60 components with considerable variability.
+The PMF shows the distribution centered around r/p = 60 components with considerable variability. The distribution is right-skewed, meaning there's a long tail of possibilities where we might need many more components than average. Notice how the probability at k=80 (which we calculated earlier as 0.0074) appears as a small bar in the right tail.
+
+**Visualizing the CDF:**
+
+The cumulative distribution function helps us answer questions like "What's the probability we'll be done within k tests?"
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -1846,7 +1966,7 @@ plt.show()
 
 ![Negative Binomial CDF](ch07_negative_binomial_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests.
+The CDF shows P(X ≤ k), the cumulative probability of finding 3 defective items within k tests. The S-curve shape is characteristic of CDFs. We can see that by k=100 tests, the CDF reaches approximately 0.88 (matching our earlier calculation of 88.17%). The CDF crosses 0.5 around k=53, meaning there's a 50% chance we'll need 53 or fewer tests to find all 3 defective components.
 
 :::
 
@@ -2050,6 +2170,10 @@ Modeling the number of emails received per hour with an average rate of λ = 5 e
 
 Let's use [`scipy.stats.poisson`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html) to calculate the probability of observing different numbers of events and verify that the mean equals the variance.
 
+**Setting up the distribution:**
+
+We create a Poisson distribution with rate parameter λ = 5 (average 5 emails per hour):
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -2058,11 +2182,23 @@ import matplotlib.pyplot as plt
 # Using scipy.stats.poisson
 lambda_rate = 5
 poisson_rv = stats.poisson(mu=lambda_rate)
+```
 
+**Calculating specific probabilities using the PMF:**
+
+What's the probability of receiving exactly 3 emails in a given hour?
+
+```{code-cell} ipython3
 # PMF: Probability of exactly k events
 k_events = 3
 print(f"P(X={k_events} emails in an hour | lambda={lambda_rate}): {poisson_rv.pmf(k_events):.4f}")
 ```
+
+There's a 14.04% chance of receiving exactly 3 emails. This is below the mean of 5, so it's less likely than values closer to 5.
+
+**Calculating cumulative probabilities using the CDF:**
+
+What's the probability of receiving 6 or fewer emails in an hour?
 
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer events
@@ -2072,11 +2208,23 @@ print(f"P(X > {k_or_fewer_events} emails in an hour): {1 - poisson_rv.cdf(k_or_f
 print(f"P(X > {k_or_fewer_events} emails in an hour) (using sf): {poisson_rv.sf(k_or_fewer_events):.4f}")
 ```
 
+There's a 76.22% chance of receiving 6 or fewer emails, which means a 23.78% chance of receiving more than 6 emails in an hour.
+
+**Verifying the key Poisson property: mean equals variance:**
+
+A unique property of the Poisson distribution is that E[X] = Var(X) = λ:
+
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected number of emails): {poisson_rv.mean():.2f}")
 print(f"Variance: {poisson_rv.var():.2f}")
 ```
+
+As expected, both the mean and variance equal 5.00, confirming the theoretical property of the Poisson distribution.
+
+**Generating random samples:**
+
+We can simulate many one-hour periods to see the variation in email arrivals:
 
 ```{code-cell} ipython3
 # Generate random samples
@@ -2084,6 +2232,12 @@ n_simulations = 1000
 samples = poisson_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of emails per hour ({n_simulations} simulations): {samples[:20]}...")
 ```
+
+These 1000 samples represent different hours, each showing how many emails arrived during that hour.
+
+**Visualizing the PMF:**
+
+Let's see the full probability distribution for different email counts:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2109,7 +2263,11 @@ plt.show()
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
 
-The PMF shows the distribution centered around λ = 5 events.
+The PMF shows the distribution centered around λ = 5 emails, with highest probabilities at k = 4 and k = 5. The distribution is roughly symmetric for this value of λ. Values far from 5 (like 0-1 or 11+) have very low probabilities. Notice how the probability at k = 3 (which we calculated as 0.1404) appears as a moderate-height bar.
+
+**Visualizing the CDF:**
+
+The cumulative distribution helps answer questions about ranges of email counts:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2134,7 +2292,7 @@ plt.show()
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
 
-The CDF shows P(X ≤ k), useful for questions like "What's the probability of 6 or fewer emails?"
+The CDF shows P(X ≤ k), the cumulative probability. We can see that by k = 6, the CDF reaches about 0.76 (matching our earlier calculation of 76.22%), and by k = 10, it's close to 1.0, meaning it's very unlikely to receive more than 10 emails in an hour.
 
 :::
 
@@ -2341,6 +2499,10 @@ Modeling the number of winning lottery tickets in a sample of 10 drawn from a bo
 
 We'll use [`scipy.stats.hypergeom`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hypergeom.html) to calculate probabilities for sampling without replacement and see how the mean relates to the population proportion.
 
+**Setting up the distribution:**
+
+We create a hypergeometric distribution for drawing without replacement:
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -2351,11 +2513,23 @@ N_population = 100
 K_successes_pop = 20
 n_sample = 10
 hypergeom_rv = stats.hypergeom(M=N_population, n=K_successes_pop, N=n_sample)
+```
 
+**Calculating specific probabilities using the PMF:**
+
+What's the probability of getting exactly 3 winning tickets when we draw 10?
+
+```{code-cell} ipython3
 # PMF: Probability of exactly k successes in the sample
 k_successes_sample = 3
 print(f"P(X={k_successes_sample} winning tickets in sample of {n_sample}): {hypergeom_rv.pmf(k_successes_sample):.4f}")
 ```
+
+There's a 20.13% chance of getting exactly 3 winners. This is higher than the probability of getting 2 winners because 3 is closer to the expected value (see below).
+
+**Calculating cumulative probabilities using the CDF:**
+
+What's the probability of getting 2 or fewer winning tickets?
 
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer successes in the sample
@@ -2365,6 +2539,12 @@ print(f"P(X > {k_or_fewer_sample} winning tickets in sample): {1 - hypergeom_rv.
 print(f"P(X > {k_or_fewer_sample} winning tickets in sample) (using sf): {hypergeom_rv.sf(k_or_fewer_sample):.4f}")
 ```
 
+There's a 67.67% chance of getting 2 or fewer winners, which means a 32.33% chance of getting more than 2.
+
+**Computing mean and variance:**
+
+Let's verify the mean matches the expected proportion from the population:
+
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected number of winning tickets in sample): {hypergeom_rv.mean():.2f}")
@@ -2373,12 +2553,24 @@ print(f"Standard Deviation: {hypergeom_rv.std():.2f}")
 # Theoretical mean: E[X] = n * (K/N) = 10 * (20/100) = 2.0
 ```
 
+As expected, the mean is 2.0 winners, which is exactly n × (K/N) = 10 × (20/100) = 10 × 0.2. Since 20% of the population are winners, we expect 20% of our sample to be winners. The finite population correction makes the variance (1.44) smaller than it would be for binomial sampling with replacement.
+
+**Generating random samples:**
+
+We can simulate many draws of 10 tickets:
+
 ```{code-cell} ipython3
 # Generate random samples
 n_simulations = 1000
 samples = hypergeom_rv.rvs(size=n_simulations)
 # print(f"\nSimulated number of winning tickets ({n_simulations} simulations): {samples[:20]}...")
 ```
+
+These 1000 samples represent different sets of 10 tickets drawn from the box, showing natural variation in outcomes.
+
+**Visualizing the PMF:**
+
+Let's see the distribution of possible outcomes when drawing 10 tickets:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2407,7 +2599,11 @@ plt.show()
 
 ![Hypergeometric PMF](ch07_hypergeometric_pmf.svg)
 
-The PMF shows the probability distribution for the number of winning tickets in a sample of n = 10 tickets. With N = 100 total tickets and K = 20 winners (from our example), the expected value is n × (K/N) = 10 × 0.2 = 2 winning tickets.
+The PMF is centered around 2 winners (the expected value), with highest probabilities at 1, 2, and 3 winners. Getting 0 winners or 5+ winners is much less likely. The distribution looks roughly bell-shaped, which is typical for hypergeometric distributions when the sample size is small relative to the population. Notice that k = 3 (which we calculated as 20.13%) appears as one of the tallest bars.
+
+**Visualizing the CDF:**
+
+The cumulative distribution shows the total probability of getting up to k winners:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2432,7 +2628,7 @@ plt.show()
 
 ![Hypergeometric CDF](ch07_hypergeometric_cdf.svg)
 
-The CDF shows P(X ≤ k), the cumulative probability of getting k or fewer winning tickets.
+The CDF shows the cumulative probability. We can see that P(X ≤ 2) ≈ 0.68 (matching our earlier calculation of 67.67%), and by k = 5, nearly all probability has accumulated (close to 1.0).
 
 :::
 
@@ -2639,6 +2835,10 @@ Modeling a random integer selection from 1 to 20, where each number is equally l
 
 Let's use [`scipy.stats.randint`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.randint.html) to calculate probabilities and generate samples.
 
+**Setting up the distribution:**
+
+We create a discrete uniform distribution over integers from 1 to 20 (note: scipy.stats.randint uses half-open intervals [low, high)):
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -2648,12 +2848,24 @@ import matplotlib.pyplot as plt
 a_sel = 1
 b_sel = 20
 uniform_rv = stats.randint(low=a_sel, high=b_sel+1)
+```
 
+**Calculating probabilities using the PMF:**
+
+Since all values are equally likely, each value has the same probability:
+
+```{code-cell} ipython3
 # PMF: Probability of any specific value
 k_val = 7
 print(f"P(X={k_val}): {uniform_rv.pmf(k_val):.4f}")
 print(f"This equals 1/{b_sel-a_sel+1} = {1/(b_sel-a_sel+1):.4f}")
 ```
+
+Each of the 20 values has probability 1/20 = 0.05. The value 7 has the same probability as any other value.
+
+**Calculating cumulative probabilities using the CDF:**
+
+What's the probability of selecting a number ≤ 10?
 
 ```{code-cell} ipython3
 # CDF: Probability of k or fewer
@@ -2662,12 +2874,24 @@ print(f"P(X <= {k_threshold}): {uniform_rv.cdf(k_threshold):.4f}")
 print(f"P(X > {k_threshold}): {uniform_rv.sf(k_threshold):.4f}")
 ```
 
+There's a 50% chance of selecting 10 or less (values 1-10), and a 50% chance of selecting more than 10 (values 11-20). This makes sense since 10 is the midpoint.
+
+**Computing mean and variance:**
+
+Let's verify the mean is at the center of the range:
+
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected value): {uniform_rv.mean():.2f}")
 print(f"Theoretical mean (a+b)/2: {(a_sel+b_sel)/2:.2f}")
 print(f"Variance: {uniform_rv.var():.2f}")
 ```
+
+The mean is 10.50, exactly halfway between 1 and 20, as expected from the formula (a+b)/2 = (1+20)/2 = 10.5.
+
+**Generating random samples:**
+
+Let's generate 10 random selections:
 
 ```{code-cell} ipython3
 # Generate random samples
@@ -2676,6 +2900,12 @@ samples = uniform_rv.rvs(size=n_samples)
 print(f"{n_samples} random selections from 1 to {b_sel}:")
 print(samples)
 ```
+
+Each sample is an independent random selection, all values equally likely.
+
+**Visualizing the PMF:**
+
+The PMF visualization shows the defining characteristic of the uniform distribution—perfect equality:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2700,7 +2930,11 @@ plt.show()
 
 ![Discrete Uniform PMF](ch07_discrete_uniform_pmf_example.svg)
 
-All 20 values have equal probability of 0.05 (1/20).
+All 20 values have equal probability of 0.05 (1/20). This flat distribution is the signature of the discrete uniform—no value is more likely than any other.
+
+**Visualizing the CDF:**
+
+The CDF shows a perfect linear staircase:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2724,7 +2958,7 @@ plt.show()
 
 ![Discrete Uniform CDF](ch07_discrete_uniform_cdf_example.svg)
 
-The CDF increases linearly in equal steps, showing the uniform nature of the distribution.
+The CDF increases in equal steps of 1/20 = 0.05, perfectly linear. At k=10, the CDF is exactly 0.5 (the median), confirming our earlier calculation.
 
 :::
 
@@ -2910,6 +3144,10 @@ A coffee shop tracks customer drink preferences: 40% choose coffee, 30% choose t
 
 Let's model this using a Categorical distribution with [`scipy.stats.rv_discrete`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_discrete.html).
 
+**Setting up the distribution:**
+
+We create a categorical distribution with custom probabilities for each category:
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -2919,12 +3157,24 @@ import matplotlib.pyplot as plt
 choices = np.array([1, 2, 3, 4])  # 1=Coffee, 2=Tea, 3=Juice, 4=Water
 probs = np.array([0.40, 0.30, 0.20, 0.10])
 categorical_rv = stats.rv_discrete(values=(choices, probs))
+```
 
+**Displaying probabilities:**
+
+Let's see the probability of each drink choice:
+
+```{code-cell} ipython3
 # PMF: Probability of each choice
 labels = ['Coffee', 'Tea', 'Juice', 'Water']
 for i, (choice, label) in enumerate(zip(choices, labels)):
     print(f"P(X={choice}) [{label}]: {probs[i]:.2f}")
 ```
+
+Coffee is the most likely choice (40%), followed by tea (30%), juice (20%), and water (10%). Unlike the uniform distribution, these probabilities differ.
+
+**Calculating cumulative probabilities:**
+
+What's the probability a customer chooses coffee or tea (categories 1 or 2)?
 
 ```{code-cell} ipython3
 # CDF: Probability of choice i or lower
@@ -2932,11 +3182,23 @@ print(f"P(X <= 2) [Coffee or Tea]: {categorical_rv.cdf(2):.2f}")
 print(f"P(X > 2) [Juice or Water]: {1 - categorical_rv.cdf(2):.2f}")
 ```
 
+There's a 70% chance the customer chooses coffee or tea, and a 30% chance they choose juice or water.
+
+**Computing mean and variance:**
+
+While mean and variance are less interpretable for categorical data with arbitrary numbering, scipy can compute them:
+
 ```{code-cell} ipython3
 # Mean and Variance
 print(f"Mean (Expected value): {categorical_rv.mean():.2f}")
 print(f"Variance: {categorical_rv.var():.2f}")
 ```
+
+The mean of 2.00 indicates choices are weighted toward lower category numbers (coffee and tea).
+
+**Generating random samples:**
+
+Let's simulate 100 customers and see how many choose each drink:
 
 ```{code-cell} ipython3
 # Generate random samples
@@ -2947,6 +3209,12 @@ for i, label in enumerate(labels, 1):
     count = np.sum(samples == i)
     print(f"{label}: {count} ({count/n_customers:.1%})")
 ```
+
+The simulated counts should approximate the theoretical probabilities (40%, 30%, 20%, 10%), with some random variation.
+
+**Visualizing the PMF:**
+
+The bar chart clearly shows the different probabilities for each category:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -2969,7 +3237,7 @@ plt.show()
 
 ![Categorical PMF](ch07_categorical_pmf_example.svg)
 
-Coffee is the most popular choice, followed by tea, juice, and water.
+The PMF shows unequal bar heights, distinguishing this from a discrete uniform distribution. Coffee (40%) has the tallest bar, while water (10%) has the shortest, clearly visualizing customer preferences.
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -3172,6 +3440,10 @@ A store tracks purchases across 4 product categories: Electronics (30%), Clothin
 
 Let's use [`numpy.random.multinomial`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.multinomial.html) to work with this distribution.
 
+**Setting up parameters and computing expected values:**
+
+First, let's define our multinomial parameters and see what counts we expect:
+
 ```{code-cell} ipython3
 import numpy as np
 from scipy import stats
@@ -3189,6 +3461,12 @@ for cat, exp in zip(categories, expected_counts):
     print(f"  {cat}: {exp:.1f}")
 ```
 
+With 50 customers, we expect 15 to buy Electronics (30%), 12.5 each for Clothing and Home Goods (25%), and 10 for Food (20%).
+
+**Generating a single sample:**
+
+Let's simulate one day of 50 customers and see how many purchase from each category:
+
 ```{code-cell} ipython3
 # Generate one sample (one set of 50 customers)
 one_sample = np.random.multinomial(n_customers, probs)
@@ -3197,6 +3475,12 @@ for cat, count in zip(categories, one_sample):
     print(f"  {cat}: {count}")
 print(f"Total: {np.sum(one_sample)}")
 ```
+
+Notice that the total is always exactly 50—every customer chooses exactly one category. The individual counts will vary around the expected values due to randomness.
+
+**Analyzing the distribution through many simulations:**
+
+Let's simulate many days to understand the variability in each category's count:
 
 ```{code-cell} ipython3
 # Generate many samples to see the distribution
@@ -3210,6 +3494,12 @@ for i, cat in enumerate(categories):
     print(f"  Mean: {np.mean(counts):.2f} (theoretical: {n_customers * probs[i]:.2f})")
     print(f"  Std: {np.std(counts):.2f} (theoretical: {np.sqrt(n_customers * probs[i] * (1-probs[i])):.2f})")
 ```
+
+The simulated means should closely match the theoretical values (n × p_i), and the standard deviations follow the binomial formula √(n × p_i × (1-p_i)) since each category's marginal distribution is binomial.
+
+**Visualizing the marginal distributions:**
+
+Let's plot the distribution of counts for each category separately:
 
 ```{code-cell} ipython3
 :tags: [remove-input, remove-output]
@@ -3240,7 +3530,7 @@ plt.show()
 
 ![Multinomial Example](ch07_multinomial_example.svg)
 
-Each category's marginal distribution is Binomial with parameters (n=50, p=category probability).
+Each subplot shows one category's distribution across 10,000 simulations. The histograms are bell-shaped and centered on the expected values (red dashed lines). Electronics (p=0.30) has the highest expected count (15), while Food (p=0.20) has the lowest (10). Each category's marginal distribution is binomial with parameters (n=50, p=category probability), but importantly, these counts are NOT independent—they must sum to 50.
 
 :::
 
