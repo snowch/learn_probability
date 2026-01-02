@@ -2171,12 +2171,14 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 **Visual breakdown:** The following diagram shows how the Poisson formula combines its components to calculate probabilities:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_formula_breakdown.svg'):
     os.remove('ch07_poisson_formula_breakdown.svg')
+```
 
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
@@ -2368,8 +2370,13 @@ ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, th
         fontsize=14, style='italic', zorder=4,
         bbox=dict(boxstyle='round,pad=0.5', facecolor='wheat', alpha=0.3))
 
-plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson Formula Breakdown](ch07_poisson_formula_breakdown.svg)
@@ -2397,12 +2404,14 @@ Note: Mean and variance are equal in a Poisson distribution, so the standard dev
 Let's visualize a Poisson distribution with $\lambda = 4$ (our call center example):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_pmf_generic.svg'):
     os.remove('ch07_poisson_pmf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Create Poisson distribution for visualization (λ=4)
 lambda_viz = 4
 poisson_viz = stats.poisson(mu=lambda_viz)
@@ -2431,8 +2440,13 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson PMF](ch07_poisson_pmf_generic.svg)
@@ -2440,12 +2454,14 @@ plt.show()
 The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values. The shaded region shows mean ± 1 standard deviation ($\sqrt{4} = 2$).
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_cdf_generic.svg'):
     os.remove('ch07_poisson_cdf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
 
@@ -2461,8 +2477,13 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson CDF](ch07_poisson_cdf_generic.svg)
@@ -2546,12 +2567,14 @@ These 1000 samples represent different hours, each showing how many emails arriv
 Let's see the full probability distribution for different email counts:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_pmf.svg'):
     os.remove('ch07_poisson_pmf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the PMF
 k_values = np.arange(0, 16) # Plot for k=0 to 15
 pmf_values = poisson_rv.pmf(k_values)
@@ -2563,8 +2586,13 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
@@ -2576,12 +2604,14 @@ The PMF shows the distribution centered around λ = 5 emails, with highest proba
 The cumulative distribution helps answer questions about ranges of email counts:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_cdf.svg'):
     os.remove('ch07_poisson_cdf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = poisson_rv.cdf(k_values)
 
@@ -2592,8 +2622,13 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
