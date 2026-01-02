@@ -498,12 +498,14 @@ In our context, it counts **how many different sequences** of $n$ trials yield e
 **Visual example:** Here's how it works for $n=3$ trials, $k=2$ successes, with $p=0.6$:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_formula_breakdown.svg'):
     os.remove('ch07_binomial_formula_breakdown.svg')
+```
 
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
@@ -639,8 +641,13 @@ ax.text(0.5, 0.10, why,
         transform=ax.transAxes, ha="center", va="center",
         fontsize=14, style="italic", wrap=True, zorder=4)
 
-plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_binomial_formula_breakdown.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Binomial Formula Breakdown](ch07_binomial_formula_breakdown.svg)
@@ -679,12 +686,14 @@ $$
 Let's visualize a Binomial distribution with $n = 10$ and $p = 0.5$ (our coin flip example):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_pmf_generic.svg'):
     os.remove('ch07_binomial_pmf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Create Binomial distribution for visualization (n=10, p=0.5)
 n_viz = 10
 p_viz = 0.5
@@ -713,8 +722,13 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_binomial_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Binomial PMF](ch07_binomial_pmf_generic.svg)
@@ -722,12 +736,14 @@ plt.show()
 The PMF shows the probability distribution for the number of heads in 10 coin flips. The distribution is symmetric around the mean ($np = 5$) since $p = 0.5$. The shaded region shows mean ± 1 standard deviation ($\sqrt{np(1-p)} = \sqrt{2.5} \approx 1.58$).
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_cdf_generic.svg'):
     os.remove('ch07_binomial_cdf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = binomial_viz.cdf(k_values_viz)
 
@@ -742,8 +758,13 @@ plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_binomial_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Binomial CDF](ch07_binomial_cdf_generic.svg)
@@ -831,12 +852,14 @@ These samples represent 1000 different salespeople each making 20 calls, showing
 Let's see the complete probability distribution across all possible outcomes (0 to 20 successes):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_pmf.svg'):
     os.remove('ch07_binomial_pmf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the PMF
 k_values = np.arange(0, n_calls + 1)
 pmf_values = binomial_rv.pmf(k_values)
@@ -847,8 +870,13 @@ plt.title(f"Binomial PMF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Probability")
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_binomial_pmf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Binomial PMF](ch07_binomial_pmf.svg)
@@ -860,12 +888,14 @@ The PMF shows the probability distribution for the number of successful calls. W
 The cumulative distribution shows how probability accumulates as we move from 0 to 20 successes:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_binomial_cdf.svg'):
     os.remove('ch07_binomial_cdf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = binomial_rv.cdf(k_values)
 
@@ -875,8 +905,13 @@ plt.title(f"Binomial CDF (n={n_calls}, p={p_success_call})")
 plt.xlabel("Number of Successes (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_binomial_cdf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Binomial CDF](ch07_binomial_cdf.svg)
