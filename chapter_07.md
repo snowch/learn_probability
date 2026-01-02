@@ -1022,12 +1022,14 @@ This is why the formula captures "trials until first success" - it requires all 
 **Visual example:** Here's how the geometric distribution works with $p=0.4$ (our free throw example):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_formula_breakdown.svg'):
     os.remove('ch07_geometric_formula_breakdown.svg')
+```
 
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
@@ -1177,8 +1179,13 @@ ax.text(0.5, 0.036, r"$P(X=3) = (0.6)^2 \times 0.4 = 0.36 \times 0.4 = 0.144$",
         transform=ax.transAxes, ha="center", va="center",
         fontsize=19, zorder=4)
 
-plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_geometric_formula_breakdown.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Geometric Formula Breakdown](ch07_geometric_formula_breakdown.svg)
@@ -1210,12 +1217,14 @@ The diagram shows how the geometric distribution works: each additional failure 
 Let's visualize a Geometric distribution with $p = 0.4$ (our free throw example):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_pmf_generic.svg'):
     os.remove('ch07_geometric_pmf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Create Geometric distribution for visualization (p=0.4)
 p_viz = 0.4
 geom_viz = stats.geom(p=p_viz)
@@ -1244,8 +1253,13 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_geometric_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Geometric PMF](ch07_geometric_pmf_generic.svg)
@@ -1253,12 +1267,14 @@ plt.show()
 The PMF shows exponentially decreasing probabilities - you're most likely to succeed on the first few trials. The shaded region shows mean ± 1 standard deviation.
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_cdf_generic.svg'):
     os.remove('ch07_geometric_cdf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = geom_viz.cdf(k_values_viz)
 
@@ -1274,8 +1290,13 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_geometric_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Geometric CDF](ch07_geometric_cdf_generic.svg)
@@ -1361,12 +1382,14 @@ These 1000 samples show the natural variation in how many attempts different stu
 Let's visualize the probability of passing on each attempt number (showing the first 10 attempts):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_pmf.svg'):
     os.remove('ch07_geometric_pmf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the PMF (using trial number k=1, 2, ...)
 k_values_trials = np.arange(1, 11) # Plot first 10 trials
 pmf_values = geom_rv.pmf(k_values_trials)
@@ -1378,8 +1401,13 @@ plt.xlabel("Trial Number (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_trials)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_geometric_pmf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Geometric PMF](ch07_geometric_pmf.svg)
@@ -1391,12 +1419,14 @@ The PMF shows exponentially decreasing probabilities - you're most likely to pas
 The cumulative distribution shows the probability of passing by a given attempt:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_geometric_cdf.svg'):
     os.remove('ch07_geometric_cdf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF (using trial number k=1, 2, ...)
 cdf_values = geom_rv.cdf(k_values_trials)
 
@@ -1407,8 +1437,13 @@ plt.xlabel("Trial Number (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_trials)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_geometric_cdf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Geometric CDF](ch07_geometric_cdf.svg)
@@ -2136,12 +2171,14 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 **Visual breakdown:** The following diagram shows how the Poisson formula combines its components to calculate probabilities:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_formula_breakdown.svg'):
     os.remove('ch07_poisson_formula_breakdown.svg')
+```
 
+```{code-cell} ipython3
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
@@ -2333,8 +2370,13 @@ ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, th
         fontsize=14, style='italic', zorder=4,
         bbox=dict(boxstyle='round,pad=0.5', facecolor='wheat', alpha=0.3))
 
-plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson Formula Breakdown](ch07_poisson_formula_breakdown.svg)
@@ -2362,12 +2404,14 @@ Note: Mean and variance are equal in a Poisson distribution, so the standard dev
 Let's visualize a Poisson distribution with $\lambda = 4$ (our call center example):
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_pmf_generic.svg'):
     os.remove('ch07_poisson_pmf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Create Poisson distribution for visualization (λ=4)
 lambda_viz = 4
 poisson_viz = stats.poisson(mu=lambda_viz)
@@ -2396,8 +2440,13 @@ plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='upper right', fontsize=10)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_pmf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson PMF](ch07_poisson_pmf_generic.svg)
@@ -2405,12 +2454,14 @@ plt.show()
 The PMF shows the distribution centered around λ = 4 with reasonable probability for nearby values. The shaded region shows mean ± 1 standard deviation ($\sqrt{4} = 2$).
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_cdf_generic.svg'):
     os.remove('ch07_poisson_cdf_generic.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values_viz = poisson_viz.cdf(k_values_viz)
 
@@ -2426,8 +2477,13 @@ plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values_viz)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_cdf_generic.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson CDF](ch07_poisson_cdf_generic.svg)
@@ -2511,12 +2567,14 @@ These 1000 samples represent different hours, each showing how many emails arriv
 Let's see the full probability distribution for different email counts:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_pmf.svg'):
     os.remove('ch07_poisson_pmf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the PMF
 k_values = np.arange(0, 16) # Plot for k=0 to 15
 pmf_values = poisson_rv.pmf(k_values)
@@ -2528,8 +2586,13 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Probability P(X=k)")
 plt.xticks(k_values)
 plt.grid(axis='y', linestyle='--', alpha=0.6)
-plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_pmf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson PMF](ch07_poisson_pmf.svg)
@@ -2541,12 +2604,14 @@ The PMF shows the distribution centered around λ = 5 emails, with highest proba
 The cumulative distribution helps answer questions about ranges of email counts:
 
 ```{code-cell} ipython3
-:tags: [remove-input, remove-output]
+:tags: [remove-cell]
 
 # Remove existing SVG if present
 if os.path.exists('ch07_poisson_cdf.svg'):
     os.remove('ch07_poisson_cdf.svg')
+```
 
+```{code-cell} ipython3
 # Plotting the CDF
 cdf_values = poisson_rv.cdf(k_values)
 
@@ -2557,8 +2622,13 @@ plt.xlabel("Number of Events (k)")
 plt.ylabel("Cumulative Probability P(X <= k)")
 plt.xticks(k_values)
 plt.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6)
-plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 plt.show()
+```
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+plt.savefig('ch07_poisson_cdf.svg', format='svg', bbox_inches='tight')
 ```
 
 ![Poisson CDF](ch07_poisson_cdf.svg)
