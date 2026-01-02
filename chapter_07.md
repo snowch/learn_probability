@@ -2082,6 +2082,7 @@ if os.path.exists('ch07_poisson_formula_breakdown.svg'):
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
+import math
 
 # --- Parameters for the example ---
 lambda_val = 4
@@ -2091,7 +2092,7 @@ e_val = np.e
 # Calculate components
 e_neg_lambda = np.exp(-lambda_val)
 lambda_k = lambda_val ** k_val
-k_factorial = np.math.factorial(k_val)
+k_factorial = math.factorial(k_val)
 numerator = e_neg_lambda * lambda_k
 result = numerator / k_factorial
 
