@@ -2120,8 +2120,8 @@ ax.text(0.5, 0.96, f"Poisson Formula Breakdown: λ={lambda_val}, k={k_val}",
         fontsize=26, weight="bold", zorder=4)
 
 # --- Top row: Three components ---
-comp_y = 0.82
-comp_w, comp_h = 0.20, 0.12
+comp_y = 0.76
+comp_w, comp_h = 0.20, 0.11
 
 # Component 1: e^(-λ)
 comp1_x = 0.17
@@ -2132,7 +2132,7 @@ ax.text(comp1_x + comp_w/2, comp_y + comp_h*0.65, r"$e^{-\lambda}$",
         fontsize=28, weight="bold", zorder=4)
 ax.text(comp1_x + comp_w/2, comp_y + comp_h*0.25, f"Normalization",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
+        fontsize=13, style="italic", zorder=4)
 ax.text(comp1_x + comp_w/2, comp_y - 0.025, rf"$e^{{-{lambda_val}}} = {e_neg_lambda:.4f}$",
         transform=ax.transAxes, ha="center", va="top",
         fontsize=16, zorder=4)
@@ -2146,7 +2146,7 @@ ax.text(comp2_x + comp_w/2, comp_y + comp_h*0.65, r"$\lambda^k$",
         fontsize=28, weight="bold", zorder=4)
 ax.text(comp2_x + comp_w/2, comp_y + comp_h*0.25, f"Rate Power",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
+        fontsize=13, style="italic", zorder=4)
 ax.text(comp2_x + comp_w/2, comp_y - 0.025, rf"${lambda_val}^{{{k_val}}} = {lambda_k}$",
         transform=ax.transAxes, ha="center", va="top",
         fontsize=16, zorder=4)
@@ -2160,10 +2160,37 @@ ax.text(comp3_x + comp_w/2, comp_y + comp_h*0.65, r"$k!$",
         fontsize=28, weight="bold", zorder=4)
 ax.text(comp3_x + comp_w/2, comp_y + comp_h*0.25, f"Arrangements",
         transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
+        fontsize=13, style="italic", zorder=4)
 ax.text(comp3_x + comp_w/2, comp_y - 0.025, rf"${k_val}! = {k_factorial}$",
         transform=ax.transAxes, ha="center", va="top",
         fontsize=16, zorder=4)
+
+# --- Explanatory callouts (ABOVE the boxes) ---
+callout_y = comp_y + comp_h + 0.015  # Position above the boxes
+
+# Callout for e^(-λ)
+ax.text(comp1_x + comp_w/2, callout_y + 0.015, "Ensures probabilities",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=10, color='darkviolet', style='italic', zorder=4)
+ax.text(comp1_x + comp_w/2, callout_y, "sum to 1",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=10, color='darkviolet', style='italic', zorder=4)
+
+# Callout for λ^k
+ax.text(comp2_x + comp_w/2, callout_y + 0.015, "Expected events",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=10, color='steelblue', style='italic', zorder=4)
+ax.text(comp2_x + comp_w/2, callout_y, "raised to k",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=10, color='steelblue', style='italic', zorder=4)
+
+# Callout for k!
+ax.text(comp3_x + comp_w/2, callout_y + 0.015, "Ways to arrange",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=10, color='orange', style='italic', zorder=4)
+ax.text(comp3_x + comp_w/2, callout_y, "k events",
+        transform=ax.transAxes, ha="center", va="bottom",
+        fontsize=10, color='orange', style='italic', zorder=4)
 
 # --- Middle: Numerator (e^(-λ) × λ^k) ---
 numer_y = 0.58
@@ -2236,31 +2263,6 @@ ax.annotate('', xy=(0.5, res_y + res_h),
             xytext=(0.5, formula_y - 0.19),
             arrowprops=dict(arrowstyle='->', lw=2.5, color='green', zorder=2),
             transform=ax.transAxes)
-
-# --- Explanatory callouts ---
-# Callout for e^(-λ)
-ax.text(comp1_x + comp_w/2, 0.92, "Ensures probabilities",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='darkviolet', style='italic', zorder=4)
-ax.text(comp1_x + comp_w/2, 0.905, "sum to 1",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='darkviolet', style='italic', zorder=4)
-
-# Callout for λ^k
-ax.text(comp2_x + comp_w/2, 0.92, "Expected events",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='steelblue', style='italic', zorder=4)
-ax.text(comp2_x + comp_w/2, 0.905, "raised to k",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='steelblue', style='italic', zorder=4)
-
-# Callout for k!
-ax.text(comp3_x + comp_w/2, 0.92, "Ways to arrange",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='orange', style='italic', zorder=4)
-ax.text(comp3_x + comp_w/2, 0.905, "k events",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='orange', style='italic', zorder=4)
 
 # Bottom explanation
 ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, the probability of exactly k={k_val} events is {result:.4f} ({result*100:.2f}%)",
