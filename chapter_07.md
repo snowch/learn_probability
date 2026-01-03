@@ -2082,212 +2082,458 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 **Why mean = variance = λ?** This unique property reflects the "memoryless" nature of the Poisson process - events occur randomly and independently at a constant average rate.
 :::
 
-**Visual breakdown:** The following diagram shows how the Poisson formula combines its components to calculate probabilities:
+**Algorithm visualization:** The following diagram presents the Poisson formula as a 3-step mental model—a logical algorithm that builds intuition for why each component exists:
 
 ```{code-cell} ipython3
 :tags: [remove-input]
 
 # Remove existing SVG if present
-if os.path.exists('ch07_poisson_formula_breakdown.svg'):
-    os.remove('ch07_poisson_formula_breakdown.svg')
-
+if os.path.exists('ch07_poisson_algorithm.svg'):
+    os.remove('ch07_poisson_algorithm.svg')
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+import matplotlib.patches as mpatches
+from matplotlib.patches import FancyBboxPatch, Circle
 import numpy as np
 import math
 
-# --- Parameters for the example ---
-lambda_val = 4
+# Parameters
+lambda_val = 3
 k_val = 2
-e_val = np.e
 
 # Calculate components
 e_neg_lambda = np.exp(-lambda_val)
 lambda_k = lambda_val ** k_val
 k_factorial = math.factorial(k_val)
-numerator = e_neg_lambda * lambda_k
-result = numerator / k_factorial
+result = (e_neg_lambda * lambda_k) / k_factorial
 
-# Create figure with better proportions for mobile
-fig, ax = plt.subplots(figsize=(14, 9.5), constrained_layout=True)
-ax.set_axis_off()
+# Create figure with aspect ratio matching the React component (1200x1600)
+fig, ax = plt.subplots(figsize=(12, 16))
+fig.patch.set_facecolor('#f0f4f8')
+
+# Remove axes
 ax.set_xlim(0, 1)
 ax.set_ylim(0, 1)
+ax.axis('off')
 
-# Helper function for rounded boxes
-def rounded_box(ax, xy, w, h, fc, ec, lw=2, pad=0.012, r=0.02, z=3):
-    x, y = xy
-    patch = FancyBboxPatch(
+# Color palette (from React component)
+colors = {
+    'purple': '#667eea',
+    'purple_dark': '#764ba2',
+    'green': '#48bb78',
+    'green_dark': '#38a169',
+    'orange': '#f6ad55',
+    'orange_dark': '#ed8936',
+    'blue': '#4299e1',
+    'blue_dark': '#3182ce',
+    'gray_light': '#edf2f7',
+    'gray_border': '#cbd5e0',
+    'text_dark': '#2d3748',
+    'text_medium': '#4a5568',
+    'text_light': '#718096'
+}
+
+def add_rounded_box(x, y, w, h, facecolor, edgecolor=None, linewidth=0, alpha=1, zorder=1):
+    """Add a rounded rectangle box"""
+    box = FancyBboxPatch(
         (x, y), w, h,
-        boxstyle=f"round,pad={pad},rounding_size={r}",
-        transform=ax.transAxes,
-        facecolor=fc, edgecolor=ec, linewidth=lw, zorder=z
+        boxstyle="round,pad=0.01",
+        facecolor=facecolor,
+        edgecolor=edgecolor if edgecolor else facecolor,
+        linewidth=linewidth,
+        alpha=alpha,
+        zorder=zorder,
+        transform=ax.transAxes
     )
-    ax.add_patch(patch)
-    return patch
+    ax.add_patch(box)
+    return box
 
-# Title (moved down slightly for better spacing)
-ax.text(0.5, 0.95, f"Poisson Formula Breakdown: λ={lambda_val}, k={k_val}",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=26, weight="bold", zorder=4)
+# Current Y position (start from top)
+current_y = 0.98
 
-# --- Top row: Three components ---
-comp_y = 0.70
-comp_w, comp_h = 0.20, 0.11
+# === TITLE ===
+ax.text(0.5, current_y, "The Poisson Distribution Algorithm",
+        ha='center', va='top', fontsize=36, weight='bold',
+        color=colors['text_dark'], transform=ax.transAxes)
+current_y -= 0.035
 
-# Component 1: e^(-λ)
-comp1_x = 0.17
-rounded_box(ax, (comp1_x, comp_y), comp_w, comp_h,
-            fc="lavender", ec="darkviolet", lw=2.5, r=0.02)
-ax.text(comp1_x + comp_w/2, comp_y + comp_h*0.65, r"$e^{-\lambda}$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=30, weight="bold", zorder=4)
-ax.text(comp1_x + comp_w/2, comp_y + comp_h*0.25, f"Normalization",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
-ax.text(comp1_x + comp_w/2, comp_y - 0.03, rf"$e^{{-{lambda_val}}} = {e_neg_lambda:.4f}$",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=17, zorder=4)
+ax.text(0.5, current_y, "A Visual Mental Model",
+        ha='center', va='top', fontsize=16, weight='500',
+        color=colors['text_light'], transform=ax.transAxes)
+current_y -= 0.055
 
-# Component 2: λ^k
-comp2_x = 0.40
-rounded_box(ax, (comp2_x, comp_y), comp_w, comp_h,
-            fc="lightblue", ec="steelblue", lw=2.5, r=0.02)
-ax.text(comp2_x + comp_w/2, comp_y + comp_h*0.65, r"$\lambda^k$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=30, weight="bold", zorder=4)
-ax.text(comp2_x + comp_w/2, comp_y + comp_h*0.25, f"Rate Power",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
-ax.text(comp2_x + comp_w/2, comp_y - 0.03, rf"${lambda_val}^{{{k_val}}} = {lambda_k}$",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=17, zorder=4)
+# === QUESTION BOX ===
+question_h = 0.10
+question_y = current_y - question_h
+add_rounded_box(0.08, question_y, 0.84, question_h,
+                colors['gray_light'], colors['gray_border'], 3, zorder=1)
 
-# Component 3: k!
-comp3_x = 0.63
-rounded_box(ax, (comp3_x, comp_y), comp_w, comp_h,
-            fc="lightyellow", ec="orange", lw=2.5, r=0.02)
-ax.text(comp3_x + comp_w/2, comp_y + comp_h*0.65, r"$k!$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=30, weight="bold", zorder=4)
-ax.text(comp3_x + comp_w/2, comp_y + comp_h*0.25, f"Arrangements",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
-ax.text(comp3_x + comp_w/2, comp_y - 0.03, rf"${k_val}! = {k_factorial}$",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=17, zorder=4)
+ax.text(0.5, question_y + question_h * 0.70, "The Question:",
+        ha='center', va='center', fontsize=18, weight='bold',
+        color=colors['text_dark'], transform=ax.transAxes, zorder=2)
 
-# --- Explanatory callouts (positioned well above boxes to avoid overlap) ---
-callout_y = 0.83  # Fixed position between title and boxes with more spacing
+# Question text with highlighted values
+ax.text(0.5, question_y + question_h * 0.35,
+        f"Events arrive randomly at an average rate of",
+        ha='center', va='center', fontsize=14,
+        color=colors['text_medium'], transform=ax.transAxes, zorder=2)
 
-# Callout for e^(-λ)
-ax.text(comp1_x + comp_w/2, callout_y + 0.025, "Ensures probabilities",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='darkviolet', style='italic', zorder=4)
-ax.text(comp1_x + comp_w/2, callout_y, "sum to 1",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='darkviolet', style='italic', zorder=4)
+# Lambda highlight
+add_rounded_box(0.44, question_y + question_h * 0.15, 0.06, 0.03,
+                '#fed7d7', '#c53030', 0, zorder=2)
+ax.text(0.47, question_y + question_h * 0.165, "λ = 3",
+        ha='center', va='center', fontsize=12, weight='bold',
+        color='#c53030', transform=ax.transAxes, zorder=3)
 
-# Callout for λ^k
-ax.text(comp2_x + comp_w/2, callout_y + 0.025, "Expected events",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='steelblue', style='italic', zorder=4)
-ax.text(comp2_x + comp_w/2, callout_y, "raised to k",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='steelblue', style='italic', zorder=4)
+ax.text(0.51, question_y + question_h * 0.165, " per time period.",
+        ha='left', va='center', fontsize=14,
+        color=colors['text_medium'], transform=ax.transAxes, zorder=2)
 
-# Callout for k!
-ax.text(comp3_x + comp_w/2, callout_y + 0.025, "Ways to arrange",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='orange', style='italic', zorder=4)
-ax.text(comp3_x + comp_w/2, callout_y, "k events",
-        transform=ax.transAxes, ha="center", va="bottom",
-        fontsize=11, color='orange', style='italic', zorder=4)
+ax.text(0.33, question_y + question_h * 0.02,
+        "What's the probability of getting exactly",
+        ha='center', va='center', fontsize=14,
+        color=colors['text_medium'], transform=ax.transAxes, zorder=2)
 
-# --- Middle: Numerator (e^(-λ) × λ^k) ---
-numer_y = 0.54
-numer_w, numer_h = 0.35, 0.10
-numer_x = 0.5 - numer_w/2
-rounded_box(ax, (numer_x, numer_y), numer_w, numer_h,
-            fc="lightcyan", ec="teal", lw=2.5, r=0.02)
-ax.text(0.5, numer_y + numer_h*0.6, r"$e^{-\lambda} \times \lambda^k$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=26, weight="bold", zorder=4)
-ax.text(0.5, numer_y + numer_h*0.2, f"Numerator",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style="italic", zorder=4)
-ax.text(0.5, numer_y - 0.03, rf"${e_neg_lambda:.4f} \times {lambda_k} = {numerator:.4f}$",
-        transform=ax.transAxes, ha="center", va="top",
-        fontsize=17, zorder=4)
+# K highlight
+add_rounded_box(0.505, question_y - 0.005, 0.06, 0.03,
+                '#c6f6d5', '#22543d', 0, zorder=2)
+ax.text(0.535, question_y + 0.005, "k = 2",
+        ha='center', va='center', fontsize=12, weight='bold',
+        color='#22543d', transform=ax.transAxes, zorder=3)
 
-# Arrows from components to numerator
-arrow_props = dict(arrowstyle='->', lw=2.5, color='gray', zorder=2,
-                   connectionstyle="arc3,rad=0")
-# From comp1 to numerator
-ax.annotate('', xy=(numer_x + 0.08, numer_y + numer_h),
-            xytext=(comp1_x + comp_w/2, comp_y),
-            arrowprops=arrow_props, transform=ax.transAxes)
-# From comp2 to numerator
-ax.annotate('', xy=(numer_x + numer_w - 0.08, numer_y + numer_h),
-            xytext=(comp2_x + comp_w/2, comp_y),
-            arrowprops=arrow_props, transform=ax.transAxes)
+ax.text(0.605, question_y + 0.005, " events?",
+        ha='left', va='center', fontsize=14,
+        color=colors['text_medium'], transform=ax.transAxes, zorder=2)
 
-# --- Formula section ---
-formula_y = 0.36
-ax.text(0.5, formula_y, "Complete Formula:",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=22, weight="bold", zorder=4)
-ax.text(0.5, formula_y - 0.06, r"$P(X=k) = \frac{e^{-\lambda} \lambda^k}{k!}$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=24, zorder=4)
-ax.text(0.5, formula_y - 0.12, rf"$P(X={k_val}) = \frac{{{e_neg_lambda:.4f} \times {lambda_k}}}{{{k_factorial}}}$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=19, zorder=4)
-ax.text(0.5, formula_y - 0.17, rf"$= \frac{{{numerator:.4f}}}{{{k_factorial}}}$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=19, zorder=4)
+current_y = question_y - 0.035
 
-# Arrow from numerator to formula (showing division by k!)
-ax.annotate('', xy=(0.5, formula_y + 0.05),
-            xytext=(0.5, numer_y),
-            arrowprops=dict(arrowstyle='->', lw=2.5, color='gray', zorder=2),
-            transform=ax.transAxes)
-# Division sign with k! on the side (positioned to avoid overlap with numerator value)
-div_y = (numer_y + formula_y) / 2 + 0.02  # Position between numerator box and formula
-ax.text(0.58, div_y, r"$\div$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=24, weight="bold", zorder=4, color='orange')
-ax.text(0.67, div_y, rf"${k_factorial}$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=20, weight="bold", zorder=4, color='orange')
+# === STEP 1: THE BASELINE ===
+step1_h = 0.16
+step1_y = current_y - step1_h
 
-# --- Result box ---
-res_y = 0.14
-res_w, res_h = 0.22, 0.09
-res_x = 0.5 - res_w/2
-rounded_box(ax, (res_x, res_y), res_w, res_h,
-            fc="lightgreen", ec="green", lw=3, r=0.02)
-ax.text(0.5, res_y + res_h/2, rf"$P(X={k_val}) = {result:.4f}$",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=26, weight="bold", zorder=4)
+# Main box
+add_rounded_box(0.08, step1_y, 0.84, step1_h, 'white', colors['purple'], 4, zorder=1)
 
-# Arrow to result
-ax.annotate('', xy=(0.5, res_y + res_h),
-            xytext=(0.5, formula_y - 0.20),
-            arrowprops=dict(arrowstyle='->', lw=2.5, color='green', zorder=2),
-            transform=ax.transAxes)
+# Step label badge
+add_rounded_box(0.10, step1_y + step1_h - 0.01, 0.22, 0.025,
+                colors['purple'], colors['purple'], 0, zorder=3)
+ax.text(0.21, step1_y + step1_h + 0.0025, "STEP 1: THE BASELINE",
+        ha='center', va='center', fontsize=11, weight='bold',
+        color='white', transform=ax.transAxes, zorder=4)
 
-# Bottom explanation
-ax.text(0.5, 0.04, f"Example: With an average rate of λ={lambda_val} events, the probability of exactly k={k_val} events is {result:.4f} ({result*100:.2f}%)",
-        transform=ax.transAxes, ha="center", va="center",
-        fontsize=14, style='italic', zorder=4,
-        bbox=dict(boxstyle='round,pad=0.5', facecolor='wheat', alpha=0.3))
+# Left visual box (gradient purple)
+visual_x = 0.12
+visual_y = step1_y + step1_h * 0.12
+visual_w = 0.22
+visual_h = step1_h * 0.75
 
-plt.savefig('ch07_poisson_formula_breakdown.svg', format='svg', bbox_inches='tight')
+add_rounded_box(visual_x, visual_y, visual_w, visual_h,
+                colors['purple'], colors['purple'], 0, zorder=2)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.88,
+        "Probability of", ha='center', va='center',
+        fontsize=11, color='white', alpha=0.9, transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.65,
+        "ZERO", ha='center', va='center',
+        fontsize=32, weight='bold', color='white', transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.45,
+        "events happening", ha='center', va='center',
+        fontsize=11, color='white', alpha=0.9, transform=ax.transAxes, zorder=3)
+
+# Divider line
+ax.plot([visual_x + 0.02, visual_x + visual_w - 0.02],
+        [visual_y + visual_h * 0.35, visual_y + visual_h * 0.35],
+        color='white', alpha=0.3, linewidth=2, transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.20,
+        r"$e^{-\lambda}$", ha='center', va='center',
+        fontsize=28, weight='bold', style='italic', color='white',
+        transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.05,
+        f"e$^{{-{lambda_val}}}$ = {e_neg_lambda:.4f}",
+        ha='center', va='center', fontsize=10, color='white', alpha=0.9,
+        transform=ax.transAxes, zorder=3)
+
+# Right explanation text
+text_x = 0.38
+ax.text(text_x, step1_y + step1_h * 0.75,
+        'Start with "Nothing Happens"',
+        ha='left', va='top', fontsize=16, weight='bold',
+        color=colors['text_dark'], transform=ax.transAxes, zorder=2)
+
+ax.text(text_x, step1_y + step1_h * 0.55,
+        f"This is your foundation. When events arrive randomly at rate λ = {lambda_val},\n"
+        f"there's a {e_neg_lambda*100:.1f}% chance of getting zero events.",
+        ha='left', va='top', fontsize=11, color=colors['text_medium'],
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+ax.text(text_x, step1_y + step1_h * 0.25,
+        "Why e$^{{-\\lambda}}$?",
+        ha='left', va='top', fontsize=11, weight='bold',
+        color=colors['purple'], transform=ax.transAxes, zorder=2)
+
+ax.text(text_x + 0.08, step1_y + step1_h * 0.25,
+        "This comes from the exponential distribution—\n"
+        "it's the probability that the first event takes longer than our time window.",
+        ha='left', va='top', fontsize=11, color=colors['text_medium'],
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+current_y = step1_y - 0.02
+
+# Arrow down
+ax.text(0.5, current_y - 0.025, "↓",
+        ha='center', va='center', fontsize=48, color=colors['gray_border'],
+        transform=ax.transAxes)
+ax.text(0.5, current_y - 0.04, "NOW BUILD UP TO K EVENTS",
+        ha='center', va='center', fontsize=9, weight='600',
+        color=colors['text_light'], transform=ax.transAxes)
+
+current_y -= 0.055
+
+# === STEP 2: AMPLIFY BY RATE ===
+step2_h = 0.18
+step2_y = current_y - step2_h
+
+# Main box
+add_rounded_box(0.08, step2_y, 0.84, step2_h, 'white', colors['green'], 4, zorder=1)
+
+# Step label badge
+add_rounded_box(0.10, step2_y + step2_h - 0.01, 0.25, 0.025,
+                colors['green'], colors['green'], 0, zorder=3)
+ax.text(0.225, step2_y + step2_h + 0.0025, "STEP 2: AMPLIFY BY RATE",
+        ha='center', va='center', fontsize=11, weight='bold',
+        color='white', transform=ax.transAxes, zorder=4)
+
+# Left visual box (gradient green)
+visual_y = step2_y + step2_h * 0.12
+visual_h = step2_h * 0.75
+
+add_rounded_box(visual_x, visual_y, visual_w, visual_h * 0.65,
+                colors['green'], colors['green'], 0, zorder=2)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.57,
+        "Multiply by λ for", ha='center', va='center',
+        fontsize=11, color='white', alpha=0.9, transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.42,
+        "EACH", ha='center', va='center',
+        fontsize=32, weight='bold', color='white', transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.30,
+        "event we want", ha='center', va='center',
+        fontsize=11, color='white', alpha=0.9, transform=ax.transAxes, zorder=3)
+
+# Divider
+ax.plot([visual_x + 0.02, visual_x + visual_w - 0.02],
+        [visual_y + visual_h * 0.23, visual_y + visual_h * 0.23],
+        color='white', alpha=0.3, linewidth=2, transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.13,
+        r"$\lambda^k$", ha='center', va='center',
+        fontsize=28, weight='bold', style='italic', color='white',
+        transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.03,
+        f"${lambda_val}^{{{k_val}}}$ = {lambda_k}",
+        ha='center', va='center', fontsize=10, color='white', alpha=0.9,
+        transform=ax.transAxes, zorder=3)
+
+# Visual circles showing multiplication
+circle_y = visual_y + 0.01
+for i in range(2):
+    circle = Circle((visual_x + visual_w/2 - 0.05 + i*0.05, circle_y),
+                    0.02, facecolor=colors['green'], edgecolor='white',
+                    linewidth=2, transform=ax.transAxes, zorder=3)
+    ax.add_patch(circle)
+    ax.text(visual_x + visual_w/2 - 0.05 + i*0.05, circle_y,
+            "×λ", ha='center', va='center', fontsize=9, weight='bold',
+            color='white', transform=ax.transAxes, zorder=4)
+
+# Right explanation
+ax.text(text_x, step2_y + step2_h * 0.70,
+        "Scale Up for Each Event",
+        ha='left', va='top', fontsize=16, weight='bold',
+        color=colors['text_dark'], transform=ax.transAxes, zorder=2)
+
+ax.text(text_x, step2_y + step2_h * 0.52,
+        f"For each event you want, multiply by λ. Higher rate = more likely to get events.",
+        ha='left', va='top', fontsize=11, color=colors['text_medium'],
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+ax.text(text_x, step2_y + step2_h * 0.35,
+        "The logic:",
+        ha='left', va='top', fontsize=11, weight='bold',
+        color=colors['green'], transform=ax.transAxes, zorder=2)
+
+ax.text(text_x + 0.06, step2_y + step2_h * 0.35,
+        f"If λ is high, events are common, so getting k of them is\n"
+        f"more probable. We raise λ to the power k to compound this effect.",
+        ha='left', va='top', fontsize=11, color=colors['text_medium'],
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+# So far box
+add_rounded_box(text_x, step2_y + 0.01, 0.50, 0.04,
+                '#f0fff4', colors['green'], 2, zorder=2)
+ax.text(text_x + 0.25, step2_y + 0.03,
+        f"So far: {e_neg_lambda:.4f} × {lambda_k} = {e_neg_lambda * lambda_k:.4f}",
+        ha='center', va='center', fontsize=11, weight='bold', color='#22543d',
+        transform=ax.transAxes, zorder=3)
+
+current_y = step2_y - 0.02
+
+# Arrow down
+ax.text(0.5, current_y - 0.025, "↓",
+        ha='center', va='center', fontsize=48, color=colors['gray_border'],
+        transform=ax.transAxes)
+ax.text(0.5, current_y - 0.04, "BUT WE OVERCOUNTED!",
+        ha='center', va='center', fontsize=9, weight='600',
+        color=colors['text_light'], transform=ax.transAxes)
+
+current_y -= 0.055
+
+# === STEP 3: FIX OVERCOUNTING ===
+step3_h = 0.18
+step3_y = current_y - step3_h
+
+# Main box
+add_rounded_box(0.08, step3_y, 0.84, step3_h, 'white', colors['orange'], 4, zorder=1)
+
+# Step label badge
+add_rounded_box(0.10, step3_y + step3_h - 0.01, 0.28, 0.025,
+                colors['orange'], colors['orange'], 0, zorder=3)
+ax.text(0.24, step3_y + step3_h + 0.0025, "STEP 3: FIX OVERCOUNTING",
+        ha='center', va='center', fontsize=11, weight='bold',
+        color='white', transform=ax.transAxes, zorder=4)
+
+# Left visual box (gradient orange)
+visual_y = step3_y + step3_h * 0.12
+visual_h = step3_h * 0.75
+
+add_rounded_box(visual_x, visual_y, visual_w, visual_h * 0.65,
+                colors['orange'], colors['orange'], 0, zorder=2)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.57,
+        "Order doesn't", ha='center', va='center',
+        fontsize=11, color='white', alpha=0.9, transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.42,
+        "MATTER", ha='center', va='center',
+        fontsize=32, weight='bold', color='white', transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.30,
+        "so divide by k!", ha='center', va='center',
+        fontsize=11, color='white', alpha=0.9, transform=ax.transAxes, zorder=3)
+
+# Divider
+ax.plot([visual_x + 0.02, visual_x + visual_w - 0.02],
+        [visual_y + visual_h * 0.23, visual_y + visual_h * 0.23],
+        color='white', alpha=0.3, linewidth=2, transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.13,
+        r"$k!$", ha='center', va='center',
+        fontsize=28, weight='bold', style='italic', color='white',
+        transform=ax.transAxes, zorder=3)
+
+ax.text(visual_x + visual_w/2, visual_y + visual_h * 0.03,
+        f"${k_val}!$ = {k_factorial}",
+        ha='center', va='center', fontsize=10, color='white', alpha=0.9,
+        transform=ax.transAxes, zorder=3)
+
+# Visual: different orderings
+order_y = visual_y - 0.01
+ax.text(visual_x + visual_w/2, order_y + 0.022,
+        "Same outcome:", ha='center', va='center',
+        fontsize=8, weight='600', color='#7c2d12',
+        transform=ax.transAxes, zorder=3)
+
+add_rounded_box(visual_x + 0.01, order_y + 0.008, visual_w - 0.02, 0.008,
+                '#fed7aa', '#fed7aa', 0, zorder=2)
+ax.text(visual_x + visual_w/2, order_y + 0.012,
+        "Event A → Event B", ha='center', va='center',
+        fontsize=8, color='#7c2d12', transform=ax.transAxes, zorder=3)
+
+add_rounded_box(visual_x + 0.01, order_y - 0.002, visual_w - 0.02, 0.008,
+                '#fed7aa', '#fed7aa', 0, zorder=2)
+ax.text(visual_x + visual_w/2, order_y + 0.002,
+        "Event B → Event A", ha='center', va='center',
+        fontsize=8, color='#7c2d12', transform=ax.transAxes, zorder=3)
+
+# Right explanation
+ax.text(text_x, step3_y + step3_h * 0.70,
+        "Remove Duplicate Orderings",
+        ha='left', va='top', fontsize=16, weight='bold',
+        color=colors['text_dark'], transform=ax.transAxes, zorder=2)
+
+ax.text(text_x, step3_y + step3_h * 0.52,
+        f"We only care that we got {k_val} events total—not whether event A came before B or vice versa.",
+        ha='left', va='top', fontsize=11, color=colors['text_medium'],
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+ax.text(text_x, step3_y + step3_h * 0.30,
+        "Why k!?",
+        ha='left', va='top', fontsize=11, weight='bold',
+        color=colors['orange'], transform=ax.transAxes, zorder=2)
+
+ax.text(text_x + 0.045, step3_y + step3_h * 0.30,
+        f"There are k! ways to arrange k events. Since all arrangements\n"
+        f"represent the same outcome, we divide by k! to count each unique outcome only once.",
+        ha='left', va='top', fontsize=11, color=colors['text_medium'],
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+current_y = step3_y - 0.02
+
+# Final arrow
+ax.text(0.5, current_y - 0.025, "↓",
+        ha='center', va='center', fontsize=48, color=colors['gray_border'],
+        transform=ax.transAxes)
+
+current_y -= 0.05
+
+# === FINAL ANSWER ===
+final_h = 0.14
+final_y = current_y - final_h
+
+# Gradient-like box (using solid color)
+add_rounded_box(0.08, final_y, 0.84, final_h,
+                colors['blue'], colors['blue'], 0, alpha=1, zorder=1)
+
+ax.text(0.5, final_y + final_h * 0.88,
+        "FINAL PROBABILITY", ha='center', va='center',
+        fontsize=14, weight='600', color='white', alpha=0.95,
+        transform=ax.transAxes, zorder=2)
+
+ax.text(0.5, final_y + final_h * 0.68,
+        r"$P(X = k) = \left(e^{-\lambda} \times \lambda^k\right) \div k!$",
+        ha='center', va='center', fontsize=24, weight='bold',
+        style='italic', color='white', transform=ax.transAxes, zorder=2)
+
+# Inner highlight box
+add_rounded_box(0.15, final_y + final_h * 0.25, 0.70, final_h * 0.30,
+                'white', 'white', 0, alpha=0.2, zorder=2)
+
+ax.text(0.5, final_y + final_h * 0.48,
+        f"({e_neg_lambda:.4f} × {lambda_k}) ÷ {k_factorial}",
+        ha='center', va='center', fontsize=12, color='white', alpha=0.9,
+        transform=ax.transAxes, zorder=3)
+
+ax.text(0.5, final_y + final_h * 0.33,
+        f"{result*100:.1f}%", ha='center', va='center',
+        fontsize=42, weight='bold', color='white',
+        transform=ax.transAxes, zorder=3)
+
+ax.text(0.5, final_y + final_h * 0.08,
+        f"With an average rate of {lambda_val} events per period, there's a {result*100:.1f}% chance of observing exactly {k_val} events.",
+        ha='center', va='center', fontsize=11, color='white', alpha=0.95,
+        transform=ax.transAxes, zorder=2, linespacing=1.6)
+
+plt.savefig('ch07_poisson_algorithm.svg', format='svg', bbox_inches='tight',
+            facecolor=fig.get_facecolor(), pad_inches=0.3)
 plt.show()
 ```
 
-The diagram illustrates how the Poisson formula works: the normalization factor $e^{-\lambda}$ ensures all probabilities sum to 1, the rate power $\lambda^k$ represents the expected occurrence of k events, and we divide by $k!$ to account for the different arrangements of those events. For λ=4 and k=2, we get approximately 14.65% probability.
+The diagram presents the Poisson formula as a 3-step algorithm: **(1) Baseline** — start with the probability of zero events ($e^{-\lambda}$), **(2) Amplify** — multiply by $\lambda$ for each event we want ($\lambda^k$), and **(3) Fix overcounting** — divide by $k!$ because the order of events doesn't matter. This mental model transforms an abstract formula into a logical, step-by-step process. For λ=3 and k=2, we get approximately 22.4% probability.
 
 **Key Characteristics**
 
