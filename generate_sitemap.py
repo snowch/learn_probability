@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate sitemap.xml for the MyST Markdown book.
-Parses myst.yml to extract all pages and creates a sitemap.xml file.
+Generate sitemap.xml and robots.txt for the MyST Markdown book.
+Parses myst.yml to extract all pages and creates SEO files.
 """
 
 import yaml
@@ -101,6 +101,40 @@ def generate_sitemap(base_url: str, output_path: str = '_build/html/sitemap.xml'
     print(f'✓ Base URL: {base_url}')
 
 
+def generate_robots_txt(base_url: str, output_path: str = '_build/html/robots.txt'):
+    """
+    Generate robots.txt file.
+
+    Args:
+        base_url: Base URL of the site (e.g., https://username.github.io/repo-name)
+        output_path: Path where robots.txt will be written
+    """
+    # Ensure base_url doesn't end with /
+    base_url = base_url.rstrip('/')
+
+    # Generate robots.txt content
+    robots_lines = [
+        '# robots.txt for Learn Probability',
+        '',
+        'User-agent: *',
+        'Allow: /',
+        '',
+        f'Sitemap: {base_url}/sitemap.xml',
+    ]
+
+    # Create output directory if it doesn't exist
+    output_dir = Path(output_path).parent
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Write robots.txt
+    with open(output_path, 'w') as f:
+        f.write('\n'.join(robots_lines))
+
+    print(f'✓ Generated robots.txt')
+    print(f'✓ Output: {output_path}')
+    print(f'✓ Sitemap URL: {base_url}/sitemap.xml')
+
+
 def main():
     """Main entry point."""
     # Get base URL from environment or use default
@@ -118,6 +152,7 @@ def main():
     base_url = os.environ.get('BASE_URL_FULL', base_url)
 
     generate_sitemap(base_url)
+    generate_robots_txt(base_url)
 
 
 if __name__ == '__main__':
