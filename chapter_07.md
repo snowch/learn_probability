@@ -2108,11 +2108,11 @@ def create_poisson_visual(lam=4):
     # Setup figure - optimized for mobile viewing
     fig, ax = plt.subplots(figsize=(14, 9))
     ax.axis('off')
-    ax.set_xlim(-0.5, k_max * 1.5 + 0.5)
+    ax.set_xlim(-0.5, 11.5)
     ax.set_ylim(0, 10)
 
-    # Layout constants
-    box_width = 1.3
+    # Layout constants - narrower boxes
+    box_width = 0.95
     box_height = 0.9
     gap = 0.2
     start_y = 6.5
@@ -2124,7 +2124,7 @@ def create_poisson_visual(lam=4):
 
     ax.text((k_max * (box_width + gap))/2, 8.8,
             f'Expected rate: {lam} events. Probability of exactly k events?',
-            ha='center', fontsize=14, color='#555555')
+            ha='center', fontsize=15, color='#555555')
 
     # Draw probability boxes for each k value
     for i, k in enumerate(k_vals):
@@ -2145,65 +2145,68 @@ def create_poisson_visual(lam=4):
         center_x = x + box_width/2
         center_y = start_y + box_height/2
         ax.text(center_x, center_y, f'k={k}',
-                ha='center', va='center', fontsize=16, fontweight='bold',
+                ha='center', va='center', fontsize=17, fontweight='bold',
                 color='black' if alpha < 0.6 else 'white')
 
-        # Formula and result below box
+        # Formula and result below box - larger fonts, better spacing
         calc_text = f"$\\frac{{{lam}^{{{k}}} \\cdot e^{{-{lam}}}}}{{{int(denominator[i])}}}$"
         result_text = f"= {prob[i]:.4f}"
 
-        ax.text(center_x, start_y - 0.4, calc_text,
-                ha='center', va='top', fontsize=10, color='#333333')
-        ax.text(center_x, start_y - 1.2, result_text,
-                ha='center', va='top', fontsize=11, fontweight='bold', color='#333333')
+        ax.text(center_x, start_y - 0.35, calc_text,
+                ha='center', va='top', fontsize=11, color='#333333')
+        ax.text(center_x, start_y - 1.05, result_text,
+                ha='center', va='top', fontsize=13, fontweight='bold', color='#333333')
 
-    # The Three Forces - Explanatory boxes
+    # The Three Forces - Explanatory boxes with better positioning
 
     # Force 1: The Driver (Numerator)
     bbox_driver = dict(boxstyle="round,pad=0.5", fc="#fae5d3", ec="#d35400", lw=1.5)
-    ax.text(1.5, 3.5, "Force 1: The Driver\n(Numerator)\n\n" + r"$\lambda^k$" +
+    ax.text(1.2, 3.3, "Force 1: The Driver\n(Numerator)\n\n" + r"$\lambda^k$" +
             "\n\nPushes UP exponentially.\nHigher λ or k → more likely.",
-            ha='center', va='top', fontsize=11, bbox=bbox_driver, color='#873600')
+            ha='center', va='top', fontsize=12, bbox=bbox_driver, color='#873600')
 
     # Force 2: The Brake (Denominator)
     bbox_brake = dict(boxstyle="round,pad=0.5", fc="#d5f5e3", ec="#27ae60", lw=1.5)
-    ax.text(6.5, 3.5, "Force 2: The Brake\n(Denominator)\n\n" + r"$k!$" +
+    ax.text(5.2, 3.3, "Force 2: The Brake\n(Denominator)\n\n" + r"$k!$" +
             "\n\nPulls DOWN super-fast.\nEventually crushes\nthe numerator.",
-            ha='center', va='top', fontsize=11, bbox=bbox_brake, color='#145a32')
+            ha='center', va='top', fontsize=12, bbox=bbox_brake, color='#145a32')
 
     # Force 3: The Scaler (Constant)
     bbox_scaler = dict(boxstyle="round,pad=0.5", fc="#ebf5fb", ec="#2980b9", lw=1.5)
-    ax.text(11.5, 3.5, "The Scaler\n(Constant)\n\n" + r"$e^{-\lambda}$" +
+    ax.text(9.2, 3.3, "The Scaler\n(Constant)\n\n" + r"$e^{-\lambda}$" +
             "\n\nFixed dampener.\nEnsures total = 1.",
-            ha='center', va='top', fontsize=11, bbox=bbox_scaler, color='#154360')
+            ha='center', va='top', fontsize=12, bbox=bbox_scaler, color='#154360')
 
-    # Phase arrows showing growth and decay
+    # Phase arrows showing growth and decay - adjusted for narrower boxes
     # Growth phase
     peak_k = int(lam)
-    if peak_k * (box_width + gap) < 4.5 * (box_width + gap):
-        ax.annotate("", xy=(peak_k * (box_width + gap), 5.0), xytext=(0.5, 5.0),
-                   arrowprops=dict(arrowstyle="->", color="#d35400", lw=2))
-        ax.text(peak_k * (box_width + gap) / 2, 5.1, "Driver Wins (Growth)",
-               ha='center', color="#d35400", fontsize=10, fontweight='bold')
+    if peak_k > 0 and peak_k * (box_width + gap) < 4.5 * (box_width + gap):
+        arrow_y = 4.8
+        ax.annotate("", xy=(peak_k * (box_width + gap), arrow_y), xytext=(0.3, arrow_y),
+                   arrowprops=dict(arrowstyle="->", color="#d35400", lw=2.5))
+        ax.text(peak_k * (box_width + gap) / 2, arrow_y + 0.15, "Driver Wins (Growth)",
+               ha='center', va='bottom', color="#d35400", fontsize=11, fontweight='bold')
 
     # Decay phase
     if peak_k < k_max - 2:
-        decay_start = max(peak_k, 5) * (box_width + gap)
-        ax.annotate("", xy=(13.0, 5.0), xytext=(decay_start, 5.0),
-                   arrowprops=dict(arrowstyle="->", color="#27ae60", lw=2))
-        ax.text((13.0 + decay_start)/2, 5.1, "Brake Wins (Decay)",
-               ha='center', color="#27ae60", fontsize=10, fontweight='bold')
+        arrow_y = 4.8
+        decay_start = max(peak_k + 1, 5) * (box_width + gap)
+        decay_end = 10.5
+        ax.annotate("", xy=(decay_end, arrow_y), xytext=(decay_start, arrow_y),
+                   arrowprops=dict(arrowstyle="->", color="#27ae60", lw=2.5))
+        ax.text((decay_end + decay_start)/2, arrow_y + 0.15, "Brake Wins (Decay)",
+               ha='center', va='bottom', color="#27ae60", fontsize=11, fontweight='bold')
 
-    # Peak indicator
+    # Peak indicator - adjusted position
     peak_x = peak_k * (box_width + gap) + box_width/2
     ax.annotate(f"Peak near k={peak_k}\n(Forces Balanced)",
                xy=(peak_x, start_y + box_height),
-               xytext=(peak_x, start_y + box_height + 1.2),
-               arrowprops=dict(facecolor='black', shrink=0.05),
-               ha='center', fontsize=10)
+               xytext=(peak_x, start_y + box_height + 1.3),
+               arrowprops=dict(facecolor='black', shrink=0.05, width=1.5),
+               ha='center', fontsize=11)
 
-    # General Formula
-    ax.text(7, 1.0, r"General Formula: $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$",
+    # General Formula - centered properly for narrower layout
+    ax.text(5.2, 0.8, r"General Formula: $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$",
             ha='center', fontsize=20,
             bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.6', lw=2))
 
