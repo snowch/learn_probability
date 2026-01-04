@@ -2121,7 +2121,7 @@ def create_poisson_visual(lam=4):
             f'Visualizing Poisson: The Three Forces ($\lambda = {lam}$)',
             ha='center', fontsize=22, fontweight='bold', color='#333333')
 
-    ax.text((k_max * (box_width + gap))/2, 8.2,
+    ax.text((k_max * (box_width + gap))/2, 7.9,
             f'Expected rate: {lam} events. Probability of exactly k events?',
             ha='center', fontsize=15, color='#555555')
 
@@ -2196,11 +2196,11 @@ def create_poisson_visual(lam=4):
         ax.text((decay_end + decay_start)/2, arrow_y + 0.15, "Brake Wins (Decay)",
                ha='center', va='bottom', color="#27ae60", fontsize=11, fontweight='bold')
 
-    # Peak indicator - adjusted position to avoid overlap with subtitle
+    # Peak indicator - shorter arrow to avoid overlap with subtitle
     peak_x = peak_k * (box_width + gap) + box_width/2
     ax.annotate(f"Peak near k={peak_k}\n(Forces Balanced)",
                xy=(peak_x, start_y + box_height),
-               xytext=(peak_x, start_y + box_height + 1.5),
+               xytext=(peak_x, start_y + box_height + 0.9),
                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5),
                ha='center', fontsize=10, va='bottom')
 
