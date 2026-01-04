@@ -57,6 +57,11 @@ jobs:
       - name: Install MyST Markdown
         run: npm install -g mystmd
 
+      - name: Replace commit hash in footer
+        run: |
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          sed -i "s/COMMIT_HASH/${COMMIT_SHA}/g" footer.md
+
       - name: Build HTML Assets (execute)
         uses: nick-fields/retry@v3
         with:
