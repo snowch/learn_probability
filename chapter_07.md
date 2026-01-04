@@ -2082,7 +2082,7 @@ For example, "4 calls per hour" could be modeled as 3600 one-second intervals wh
 **Why mean = variance = λ?** This unique property reflects the "memoryless" nature of the Poisson process - events occur randomly and independently at a constant average rate.
 :::
 
-**Algorithm visualization:** The following interactive diagram visualizes the Poisson formula as competing forces, building intuition for why each component exists. Use the slider to explore how changing λ affects the distribution:
+**Algorithm visualization:** The following diagram visualizes the Poisson formula as competing forces, building intuition for why each component exists:
 
 ```{code-cell} ipython3
 :tags: [remove-input]
@@ -2092,10 +2092,9 @@ import numpy as np
 from scipy.stats import poisson
 from scipy.special import factorial
 import matplotlib.patches as mpatches
-from ipywidgets import interact, IntSlider
 
 def create_poisson_visual(lam=4):
-    """Create interactive Poisson distribution visualization showing the 'forces' intuition"""
+    """Poisson distribution visualization showing the 'forces' intuition"""
     k_max = 9
     k_vals = np.arange(k_max + 1)
 
@@ -2213,12 +2212,28 @@ def create_poisson_visual(lam=4):
     plt.tight_layout()
     plt.show()
 
-# Create interactive slider for lambda
-interact(create_poisson_visual,
-         lam=IntSlider(min=1, max=8, step=1, value=4, description='λ (rate):'))
+# Create the visualization with lambda = 4
+create_poisson_visual(lam=4)
 ```
 
-The visualization presents the Poisson formula through the metaphor of **three competing forces**: **(1) The Driver** ($\lambda^k$) pushes probabilities up exponentially as λ or k increases, **(2) The Brake** ($k!$) pulls probabilities down super-exponentially for large k, eventually overpowering the driver, and **(3) The Scaler** ($e^{-\lambda}$) is a fixed dampening factor ensuring all probabilities sum to 1. The peak occurs where the driver and brake forces balance, typically near k ≈ λ. Try adjusting the slider to see how different rates shift the distribution!
+The diagram above visualizes the Poisson distribution (λ = 4) using a **three forces metaphor** that explains how each component of the formula $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$ shapes the probability distribution:
+
+**The Three Forces:**
+
+1. **The Driver (Numerator: $\lambda^k$)** — Shown in the orange box, this force pushes probabilities UP exponentially. As k increases, the numerator grows rapidly when λ is large. This represents the "raw likelihood" of k events based on the rate λ.
+
+2. **The Brake (Denominator: $k!$)** — Shown in the green box, this force pulls probabilities DOWN super-exponentially. Factorial growth eventually crushes the numerator for large k values, causing the rapid decay in the right tail of the distribution.
+
+3. **The Scaler (Constant: $e^{-\lambda}$)** — Shown in the blue box, this is a fixed dampening factor that normalizes the distribution to ensure all probabilities sum to 1.
+
+**Reading the Diagram:**
+
+- **Color-coded boxes** (k=0 through k=9): Darker blue indicates higher probability. Each box shows the formula and exact probability for that k value.
+- **Orange arrow** ("Driver Wins"): In the left portion (k < λ), the numerator grows faster than the denominator, causing probabilities to increase.
+- **Green arrow** ("Brake Wins"): In the right portion (k > λ), the factorial denominator overwhelms the numerator, causing probabilities to decay rapidly.
+- **Peak indicator**: Shows where the forces balance at k ≈ λ, marking the mode of the distribution. For λ = 4, the peak occurs at k = 4 with probability ≈ 0.195 (19.5%).
+
+This "tug-of-war" between the driver and brake forces creates the characteristic bell-like shape of the Poisson distribution, with the peak occurring where these forces are balanced.
 
 **Key Characteristics**
 
