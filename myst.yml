@@ -49,6 +49,8 @@ project:
         - file: chapter_17.md
         - file: chapter_18.md
         - file: chapter_19.md
+        - file: chapter_20.md
+        - file: chapter_21.md
     - title: Part 7 - Exercises
       children:
         - file: chapter_04_exercises_a.md

@@ -5,4 +5,5 @@ numpy
 pandas
 scipy
 seaborn
+sympy
 myst-nb

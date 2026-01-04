@@ -2152,7 +2152,7 @@ def create_poisson_visual(lam=4):
         result_text = f"= {prob[i]:.4f}"
 
         ax.text(center_x, start_y - 0.35, calc_text,
-                ha='center', va='top', fontsize=13, color='#333333')
+                ha='center', va='top', fontsize=15, color='#333333')
         ax.text(center_x, start_y - 1.05, result_text,
                 ha='center', va='top', fontsize=13, fontweight='bold', color='#333333')
 
