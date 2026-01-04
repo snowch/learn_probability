@@ -107,3 +107,16 @@ Each chapter is presented as a Jupyter Notebook (`.ipynb` file).
 * **Do the Exercises:** Most chapters include exercises to test your understanding. Try to solve them yourself before looking at any provided solutions.
 
 We encourage you to actively engage with the notebooks, treating them as interactive labs rather than static text. Let's begin our journey into the practical world of probability!
+
++++
+
+### Related Resources
+
++++
+
+**Other Books by Chris Snow:**
+* [Embeddings at Scale](https://snowch.github.io/embeddings-at-scale-book) - Practical guide to working with embeddings in production ML systems
+* [Linear Algebra](https://snowch.github.io/linear-algebra) - Essential linear algebra concepts for data science and machine learning
+
+**More Learning:**
+* [snowch.github.io](https://snowch.github.io) - Notes, blogs, and tutorials on AI engineering topics
