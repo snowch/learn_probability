@@ -2152,7 +2152,7 @@ def create_poisson_visual(lam=4):
         result_text = f"= {prob[i]:.4f}"
 
         ax.text(center_x, start_y - 0.35, calc_text,
-                ha='center', va='top', fontsize=11, color='#333333')
+                ha='center', va='top', fontsize=13, color='#333333')
         ax.text(center_x, start_y - 1.05, result_text,
                 ha='center', va='top', fontsize=13, fontweight='bold', color='#333333')
 
@@ -2196,13 +2196,13 @@ def create_poisson_visual(lam=4):
         ax.text((decay_end + decay_start)/2, arrow_y + 0.15, "Brake Wins (Decay)",
                ha='center', va='bottom', color="#27ae60", fontsize=11, fontweight='bold')
 
-    # Peak indicator - adjusted position
+    # Peak indicator - adjusted position to avoid overlap with subtitle
     peak_x = peak_k * (box_width + gap) + box_width/2
     ax.annotate(f"Peak near k={peak_k}\n(Forces Balanced)",
                xy=(peak_x, start_y + box_height),
-               xytext=(peak_x, start_y + box_height + 1.3),
+               xytext=(peak_x, start_y + box_height + 1.5),
                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5),
-               ha='center', fontsize=11)
+               ha='center', fontsize=10, va='bottom')
 
     # General Formula - centered properly for narrower layout
     ax.text(5.2, 0.8, r"General Formula: $P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$",
