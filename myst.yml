@@ -33,21 +33,22 @@ project:
         - file: chapter_07.md
         - file: chapter_08.md
         - file: chapter_09.md
+        - file: chapter_10.md
     - title: Part 4 - Multiple Random Variables
       children:
-        - file: chapter_10.md
         - file: chapter_11.md
         - file: chapter_12.md
+        - file: chapter_13.md
     - title: Part 5 - Limit Theorems and Their Significance
       children:
-        - file: chapter_13.md
         - file: chapter_14.md
+        - file: chapter_15.md
     - title: Part 6 - Advanced Topics and Applications
       children:
-        - file: chapter_15.md
         - file: chapter_16.md
         - file: chapter_17.md
         - file: chapter_18.md
+        - file: chapter_19.md
     - title: Part 7 - Exercises
       children:
         - file: chapter_04_exercises_a.md

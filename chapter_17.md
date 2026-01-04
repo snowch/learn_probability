@@ -11,470 +11,496 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 17: Monte Carlo Methods
+# Chapter 17: Introduction to Markov Chains
 
 +++
 
-Welcome to Chapter 17! In this chapter, we delve into a powerful class of computational algorithms that rely on repeated random sampling to obtain numerical results: **Monte Carlo methods**. The underlying concept is remarkably simple yet profoundly effective: use randomness to solve problems that might be deterministic in principle but are too complex to solve analytically.
+Welcome to Chapter 17! In this chapter, we venture into the world of stochastic processes by exploring **Markov Chains**. Markov chains are a fundamental concept used to model systems that transition between different states over time, where the future state depends *only* on the current state, not on the sequence of events that preceded it. This 'memoryless' property makes them incredibly useful for modeling various real-world phenomena, from weather patterns and stock market movements to customer behavior and website navigation.
 
 +++
 
-## The Core Idea: Using Random Sampling
-
-+++
-
-At its heart, the Monte Carlo method leverages the **Law of Large Numbers (LLN)**. We learned that the average of results obtained from a large number of trials should be close to the expected value and will tend to become closer as more trials are performed.
-
-Monte Carlo methods apply this principle to estimate quantities that are difficult to calculate directly. If we can express a quantity of interest as the expected value of some random variable, we can estimate it by:
-1.  Simulating many random samples (realizations) of the random variable.
-2.  Calculating the sample mean of these realizations.
-
-**Why use them?**
-* **Complexity:** They can tackle problems with complex geometries, high dimensionality, or intricate dependencies where analytical solutions are intractable.
-* **Simulation:** They allow simulating complex systems (like queues, financial markets, physical processes) to understand their behavior and estimate key metrics.
-* **Flexibility:** They can be adapted to a wide range of problems in physics, engineering, finance, statistics, and more.
-
-+++
-
-**Example: Estimating Average Wait Time in a Queue**
-
-Imagine a complex queueing system (e.g., a call center with variable call arrival rates, different agent skill levels, and complex routing rules). Calculating the exact average customer wait time analytically might be impossible. 
-
-With Monte Carlo:
-1.  **Model:** Define probability distributions for customer arrivals (e.g., Poisson process) and service times (e.g., Exponential distribution).
-2.  **Simulate:** Run a simulation of the call center for a 'day' many times (e.g., 10,000 times). In each simulation run, track the wait time for each simulated customer.
-3.  **Estimate:** Calculate the average wait time within each simulated day. Then, average these daily averages across all 10,000 simulations. By the LLN, this overall average will be a good estimate of the true long-run average wait time.
-
-+++
-
-## Estimating Probabilities and Expected Values
-
-+++
-
-Monte Carlo methods are particularly useful for estimating probabilities and expected values that arise from complex processes.
-
-+++
-
-### Estimating Probabilities
-
-To estimate the probability $P(A)$ of an event $A$, we can:
-1.  Run $N$ independent simulations of the underlying random experiment.
-2.  Count the number of times, $N_A$, that event $A$ occurs in the simulations.
-3.  Estimate $P(A) \approx \frac{N_A}{N}$.
-
-This is essentially calculating the empirical frequency of the event, which converges to the true probability as $N \to \infty$ by the LLN.
-
-+++
-
-**Example: Estimating the Probability of Winning in Craps**
-
-Craps is a dice game with somewhat complex rules for winning. We can simulate the game many times to estimate the overall probability of the 'shooter' winning.
-
-**(Conceptual Code Structure)**
-```python
-def play_craps():
-    # Roll dice, check rules (come-out roll: 7, 11 win; 2, 3, 12 lose)
-    # If point established, continue rolling until point or 7
-    # Return True if win, False if lose
-
-N = 100000  # Number of simulations
-wins = 0
-for _ in range(N):
-    if play_craps():
-        wins += 1
-
-estimated_prob_win = wins / N
-print(f"Estimated P(Win) in Craps: {estimated_prob_win:.4f}")
-```
-(The actual probability is known to be approximately 244/495 ≈ 0.4929)
-
-+++
-
-### Estimating Expected Values
-
-To estimate the expected value $E[g(X)]$ of a function $g$ of a random variable $X$:
-1.  Generate $N$ independent random samples $X_1, X_2, ..., X_N$ from the distribution of $X$.
-2.  Calculate $g(X_i)$ for each sample.
-3.  Estimate $E[g(X)] \approx \frac{1}{N} \sum_{i=1}^{N} g(X_i)$.
-
-This again relies on the LLN, where the sample mean of $g(X_i)$ converges to $E[g(X)]$. This is extremely powerful when the distribution of $X$ or the function $g$ makes analytical calculation of the expectation difficult or impossible.
-
-```{code-cell} ipython3
-import numpy as np
-
-# Example: Estimate E[e^X] where X ~ Normal(0, 1)
-# Analytical answer: This is the MGF evaluated at t=1, which is e^(μt + σ^2*t^2/2) = e^(0*1 + 1^2*1^2/2) = e^(1/2) ≈ 1.6487
-
-N = 100000  # Number of samples
-mu = 0
-sigma = 1
-
-# 1. Generate samples from Normal(0, 1)
-X_samples = np.random.normal(mu, sigma, N)
-
-# 2. Apply the function g(x) = e^x
-g_X_samples = np.exp(X_samples)
-
-# 3. Calculate the sample mean
-estimated_expectation = np.mean(g_X_samples)
-
-print(f"Estimated E[e^X] where X ~ N(0, 1): {estimated_expectation:.4f}")
-print(f"Analytical E[e^X]: {np.exp(0.5):.4f}")
-```
-
-## Monte Carlo Integration
-
-+++
-
-Monte Carlo methods provide a way to estimate definite integrals, especially useful in high dimensions where other numerical integration methods (like quadrature) become computationally expensive (the "curse of dimensionality").
-
-+++
-
-### Method 1: Hit-or-Miss (Estimating Area)
-
-This method is intuitive for estimating the area of a region $A$ within a larger region $B$ of known area $Area(B)$.
-1.  Generate $N$ random points uniformly within the larger region $B$.
-2.  Count the number of points, $N_{hit}$, that fall inside region $A$.
-3.  The proportion of points falling inside $A$ approximates the ratio of the areas: $\frac{N_{hit}}{N} \approx \frac{Area(A)}{Area(B)}$.
-4.  Estimate $Area(A) \approx Area(B) \times \frac{N_{hit}}{N}$.
-
-A classic example is estimating $\pi$.
+**Learning Objectives:**
+* Understand the definition of a Markov chain, its components (states, transitions), and the crucial Markov property.
+* Learn how to represent Markov chains using transition matrices.
+* Simulate the behavior of a Markov chain over time using Python.
+* Calculate multi-step transition probabilities using matrix powers.
+* Gain an introductory understanding of state classification (e.g., absorbing states).
+* Learn about stationary distributions and how to find them, representing the long-run behavior of a chain.
+* Apply these concepts to practical examples using NumPy.
 
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Estimate Pi using Monte Carlo integration
-
-N = 10000  # Number of random points
-
-# Generate N points (x, y) uniformly in the square [-1, 1] x [-1, 1]
-# Area of square B = 2 * 2 = 4
-x_coords = np.random.uniform(-1, 1, N)
-y_coords = np.random.uniform(-1, 1, N)
-
-# Check if points are inside the unit circle (x^2 + y^2 <= 1)
-# Area of circle A = pi * r^2 = pi * 1^2 = pi
-distances_sq = x_coords**2 + y_coords**2
-is_inside_circle = distances_sq <= 1
-
-# Count hits
-N_hit = np.sum(is_inside_circle)
-
-# Estimate Area(A) = Area(B) * (N_hit / N)
-estimated_pi = 4.0 * N_hit / N
-
-print(f"Estimated value of Pi: {estimated_pi:.5f}")
-
-# --- Visualization (Optional) ---
-plt.figure(figsize=(6, 6))
-plt.scatter(x_coords[is_inside_circle], y_coords[is_inside_circle], color='blue', s=1, label='Inside Circle')
-plt.scatter(x_coords[~is_inside_circle], y_coords[~is_inside_circle], color='red', s=1, label='Outside Circle')
-
-# Draw the circle boundary
-theta = np.linspace(0, 2*np.pi, 100)
-plt.plot(np.cos(theta), np.sin(theta), color='black', linestyle='--')
-
-plt.title(f'Estimating Pi (N={N}, Estimate={estimated_pi:.4f})')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.axis('equal')
-plt.legend()
-plt.grid(True)
-plt.show()
+# Configure plots for better readability
+plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['figure.figsize'] = (10, 6)
 ```
 
-### Method 2: Using Expected Values
-
-We often want to compute $I = \int_a^b g(x) dx$. We can rewrite this integral in terms of an expected value. Let $X$ be a random variable uniformly distributed on $[a, b]$. The PDF of $X$ is $f(x) = \frac{1}{b-a}$ for $x \in [a, b]$ and 0 otherwise.
-
-Then, the expected value of $\frac{g(X)}{f(X)}$ is:
-$$ E\left[\frac{g(X)}{f(X)}\right] = \int_a^b \frac{g(x)}{f(x)} f(x) dx = \int_a^b g(x) dx = I $$
-
-Since $f(x) = \frac{1}{b-a}$ is constant, we have $\frac{g(X)}{f(X)} = (b-a)g(X)$. So,
-$$ I = E[(b-a)g(X)] = (b-a) E[g(X)] $$
-
-Therefore, we can estimate $I$ by:
-1.  Generating $N$ samples $X_1, ..., X_N$ from $Uniform(a, b)$.
-2.  Calculating $g(X_i)$ for each sample.
-3.  Estimating $I \approx (b-a) \times \frac{1}{N} \sum_{i=1}^{N} g(X_i)$.
-
-```{code-cell} ipython3
-import numpy as np
-from scipy import integrate
-
-# Example: Estimate I = integral from 0 to 1 of exp(x^2) dx
-
-def g(x):
-    return np.exp(x**2)
-
-a = 0.0
-b = 1.0
-N = 100000 # Number of samples
-
-# 1. Generate samples from Uniform(a, b)
-X_samples = np.random.uniform(a, b, N)
-
-# 2. Calculate g(X_i)
-g_X_samples = g(X_samples)
-
-# 3. Estimate the integral
-estimated_integral = (b - a) * np.mean(g_X_samples)
-
-print(f"Monte Carlo estimate of integral: {estimated_integral:.5f}")
-
-# Compare with SciPy's numerical integration (quad)
-analytical_integral, error = integrate.quad(g, a, b)
-print(f"SciPy quad estimate of integral: {analytical_integral:.5f} (error < {error:.1e})")
-```
-
-## Generating Random Variables
+## 16.1 What is a Markov Chain?
 
 +++
 
-Monte Carlo methods rely heavily on our ability to generate random numbers following specific probability distributions. While libraries like `numpy.random` provide generators for many common distributions, sometimes we need to generate variables from less common or custom distributions.
+A **Markov chain** is a mathematical model describing a sequence of possible events (or states) where the probability of transitioning to the next state depends *only* on the current state and not on the sequence of states that preceded it. This is known as the **Markov Property** (or memorylessness).
 
-Two common techniques are the Inverse Transform Method and the Acceptance-Rejection Method.
+Key components:
+* **States:** A finite or countably infinite set of possible conditions or positions the system can be in. Let the set of states be $S = \{s_1, s_2, ..., s_k\}$.
+* **Transitions:** Movements between states.
+* **Transition Probabilities:** The probability of moving from one state to another in a single time step. The probability of transitioning from state $s_i$ to state $s_j$ is denoted as $P_{ij} = P(X_{t+1} = s_j | X_t = s_i)$, where $X_t$ is the state at time $t$.
+* **Initial Distribution:** A probability distribution describing the starting state of the system at time $t=0$.
+
+**Example: Customer Subscription Model**
+
+Consider a company offering subscription plans: Free, Basic, and Premium. Customers can switch plans month-to-month, or they might churn (cancel). We can model this as a Markov chain:
+* **States:** $S = \{\text{'Free', 'Basic', 'Premium', 'Churned'}\}$ 
+* **Time Step:** One month.
+* **Markov Property Assumption:** The probability a customer switches to a new plan next month depends *only* on their current plan, not their entire history (e.g., whether they were Premium two months ago doesn't directly influence the next step if they are currently Basic).
 
 +++
 
-### Inverse Transform Method
+## 16.2 The Transition Matrix
 
-This method is applicable if the Cumulative Distribution Function (CDF), $F(x) = P(X \le x)$, is known and its inverse, $F^{-1}(u)$, can be computed.
++++
 
-**Theorem:** If $U$ is a random variable following a Uniform(0, 1) distribution, then the random variable $X = F^{-1}(U)$ has the CDF $F(x)$.
+The transition probabilities of a Markov chain with $k$ states can be conveniently organized into a $k \times k$ matrix called the **Transition Matrix**, often denoted by $P$. 
 
-**Algorithm:**
-1.  Generate a random number $u$ from Uniform(0, 1).
-2.  Compute $x = F^{-1}(u)$. This $x$ is a random sample from the distribution with CDF $F(x)$.
+$$ 
+P = \begin{pmatrix}
+ P_{11} & P_{12} & \cdots & P_{1k} \\
+ P_{21} & P_{22} & \cdots & P_{2k} \\
+ \vdots & \vdots & \ddots & \vdots \\
+ P_{k1} & P_{k2} & \cdots & P_{kk}
+ \end{pmatrix}
+ $$ 
 
-**Example: Generating from Exponential($\lambda$)**
-The CDF is $F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$. To find the inverse:
-Let $u = 1 - e^{-\lambda x}$.
-$1 - u = e^{-\lambda x}$
-$\ln(1 - u) = -\lambda x$
-$x = -\frac{1}{\lambda} \ln(1 - u)$
-So, $F^{-1}(u) = -\frac{1}{\lambda} \ln(1 - u)$.
-(Note: Since $U \sim Uniform(0, 1)$, then $1-U$ also follows $Uniform(0, 1)$. Therefore, we can often simplify and use $x = -\frac{1}{\lambda} \ln(u)$ instead.)
+Where $P_{ij}$ is the probability of transitioning *from* state $i$ *to* state $j$ in one step.
+
+**Properties of a Transition Matrix:**
+1.  All entries must be non-negative: $P_{ij} \ge 0$ for all $i, j$.
+2.  The sum of probabilities in each row must equal 1: $\sum_{j=1}^{k} P_{ij} = 1$ for all $i$. (From any state $i$, the system must transition to *some* state $j$ in the next step).
+
++++
+
+**Example: Subscription Model Transition Matrix**
+
+Let's define a plausible transition matrix for our subscription model. States are ordered: 0: Free, 1: Basic, 2: Premium, 3: Churned.
+
+| From \\ To | Free | Basic | Premium | Churned |
+|-----------|------|-------|---------|---------|
+| Free      | 0.60 | 0.20  | 0.10    | 0.10    |
+| Basic     | 0.10 | 0.60  | 0.20    | 0.10    |
+| Premium   | 0.05 | 0.10  | 0.70    | 0.15    |
+| Churned   | 0.00 | 0.00  | 0.00    | 1.00    |  <- Absorbing State
 
 ```{code-cell} ipython3
-import numpy as np
-import matplotlib.pyplot as plt
+# Define the states
+states = ['Free', 'Basic', 'Premium', 'Churned']
+state_map = {state: i for i, state in enumerate(states)} # Map state names to indices
 
-def generate_exponential_inverse_transform(lambda_rate, size=1):
-    """Generates samples from Exponential(lambda_rate) using Inverse Transform."""
-    u = np.random.uniform(0, 1, size=size)
-    x = - (1 / lambda_rate) * np.log(u) # Using the simplified form
-    return x
+# Define the transition matrix P
+P = np.array([
+    [0.60, 0.20, 0.10, 0.10],  # Transitions from Free
+    [0.10, 0.60, 0.20, 0.10],  # Transitions from Basic
+    [0.05, 0.10, 0.70, 0.15],  # Transitions from Premium
+    [0.00, 0.00, 0.00, 1.00]   # Transitions from Churned (Absorbing)
+])
 
-lambda_val = 0.5 # Rate parameter
-N_samples = 10000
-
-generated_samples = generate_exponential_inverse_transform(lambda_val, size=N_samples)
-
-# Compare with numpy's built-in generator
-numpy_samples = np.random.exponential(scale=1/lambda_val, size=N_samples) # Note: numpy uses scale = 1/lambda
-
-# Plot histograms to compare
-plt.figure(figsize=(12, 5))
-
-plt.subplot(1, 2, 1)
-plt.hist(generated_samples, bins=50, density=True, alpha=0.7, label='Inverse Transform')
-plt.title(f'Exponential(lambda={lambda_val}) - Inverse Transform')
-plt.xlabel('Value')
-plt.ylabel('Density')
-
-plt.subplot(1, 2, 2)
-plt.hist(numpy_samples, bins=50, density=True, alpha=0.7, label='NumPy Built-in', color='orange')
-plt.title(f'Exponential(lambda={lambda_val}) - NumPy')
-plt.xlabel('Value')
-plt.ylabel('Density')
-
-# Add theoretical PDF
-x_vals = np.linspace(0, np.max(generated_samples), 200)
-pdf_vals = lambda_val * np.exp(-lambda_val * x_vals)
-plt.subplot(1, 2, 1)
-plt.plot(x_vals, pdf_vals, 'r--', label='Theoretical PDF')
-plt.legend()
-plt.subplot(1, 2, 2)
-plt.plot(x_vals, pdf_vals, 'r--', label='Theoretical PDF')
-plt.legend()
-
-plt.tight_layout()
-plt.show()
+# Verify rows sum to 1
+print("Transition Matrix P:")
+print(P)
+print("\nRow sums:", P.sum(axis=1))
 ```
 
-### Acceptance-Rejection Method
+## 16.3 Simulating Markov Chain Paths
 
-This method is useful when the inverse CDF is hard to compute, but we can easily evaluate the target PDF $f(x)$. It also requires a proposal distribution $g(x)$ (from which we *can* easily sample) and a constant $c$ such that $f(x) \le c \cdot g(x)$ for all $x$.
++++
 
-**Algorithm:**
-1.  Generate a candidate sample $y$ from the proposal distribution $g(x)$.
-2.  Generate a random number $u$ from Uniform(0, 1).
-3.  Check if $u \le \frac{f(y)}{c \cdot g(y)}$.
-    * If yes, **accept** $y$ as a sample from $f(x)$.
-    * If no, **reject** $y$ and return to step 1.
+We can simulate the progression of a system through states over time using the transition matrix. Given a current state, we use the corresponding row in the transition matrix as probabilities to randomly choose the next state.
 
-The efficiency depends on the choice of $g(x)$ and $c$. The closer $c \cdot g(x)$ is to $f(x)$, the higher the acceptance probability (which is $1/c$).
-
-**Example: Sampling from a truncated Normal distribution**
-Suppose we want to sample from $N(0, 1)$ but restricted to the interval $[0, 2]$.
-- Target PDF $f(x)$ is proportional to the standard Normal PDF within $[0, 2]$ and 0 otherwise.
-- Proposal distribution $g(x)$ can be $Uniform(0, 2)$. The PDF is $g(x) = 1/2$ for $x \in [0, 2]$.
-- We need $c$ such that $f(x) \le c \cdot g(x)$. The maximum of the standard Normal PDF is at $x=0$, which is $1/\sqrt{2\pi}$. So we need $ (1/\sqrt{2\pi}) \le c \cdot (1/2)$. We can choose $c = 2 / \sqrt{2\pi}$.
-- The acceptance condition becomes $u \le \frac{f(y)}{c \cdot g(y)} = \frac{NormalPDF(y)}{ (2 / \sqrt{2\pi}) \cdot (1/2)} = \sqrt{2\pi} \cdot NormalPDF(y) = e^{-y^2/2}$.
+We can use `numpy.random.choice` for this.
 
 ```{code-cell} ipython3
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import norm
+def simulate_path(transition_matrix, state_names, start_state_name, num_steps):
+    """Simulates a path through the Markov chain."""
+    state_indices = list(range(len(state_names)))
+    current_state_index = state_names.index(start_state_name)
+    path_indices = [current_state_index]
 
-def generate_truncated_normal_accept_reject(mu, sigma, low, high, size=1):
-    """Generates samples from N(mu, sigma) truncated to [low, high] using Accept-Reject."""
-    samples = []
-    # Use Uniform(low, high) as proposal distribution g(x)
-    # PDF g(x) = 1 / (high - low)
-    # Target PDF f(x) is proportional to norm.pdf(x, mu, sigma) in [low, high]
-    # Find c such that norm.pdf(x) <= c * g(x)
-    # Max of norm.pdf occurs at mu if mu is in [low, high], else at boundary
-    x_mode = mu if low <= mu <= high else (low if mu < low else high)
-    max_pdf = norm.pdf(x_mode, mu, sigma)
-    c = max_pdf / (1 / (high - low))
+    for _ in range(num_steps):
+        # Get the transition probabilities from the current state
+        probabilities = transition_matrix[current_state_index, :]
+        
+        # Choose the next state based on these probabilities
+        next_state_index = np.random.choice(state_indices, p=probabilities)
+        path_indices.append(next_state_index)
+        
+        # Update the current state
+        current_state_index = next_state_index
+        
+        # Optional: Stop if an absorbing state (like Churned) is reached
+        if probabilities[current_state_index] == 1.0 and np.sum(probabilities) == 1.0:
+           # Check if it's an absorbing state (only loops back to itself)
+           if transition_matrix[current_state_index, current_state_index] == 1.0:
+              # Fill remaining steps if needed, or break
+              # For simplicity here, we just let it stay in the absorbing state
+              pass 
+
+    # Convert indices back to state names
+    path_names = [state_names[i] for i in path_indices]
+    return path_names
+
+# Simulate a path for 12 months starting from 'Free'
+start_state = 'Free'
+steps = 12
+simulated_journey = simulate_path(P, states, start_state, steps)
+
+print(f"Simulated {steps}-month journey starting from {start_state}:")
+print(" -> ".join(simulated_journey))
+```
+
+Run the simulation cell multiple times to see different possible paths a customer might take.
+
++++
+
+## 16.4 n-Step Transition Probabilities
+
++++
+
+The transition matrix $P$ gives the probabilities of moving between states in *one* step. What if we want to know the probability of transitioning from state $i$ to state $j$ in *n* steps?
+
+This is given by the $(i, j)$-th entry of the matrix power $P^n$. 
+
+$P^{(n)}_{ij} = P(X_{t+n} = s_j | X_t = s_i) = (P^n)_{ij}$
+
+We can calculate matrix powers using `numpy.linalg.matrix_power`.
+
+```{code-cell} ipython3
+# Calculate the transition matrix after 3 steps (months)
+n_steps = 3
+P_n = np.linalg.matrix_power(P, n_steps)
+
+print(f"Transition Matrix after {n_steps} steps (P^{n_steps}):")
+print(np.round(P_n, 3)) # Round for readability
+
+# Example: Probability of being in 'Premium' after 3 months, starting from 'Free'
+start_idx = state_map['Free']
+end_idx = state_map['Premium']
+prob_free_to_premium_3_steps = P_n[start_idx, end_idx]
+
+print(f"\nProbability(State=Premium at month 3 | State=Free at month 0): {prob_free_to_premium_3_steps:.3f}")
+
+# Example: Probability of being 'Churned' after 6 months, starting from 'Basic'
+n_steps_long = 6
+P_n_long = np.linalg.matrix_power(P, n_steps_long)
+start_idx_basic = state_map['Basic']
+end_idx_churned = state_map['Churned']
+prob_basic_to_churned_6_steps = P_n_long[start_idx_basic, end_idx_churned]
+
+print(f"Probability(State=Churned at month 6 | State=Basic at month 0): {prob_basic_to_churned_6_steps:.3f}")
+```
+
+## 16.5 Classification of States (Brief Introduction)
+
++++
+
+States in a Markov chain can be classified based on their long-term behavior:
+
+* **Accessible:** State $j$ is accessible from state $i$ if there is a non-zero probability of eventually reaching $j$ starting from $i$ (i.e., $P^{(n)}_{ij} > 0$ for some $n \ge 0$).
+* **Communicating:** States $i$ and $j$ communicate if they are accessible from each other.
+* **Irreducible Chain:** A Markov chain is irreducible if all states communicate with each other (it's possible to get from any state to any other state).
+* **Recurrent State:** If starting from state $i$, the probability of eventually returning to state $i$ is 1. 
+* **Transient State:** If starting from state $i$, there is a non-zero probability of *never* returning to state $i$. 
+* **Absorbing State:** A state $i$ is absorbing if once entered, it cannot be left ($P_{ii} = 1$). In our example, 'Churned' is an absorbing state.
+
+In our subscription model:
+* 'Churned' is an absorbing state.
+* 'Free', 'Basic', and 'Premium' are likely transient states because from any of them, there is a path to 'Churned', and once in 'Churned', you cannot return.
+* The chain is *not* irreducible because you cannot leave the 'Churned' state.
+
++++
+
+## 16.6 Stationary Distributions
+
++++
+
+For certain types of Markov chains (specifically, irreducible and aperiodic ones), the distribution of probabilities across states converges to a unique **stationary distribution** (or steady-state distribution), regardless of the initial state. Let $\pi = [\pi_1, \pi_2, ..., \pi_k]$ be the row vector representing this distribution, where $\pi_j$ is the long-run probability of being in state $j$.
+
+The stationary distribution $\pi$ satisfies the equation:
+
+$$ \pi P = \pi $$ 
+
+subject to the constraint that $\sum_{j=1}^{k} \pi_j = 1$.
+
+This means that if the distribution of states is $\pi$, it will remain $\pi$ after one more step. $\pi$ is the left eigenvector of the transition matrix $P$ corresponding to the eigenvalue $\lambda = 1$.
+
+**Important Note:** Our subscription model has an absorbing state. In such cases, the long-run probability will eventually concentrate entirely in the absorbing state(s). For any starting state other than 'Churned', the probability of being in 'Churned' approaches 1 as $n \to \infty$. The concept of a unique stationary distribution across *all* states applies more directly to chains where you can always move between states (irreducible chains).
+
++++
+
+**Example: Finding Stationary Distribution for a Weather Model**
+
+Let's consider a simpler, irreducible weather model (Sunny, Cloudy, Rainy) to illustrate finding a stationary distribution.
+
+Weather States: `['Sunny', 'Cloudy', 'Rainy']`
+Weather Matrix `W`:
+```
+   Sunny Cloudy Rainy
+Sunny  [0.7,  0.2,   0.1]
+Cloudy [0.3,  0.5,   0.2]
+Rainy  [0.2,  0.4,   0.4]
+```
+We need to find $\pi = [\pi_S, \pi_C, \pi_R]$ such that $\pi W = \pi$ and $\pi_S + \pi_C + \pi_R = 1$. This is equivalent to finding the left eigenvector for eigenvalue 1.
+
+```{code-cell} ipython3
+# Weather example
+W_states = ['Sunny', 'Cloudy', 'Rainy']
+W = np.array([
+    [0.7, 0.2, 0.1],
+    [0.3, 0.5, 0.2],
+    [0.2, 0.4, 0.4]
+])
+
+# Find eigenvalues and eigenvectors
+# We need the *left* eigenvector (v P = lambda v), numpy finds *right* (P u = lambda u).
+# The left eigenvector of P for eigenvalue lambda is the right eigenvector of P.T for eigenvalue lambda.
+eigenvalues, eigenvectors = np.linalg.eig(W.T)
+
+# Find the eigenvector corresponding to eigenvalue 1
+# Due to floating point precision, check for eigenvalues close to 1
+idx = np.isclose(eigenvalues, 1)
+
+if not np.any(idx):
+    print("No eigenvalue close to 1 found. Check matrix.")
+else:
+    # Get the eigenvector corresponding to eigenvalue 1
+    # Ensure we select only one eigenvector if multiple eigenvalues are close to 1
+    # and take the real part as the eigenvector should be real for a stochastic matrix
+    stationary_vector_raw = eigenvectors[:, np.where(idx)[0][0]].flatten().real
     
-    count_total = 0
-    while len(samples) < size:
-        count_total += 1
-        # 1. Sample y from proposal g(x) = Uniform(low, high)
-        y = np.random.uniform(low, high)
-        
-        # 2. Sample u from Uniform(0, 1)
-        u = np.random.uniform(0, 1)
-        
-        # 3. Acceptance check: u <= f(y) / (c * g(y))
-        target_pdf_val = norm.pdf(y, mu, sigma)
-        proposal_pdf_val = 1 / (high - low)
-        acceptance_ratio = target_pdf_val / (c * proposal_pdf_val)
-        
-        if u <= acceptance_ratio:
-            samples.append(y)
-            
-    print(f"Acceptance Rate: {size / count_total:.3f} (Theoretical min: {1/c:.3f})")
-    return np.array(samples)
+    # Normalize the eigenvector so its components sum to 1
+    stationary_distribution = stationary_vector_raw / np.sum(stationary_vector_raw)
 
-mu_val = 0
-sigma_val = 1
-low_bound = 0
-high_bound = 2
-N_samples = 5000
+    print("Stationary Distribution (Long-run probabilities):")
+    for state, prob in zip(W_states, stationary_distribution):
+        print(f"  {state}: {prob:.4f}")
 
-generated_samples = generate_truncated_normal_accept_reject(mu_val, sigma_val, low_bound, high_bound, size=N_samples)
-
-# Plot histogram
-plt.figure(figsize=(8, 5))
-plt.hist(generated_samples, bins=50, density=True, alpha=0.7, label='Accept-Reject Samples')
-
-# Overlay theoretical truncated normal PDF (scaled)
-x_vals = np.linspace(low_bound, high_bound, 200)
-pdf_vals = norm.pdf(x_vals, mu_val, sigma_val)
-# Need to normalize the PDF over the interval [low_bound, high_bound]
-normalization_factor, _ = integrate.quad(lambda x: norm.pdf(x, mu_val, sigma_val), low_bound, high_bound)
-plt.plot(x_vals, pdf_vals / normalization_factor, 'r--', label='Theoretical PDF')
-
-plt.title(f'Truncated Normal({mu_val}, {sigma_val}^2) on [{low_bound}, {high_bound}]')
-plt.xlabel('Value')
-plt.ylabel('Density')
-plt.legend()
-plt.grid(True)
-plt.show()
+    # Verification: pi * W should be equal to pi
+    print("\nVerification (pi * W):", np.dot(stationary_distribution, W))
 ```
 
-## Hands-on Examples & Exercises
+This stationary distribution tells us that, in the long run, regardless of whether today is Sunny, Cloudy, or Rainy, the probability of a future day being Sunny is about 44.7%, Cloudy is about 36.8%, and Rainy is about 18.4%.
 
 +++
 
-### Example 1: Buffon's Needle Problem
+## 16.7 Hands-on: Analyzing the Subscription Model Long-Term
 
-This classic problem uses Monte Carlo simulation to estimate $\pi$. Imagine dropping needles of length $L$ onto a floor with parallel lines spaced $D$ units apart ($L \le D$). What is the probability that a randomly dropped needle crosses one of the lines?
++++
 
-The analytical answer is $P(\text{cross}) = \frac{2L}{\pi D}$. We can estimate this probability via simulation and then solve for $\pi$.
-
-**Simulation Setup:**
-1.  Consider the position of the center of the needle $(y)$ relative to the nearest line below it. $y$ is uniformly distributed in $[0, D/2]$.
-2.  Consider the angle $(\theta)$ the needle makes with the parallel lines. $\theta$ is uniformly distributed in $[0, \pi/2]$.
-3.  The needle crosses a line if the vertical distance from its center to its tip ($ (L/2) \sin \theta $) is greater than the distance to the nearest line ($y$). That is, cross if $y \le (L/2) \sin \theta$.
-
-**Algorithm:**
-1.  Set $L$ and $D$ (e.g., $L=1, D=2$).
-2.  Run $N$ simulations:
-    a. Generate $y \sim Uniform(0, D/2)$.
-    b. Generate $\theta \sim Uniform(0, \pi/2)$.
-    c. Check if $y \le (L/2) \sin \theta$. Count as a 'hit' if true.
-3.  Estimate $P(\text{cross}) \approx \frac{N_{hits}}{N}$.
-4.  Estimate $\pi \approx \frac{2L}{D \times P(\text{cross})}$. (If $L=1, D=2$, then $\pi \approx \frac{1}{P(\text{cross})}$).
+Let's use our simulation and n-step transition probabilities to see what happens to subscribers in the long run in our original model with the 'Churned' state.
 
 ```{code-cell} ipython3
-import numpy as np
-import math
+# Simulate many paths to see the distribution of final states
+num_simulations = 5000
+simulation_length = 24 # Simulate for 2 years
+final_states = []
 
-def estimate_pi_buffon(N=100000, L=1.0, D=2.0):
-    """Estimates Pi using Buffon's Needle simulation."""
-    if L > D:
-        print("Warning: Method assumes L <= D")
-        
-    hits = 0
-    for _ in range(N):
-        # 1. Sample y from Uniform(0, D/2)
-        y_center = np.random.uniform(0, D / 2.0)
-        
-        # 2. Sample theta from Uniform(0, pi/2)
-        theta = np.random.uniform(0, math.pi / 2.0)
-        
-        # 3. Check for crossing
-        vertical_dist_tip = (L / 2.0) * math.sin(theta)
-        if y_center <= vertical_dist_tip:
-            hits += 1
-            
-    # Estimate probability
-    prob_cross = hits / N
-    
-    # Estimate Pi
-    if prob_cross == 0: # Avoid division by zero if N is very small / unlucky
-        return None, 0
-        
-    estimated_pi = (2 * L) / (D * prob_cross)
-    return estimated_pi, prob_cross
+initial_state = 'Basic' # Example starting state
 
-# Run simulation
-num_simulations = 500000
-needle_length = 1.0
-line_spacing = 2.0
+for _ in range(num_simulations):
+    path = simulate_path(P, states, initial_state, simulation_length)
+    final_states.append(path[-1]) # Get the state after 'simulation_length' months
 
-pi_estimate, p_cross_estimate = estimate_pi_buffon(num_simulations, needle_length, line_spacing)
+# Calculate the proportion of simulations ending in each state
+from collections import Counter # Efficient way to count
+final_state_counts = Counter(final_states)
+# Ensure all states are present in the counts, even if 0
+for state in states:
+    if state not in final_state_counts:
+        final_state_counts[state] = 0
 
-print(f"Buffon's Needle Simulation (N={num_simulations}, L={needle_length}, D={line_spacing})")
-print(f"Estimated P(Cross): {p_cross_estimate:.5f}")
-if pi_estimate is not None:
-    print(f"Estimated Pi: {pi_estimate:.5f}")
-    print(f"Absolute Error: {abs(pi_estimate - math.pi):.5f}")
+final_state_proportions = {state: final_state_counts[state] / num_simulations for state in states}
+
+print(f"Distribution of states after {simulation_length} months starting from '{initial_state}' (based on {num_simulations} simulations):")
+for state in states: # Print in consistent order
+    print(f"  {state}: {final_state_proportions[state]:.4f}")
+
+# Compare with n-step transition probability calculation
+P_long_term = np.linalg.matrix_power(P, simulation_length)
+start_idx = state_map[initial_state]
+theoretical_probs = P_long_term[start_idx, :]
+
+print(f"\nTheoretical probabilities after {simulation_length} months starting from '{initial_state}':")
+for i, state in enumerate(states):
+    print(f"  {state}: {theoretical_probs[i]:.4f}")
 ```
 
-### Exercises
-
-1.  **Poker Probability:** Write a simulation to estimate the probability of being dealt a "flush" (five cards of the same suit) from a standard 52-card deck. Compare your estimate to the known analytical probability.
-2.  **Monte Carlo Integration:** Estimate the value of $\int_0^\pi \sin(x) dx$ using the expected value method (Method 2). The analytical answer is 2. How does the accuracy change as you increase the number of samples $N$?
-3.  **Custom Distribution:** Use the Acceptance-Rejection method to generate samples from a distribution whose PDF is proportional to $f(x) = 1 + \sin(2\pi x)$ for $x \in [0, 1]$. Use $Uniform(0, 1)$ as the proposal distribution. Plot a histogram of your samples.
+Notice how the simulation results closely match the theoretical probabilities calculated using the matrix power $P^n$. Also, observe that as the number of steps (`simulation_length`) increases, the probability mass shifts significantly towards the 'Churned' state, as expected for a model with an absorbing state.
 
 +++
 
-## Chapter Summary
+## 16.8 Summary
 
 +++
 
-Monte Carlo methods are a versatile and powerful set of techniques based on random sampling.
-* They leverage the **Law of Large Numbers** to approximate quantities of interest.
-* They are particularly effective for **estimating probabilities and expected values** in complex scenarios where analytical solutions are difficult.
-* **Monte Carlo Integration** provides a way to estimate definite integrals, especially valuable in high dimensions or for complex integrands.
-* Generating random variables from specific distributions is crucial. Techniques like the **Inverse Transform Method** (when the inverse CDF is available) and the **Acceptance-Rejection Method** (when the PDF is known) allow us to sample from custom distributions.
-* The accuracy of Monte Carlo estimates generally improves as the number of simulations ($N$) increases, typically scaling with $1/\sqrt{N}$.
+In this chapter, we introduced Markov chains, a powerful tool for modeling systems that transition between states based only on their current state. 
 
-These methods form the foundation for many advanced simulation techniques used across science, engineering, and finance.
+We learned:
+* The definition of states, transitions, and the Markov property.
+* How to use transition matrices ($P$) to represent one-step probabilities.
+* To simulate Markov chain paths using Python and `np.random.choice`.
+* That matrix powers ($P^n$) give n-step transition probabilities.
+* The basic classification of states, including absorbing states.
+* The concept of a stationary distribution ($\pi P = \pi$) for irreducible, aperiodic chains, representing long-run behavior, and how to find it using eigenvectors.
+
+Markov chains form the basis for many more advanced models and algorithms in fields like reinforcement learning, finance, genetics, and operations research.
+
++++
+
+## Exercises
+
++++
+
+1.  **Simple Weather Model:** Consider the weather model (Sunny, Cloudy, Rainy) with transition matrix `W`. If it's Sunny today, what is the probability it will be Rainy the day after tomorrow (in 2 steps)? Calculate this using matrix multiplication.
+2.  **Gambler's Ruin (Simulation):** A gambler starts with \$3. They bet \$1 on a fair coin flip (50% chance win, 50% chance lose). They stop if they reach \$0 (ruin) or \$5 (win). 
+    a. Define the states (amount of money: 0, 1, 2, 3, 4, 5).
+    b. Define the transition matrix. Note the absorbing states 0 and 5.
+    c. Simulate 10000 games starting from \$3. What proportion end in ruin (\$0) and what proportion end in winning (\$5)?
+3.  **Stationary Distribution Verification:** For the weather model, manually verify that the calculated stationary distribution $\pi$ satisfies $\pi W = \pi$. 
+4.  **Modify Subscription Model:** Change the 'Churned' state in the subscription model `P` so that there's a small probability (e.g., 0.05) of a churned customer re-subscribing to the 'Free' plan each month (adjust the $P_{33}$ probability accordingly so the row still sums to 1). Is the chain still absorbing? Try to find the new stationary distribution using the eigenvector method. What does it represent now?
+
+```{code-cell} ipython3
+# Exercise 1 Code/Calculation Space
+W_states = ['Sunny', 'Cloudy', 'Rainy']
+W = np.array([
+    [0.7, 0.2, 0.1],
+    [0.3, 0.5, 0.2],
+    [0.2, 0.4, 0.4]
+])
+
+# Calculate W^2
+W_2 = np.linalg.matrix_power(W, 2)
+
+# Probability Sunny -> Rainy in 2 steps
+sunny_idx = W_states.index('Sunny')
+rainy_idx = W_states.index('Rainy')
+prob_sunny_to_rainy_2_steps = W_2[sunny_idx, rainy_idx]
+print(f"(Exercise 1) Probability Sunny -> Rainy in 2 steps: {prob_sunny_to_rainy_2_steps:.4f}")
+```
+
+```{code-cell} ipython3
+# Exercise 2 Code/Calculation Space
+# Gambler's Ruin
+gambler_states = [0, 1, 2, 3, 4, 5] # Amount of money
+P_gambler = np.array([
+    [1.0, 0.0, 0.0, 0.0, 0.0, 0.0], # From 0 (Ruin)
+    [0.5, 0.0, 0.5, 0.0, 0.0, 0.0], # From 1
+    [0.0, 0.5, 0.0, 0.5, 0.0, 0.0], # From 2
+    [0.0, 0.0, 0.5, 0.0, 0.5, 0.0], # From 3
+    [0.0, 0.0, 0.0, 0.5, 0.0, 0.5], # From 4
+    [0.0, 0.0, 0.0, 0.0, 0.0, 1.0]  # From 5 (Win)
+])
+
+def simulate_gambler(transition_matrix, states, start_state_val, max_steps=200): # Increased max_steps slightly
+    """Simulates one game until an absorbing state is reached."""
+    state_indices = list(range(len(states)))
+    current_state_index = states.index(start_state_val)
+    #path_indices = [current_state_index] # Path not needed for final state only
+
+    steps = 0
+    while steps < max_steps:
+        current_state_val = states[current_state_index]
+        # Check if in absorbing state
+        if current_state_val == 0 or current_state_val == 5:
+            return current_state_val # Return final state
+            
+        probabilities = transition_matrix[current_state_index, :]
+        next_state_index = np.random.choice(state_indices, p=probabilities)
+        #path_indices.append(next_state_index)
+        current_state_index = next_state_index
+        steps += 1
+        
+    # If max_steps reached without hitting absorbing state (unlikely here but good practice)
+    return states[current_state_index] 
+
+num_games = 10000 # Increased simulations for better accuracy
+start_money = 3
+end_results = []
+for _ in range(num_games):
+    end_results.append(simulate_gambler(P_gambler, gambler_states, start_money))
+
+from collections import Counter
+end_counts = Counter(end_results)
+
+ruin_count = end_counts.get(0, 0) # Use .get for safety
+win_count = end_counts.get(5, 0)
+
+print(f"\n(Exercise 2) Gambler's Ruin Simulation ({num_games} games starting at ${start_money}):")
+print(f"  Proportion ending in Ruin ($0): {ruin_count / num_games:.4f}") # Should be 0.4
+print(f"  Proportion ending in Win ($5): {win_count / num_games:.4f}")  # Should be 0.6
+```
+
+```{code-cell} ipython3
+# Exercise 3 Code/Calculation Space
+# Verification: pi * W = pi
+
+# From previous calculation (ensure these are accurate)
+# Recalculate just in case
+eigenvalues, eigenvectors = np.linalg.eig(W.T)
+idx = np.isclose(eigenvalues, 1)
+stationary_vector_raw = eigenvectors[:, np.where(idx)[0][0]].flatten().real
+pi_weather = stationary_vector_raw / np.sum(stationary_vector_raw)
+
+result_vector = np.dot(pi_weather, W)
+
+print("\n(Exercise 3) Stationary Distribution Verification:")
+print(f"  Calculated pi: {pi_weather}")
+print(f"  Result pi * W: {result_vector}")
+# Use np.allclose for robust floating point comparison
+print(f"  Are they close? {np.allclose(pi_weather, result_vector)}")
+```
+
+```{code-cell} ipython3
+# Exercise 4 Code/Calculation Space
+
+# Reload original P and states just in case they were modified
+states = ['Free', 'Basic', 'Premium', 'Churned']
+state_map = {state: i for i, state in enumerate(states)}
+P = np.array([
+    [0.60, 0.20, 0.10, 0.10],  # Transitions from Free
+    [0.10, 0.60, 0.20, 0.10],  # Transitions from Basic
+    [0.05, 0.10, 0.70, 0.15],  # Transitions from Premium
+    [0.00, 0.00, 0.00, 1.00]   # Transitions from Churned (Absorbing)
+])
+
+P_modified = P.copy() # Start with original subscription matrix
+
+# Modify the 'Churned' row (index 3)
+prob_churn_to_free = 0.05
+P_modified[3, state_map['Free']] = prob_churn_to_free
+P_modified[3, state_map['Churned']] = 1.0 - prob_churn_to_free # Adjust P_33
+
+print("\n(Exercise 4) Modified Transition Matrix:")
+print(P_modified)
+print("\nIs 'Churned' still absorbing?", P_modified[3, 3] == 1.0) # Should be False
+print("The chain is no longer absorbing, as state 'Churned' can transition to 'Free'.")
+print("The chain should now be irreducible if all other states can eventually reach Churned and Churned can reach Free.")
+
+# Try finding the stationary distribution for the modified matrix
+eigenvalues_mod, eigenvectors_mod = np.linalg.eig(P_modified.T)
+idx_mod = np.isclose(eigenvalues_mod, 1)
+
+if not np.any(idx_mod):
+    print("\nNo eigenvalue close to 1 found for modified matrix.")
+else:
+    stationary_vector_raw_mod = eigenvectors_mod[:, np.where(idx_mod)[0][0]].flatten().real
+    stationary_distribution_mod = stationary_vector_raw_mod / np.sum(stationary_vector_raw_mod)
+    
+    print("\nStationary Distribution for Modified Matrix:")
+    for state, prob in zip(states, stationary_distribution_mod):
+        print(f"  {state}: {prob:.4f}")
+    
+    print("\nThis represents the long-run proportion of time the system spends in each state.")
+    print("Even though customers churn, the small chance of returning means there's a non-zero steady state for all plans.")
+    # Verification
+    print("\nVerification (pi_mod * P_mod):", np.dot(stationary_distribution_mod, P_modified))
+```

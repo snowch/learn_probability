@@ -1,6 +1,5 @@
 ---
 jupytext:
-  formats: ipynb,md:myst
   text_representation:
     extension: .md
     format_name: myst
@@ -12,310 +11,233 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 13: The Law of Large Numbers (LLN)
+# Chapter 13: Functions of Multiple Random Variables
 
 +++
 
-## Introduction
+In previous chapters, we explored single random variables and then pairs or groups of random variables (joint distributions, covariance, correlation). Now, we take the next step: what happens when we combine multiple random variables using mathematical functions? 
 
-In the previous chapters, we explored individual random variables and their distributions, as well as how multiple variables interact. Now, we venture into the fascinating realm of *limit theorems*. These theorems describe the long-term behavior of sequences of random variables, forming the theoretical bedrock for many statistical methods and simulations.
+For example, if $X$ represents the revenue from product A and $Y$ represents the revenue from product B, we might be interested in the distribution of the total revenue $Z = X + Y$. Or, if $X$ and $Y$ are coordinates, we might want to know the distribution of the distance from the origin, $R = \sqrt{X^2 + Y^2}$.
 
-The first major limit theorem we'll explore is the **Law of Large Numbers (LLN)**. Intuitively, the LLN tells us that if we repeat an experiment independently many times, the average of the outcomes will tend to get closer and closer to the theoretical expected value of the experiment. This aligns with our everyday understanding – flip a fair coin enough times, and the proportion of heads will likely be very close to 50%. The LLN provides the mathematical justification for this intuition and is fundamental to why simulation methods, like Monte Carlo, work.
-
-In this chapter, we will:
-1.  Introduce **Chebyshev's Inequality**, a tool that provides a bound on how likely a random variable is to deviate far from its mean.
-2.  Define and explain the **Weak Law of Large Numbers (WLLN)**, focusing on convergence in probability.
-3.  Discuss the conceptual difference with the **Strong Law of Large Numbers (SLLN)**.
-4.  Illustrate the practical implications, particularly how the LLN justifies **Monte Carlo simulations**.
-5.  Use Python simulations to visualize the convergence described by the LLN.
-
-Let's begin by looking at an inequality that helps us quantify deviations from the mean.
+This chapter explores methods for finding the distributions of such combined variables, focusing on sums, differences, products, ratios, general transformations, and order statistics. We'll see how theoretical results can be derived and how simulation can provide empirical insights, especially when analytical solutions are complex.
 
 +++
 
-## Chebyshev's Inequality
+## Distributions of Sums, Differences, Products, and Ratios
 
-Chebyshev's Inequality provides a way to estimate the probability that a random variable takes a value far from its mean, using only its mean ($\mu$) and variance ($\sigma^2$). It's powerful because it applies regardless of the specific distribution of the random variable, as long as the mean and variance are finite.
-
-**Theorem (Chebyshev's Inequality):** Let $X$ be a random variable with finite mean $\mu = E[X]$ and finite variance $\sigma^2 = Var(X)$. Then, for any real number $\epsilon > 0$:
-
-$$P(|X - \mu| \ge \epsilon) \le \frac{Var(X)}{\epsilon^2} = \frac{\sigma^2}{\epsilon^2}$$
-
-Alternatively, letting $\epsilon = k\sigma$ for some $k > 0$, the inequality can be written as:
-
-$$P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}$$
-
-This second form states that the probability of $X$ being $k$ or more standard deviations away from its mean is at most $1/k^2$.
-
-* For $k=2$, the probability of being 2 or more standard deviations away is at most $1/4 = 0.25$.
-* For $k=3$, the probability of being 3 or more standard deviations away is at most $1/9 \approx 0.11$.
-
-**Interpretation:** Chebyshev's inequality gives us a *guaranteed upper bound* on the probability of large deviations. This bound is often quite loose (i.e., the actual probability might be much smaller), especially if we know more about the distribution (like if it's Normal). However, its universality makes it very useful in theoretical contexts.
-
-**Example:** Suppose the average daily return of a stock ($\mu$) is 0.05% and the standard deviation ($\sigma$) is 1%. What is the maximum probability that the return on a given day is outside the range [-1.95%, 2.05%]?
-This range corresponds to being $k\sigma$ away from the mean, where $k\sigma = 2\%$, so $k = 2\% / 1\% = 2$.
-Using Chebyshev's inequality with $k=2$:
-$P(|X - 0.05\%| \ge 2 \times 1\%) \le \frac{1}{2^2} = \frac{1}{4} = 0.25$.
-So, there's at most a 25% chance that the daily return falls outside the [-1.95%, 2.05%] range, regardless of the specific distribution shape (as long as mean and variance are as stated).
+One of the most common operations is finding the distribution of the sum of two or more random variables.
 
 +++
 
-### Hands-on: Illustrating Chebyshev's Bound
+### Sums of Independent Random Variables
 
-Let's consider a Binomial random variable, say $X \sim Binomial(n=100, p=0.5)$.
-We know $E[X] = np = 100 \times 0.5 = 50$.
-And $Var(X) = np(1-p) = 100 \times 0.5 \times 0.5 = 25$, so $\sigma = \sqrt{25} = 5$.
+Let $X$ and $Y$ be two independent random variables, and let $Z = X + Y$. Finding the distribution of $Z$ involves a technique called **convolution**.
 
-Let's check the probability of being $k=2$ standard deviations away from the mean. That is, $P(|X - 50| \ge 2 \times 5) = P(|X - 50| \ge 10)$. This means we want $P(X \le 40 \text{ or } X \ge 60)$.
+* **Discrete Case:** If $X$ and $Y$ are discrete with PMFs $p_X(k)$ and $p_Y(k)$, the PMF of $Z = X + Y$ is given by the convolution formula:
+    $$P(Z=z) = p_Z(z) = \sum_{k} P(X=k, Y=z-k)$$ 
+    Since $X$ and $Y$ are independent, $P(X=k, Y=z-k) = P(X=k)P(Y=z-k) = p_X(k)p_Y(z-k)$. Therefore:
+    $$p_Z(z) = \sum_{k} p_X(k) p_Y(z-k)$$ 
+    The sum is over all possible values $k$ for $X$.
+    
+    *Example:* If $X \sim Poisson(\lambda_1)$ and $Y \sim Poisson(\lambda_2)$ are independent, then $Z = X+Y \sim Poisson(\lambda_1 + \lambda_2)$.
 
-Chebyshev's inequality states: $P(|X - 50| \ge 10) \le \frac{1}{2^2} = 0.25$.
-
-Let's calculate the actual probability using `scipy.stats`.
-
-```{code-cell} ipython3
-import numpy as np
-from scipy.stats import binom
-import matplotlib.pyplot as plt
-
-# Configure plot style
-plt.style.use('seaborn-v0_8-whitegrid')
-
-# Parameters
-n = 100
-p = 0.5
-mu = n * p
-sigma = np.sqrt(n * p * (1 - p))
-k = 2
-epsilon = k * sigma
-
-# Calculate the actual probability P(|X - mu| >= k*sigma)
-# This is P(X <= mu - k*sigma) + P(X >= mu + k*sigma)
-# Since Binomial is discrete, we need P(X <= floor(mu - k*sigma)) + P(X >= ceil(mu + k*sigma))
-lower_bound = np.floor(mu - epsilon)
-upper_bound = np.ceil(mu + epsilon)
-
-prob_lower = binom.cdf(k=lower_bound, n=n, p=p)
-prob_upper = 1.0 - binom.cdf(k=upper_bound - 1, n=n, p=p) # P(X >= upper_bound) = 1 - P(X < upper_bound) = 1 - P(X <= upper_bound - 1)
-
-actual_prob = prob_lower + prob_upper
-
-# Chebyshev bound
-chebyshev_bound = 1 / (k**2)
-
-print(f"Distribution: Binomial(n={n}, p={p})")
-print(f"Mean (mu): {mu}, Standard Deviation (sigma): {sigma:.2f}")
-print(f"Checking deviation of k={k} standard deviations (epsilon={epsilon:.2f})")
-print(f"We want P(|X - {mu}| >= {epsilon:.2f}), which is P(X <= {lower_bound} or X >= {upper_bound})")
-print(f"Actual Probability: {actual_prob:.4f}")
-print(f"Chebyshev Bound: <= {chebyshev_bound:.4f}")
-print(f"Is the actual probability less than or equal to the bound? {actual_prob <= chebyshev_bound}")
-
-# Plot the distribution and the bounds
-x_values = np.arange(0, n + 1)
-pmf_values = binom.pmf(k=x_values, n=n, p=p)
-
-plt.figure(figsize=(12, 6))
-plt.bar(x_values, pmf_values, label='Binomial PMF', color='skyblue')
-plt.axvline(mu, color='black', linestyle='--', label=f'Mean (mu={mu})')
-plt.axvline(mu - epsilon, color='red', linestyle=':', label=f'mu - {k}*sigma ({mu - epsilon:.1f})')
-plt.axvline(mu + epsilon, color='red', linestyle=':', label=f'mu + {k}*sigma ({mu + epsilon:.1f})')
-plt.fill_between(x_values, pmf_values, where=(x_values <= lower_bound) | (x_values >= upper_bound),
-                 color='red', alpha=0.5, label=f'Area where |X - mu| >= {k}*sigma')
-plt.title("Binomial Distribution and Chebyshev's Bound (k=2)")
-plt.xlabel("Number of Successes (X)")
-plt.ylabel("Probability")
-plt.legend()
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.show()
-```
-
-As we can see, the actual probability (around 0.0569) is much smaller than the Chebyshev bound (0.25). This illustrates that while the inequality always holds, it might not be very precise for specific, well-behaved distributions like the Binomial (which is close to Normal for these parameters).
+* **Continuous Case:** If $X$ and $Y$ are continuous with PDFs $f_X(x)$ and $f_Y(y)$, the PDF of $Z = X + Y$ is given by the convolution integral:
+    $$f_Z(z) = \int_{-\infty}^{\infty} f_X(x) f_Y(z-x) \, dx$$ 
+    Alternatively, you can swap the roles of X and Y: $f_Z(z) = \int_{-\infty}^{\infty} f_X(z-y) f_Y(y) \, dy$.
+    
+    *Example:* If $X \sim N(\mu_1, \sigma_1^2)$ and $Y \sim N(\mu_2, \sigma_2^2)$ are independent, then $Z = X+Y \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$.
+    *Example:* If $X \sim Uniform(0, 1)$ and $Y \sim Uniform(0, 1)$ are independent, then $Z = X+Y$ has a **triangular distribution** on $(0, 2)$. We will simulate this later.
 
 +++
 
-## The Law of Large Numbers (LLN)
+### Differences, Products, and Ratios
 
-Chebyshev's inequality provides a foundation for proving one version of the Law of Large Numbers. The LLN formalizes the idea that sample averages converge to the population mean as the sample size increases.
+Finding the distributions for differences ($Z=X-Y$), products ($Z=XY$), or ratios ($Z=X/Y$) can also be done using transformations or convolution-like methods, but the formulas can become more complex.
 
-Let $X_1, X_2, ..., X_n$ be a sequence of independent and identically distributed (i.i.d.) random variables, each with the same finite mean $\mu = E[X_i]$ and finite variance $\sigma^2 = Var(X_i)$.
+* **Difference:** $Z = X - Y = X + (-Y)$. If you know the distribution of $-Y$, you can use convolution.
+* **Product/Ratio:** These often require the method of transformations (discussed next) or using cumulative distribution functions ($F_Z(z) = P(Z \le z) = P(X/Y \le z)$ and then differentiating to find the PDF $f_Z(z)$).
 
-Let $\bar{X}_n$ be the sample mean (average) of the first $n$ variables:
-$$\bar{X}_n = \frac{X_1 + X_2 + ... + X_n}{n}$$
-
-The LLN describes the behavior of $\bar{X}_n$ as $n \to \infty$. There are two main versions:
+For many complex functions or when analytical derivation is intractable, simulation becomes a powerful tool to approximate the resulting distribution.
 
 +++
 
-### 1. Weak Law of Large Numbers (WLLN)
+## Introduction to Multivariate Transformations
 
-The WLLN states that the sample mean $\bar{X}_n$ **converges in probability** to the true mean $\mu$.
+Suppose we have a pair of random variables $(X, Y)$ with a known joint PDF $f_{X,Y}(x, y)$. We define two new random variables $U = g_1(X, Y)$ and $V = g_2(X, Y)$. How do we find the joint PDF of $(U, V)$, denoted $f_{U,V}(u, v)$?
 
-**Definition (Convergence in Probability):** A sequence of random variables $Y_n$ converges in probability to a constant $c$ (written $Y_n \xrightarrow{P} c$) if, for every $\epsilon > 0$:
-$$\lim_{n\to\infty} P(|Y_n - c| \ge \epsilon) = 0$$
-In words: As $n$ gets larger, the probability that $Y_n$ is significantly different from $c$ becomes arbitrarily small.
+This requires a technique analogous to the change of variables in multivariable calculus, using the **Jacobian** of the transformation.
 
-**Theorem (Weak Law of Large Numbers):** If $X_1, X_2, ...$ are i.i.d. with finite mean $\mu$ and finite variance $\sigma^2$, then the sample mean $\bar{X}_n$ converges in probability to $\mu$:
-$$\bar{X}_n \xrightarrow{P} \mu \quad \text{as } n \to \infty$$
-That is, for any $\epsilon > 0$:
-$$\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0$$
+1.  **Solve for Original Variables:** Express $x$ and $y$ in terms of $u$ and $v$: $x = h_1(u, v)$ and $y = h_2(u, v)$.
+2.  **Calculate the Jacobian Determinant:** The Jacobian determinant $J$ is:
+    $$ J = \det \begin{pmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{pmatrix} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u} $$ 
+3.  **Apply the Transformation Formula:** The joint PDF of $(U, V)$ is:
+    $$ f_{U,V}(u, v) = f_{X,Y}(h_1(u, v), h_2(u, v)) \cdot |J| $$ 
+    where $|J|$ is the absolute value of the Jacobian determinant. This formula is valid provided the transformation is one-to-one over the region of interest.
 
-**Proof using Chebyshev's Inequality:**
-We need the properties of expected value and variance for the sample mean $\bar{X}_n$:
-1.  $E[\bar{X}_n] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n}\sum_{i=1}^n \mu = \frac{n\mu}{n} = \mu$.
-    (The expected value of the sample mean is the true mean).
-2.  $Var(\bar{X}_n) = Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2} Var\left(\sum_{i=1}^n X_i\right)$.
-    Since the $X_i$ are independent:
-    $Var(\bar{X}_n) = \frac{1}{n^2} \sum_{i=1}^n Var(X_i) = \frac{1}{n^2} \sum_{i=1}^n \sigma^2 = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}$.
-    (The variance of the sample mean decreases as $n$ increases).
-
-Now, apply Chebyshev's Inequality to the random variable $\bar{X}_n$, which has mean $\mu$ and variance $\sigma^2/n$:
-$$P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{Var(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2/n}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}$$
-Taking the limit as $n \to \infty$:
-$$\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) \le \lim_{n\to\infty} \frac{\sigma^2}{n\epsilon^2} = 0$$
-Since probability cannot be negative, the limit must be exactly 0. This proves the WLLN under the condition of finite variance. (Note: The WLLN holds even if only the mean is finite, but the proof is more complex).
-
-**Intuition:** The WLLN tells us that for a *sufficiently large sample size n*, the probability that the sample average $\bar{X}_n$ deviates from the true mean $\mu$ by more than any small amount $\epsilon$ is very low.
+*Example:* Cartesian to Polar Coordinates.
+Let $(X, Y)$ have a joint PDF $f_{X,Y}(x, y)$. Consider the transformation to polar coordinates: $R = \sqrt{X^2 + Y^2}$ and $\Theta = \arctan(Y/X)$. 
+We want to find the joint PDF $f_{R,\Theta}(r, \theta)$.
+The inverse transformation is $x = r \cos \theta$ and $y = r \sin \theta$. 
+The Jacobian determinant is:
+$$ J = \det \begin{pmatrix} \cos \theta & -r \sin \theta \\ \sin \theta & r \cos \theta \end{pmatrix} = (\cos \theta)(r \cos \theta) - (-r \sin \theta)(\sin \theta) = r \cos^2 \theta + r \sin^2 \theta = r $$ 
+Assuming $r > 0$, $|J| = r$. Thus:
+$$ f_{R,\Theta}(r, \theta) = f_{X,Y}(r \cos \theta, r \sin \theta) \cdot r $$ 
+If $X, Y \sim N(0, 1)$ independently, then $f_{X,Y}(x, y) = \frac{1}{2\pi} e^{-(x^2+y^2)/2}$. 
+Substituting $x = r \cos \theta, y = r \sin \theta$, we get $x^2+y^2 = r^2$. 
+So, $f_{R,\Theta}(r, \theta) = \frac{1}{2\pi} e^{-r^2/2} \cdot r$. We can see this separates into a function of $r$ and $\theta$, indicating $R$ and $\Theta$ are independent. Integrating over $\theta$ from $0$ to $2\pi$ gives the marginal PDF for $R$: $f_R(r) = r e^{-r^2/2}$ for $r > 0$ (Rayleigh distribution), and integrating over $r$ gives the marginal PDF for $\Theta$: $f_\Theta(\theta) = \frac{1}{2\pi}$ for $0 \le \theta < 2\pi$ (Uniform distribution).
 
 +++
 
-### 2. Strong Law of Large Numbers (SLLN)
+## Order Statistics
 
-The SLLN makes a stronger statement about the convergence of the sample mean. It states that $\bar{X}_n$ converges **almost surely** to $\mu$.
+Suppose we have a sample of $n$ independent and identically distributed (i.i.d.) random variables $X_1, X_2, \dots, X_n$. If we arrange these variables in ascending order, we get the **order statistics**: $X_{(1)}, X_{(2)}, \dots, X_{(n)}$, where $X_{(1)} = \min(X_1, \dots, X_n)$ and $X_{(n)} = \max(X_1, \dots, X_n)$.
 
-**Definition (Almost Sure Convergence):** A sequence of random variables $Y_n$ converges almost surely to a constant $c$ (written $Y_n \xrightarrow{a.s.} c$) if:
-$$P\left( \lim_{n\to\infty} Y_n = c \right) = 1$$
-In words: The probability that the sequence of values $Y_n$ eventually converges to and stays at $c$ is 1. This means that for any *specific realization* (sequence of outcomes) of the random process, the sample average will converge to the true mean, except possibly for a set of outcomes with zero probability.
+We are often interested in the distribution of these order statistics, particularly the minimum ($X_{(1)}$) and the maximum ($X_{(n)}$).
 
-**Theorem (Strong Law of Large Numbers - Kolmogorov):** If $X_1, X_2, ...$ are i.i.d. with finite mean $\mu = E[X_i]$, then the sample mean $\bar{X}_n$ converges almost surely to $\mu$:
-$$\bar{X}_n \xrightarrow{a.s.} \mu \quad \text{as } n \to \infty$$
-$$P\left( \lim_{n\to\infty} \bar{X}_n = \mu \right) = 1$$
-*(Note: The condition for the SLLN only requires finite mean, not finite variance, unlike our proof of the WLLN using Chebyshev).*
+Let the common CDF and PDF of the $X_i$ be $F(x)$ and $f(x)$, respectively.
 
-**WLLN vs SLLN:**
-* WLLN concerns the probability of deviation for a *specific large n*. It doesn't guarantee that convergence will happen for a *particular sequence* of outcomes.
-* SLLN concerns the behavior of the *entire sequence* of sample averages. It guarantees that the sample average will *eventually* converge to the true mean for almost every possible sequence of outcomes.
+* **Distribution of the Maximum, $X_{(n)}$:**
+    The event $X_{(n)} \le x$ means that *all* of the $X_i$ must be less than or equal to $x$. Since they are i.i.d.:
+    $$ F_{X_{(n)}}(x) = P(X_{(n)} \le x) = P(X_1 \le x, X_2 \le x, \dots, X_n \le x) = P(X_1 \le x) \cdots P(X_n \le x) = [F(x)]^n $$ 
+    The PDF is found by differentiating the CDF:
+    $$ f_{X_{(n)}}(x) = \frac{d}{dx} F_{X_{(n)}}(x) = n [F(x)]^{n-1} f(x) $$ 
 
-For most practical applications in simulation and statistics, the intuition provided by either law is similar: **the sample average is a reliable estimator of the true expected value for large sample sizes.**
+* **Distribution of the Minimum, $X_{(1)}$:**
+    The event $X_{(1)} > x$ means that *all* of the $X_i$ must be greater than $x$. 
+    $$ P(X_{(1)} > x) = P(X_1 > x, X_2 > x, \dots, X_n > x) = [P(X_1 > x)]^n = [1 - F(x)]^n $$ 
+    Therefore, the CDF is:
+    $$ F_{X_{(1)}}(x) = P(X_{(1)} \le x) = 1 - P(X_{(1)} > x) = 1 - [1 - F(x)]^n $$ 
+    The PDF is found by differentiating:
+    $$ f_{X_{(1)}}(x) = \frac{d}{dx} F_{X_{(1)}}(x) = -n [1 - F(x)]^{n-1} (-f(x)) = n [1 - F(x)]^{n-1} f(x) $$ 
 
-+++
-
-## Applications: Justification for Monte Carlo Methods
-
-The Law of Large Numbers is the cornerstone of **Monte Carlo simulation**. Monte Carlo methods use repeated random sampling to obtain numerical results, often when analytical solutions are intractable.
-
-Consider estimating a probability $p$ of some event $A$. We can perform $n$ independent trials of the relevant experiment. Let $X_i$ be an indicator random variable for the $i$-th trial:
-$X_i = 1$ if event $A$ occurs on trial $i$,
-$X_i = 0$ if event $A$ does not occur on trial $i$.
-
-Then $E[X_i] = 1 \cdot P(X_i=1) + 0 \cdot P(X_i=0) = P(A) = p$.
-The sample mean $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ represents the proportion of times event $A$ occurred in the $n$ trials (the empirical probability).
-
-By the LLN (either Weak or Strong), as $n \to \infty$:
-$$\bar{X}_n \longrightarrow E[X_i] = p$$
-So, the proportion of successes in a large number of trials converges to the true probability of success. This justifies using the observed frequency from a large simulation to estimate an unknown probability.
-
-Similarly, if we want to estimate the expected value $E[g(Y)]$ for some random variable $Y$ and function $g$, we can generate many i.i.d. samples $Y_1, Y_2, ..., Y_n$ from the distribution of $Y$. Let $Z_i = g(Y_i)$. Then $E[Z_i] = E[g(Y)]$. The sample mean of the transformed variables is:
-$$\bar{Z}_n = \frac{1}{n} \sum_{i=1}^n g(Y_i)$$
-By the LLN, as $n \to \infty$:
-$$\bar{Z}_n \longrightarrow E[Z_i] = E[g(Y)]$$
-Thus, the average of $g(Y_i)$ over many simulations converges to the true expected value $E[g(Y)]$. This is the basis for Monte Carlo integration and estimating expected values of complex systems.
+*Example:* Let $X_1, \dots, X_n$ be i.i.d. $Exponential(\lambda)$. Then $F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$. 
+The CDF of the minimum is $F_{X_{(1)}}(x) = 1 - [1 - (1 - e^{-\lambda x})]^n = 1 - [e^{-\lambda x}]^n = 1 - e^{-n\lambda x}$. 
+This is the CDF of an $Exponential(n\lambda)$ distribution. So, the minimum of $n$ i.i.d. exponential random variables is also exponential, with a rate $n$ times the original rate.
 
 +++
 
-## Hands-on: Simulating the Law of Large Numbers
+## Hands-on: Simulations and Comparisons
 
-Let's visualize the LLN by simulating the rolling of a fair six-sided die.
-The random variable $X$ is the outcome of a single roll. The sample space is $\{1, 2, 3, 4, 5, 6\}$.
-The true mean (expected value) is:
-$$E[X] = \sum_{k=1}^6 k \cdot P(X=k) = \sum_{k=1}^6 k \cdot \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = \frac{21}{6} = 3.5$$
++++
 
-We will simulate $N$ die rolls, calculate the running sample average after each roll, and plot how it converges towards the theoretical mean of 3.5.
+### Simulating the Sum of Two Independent Uniform Random Variables
+
+We expect the sum of two independent $Uniform(0, 1)$ variables to follow a triangular distribution on $(0, 2)$, with PDF:
+$$ f_Z(z) = \begin{cases} z & 0 \le z \le 1 \\ 2-z & 1 < z \le 2 \\ 0 & \text{otherwise} \end{cases} $$ 
+Let's simulate this and compare the histogram of the simulated sums to the theoretical PDF.
 
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-
-# Configure plot style
-plt.style.use('seaborn-v0_8-whitegrid')
+import scipy.stats as stats
 
 # --- Simulation Parameters ---
-num_rolls = 5000  # Total number of die rolls to simulate
-true_mean = 3.5   # Theoretical expected value for a fair die
+num_simulations = 100000
 
-# --- Simulate Die Rolls ---
-# Generate random integers between 1 and 6 (inclusive)
-rolls = np.random.randint(1, 7, size=num_rolls)
+# --- Simulate Uniform Random Variables ---
+# Generate pairs of independent Uniform(0, 1) variables
+X = np.random.rand(num_simulations)
+Y = np.random.rand(num_simulations)
 
-# --- Calculate Running Average ---
-# Calculate the cumulative sum of the rolls
-cumulative_sum = np.cumsum(rolls)
-# Calculate the number of rolls at each step (1, 2, 3, ..., num_rolls)
-roll_numbers = np.arange(1, num_rolls + 1)
-# Calculate the running average: cumulative_sum / number_of_rolls
-running_average = cumulative_sum / roll_numbers
+# --- Calculate the Sum ---
+Z = X + Y
+
+# --- Define the Theoretical PDF ---
+def triangular_pdf(z):
+    if 0 <= z <= 1:
+        return z
+    elif 1 < z <= 2:
+        return 2 - z
+    else:
+        return 0
+
+# Vectorize the function for plotting
+v_triangular_pdf = np.vectorize(triangular_pdf)
 
 # --- Plotting ---
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(10, 6))
 
-# Plot the running average
-plt.plot(roll_numbers, running_average, label='Running Sample Average')
+# Plot histogram of simulated sums
+plt.hist(Z, bins=50, density=True, alpha=0.7, label=f'Simulated Sums (n={num_simulations})')
 
-# Plot the true mean
-plt.axhline(true_mean, color='red', linestyle='--', label=f'True Mean ({true_mean})')
+# Plot theoretical PDF
+z_values = np.linspace(0, 2, 400)
+pdf_values = v_triangular_pdf(z_values)
+plt.plot(z_values, pdf_values, 'r-', lw=2, label='Theoretical Triangular PDF')
 
-# Add annotations and labels
-plt.title(f'Law of Large Numbers: Convergence of Sample Mean ({num_rolls} Die Rolls)')
-plt.xlabel('Number of Rolls')
-plt.ylabel('Sample Average')
-plt.xlim(0, num_rolls)
-# Adjust y-limits for better visualization if needed, e.g.:
-# plt.ylim(1, 6)
+plt.title('Sum of Two Independent Uniform(0, 1) Variables')
+plt.xlabel('Z = X + Y')
+plt.ylabel('Density')
 plt.legend()
-plt.grid(True)
-
-# Optional: Show the plot for the first few rolls more clearly
-plt.figure(figsize=(12, 6))
-plt.plot(roll_numbers[:100], running_average[:100], label='Running Sample Average (First 100)')
-plt.axhline(true_mean, color='red', linestyle='--', label=f'True Mean ({true_mean})')
-plt.title('LLN: Convergence Detail (First 100 Rolls)')
-plt.xlabel('Number of Rolls')
-plt.ylabel('Sample Average')
-plt.xlim(0, 100)
-plt.ylim(1, 6) # Set fixed y-axis for fair comparison
-plt.legend()
-plt.grid(True)
-
+plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
-
-print(f"Final sample average after {num_rolls} rolls: {running_average[-1]:.4f}")
-print(f"Difference from true mean: {abs(running_average[-1] - true_mean):.4f}")
 ```
 
-The plots clearly demonstrate the LLN in action. Initially, the sample average fluctuates significantly. However, as the number of rolls increases, the sample average stabilizes and gets progressively closer to the true expected value of 3.5. The final average after 5000 rolls is very close to the theoretical mean. This convergence is exactly what the LLN predicts.
+### Simulating Order Statistics: Minimum of Exponential Variables
 
-+++
+Let's simulate the minimum of $n=5$ independent $Exponential(\lambda=1)$ random variables. We derived theoretically that $X_{(1)} \sim Exponential(n\lambda = 5)$. Let's verify this visually.
 
-## Chapter Summary
+```{code-cell} ipython3
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as stats
 
-* **Chebyshev's Inequality** provides a distribution-independent upper bound on the probability that a random variable deviates from its mean by a certain amount: $P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}$. While often loose, it's universally applicable given finite mean and variance.
-* **The Law of Large Numbers (LLN)** describes the convergence of the sample average ($\bar{X}_n$) of i.i.d. random variables to the population mean ($\mu$) as the sample size ($n$) grows.
-* **Weak Law of Large Numbers (WLLN):** States that $\bar{X}_n$ converges *in probability* to $\mu$. This means $P(|\bar{X}_n - \mu| \ge \epsilon) \to 0$ as $n \to \infty$. It can be proven using Chebyshev's inequality (if variance is finite).
-* **Strong Law of Large Numbers (SLLN):** States that $\bar{X}_n$ converges *almost surely* to $\mu$. This means $P(\lim_{n\to\infty} \bar{X}_n = \mu) = 1$. It's a stronger condition, implying convergence for almost every specific sequence of outcomes.
-* **Applications:** The LLN is the fundamental justification for **Monte Carlo methods**, ensuring that averages calculated from large simulations reliably estimate true probabilities and expected values.
-* **Simulation:** We visualized the LLN by plotting the running average of simulated die rolls, observing its convergence towards the theoretical mean of 3.5.
+# --- Simulation Parameters ---
+num_simulations = 100000
+n_variables = 5  # Number of exponential variables
+lambda_rate = 1.0 # Rate parameter for individual variables
 
-The LLN tells us *where* the sample average converges (to the population mean). Our next topic, the Central Limit Theorem (CLT), will tell us about the *shape of the distribution* of the sample average around that mean for large sample sizes.
+# --- Simulate Exponential Random Variables ---
+# Generate n_variables sets of exponential random variables
+# Each row is a simulation, each column is one X_i
+exp_samples = np.random.exponential(scale=1.0/lambda_rate, size=(num_simulations, n_variables))
+
+# --- Calculate the Minimum for each simulation ---
+X_min = np.min(exp_samples, axis=1)
+
+# --- Theoretical Distribution ---
+# The minimum follows Exponential(n * lambda)
+theoretical_rate = n_variables * lambda_rate
+theoretical_dist = stats.expon(scale=1.0/theoretical_rate)
+
+# --- Plotting ---
+plt.figure(figsize=(10, 6))
+
+# Plot histogram of simulated minimums
+plt.hist(X_min, bins=50, density=True, alpha=0.7, label=f'Simulated Minima (n={n_variables}, $\lambda$={lambda_rate})')
+
+# Plot theoretical PDF
+x_values = np.linspace(X_min.min(), X_min.max(), 400)
+pdf_values = theoretical_dist.pdf(x_values)
+plt.plot(x_values, pdf_values, 'r-', lw=2, label=f'Theoretical Exponential PDF (rate={theoretical_rate:.1f})')
+
+plt.title(f'Distribution of the Minimum of {n_variables} i.i.d. Exponential({lambda_rate}) Variables')
+plt.xlabel('Value of Minimum ($X_{(1)}$)')
+plt.ylabel('Density')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+```
+
+## Summary
+
+This chapter introduced methods for finding the distribution of functions of multiple random variables. We specifically looked at:
+
+* **Sums of independent variables:** Using convolution (discrete and continuous cases). We saw important results like the sum of independent Poissons being Poisson and the sum of independent Normals being Normal.
+* **Multivariate Transformations:** Using the Jacobian determinant to find the joint PDF of transformed variables, illustrated with the Cartesian-to-Polar transformation.
+* **Order Statistics:** Deriving the distributions (CDFs and PDFs) for the minimum ($X_{(1)}$) and maximum ($X_{(n)}$) of an i.i.d. sample.
+
+We used simulations to empirically verify theoretical results, such as the triangular distribution arising from the sum of two uniforms and the exponential distribution arising from the minimum of exponentials. Simulation is a crucial tool when analytical derivations become too complex or intractable.
 
 +++
 
 ## Exercises
 
-1.  **Chebyshev vs. Reality (Exponential):** Let $X \sim Exponential(\lambda=1)$. Recall $E[X] = 1/\lambda = 1$ and $Var(X) = 1/\lambda^2 = 1$.
-    a. Use Chebyshev's inequality to find an upper bound for $P(|X - 1| \ge 2)$. (Here $\mu=1, \sigma=1$, so $k=2$).
-    b. Calculate the exact probability $P(|X - 1| \ge 2) = P(X \ge 3)$ using the CDF of the Exponential distribution ($F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$).
-    c. Compare the bound from (a) with the exact value from (b).
-2.  **Simulating LLN for Bernoulli:** Consider a Bernoulli trial with $p=0.3$ (probability of success). The true mean is $\mu = p = 0.3$.
-    a. Simulate 10,000 Bernoulli trials with $p=0.3$.
-    b. Calculate and plot the running average of the outcomes (which represents the empirical probability of success).
-    c. Verify visually that the running average converges towards 0.3.
-3.  **Convergence Rate:** In the proof of WLLN using Chebyshev, we found $P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n\epsilon^2}$. If we want to ensure this probability bound is less than 0.01 for $\epsilon=0.1$, how large does $n$ need to be for the die roll example ($Var(X) = E[X^2] - (E[X])^2 = (1^2+2^2+3^2+4^2+5^2+6^2)/6 - 3.5^2 = 91/6 - 12.25 \approx 15.167 - 12.25 = 2.917$)? Does this seem like a practical sample size based on the simulation?
+1.  **Sum of Two Poissons:** Let $X \sim Poisson(2)$ and $Y \sim Poisson(3)$ be independent. 
+    a. What is the distribution of $Z = X + Y$?
+    b. Calculate $P(Z=4)$.
+    c. Simulate $X$ and $Y$ many times, calculate their sum $Z$, and create a histogram of the simulated $Z$ values. Compare the histogram to the theoretical PMF from part (a).
+2.  **Maximum of Uniforms:** Let $U_1, U_2, U_3$ be i.i.d. $Uniform(0, 1)$.
+    a. Find the theoretical CDF and PDF of $U_{(3)} = \max(U_1, U_2, U_3)$.
+    b. Simulate $U_1, U_2, U_3$ many times, find the maximum in each simulation, and create a histogram. Compare it to the theoretical PDF from part (a).
+3.  **Ratio of Normals (Cauchy Distribution):** Let $X \sim N(0, 1)$ and $Y \sim N(0, 1)$ be independent. Simulate $X$ and $Y$ many times and compute the ratio $Z = X/Y$. Plot a histogram of the $Z$ values. What distribution does this resemble? (Note: The theoretical distribution is the Cauchy distribution, which has unusual properties like an undefined mean.)

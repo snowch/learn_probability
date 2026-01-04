@@ -1,5 +1,6 @@
 ---
 jupytext:
+  formats: ipynb,md:myst
   text_representation:
     extension: .md
     format_name: myst
@@ -11,449 +12,445 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 11: Independence, Covariance, and Correlation
+# Chapter 11: Joint Distributions
 
-## Introduction
+**Part 4: Multiple Random Variables**
 
-In the previous chapter, we explored how to describe the probability distributions of multiple random variables simultaneously using joint distributions. We saw how to derive marginal and conditional distributions from the joint distribution. Now, we delve deeper into the relationships *between* random variables.
+Up until now, we've primarily focused on the behaviour of single random variables. However, real-world phenomena often involve observing and analysing multiple random quantities simultaneously. For instance:
 
-How can we quantify if knowing the value of one variable tells us something about the other? Are they completely unrelated (independent)? Or do they tend to move together or in opposite directions? This chapter introduces three fundamental concepts for describing these relationships:
+* How does a person's height relate to their weight?
+* How does the temperature and humidity on a given day affect electricity consumption?
+* In finance, how do the returns of different stocks move together?
 
-1.  **Independence:** The strongest form of "unrelatedness," where the value of one variable provides no information about the value of the other.
-2.  **Covariance:** A measure of the *direction* of the linear relationship between two variables.
-3.  **Correlation:** A *standardized* measure of the *strength and direction* of the linear relationship between two variables.
+To answer such questions, we need to understand how to model the probabilities of multiple random variables occurring together. This leads us to the concept of **joint distributions**. In this chapter, we'll explore how to describe the probabilistic relationship between two or more random variables, extending the concepts of PMFs, PDFs, and CDFs to multiple dimensions.
 
-We will also explore how these concepts affect the variance of sums of random variables, a crucial calculation in fields like finance (portfolio variance) and engineering (error propagation).
++++
 
-**Learning Objectives:**
+## Joint Probability Mass Functions (PMFs)
 
-* Understand the definition and implications of independence for random variables.
-* Define, calculate, and interpret covariance.
-* Define, calculate, interpret, and understand the properties of the correlation coefficient.
-* Learn how to calculate the variance of sums of random variables, considering their covariance.
-* Apply these concepts using Python (NumPy, Pandas, Matplotlib/Seaborn) for simulation, calculation, and visualization.
+Let's start with the discrete case. Suppose we have two discrete random variables, $X$ and $Y$, defined on the same probability space. Their **joint probability mass function (PMF)** gives the probability that $X$ takes a specific value $x$ *and* $Y$ takes a specific value $y$, simultaneously.
+
+$$ p_{X,Y}(x, y) = P(X=x, Y=y) $$
+
+The joint PMF must satisfy two conditions:
+1. $p_{X,Y}(x, y) \ge 0$ for all possible pairs $(x, y)$.
+2. $\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1$, where the sum is over all possible pairs $(x, y)$.
+
+**Example: Rolling Two Dice**
+
+Let $X$ be the outcome of rolling a fair red die, and $Y$ be the outcome of rolling a fair blue die. Both $X$ and $Y$ can take values in $\{1, 2, 3, 4, 5, 6\}$. Assuming the rolls are independent, the probability of any specific pair $(x, y)$ is:
+
+$$ p_{X,Y}(x, y) = P(X=x, Y=y) = P(X=x) P(Y=y) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36} $$
+
+for all $x, y \in \{1, 2, 3, 4, 5, 6\}$.
+
+We can represent this joint PMF as a table or a 2D array:
+
+| y\x | 1    | 2    | 3    | 4    | 5    | 6    |
+|-----|------|------|------|------|------|------|
+| **1** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
+| **2** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
+| **3** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
+| **4** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
+| **5** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
+| **6** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
+
+The sum of all entries in the table is $36 \times \frac{1}{36} = 1$.
+
++++
+
+## Joint Probability Density Functions (PDFs)
+
+For continuous random variables $X$ and $Y$, we use a **joint probability density function (PDF)**, denoted $f_{X,Y}(x, y)$. This function describes the relative likelihood of the variables taking on a specific pair of values $(x, y)$.
+
+Unlike the discrete case, $f_{X,Y}(x, y)$ itself is not a probability. Instead, probabilities are found by integrating the joint PDF over a region in the $xy$-plane. The probability that the pair $(X, Y)$ falls within a region $A$ is given by:
+
+$$ P((X, Y) \in A) = \iint_A f_{X,Y}(x, y) \,dx \,dy $$
+
+The joint PDF must satisfy:
+1. $f_{X,Y}(x, y) \ge 0$ for all $(x, y)$.
+2. $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \,dy = 1$.
+
+**Conceptual Example: Height and Weight**
+
+Let $X$ represent the height (in meters) and $Y$ represent the weight (in kilograms) of a randomly selected adult. We expect that taller people generally tend to weigh more, so these variables are likely not independent. Their joint distribution might be modelled by a **bivariate normal distribution**. The joint PDF $f_{X,Y}(x, y)$ would be a bell-shaped surface over the $xy$-plane, likely centered around the average height and weight, and elongated along a diagonal line reflecting the positive relationship between height and weight. The volume under this entire surface must equal 1.
+
++++
+
+## Marginal Distributions
+
+Often, we have the joint distribution of multiple variables, but we are interested in the distribution of just one of them, irrespective of the others. This is called the **marginal distribution**.
+
+**Discrete Case:**
+
+To find the marginal PMF of $X$, $p_X(x)$, we sum the joint PMF $p_{X,Y}(x, y)$ over all possible values of $y$:
+
+$$ p_X(x) = P(X=x) = \sum_{y} P(X=x, Y=y) = \sum_{y} p_{X,Y}(x, y) $$
+
+Similarly, for the marginal PMF of $Y$, $p_Y(y)$:
+
+$$ p_Y(y) = P(Y=y) = \sum_{x} P(X=x, Y=y) = \sum_{x} p_{X,Y}(x, y) $$
+
+In the two-dice example, the marginal probability $P(X=3)$ is found by summing the probabilities in the column corresponding to $x=3$:
+$P(X=3) = \sum_{y=1}^{6} p_{X,Y}(3, y) = \sum_{y=1}^{6} \frac{1}{36} = 6 \times \frac{1}{36} = \frac{1}{6}$. As expected for a single fair die.
+
+**Continuous Case:**
+
+To find the marginal PDF of $X$, $f_X(x)$, we integrate the joint PDF $f_{X,Y}(x, y)$ over all possible values of $y$:
+
+$$ f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dy $$
+
+Similarly, for the marginal PDF of $Y$, $f_Y(y)$:
+
+$$ f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx $$
+
+For the height ($X$) and weight ($Y$) example, integrating the bivariate normal PDF $f_{X,Y}(x, y)$ with respect to $y$ from $-\infty$ to $\infty$ would yield the marginal distribution of height, $f_X(x)$, which itself would typically be a normal distribution.
 
 ```{code-cell} ipython3
-# Import necessary libraries
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.stats import norm, binom, uniform
-
-# Set default plot style
-plt.style.use('seaborn-v0_8-darkgrid')
-# Set seed for reproducibility
-np.random.seed(42)
+import seaborn as sns
+from scipy import stats
 ```
 
-## Independence of Random Variables
+**Hands-on: Marginal PMFs from Joint PMF**
 
-Recall from Chapter 5 that two events $A$ and $B$ are independent if $P(A \cap B) = P(A)P(B)$. We extend this concept to random variables.
-
-**Definition:** Two random variables $X$ and $Y$ are **independent** if for *any* sets $A$ and $B$ (in the range of $X$ and $Y$, respectively), the events $\{X \in A\}$ and $\{Y \in B\}$ are independent. That is:
-
-$$ P(X \in A, Y \in B) = P(X \in A) P(Y \in B) $$
-
-This is equivalent to saying that their joint distribution function factors into the product of their marginal distribution functions:
-
-* **Discrete:** $P(X=x, Y=y) = P(X=x) P(Y=y)$ for all possible values $x, y$. (Joint PMF = Product of Marginal PMFs)
-* **Continuous:** $f_{X,Y}(x,y) = f_X(x) f_Y(y)$ for all $x, y$. (Joint PDF = Product of Marginal PDFs)
-
-**Intuition:** If $X$ and $Y$ are independent, knowing the outcome of $X$ provides no information about the outcome of $Y$, and vice-versa.
-
-**Example:**
-* Let $X$ be the outcome of a fair coin flip (0 for Tails, 1 for Heads). $P(X=0)=0.5, P(X=1)=0.5$.
-* Let $Y$ be the outcome of a fair six-sided die roll ({1, 2, 3, 4, 5, 6}). $P(Y=y)=1/6$ for $y \in \{1, ..., 6\}$.
-Assuming the flip and the roll don't influence each other, $X$ and $Y$ are independent. The probability of getting Heads ($X=1$) and rolling a 4 ($Y=4$) is:
-$P(X=1, Y=4) = P(X=1)P(Y=4) = (0.5) \times (1/6) = 1/12$.
-
-**Non-Example:**
-* Let $H$ be a person's height and $W$ be their weight. Intuitively, taller people tend to weigh more. Knowing someone is very tall ($H$ is large) makes it more likely their weight ($W$) is also large. Therefore, $H$ and $W$ are generally *not* independent. We wouldn't expect $f_{H,W}(h,w) = f_H(h) f_W(w)$.
-
-+++
-
-### Checking for Independence
-
-In practice, we often *assume* independence based on the physical nature of the processes generating the random variables (like separate coin flips). If we have the joint distribution, we can check if it factorizes into the product of the marginals. If we only have data, testing for independence rigorously is complex (involving statistical hypothesis tests beyond the scope of basic probability). However, we'll see soon that calculating the *correlation* can give us a clue (if correlation is non-zero, they are dependent; if correlation is zero, they *might* be independent).
-
-+++
-
-## Covariance
-
-If variables are not independent, they are dependent. Covariance is a measure that describes the *direction* of the linear relationship between two random variables.
-
-**Definition:** The **covariance** between two random variables $X$ and $Y$, denoted $\mathrm{Cov}(X, Y)$ or $\sigma_{XY}$, is:
-
-$$ \mathrm{Cov}(X, Y) = E[(X - E[X])(Y - E[Y])] $$
-
-This formula calculates the expected value of the product of the deviations of $X$ and $Y$ from their respective means.
-
-A more convenient formula for calculation is often:
-
-$$ \mathrm{Cov}(X, Y) = E[XY] - E[X]E[Y] $$
-
-**Interpretation:**
-
-* **$\mathrm{Cov}(X, Y) > 0$**: Indicates a *positive linear relationship*. When $X$ is above its mean, $Y$ tends to be above its mean, and vice-versa. (Example: Height and Weight).
-* **$\mathrm{Cov}(X, Y) < 0$**: Indicates a *negative linear relationship*. When $X$ is above its mean, $Y$ tends to be below its mean, and vice-versa. (Example: Temperature and Heating Costs).
-* **$\mathrm{Cov}(X, Y) = 0$**: Indicates *no linear relationship*. This is a necessary condition for independence, but not sufficient (more on this later).
-
-**Properties:**
-
-1.  $\mathrm{Cov}(X, X) = E[(X - E[X])^2] = \mathrm{Var}(X)$
-2.  $\mathrm{Cov}(X, Y) = \mathrm{Cov}(Y, X)$ (Symmetric)
-3.  $\mathrm{Cov}(aX + b, cY + d) = ac \mathrm{Cov}(X, Y)$ for constants $a, b, c, d$. (Scaling affects covariance)
-4.  $\mathrm{Cov}(X+Y, Z) = \mathrm{Cov}(X, Z) + \mathrm{Cov}(Y, Z)$ (Distributive)
-5.  If $X$ and $Y$ are independent, then $E[XY] = E[X]E[Y]$, which implies $\mathrm{Cov}(X, Y) = 0$.
-
-**Important Note:** The value of covariance depends on the units of $X$ and $Y$. For example, $\mathrm{Cov}(\text{Height in cm}, \text{Weight in kg})$ will be much larger than $\mathrm{Cov}(\text{Height in m}, \text{Weight in kg})$, even though the underlying relationship is the same. This makes it hard to judge the *strength* of the relationship from covariance alone.
-
-+++
-
-### Calculating Covariance with NumPy
-
-NumPy's `np.cov()` function calculates the covariance matrix. For two 1D arrays `x` and `y`, `np.cov(x, y)` returns a 2x2 matrix:
-
-$$
-\begin{pmatrix}
-\mathrm{Var}(X) & \mathrm{Cov}(X, Y) \\
-\mathrm{Cov}(Y, X) & \mathrm{Var}(Y)
-\end{pmatrix}
-$$
-
-We are usually interested in the off-diagonal elements, $\mathrm{Cov}(X, Y)$.
+Let's represent the joint PMF for the two dice example and calculate the marginal PMFs.
 
 ```{code-cell} ipython3
-# Simulate two potentially related variables
-n_samples = 1000
-# X: Standard normal
-x_samples = np.random.randn(n_samples)
-# Y: Linearly related to X plus some noise
-noise = np.random.randn(n_samples) * 0.5
-y_samples_pos = 2 * x_samples + 1 + noise # Positive relationship
-y_samples_neg = -1.5 * x_samples + 3 + noise # Negative relationship
-y_samples_indep = np.random.randn(n_samples) # Independent
-
-# Calculate covariance matrices
-cov_matrix_pos = np.cov(x_samples, y_samples_pos)
-cov_matrix_neg = np.cov(x_samples, y_samples_neg)
-cov_matrix_indep = np.cov(x_samples, y_samples_indep)
-
-# Extract the covariance values
-cov_xy_pos = cov_matrix_pos[0, 1]
-cov_xy_neg = cov_matrix_neg[0, 1]
-cov_xy_indep = cov_matrix_indep[0, 1]
-
-print(f"Covariance Matrix (X, Y_pos):\n{cov_matrix_pos}\n")
-print(f"Cov(X, Y_pos): {cov_xy_pos:.4f}")
-print(f"Cov(X, Y_neg): {cov_xy_neg:.4f}")
-print(f"Cov(X, Y_indep): {cov_xy_indep:.4f}")
+# Joint PMF for two independent dice rolls
+# Rows represent Y (die 2), Columns represent X (die 1)
+joint_pmf_dice = np.ones((6, 6)) / 36
 ```
 
-As expected:
-* `Cov(X, Y_pos)` is positive, indicating they tend to increase together.
-* `Cov(X, Y_neg)` is negative, indicating when one increases, the other tends to decrease.
-* `Cov(X, Y_indep)` is close to zero, consistent with independence (or at least no linear relationship). The small non-zero value is due to random sampling variability.
-
-+++
-
-## Correlation Coefficient
-
-To overcome the unit-dependency of covariance and get a measure of the *strength* of the linear relationship, we use the **correlation coefficient**.
-
-**Definition:** The Pearson correlation coefficient between two random variables $X$ and $Y$, denoted $\rho(X, Y)$, $\rho_{XY}$, or sometimes $\mathrm{Corr}(X,Y)$, is defined as:
-
-$$ \rho(X, Y) = \frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y} = \frac{\mathrm{Cov}(X, Y)}{\sqrt{\mathrm{Var}(X) \mathrm{Var}(Y)}} $$
-
-where $\sigma_X$ and $\sigma_Y$ are the standard deviations of $X$ and $Y$, assuming they are non-zero.
-
-**Properties:**
-
-1.  **Range:** $-1 \le \rho(X, Y) \le 1$. The correlation coefficient is dimensionless.
-2.  **Linear Relationship:**
-    * $\rho(X, Y) = 1$: Perfect positive linear relationship ($Y = aX + b$ with $a > 0$).
-    * $\rho(X, Y) = -1$: Perfect negative linear relationship ($Y = aX + b$ with $a < 0$).
-    * $\rho(X, Y) = 0$: No *linear* relationship.
-3.  **Symmetry:** $\rho(X, Y) = \rho(Y, X)$.
-4.  **Invariance to Linear Transformation:** $\rho(aX + b, cY + d) = \mathrm{sign}(ac) \rho(X, Y)$, assuming $a \ne 0, c \ne 0$. Scaling and shifting variables doesn't change the magnitude of the correlation, only potentially the sign.
-5.  **Independence Implies Zero Correlation:** If $X$ and $Y$ are independent, then $\mathrm{Cov}(X, Y) = 0$, which means $\rho(X, Y) = 0$.
-
-**Crucial Warning: Correlation does not imply causation!** Just because two variables are correlated doesn't mean one causes the other. There might be a lurking (confounding) variable influencing both. (Classic example: Ice cream sales and crime rates are correlated, but both are caused by warmer weather).
-
-**Crucial Warning 2: Zero correlation does not imply independence!** Correlation measures only *linear* dependence. It's possible for $X$ and $Y$ to be strongly dependent in a non-linear way, yet have zero correlation.
-
-Consider $X \sim \text{Uniform}(-1, 1)$ and $Y = X^2$. Clearly, $Y$ is perfectly dependent on $X$.
-$E[X] = 0$. $E[Y] = E[X^2] = \int_{-1}^{1} x^2 (1/2) dx = [x^3/6]_{-1}^1 = 1/3$.
-$E[XY] = E[X^3] = \int_{-1}^{1} x^3 (1/2) dx = [x^4/8]_{-1}^1 = 0$.
-$\mathrm{Cov}(X, Y) = E[XY] - E[X]E[Y] = 0 - (0)(1/3) = 0$.
-Thus, $\rho(X, Y) = 0$, even though $Y$ is completely determined by $X$.
-
-+++
-
-### Calculating and Visualizing Correlation
-
-We can use `np.corrcoef()` or Pandas DataFrame's `.corr()` method. Scatter plots are essential for visualizing the relationship.
+```{code-cell} ipython3
+print("Joint PMF (P(X=x, Y=y)):")
+print(joint_pmf_dice)
+print(f"\nSum of all joint probabilities: {np.sum(joint_pmf_dice):.2f}")
+```
 
 ```{code-cell} ipython3
-# Calculate correlation coefficients using the same samples
-corr_matrix_pos = np.corrcoef(x_samples, y_samples_pos)
-corr_matrix_neg = np.corrcoef(x_samples, y_samples_neg)
-corr_matrix_indep = np.corrcoef(x_samples, y_samples_indep)
+# Calculate marginal PMF for X (sum over rows for each column)
+marginal_pmf_X = np.sum(joint_pmf_dice, axis=0) # axis=0 sums over rows
+print("\nMarginal PMF for X (P(X=x)):")
+print(marginal_pmf_X)
+print(f"Sum of marginal P(X=x): {np.sum(marginal_pmf_X):.2f}")
+```
 
-# Extract correlation values
-corr_xy_pos = corr_matrix_pos[0, 1]
-corr_xy_neg = corr_matrix_neg[0, 1]
-corr_xy_indep = corr_matrix_indep[0, 1]
+```{code-cell} ipython3
+# Calculate marginal PMF for Y (sum over columns for each row)
+marginal_pmf_Y = np.sum(joint_pmf_dice, axis=1) # axis=1 sums over columns
+print("\nMarginal PMF for Y (P(Y=y)):")
+print(marginal_pmf_Y)
+print(f"Sum of marginal P(Y=y): {np.sum(marginal_pmf_Y):.2f}")
+```
 
-print(f"Correlation Matrix (X, Y_pos):\n{corr_matrix_pos}\n")
-print(f"Corr(X, Y_pos): {corr_xy_pos:.4f}")
-print(f"Corr(X, Y_neg): {corr_xy_neg:.4f}")
-print(f"Corr(X, Y_indep): {corr_xy_indep:.4f}")
+```{code-cell} ipython3
+# Verify the results match the expected 1/6 for each outcome
+dice_outcomes = np.arange(1, 7)
+plt.figure(figsize=(10, 4))
 
-# Visualize the relationships
-fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharex=True, sharey=False)
+plt.subplot(1, 2, 1)
+plt.bar(dice_outcomes, marginal_pmf_X, width=0.9)
+plt.xlabel("Outcome X (Die 1)")
+plt.ylabel("Probability P(X=x)")
+plt.title("Marginal PMF of X")
+plt.ylim(0, 0.2)
 
-axes[0].scatter(x_samples, y_samples_pos, alpha=0.6)
-axes[0].set_title(f'Positive Correlation (rho approx {corr_xy_pos:.2f}$)')
-axes[0].set_xlabel('X')
-axes[0].set_ylabel('Y_pos')
-
-axes[1].scatter(x_samples, y_samples_neg, alpha=0.6)
-axes[1].set_title(f'Negative Correlation (rho approx {corr_xy_neg:.2f}$)')
-axes[1].set_xlabel('X')
-axes[1].set_ylabel('Y_neg')
-
-axes[2].scatter(x_samples, y_samples_indep, alpha=0.6)
-axes[2].set_title(f'Near Zero Correlation (rho approx {corr_xy_indep:.2f}$)')
-axes[2].set_xlabel('X')
-axes[2].set_ylabel('Y_indep')
+plt.subplot(1, 2, 2)
+plt.bar(dice_outcomes, marginal_pmf_Y, width=0.9)
+plt.xlabel("Outcome Y (Die 2)")
+plt.ylabel("Probability P(Y=y)")
+plt.title("Marginal PMF of Y")
+plt.ylim(0, 0.2)
 
 plt.tight_layout()
 plt.show()
 ```
 
-The scatter plots visually confirm the relationships indicated by the correlation coefficients. Note how the spread around the potential line affects the magnitude of $\rho$. `Y_pos` has a stronger linear relationship (less noise relative to the slope) than `Y_neg` in our simulation, resulting in $|\rho_{XY_{pos}}| > |\rho_{XY_{neg}}|$. The independent case shows no discernible linear pattern.
+## Conditional Distributions
+
+The conditional distribution tells us the probability distribution of one variable *given* that the other variable has taken a specific value.
+
+**Definition:**
+
+The **conditional PMF** of $Y$ given $X=x$ is:
+$$ p_{Y|X}(y|x) = P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)} = \frac{p_{X,Y}(x, y)}{p_X(x)} $$
+provided that $p_X(x) > 0$.
+
+The **conditional PDF** of $Y$ given $X=x$ is:
+$$ f_{Y|X}(y|x) = \frac{f_{X,Y}(x, y)}{f_X(x)} $$
+provided that $f_X(x) > 0$.
+
+Note that for a fixed value of $x$, the conditional PMF $p_{Y|X}(y|x)$ is a valid PMF in $y$ (sums to 1), and the conditional PDF $f_{Y|X}(y|x)$ is a valid PDF in $y$ (integrates to 1).
+
+**Example: Two Dice (Conditional)**
+
+What is the probability distribution of the second die roll ($Y$) given that the first die roll ($X$) was a 3?
+Using the formula: $p_{Y|X}(y|3) = \frac{p_{X,Y}(3, y)}{p_X(3)}$.
+We know $p_{X,Y}(3, y) = 1/36$ and $p_X(3) = 1/6$.
+So, $p_{Y|X}(y|3) = \frac{1/36}{1/6} = \frac{6}{36} = \frac{1}{6}$ for $y \in \{1, 2, 3, 4, 5, 6\}$.
+This makes intuitive sense: knowing the outcome of the first fair die doesn't change the probabilities for the second fair die because they are independent.
+
+**Example: Height and Weight (Conditional)**
+
+Consider the height ($X$) and weight ($Y$) example. The conditional distribution $f_{Y|X}(y|x=1.8)$ would describe the distribution of weights specifically for people who are 1.8 meters tall. If height and weight are positively correlated, we'd expect the mean of this conditional distribution (the average weight for people 1.8m tall) to be higher than the mean of the marginal distribution of weight $f_Y(y)$ (the average weight across all heights).
 
 +++
 
-#### Example: Correlation between Study Hours and Exam Scores
+**Hands-on: Conditional PMFs from Joint PMF**
 
-Let's simulate some data where exam scores depend linearly on study hours, but with some random variation.
+Let's calculate the conditional PMF of $Y$ given $X=3$ for the dice example.
+
++++
+
+We need the joint PMF and the marginal PMF of X
+joint_pmf_dice (calculated above)
+marginal_pmf_X (calculated above)
 
 ```{code-cell} ipython3
-n_students = 100
-# Study hours: Uniformly distributed between 1 and 10 hours/week
-study_hours = np.random.uniform(1, 10, n_students)
-# Exam score: Base score + hours effect + random noise (normal)
-base_score = 50
-hours_effect = 5 * study_hours
-noise = np.random.normal(0, 8, n_students) # Std dev of 8 points
-exam_scores = base_score + hours_effect + noise
-# Ensure scores are within a reasonable range (e.g., 0-100)
-exam_scores = np.clip(exam_scores, 0, 100)
+x_condition = 3 # Condition on X=3
+index_x = x_condition - 1 # Array index is value - 1
+```
 
-# Calculate Covariance and Correlation
-cov_study_score = np.cov(study_hours, exam_scores)[0, 1]
-corr_study_score = np.corrcoef(study_hours, exam_scores)[0, 1]
+```{code-cell} ipython3
+# Get the probability P(X=3)
+p_X_eq_3 = marginal_pmf_X[index_x]
+print(f"Marginal P(X=3) = {p_X_eq_3:.4f}")
+```
 
-print(f"Covariance between Study Hours and Exam Score: {cov_study_score:.2f}")
-print(f"Correlation between Study Hours and Exam Score: {corr_study_score:.2f}")
+```{code-cell} ipython3
+# Get the joint probabilities P(X=3, Y=y) for y=1..6
+# This corresponds to the column where X=3 in the joint PMF table
+joint_p_X3_Y = joint_pmf_dice[:, index_x]
+print(f"\nJoint P(X=3, Y=y) for y=1..6: \n{joint_p_X3_Y}")
+```
 
-# Visualize
-plt.figure(figsize=(8, 5))
-plt.scatter(study_hours, exam_scores, alpha=0.7)
-plt.title(f'Study Hours vs Exam Score (rho approx {corr_study_score:.2f}$)')
-plt.xlabel('Study Hours per Week')
-plt.ylabel('Exam Score')
-plt.grid(True)
+```{code-cell} ipython3
+# Calculate conditional PMF P(Y=y | X=3) = P(X=3, Y=y) / P(X=3)
+if p_X_eq_3 > 0:
+    conditional_pmf_Y_given_X3 = joint_p_X3_Y / p_X_eq_3
+    print(f"\nConditional P(Y=y | X=3) for y=1..6: \n{conditional_pmf_Y_given_X3}")
+    print(f"Sum of conditional probabilities: {np.sum(conditional_pmf_Y_given_X3):.2f}")
+
+    # Plot the conditional PMF
+    plt.figure(figsize=(5, 4))
+    plt.bar(dice_outcomes, conditional_pmf_Y_given_X3, width=0.9)
+    plt.xlabel("Outcome Y (Die 2)")
+    plt.ylabel("Probability P(Y=y | X=3)")
+    plt.title("Conditional PMF of Y given X=3")
+    plt.ylim(0, 0.2)
+    plt.show()
+else:
+    print("\nCannot calculate conditional PMF as P(X=3) is zero.")
+```
+
+## Joint Cumulative Distribution Functions (CDFs)
+
+The **joint cumulative distribution function (CDF)** $F_{X,Y}(x, y)$ gives the probability that $X$ is less than or equal to $x$ *and* $Y$ is less than or equal to $y$.
+
+$$ F_{X,Y}(x, y) = P(X \le x, Y \le y) $$
+
+**Discrete Case:**
+$$ F_{X,Y}(x, y) = \sum_{x_i \le x} \sum_{y_j \le y} p_{X,Y}(x_i, y_j) $$
+
+**Continuous Case:**
+$$ F_{X,Y}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u, v) \,dv \,du $$
+
+**Properties:**
+1. $0 \le F_{X,Y}(x, y) \le 1$.
+2. $F_{X,Y}(x, y)$ is non-decreasing in both $x$ and $y$.
+3. $\lim_{x \to \infty, y \to \infty} F_{X,Y}(x, y) = 1$.
+4. $\lim_{x \to -\infty} F_{X,Y}(x, y) = 0$ and $\lim_{y \to -\infty} F_{X,Y}(x, y) = 0$.
+
+**Example: Two Dice (CDF)**
+
+What is $F_{X,Y}(2, 3) = P(X \le 2, Y \le 3)$?
+This is the probability that the first die is 1 or 2, AND the second die is 1, 2, or 3.
+The pairs $(x, y)$ satisfying this are: (1,1), (1,2), (1,3), (2,1), (2,2), (2,3).
+There are $2 \times 3 = 6$ such pairs. Since each pair has probability 1/36:
+$F_{X,Y}(2, 3) = 6 \times \frac{1}{36} = \frac{1}{6}$.
+
+**Example: Height and Weight (CDF)**
+
+$F_{X,Y}(1.8, 75) = P(\text{Height} \le 1.8\text{m AND } \text{Weight} \le 75\text{kg})$. This represents the probability that a randomly selected person falls within this specific height and weight range (or below). This would be calculated by integrating the joint PDF $f_{X,Y}(x, y)$ over the region where $x \le 1.8$ and $y \le 75$.
+
++++
+
+## Hands-on: Simulation and Visualization
+
+A powerful way to understand joint distributions is through simulation and visualization. We can generate random samples from a joint distribution and then use plots to visualize the relationship between the variables.
+
+**1. Simulating Independent Variables:**
+If $X$ and $Y$ are independent, we can simulate them separately from their marginal distributions and then pair the results. For our two dice example:
+
+```{code-cell} ipython3
+num_simulations = 5000
+```
+
+```{code-cell} ipython3
+# Simulate X (die 1)
+simulated_X = np.random.randint(1, 7, size=num_simulations)
+```
+
+```{code-cell} ipython3
+# Simulate Y (die 2) - independently
+simulated_Y = np.random.randint(1, 7, size=num_simulations)
+```
+
+```{code-cell} ipython3
+# Combine into pairs
+simulated_pairs = np.vstack((simulated_X, simulated_Y)).T # Transpose to get pairs
+```
+
+```{code-cell} ipython3
+print("First 10 simulated pairs (X, Y):")
+print(simulated_pairs[:10])
+```
+
+```{code-cell} ipython3
+# Visualize the simulated pairs using a scatter plot (with jitter)
+plt.figure(figsize=(6, 6))
+sns.stripplot(x=simulated_X, y=simulated_Y, jitter=0.25, alpha=0.3, size=3)
+plt.xlabel("Outcome X (Die 1)")
+plt.ylabel("Outcome Y (Die 2)")
+plt.title(f"Scatter Plot of {num_simulations} Independent Dice Rolls")
+plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-The positive correlation confirms the simulated relationship: students who study more tend to get higher scores. The correlation isn't 1 because of the random noise component (representing other factors like innate ability, test anxiety, luck).
+The scatter plot shows points distributed roughly evenly across all 36 possible outcomes, as expected for independent fair dice.
 
-+++
-
-## Variance of Sums of Random Variables
-
-Knowing the covariance or correlation is crucial when calculating the variance of a sum or difference of random variables.
-
-**Theorem:** For any two random variables $X$ and $Y$, and constants $a$ and $b$:
-
-$$ \mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y) $$
-
-**Proof Sketch:**
-$\mathrm{Var}(aX + bY) = E[((aX + bY) - E[aX + bY])^2]$
-$= E[(a(X - E[X]) + b(Y - E[Y]))^2]$
-$= E[a^2(X - E[X])^2 + b^2(Y - E[Y])^2 + 2ab(X - E[X])(Y - E[Y])]$
-Use linearity of expectation:
-$= a^2 E[(X - E[X])^2] + b^2 E[(Y - E[Y])^2] + 2ab E[(X - E[X])(Y - E[Y])]$
-$= a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y)$
-
-**Special Case: Sum of Variables ($a=1, b=1$)**
-
-$$ \mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y) $$
-
-**Special Case: Difference of Variables ($a=1, b=-1$)**
-
-$$ \mathrm{Var}(X - Y) = \mathrm{Var}(X) + (-1)^2 \mathrm{Var}(Y) + 2(1)(-1) \mathrm{Cov}(X, Y) $$
-$$ \mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) - 2 \mathrm{Cov}(X, Y) $$
-
-**Crucial Simplification: Independent Variables**
-
-If $X$ and $Y$ are **independent**, then $\mathrm{Cov}(X, Y) = 0$. The formulas simplify significantly:
-
-$$ \mathrm{Var}(aX + bY) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) \quad (\text{if independent}) $$
-$$ \mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) \quad (\text{if independent}) $$
-$$ \mathrm{Var}(X - Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) \quad (\text{if independent}) $$
-
-**Extension to Multiple Variables:**
-For $n$ random variables $X_1, X_2, ..., X_n$:
-
-$$ \mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + \sum_{i \ne j} a_i a_j \mathrm{Cov}(X_i, X_j) $$
-$$ \mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) + 2 \sum_{i < j} a_i a_j \mathrm{Cov}(X_i, X_j) $$
-
-If all $X_i$ are independent, then all $\mathrm{Cov}(X_i, X_j) = 0$ for $i \ne j$, and:
-
-$$ \mathrm{Var}\left(\sum_{i=1}^n a_i X_i\right) = \sum_{i=1}^n a_i^2 \mathrm{Var}(X_i) \quad (\text{if independent}) $$
-
-**Example Application: Portfolio Variance**
-Imagine a simple portfolio with investment $a$ in Stock A (return $X$) and investment $b$ in Stock B (return $Y$). The total return is $R = aX + bY$. The risk (variance) of the portfolio is:
-$\mathrm{Var}(R) = a^2 \mathrm{Var}(X) + b^2 \mathrm{Var}(Y) + 2ab \mathrm{Cov}(X, Y)$.
-If the stocks are negatively correlated ($\mathrm{Cov}(X, Y) < 0$), the portfolio variance is *reduced* compared to holding uncorrelated assets. This is the principle of diversification.
-
-+++
-
-### Hands-on: Demonstrating Variance Rules via Simulation
-
-Let's simulate and verify the variance rules.
+**2. Simulating Dependent Variables (Bivariate Normal):**
+Let's simulate height and weight data assuming they follow a bivariate normal distribution. We need to specify means, standard deviations, and the correlation between them.
 
 ```{code-cell} ipython3
-# Case 1: Independent Variables
-n_samples = 100000
-X_ind = np.random.normal(loc=5, scale=2, size=n_samples) # Mean=5, Var=4
-Y_ind = np.random.normal(loc=10, scale=3, size=n_samples) # Mean=10, Var=9
-
-# Theoretical values
-var_X_th = 4
-var_Y_th = 9
-cov_XY_th_ind = 0 # Because independent
-var_sum_th_ind = var_X_th + var_Y_th + 2 * cov_XY_th_ind
-var_diff_th_ind = var_X_th + var_Y_th - 2 * cov_XY_th_ind
-
-# Empirical values from simulation
-var_X_emp = np.var(X_ind)
-var_Y_emp = np.var(Y_ind)
-cov_XY_emp_ind = np.cov(X_ind, Y_ind)[0, 1]
-var_sum_emp_ind = np.var(X_ind + Y_ind)
-var_diff_emp_ind = np.var(X_ind - Y_ind)
-
-print("--- Independent Case ---")
-print(f"Theoretical Var(X): {var_X_th:.4f}, Empirical Var(X): {var_X_emp:.4f}")
-print(f"Theoretical Var(Y): {var_Y_th:.4f}, Empirical Var(Y): {var_Y_emp:.4f}")
-print(f"Theoretical Cov(X, Y): {cov_XY_th_ind:.4f}, Empirical Cov(X, Y): {cov_XY_emp_ind:.4f}")
-print(f"Theoretical Var(X+Y): {var_sum_th_ind:.4f}, Empirical Var(X+Y): {var_sum_emp_ind:.4f}")
-print(f"Check: Var(X)+Var(Y) = {var_X_emp + var_Y_emp:.4f}")
-print(f"Theoretical Var(X-Y): {var_diff_th_ind:.4f}, Empirical Var(X-Y): {var_diff_emp_ind:.4f}")
-print(f"Check: Var(X)+Var(Y) = {var_X_emp + var_Y_emp:.4f}") # Should match Var(X-Y) for independent
-
-
-# Case 2: Dependent Variables (Positively Correlated)
-# Create Y based on X to induce correlation
-Z = np.random.normal(loc=0, scale=1.5, size=n_samples) # Noise
-Y_dep = 0.5 * X_ind + Z + 5 # Y depends on X
-
-# Calculate empirical covariance and theoretical variance for Y_dep
-cov_XY_emp_dep = np.cov(X_ind, Y_dep)[0, 1]
-var_Y_emp_dep = np.var(Y_dep)
-# Theoretical Var(Y_dep) = Var(0.5*X_ind + Z + 5) = Var(0.5*X_ind + Z) assuming X_ind and Z are independent
-# = (0.5)^2 * Var(X_ind) + Var(Z) = 0.25 * 4 + (1.5)^2 = 1 + 2.25 = 3.25
-var_Y_th_dep = 3.25
-# Theoretical Cov(X, Y_dep) = Cov(X_ind, 0.5*X_ind + Z + 5)
-# = Cov(X_ind, 0.5*X_ind) + Cov(X_ind, Z) + Cov(X_ind, 5)
-# = 0.5 * Cov(X_ind, X_ind) + 0 + 0 = 0.5 * Var(X_ind) = 0.5 * 4 = 2
-cov_XY_th_dep = 2
-
-# Theoretical values for sums/differences
-var_sum_th_dep = var_X_th + var_Y_th_dep + 2 * cov_XY_th_dep
-var_diff_th_dep = var_X_th + var_Y_th_dep - 2 * cov_XY_th_dep
-
-# Empirical values for sums/differences
-var_sum_emp_dep = np.var(X_ind + Y_dep)
-var_diff_emp_dep = np.var(X_ind - Y_dep)
-
-print("\n--- Dependent Case (Positive Correlation) ---")
-print(f"Empirical Var(X): {var_X_emp:.4f}") # Same X as before
-print(f"Theoretical Var(Y_dep): {var_Y_th_dep:.4f}, Empirical Var(Y_dep): {var_Y_emp_dep:.4f}")
-print(f"Theoretical Cov(X, Y_dep): {cov_XY_th_dep:.4f}, Empirical Cov(X, Y_dep): {cov_XY_emp_dep:.4f}")
-print(f"Theoretical Var(X+Y_dep): {var_sum_th_dep:.4f}, Empirical Var(X+Y_dep): {var_sum_emp_dep:.4f}")
-print(f"Check: Var(X)+Var(Y)+2Cov(X,Y) = {var_X_emp + var_Y_emp_dep + 2*cov_XY_emp_dep:.4f}")
-print(f"Theoretical Var(X-Y_dep): {var_diff_th_dep:.4f}, Empirical Var(X-Y_dep): {var_diff_emp_dep:.4f}")
-print(f"Check: Var(X)+Var(Y)-2Cov(X,Y) = {var_X_emp + var_Y_emp_dep - 2*cov_XY_emp_dep:.4f}")
+from scipy.stats import multivariate_normal
 ```
 
-The simulation results closely match the theoretical calculations based on the variance formulas, both for independent and dependent variables. Notice how the positive covariance in the dependent case *increases* the variance of the sum and *decreases* the variance of the difference compared to the independent case.
+```{code-cell} ipython3
+num_samples = 2000
+```
 
-+++
+```{code-cell} ipython3
+# Parameters (example values)
+mean_height = 1.75 # meters
+std_dev_height = 0.1
+mean_weight = 75 # kg
+std_dev_weight = 10
+correlation = 0.7 # Positive correlation between height and weight
+```
+
+```{code-cell} ipython3
+# Create the mean vector and covariance matrix
+mean_vector = [mean_height, mean_weight]
+```
+
+```{code-cell} ipython3
+# Covariance = correlation * std_dev_X * std_dev_Y
+covariance = correlation * std_dev_height * std_dev_weight
+covariance_matrix = [[std_dev_height**2, covariance],
+                     [covariance, std_dev_weight**2]]
+```
+
+```{code-cell} ipython3
+print("Mean Vector:", mean_vector)
+print("Covariance Matrix:\n", covariance_matrix)
+```
+
+```{code-cell} ipython3
+# Create the bivariate normal distribution object
+bivariate_norm = multivariate_normal(mean=mean_vector, cov=covariance_matrix)
+```
+
+```{code-cell} ipython3
+# Generate random samples
+simulated_data = bivariate_norm.rvs(size=num_samples)
+simulated_heights = simulated_data[:, 0]
+simulated_weights = simulated_data[:, 1]
+```
+
+```{code-cell} ipython3
+print(f"\nFirst 5 simulated (Height, Weight) pairs:\n{simulated_data[:5]}")
+```
+
+**3. Visualizing Joint Distributions:**
+
+* **Scatter Plot:** Good for showing the relationship and density of simulated points.
+* **2D Histogram (Heatmap):** Divides the space into bins and shows the count/density in each bin using color intensity.
+* **Contour Plot:** For continuous distributions, shows lines of constant probability density (like elevation lines on a map).
+
+```{code-cell} ipython3
+# Scatter Plot
+plt.figure(figsize=(7, 6))
+plt.scatter(simulated_heights, simulated_weights, alpha=0.3)
+plt.xlabel("Simulated Height (m)")
+plt.ylabel("Simulated Weight (kg)")
+plt.title("Scatter Plot of Simulated Height vs. Weight")
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+```{code-cell} ipython3
+# 2D Histogram
+plt.figure(figsize=(8, 6))
+# cmap='viridis' is a common colormap, you can experiment with others
+hist, xedges, yedges, im = plt.hist2d(simulated_heights, simulated_weights, bins=30, cmap='viridis')
+plt.colorbar(label='Counts per bin')
+plt.xlabel("Simulated Height (m)")
+plt.ylabel("Simulated Weight (kg)")
+plt.title("2D Histogram of Simulated Height vs. Weight")
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+```{code-cell} ipython3
+# Seaborn offers jointplot for combined views
+sns.jointplot(x=simulated_heights, y=simulated_weights, kind='hist', bins=30, cmap='viridis')
+plt.suptitle("Seaborn Jointplot (Histogram)", y=1.02) # Adjust title position
+plt.show()
+```
+
+```{code-cell} ipython3
+# Contour Plot (overlayed on scatter or alone)
+plt.figure(figsize=(7, 6))
+sns.kdeplot(x=simulated_heights, y=simulated_weights, cmap="Blues", fill=True, levels=10)
+#plt.scatter(simulated_heights, simulated_weights, alpha=0.1, s=5, color='grey') # Optional: overlay scatter
+plt.xlabel("Simulated Height (m)")
+plt.ylabel("Simulated Weight (kg)")
+plt.title("Contour Plot (Kernel Density Estimate)")
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+These plots clearly show the positive correlation – taller simulated individuals tend to be heavier. The 2D histogram and contour plot visualize the shape of the joint probability density, concentrated around the means and elongated along the diagonal due to the correlation.
 
 ## Summary
 
-This chapter introduced key concepts for understanding the relationships between random variables:
+This chapter introduced the fundamental concepts for dealing with multiple random variables:
+* **Joint PMFs/PDFs:** Describe the probability or density of multiple variables occurring together.
+* **Marginal Distributions:** Allow us to focus on the distribution of a single variable by summing or integrating out the others.
+* **Conditional Distributions:** Describe the distribution of one variable given a specific value of another.
+* **Joint CDFs:** Give the probability that all variables fall below certain thresholds.
 
-* **Independence:** Variables are independent if knowing the value of one provides no information about the other. Mathematically, their joint distribution function factorizes into the product of their marginals.
-* **Covariance:** Measures the direction of the *linear* relationship ($E[XY] - E[X]E[Y]$). Positive covariance indicates variables tend to move together; negative indicates they move oppositely; zero indicates no linear association. Its magnitude depends on the variables' units.
-* **Correlation Coefficient ($\rho$):** A standardized measure ($\frac{\mathrm{Cov}(X, Y)}{\sigma_X \sigma_Y}$) of the strength and direction of the *linear* relationship, ranging from -1 (perfect negative linear) to +1 (perfect positive linear). $\rho=0$ means no linear relationship, but not necessarily independence.
-* **Variance of Sums:** The variance of a sum (or weighted sum) depends on the individual variances *and* the covariance between the variables: $\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y) + 2 \mathrm{Cov}(X, Y)$. If the variables are independent, $\mathrm{Cov}(X,Y)=0$, simplifying the formula.
-
-We saw how to calculate covariance and correlation using NumPy and Pandas, visualize relationships using scatter plots, and verify the variance rules through simulation. These concepts are fundamental for multivariate statistics, machine learning (feature selection/engineering), finance (portfolio theory), and many other fields where understanding variable interactions is crucial.
+We saw how to represent these distributions mathematically and how to work with them in Python, particularly through simulation and visualization using NumPy, Matplotlib, and Seaborn. Understanding joint distributions is crucial for modeling complex systems where multiple factors interact, paving the way for concepts like covariance, correlation, and independence, which we will explore in the next chapter.
 
 +++
 
-## Exercises
+---
+**Exercises:**
 
-1.  **Conceptual:** Give an example of two variables that you expect to be:
-    a) Positively correlated.
-    b) Negatively correlated.
-    c) Uncorrelated but dependent.
-    d) Independent.
-    Justify your reasoning.
+1.  **Coin Flips:** Let $X$ be the number of heads in 2 flips of a fair coin, and $Y$ be the outcome of the first flip (0 for Tails, 1 for Heads).
+    * Determine the joint PMF $p_{X,Y}(x, y)$. Represent it as a table or a 2D array.
+    * Calculate the marginal PMFs $p_X(x)$ and $p_Y(y)$.
+    * Calculate the conditional PMF $p_{X|Y}(x|1)$ (distribution of total heads given the first flip was Heads).
+2.  **Uniform Distribution on a Square:** Suppose $(X, Y)$ are uniformly distributed over the square defined by $0 \le x \le 2$ and $0 \le y \le 2$.
+    * What is the joint PDF $f_{X,Y}(x, y)$? (Remember it must integrate to 1 over the square).
+    * Find the marginal PDFs $f_X(x)$ and $f_Y(y)$. Are $X$ and $Y$ independent?
+    * Calculate $P(X \le 1, Y \le 1)$.
+    * Calculate $P(X+Y \le 1)$. (Hint: Visualize the region in the square).
+3.  **Simulation Visualization:** Modify the bivariate normal simulation for height and weight.
+    * Set the `correlation` to -0.6. Regenerate the samples and the three plots (scatter, 2D histogram, contour). How do the plots change?
+    * Set the `correlation` to 0. Regenerate the samples and plots. What do the plots look like now? What does this imply about the relationship between height and weight in this simulated scenario?
 
-2.  **Calculation:** Let $X$ have $E[X]=2, \mathrm{Var}(X)=9$. Let $Y$ have $E[Y]=-1, \mathrm{Var}(Y)=4$. Let $\mathrm{Cov}(X, Y) = -3$. Calculate:
-    a) $E[3X - 2Y + 5]$
-    b) $\mathrm{Var}(X + Y)$
-    c) $\mathrm{Var}(X - Y)$
-    d) $\mathrm{Var}(3X - 2Y + 5)$
-    e) $\rho(X, Y)$
-
-3.  **Simulation (Correlation):**
-    a) Generate 500 samples of $X \sim \text{Normal}(0, 1)$.
-    b) Generate 500 samples of $Y = -2X + \epsilon$, where $\epsilon \sim \text{Normal}(0, \sigma^2)$ is noise. Try $\sigma = 0.5$ and $\sigma = 2$.
-    c) For each value of $\sigma$, create a scatter plot of $X$ vs $Y$ and calculate the sample correlation coefficient $\rho(X, Y)$.
-    d) How does the noise level $\sigma$ affect the correlation coefficient? Explain why.
-
-4.  **Simulation (Variance of Sums):**
-    a) Let $X \sim \text{Poisson}(\lambda=3)$ and $Y \sim \text{Poisson}(\lambda=5)$. Assume $X$ and $Y$ are independent.
-    b) Generate 10,000 samples for $X$ and $Y$.
-    c) Calculate the empirical variance of $X$, $Y$, and $X+Y$.
-    d) The theoretical variance of a Poisson($\lambda$) distribution is $\lambda$. Compare the empirical $\mathrm{Var}(X+Y)$ to the theoretical prediction $\mathrm{Var}(X) + \mathrm{Var}(Y)$ (since they are independent). Are they close?
-    e) It's a known property that the sum of independent Poisson variables is also Poisson, so $X+Y \sim \text{Poisson}(\lambda_X + \lambda_Y)$. What is the theoretical variance of $X+Y$ based on this property? Does it match your findings?
-
-5.  **Pandas Correlation:** Load a dataset (e.g., the `tips` dataset from Seaborn: `tips = sns.load_dataset('tips')`). Calculate the correlation matrix for the numerical columns (e.g., `total_bill`, `tip`, `size`). Interpret the correlation between `total_bill` and `tip`. Visualize this relationship with a scatter plot.
-
-```{code-cell} ipython3
-# Example code for Exercise 5 setup
-# import seaborn as sns
-# import pandas as pd
-# tips = sns.load_dataset('tips')
-# print(tips.head())
-# numerical_tips = tips[['total_bill', 'tip', 'size']]
-# correlation_matrix = numerical_tips.corr()
-# print("\nCorrelation Matrix:")
-# print(correlation_matrix)
-# sns.scatterplot(data=tips, x='total_bill', y='tip')
-# plt.title('Total Bill vs Tip Amount')
-# plt.show()
-```
-
-```{code-cell} ipython3
-
-```
++++

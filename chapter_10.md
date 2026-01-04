@@ -1,6 +1,5 @@
 ---
 jupytext:
-  formats: ipynb,md:myst
   text_representation:
     extension: .md
     format_name: myst
@@ -12,445 +11,526 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 10: Joint Distributions
+# Chapter 10: Mastering scipy.stats in Practice
 
-**Part 4: Multiple Random Variables**
+In Chapters 6-9, we explored random variables and common probability distributions, building intuition for when to use each distribution and why. We used basic `scipy.stats` methods like `.pmf()`, `.cdf()`, `.mean()`, and `.var()` to perform calculations. But `scipy.stats` offers a much richer toolkit for working with distributions.
 
-Up until now, we've primarily focused on the behaviour of single random variables. However, real-world phenomena often involve observing and analysing multiple random quantities simultaneously. For instance:
+This chapter serves as a **practical capstone** for Part 3, teaching you how to master the full `scipy.stats` API so you can work confidently with any probability distribution. Our goal is ambitious but achievable:
 
-* How does a person's height relate to their weight?
-* How does the temperature and humidity on a given day affect electricity consumption?
-* In finance, how do the returns of different stocks move together?
+> **After this chapter, the [scipy.stats documentation](https://docs.scipy.org/doc/scipy/reference/stats.html) will be all you need to work with any distribution—both those covered in this book and the 80+ others available in scipy.**
 
-To answer such questions, we need to understand how to model the probabilities of multiple random variables occurring together. This leads us to the concept of **joint distributions**. In this chapter, we'll explore how to describe the probabilistic relationship between two or more random variables, extending the concepts of PMFs, PDFs, and CDFs to multiple dimensions.
+:::{admonition} Learning Objectives
+:class: tip
 
-+++
-
-## Joint Probability Mass Functions (PMFs)
-
-Let's start with the discrete case. Suppose we have two discrete random variables, $X$ and $Y$, defined on the same probability space. Their **joint probability mass function (PMF)** gives the probability that $X$ takes a specific value $x$ *and* $Y$ takes a specific value $y$, simultaneously.
-
-$$ p_{X,Y}(x, y) = P(X=x, Y=y) $$
-
-The joint PMF must satisfy two conditions:
-1. $p_{X,Y}(x, y) \ge 0$ for all possible pairs $(x, y)$.
-2. $\sum_{x} \sum_{y} p_{X,Y}(x, y) = 1$, where the sum is over all possible pairs $(x, y)$.
-
-**Example: Rolling Two Dice**
-
-Let $X$ be the outcome of rolling a fair red die, and $Y$ be the outcome of rolling a fair blue die. Both $X$ and $Y$ can take values in $\{1, 2, 3, 4, 5, 6\}$. Assuming the rolls are independent, the probability of any specific pair $(x, y)$ is:
-
-$$ p_{X,Y}(x, y) = P(X=x, Y=y) = P(X=x) P(Y=y) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36} $$
-
-for all $x, y \in \{1, 2, 3, 4, 5, 6\}$.
-
-We can represent this joint PMF as a table or a 2D array:
-
-| y\x | 1    | 2    | 3    | 4    | 5    | 6    |
-|-----|------|------|------|------|------|------|
-| **1** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
-| **2** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
-| **3** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
-| **4** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
-| **5** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
-| **6** | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 | 1/36 |
-
-The sum of all entries in the table is $36 \times \frac{1}{36} = 1$.
-
-+++
-
-## Joint Probability Density Functions (PDFs)
-
-For continuous random variables $X$ and $Y$, we use a **joint probability density function (PDF)**, denoted $f_{X,Y}(x, y)$. This function describes the relative likelihood of the variables taking on a specific pair of values $(x, y)$.
-
-Unlike the discrete case, $f_{X,Y}(x, y)$ itself is not a probability. Instead, probabilities are found by integrating the joint PDF over a region in the $xy$-plane. The probability that the pair $(X, Y)$ falls within a region $A$ is given by:
-
-$$ P((X, Y) \in A) = \iint_A f_{X,Y}(x, y) \,dx \,dy $$
-
-The joint PDF must satisfy:
-1. $f_{X,Y}(x, y) \ge 0$ for all $(x, y)$.
-2. $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx \,dy = 1$.
-
-**Conceptual Example: Height and Weight**
-
-Let $X$ represent the height (in meters) and $Y$ represent the weight (in kilograms) of a randomly selected adult. We expect that taller people generally tend to weigh more, so these variables are likely not independent. Their joint distribution might be modelled by a **bivariate normal distribution**. The joint PDF $f_{X,Y}(x, y)$ would be a bell-shaped surface over the $xy$-plane, likely centered around the average height and weight, and elongated along a diagonal line reflecting the positive relationship between height and weight. The volume under this entire surface must equal 1.
-
-+++
-
-## Marginal Distributions
-
-Often, we have the joint distribution of multiple variables, but we are interested in the distribution of just one of them, irrespective of the others. This is called the **marginal distribution**.
-
-**Discrete Case:**
-
-To find the marginal PMF of $X$, $p_X(x)$, we sum the joint PMF $p_{X,Y}(x, y)$ over all possible values of $y$:
-
-$$ p_X(x) = P(X=x) = \sum_{y} P(X=x, Y=y) = \sum_{y} p_{X,Y}(x, y) $$
-
-Similarly, for the marginal PMF of $Y$, $p_Y(y)$:
-
-$$ p_Y(y) = P(Y=y) = \sum_{x} P(X=x, Y=y) = \sum_{x} p_{X,Y}(x, y) $$
-
-In the two-dice example, the marginal probability $P(X=3)$ is found by summing the probabilities in the column corresponding to $x=3$:
-$P(X=3) = \sum_{y=1}^{6} p_{X,Y}(3, y) = \sum_{y=1}^{6} \frac{1}{36} = 6 \times \frac{1}{36} = \frac{1}{6}$. As expected for a single fair die.
-
-**Continuous Case:**
-
-To find the marginal PDF of $X$, $f_X(x)$, we integrate the joint PDF $f_{X,Y}(x, y)$ over all possible values of $y$:
-
-$$ f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dy $$
-
-Similarly, for the marginal PDF of $Y$, $f_Y(y)$:
-
-$$ f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \,dx $$
-
-For the height ($X$) and weight ($Y$) example, integrating the bivariate normal PDF $f_{X,Y}(x, y)$ with respect to $y$ from $-\infty$ to $\infty$ would yield the marginal distribution of height, $f_X(x)$, which itself would typically be a normal distribution.
+By the end of this chapter, you will be able to:
+- Use the complete `scipy.stats` interface for any distribution
+- Translate real-world questions into distribution queries
+- Find quantiles and interpret percentiles
+- Compare distributions side-by-side
+- Validate understanding through simulation
+- Navigate scipy.stats documentation independently
+:::
 
 ```{code-cell} ipython3
+:tags: [remove-output]
+
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy import stats
+import matplotlib.pyplot as plt
+import os
+
+# Configure plots
+plt.style.use('seaborn-v0_8-whitegrid')
 ```
 
-**Hands-on: Marginal PMFs from Joint PMF**
+## 1. The Unified scipy.stats Interface
 
-Let's represent the joint PMF for the two dice example and calculate the marginal PMFs.
+One of scipy.stats' greatest strengths is its **consistent API**. Whether you're working with a Bernoulli, Poisson, Normal, or Gamma distribution, the methods work the same way.
+
+### The Pattern: Frozen Distributions
+
+The recommended approach is to create a **frozen distribution object** with fixed parameters, then query it:
 
 ```{code-cell} ipython3
-# Joint PMF for two independent dice rolls
-# Rows represent Y (die 2), Columns represent X (die 1)
-joint_pmf_dice = np.ones((6, 6)) / 36
+# Create frozen distribution objects
+binomial_dist = stats.binom(n=20, p=0.3)     # Discrete
+poisson_dist = stats.poisson(mu=4)            # Discrete
+normal_dist = stats.norm(loc=100, scale=15)   # Continuous
+exponential_dist = stats.expon(scale=2)       # Continuous
+
+print("Created 4 frozen distributions")
+print(f"Binomial(n=20, p=0.3), Poisson(μ=4), Normal(μ=100, σ=15), Exponential(scale=2)")
 ```
+
+:::{admonition} Why "Frozen" Distributions?
+:class: note
+
+The term "frozen" means the parameters are fixed when you create the object. This makes code cleaner:
+
+```python
+# Frozen (recommended - cleaner code)
+dist = stats.poisson(mu=4)
+dist.pmf(3)
+dist.mean()
+
+# Unfrozen (also works, but repetitive)
+stats.poisson.pmf(3, mu=4)
+stats.poisson.mean(mu=4)
+```
+:::
+
+### Complete API Reference
+
+Here's the full toolkit available for any `scipy.stats` distribution:
+
+| Method | Purpose | Works On | Returns | Example |
+|--------|---------|----------|---------|---------|
+| **Probabilities** | | | | |
+| `.pmf(k)` | P(X = k) | Discrete | Probability | `poisson_dist.pmf(3)` |
+| `.pdf(x)` | Density at x | Continuous | Density | `normal_dist.pdf(110)` |
+| `.cdf(x)` | P(X ≤ x) | Both | Cumulative prob | `binomial_dist.cdf(8)` |
+| `.sf(x)` | P(X > x) = 1 - CDF | Both | Survival prob | `exponential_dist.sf(3)` |
+| `.logpmf(k)` | log(P(X = k)) | Discrete | Log probability | `poisson_dist.logpmf(10)` |
+| `.logpdf(x)` | log(density) | Continuous | Log density | `normal_dist.logpdf(110)` |
+| `.logcdf(x)` | log(P(X ≤ x)) | Both | Log cumulative | `binomial_dist.logcdf(8)` |
+| `.logsf(x)` | log(P(X > x)) | Both | Log survival | `exponential_dist.logsf(3)` |
+| **Quantiles (Inverse CDF)** | | | | |
+| `.ppf(q)` | Percent point function | Both | Value at quantile q | `normal_dist.ppf(0.95)` |
+| `.isf(q)` | Inverse survival function | Both | Value where P(X>x)=q | `exponential_dist.isf(0.1)` |
+| **Properties** | | | | |
+| `.mean()` | E[X] | Both | Mean | `poisson_dist.mean()` |
+| `.median()` | 50th percentile | Both | Median | `binomial_dist.median()` |
+| `.var()` | Var(X) | Both | Variance | `normal_dist.var()` |
+| `.std()` | σ | Both | Standard deviation | `binomial_dist.std()` |
+| `.stats(moments)` | Multiple moments | Both | Tuple | `poisson_dist.stats(moments='mvsk')` |
+| **Simulation** | | | | |
+| `.rvs(size)` | Random samples | Both | Array of samples | `normal_dist.rvs(1000)` |
+| **Intervals** | | | | |
+| `.interval(alpha)` | Confidence interval | Both | (lower, upper) | `normal_dist.interval(0.95)` |
+
+### Example: Exploring Poisson(μ=4) with the Full API
 
 ```{code-cell} ipython3
-print("Joint PMF (P(X=x, Y=y)):")
-print(joint_pmf_dice)
-print(f"\nSum of all joint probabilities: {np.sum(joint_pmf_dice):.2f}")
+dist = stats.poisson(mu=4)
+
+print("="*60)
+print("EXPLORING POISSON(μ=4) WITH THE FULL scipy.stats API")
+print("="*60)
+
+# Properties
+print("\n1. PROPERTIES:")
+print(f"   Mean:     {dist.mean():.4f}")
+print(f"   Median:   {dist.median():.4f}")
+print(f"   Variance: {dist.var():.4f}")
+print(f"   Std Dev:  {dist.std():.4f}")
+
+# Get all moments at once
+m, v, s, k = dist.stats(moments='mvsk')
+print(f"\n   Using .stats(moments='mvsk'):")
+print(f"   Skewness (s): {s:.4f} (positive = right tail)")
+print(f"   Kurtosis (k): {k:.4f} (positive = heavier tails)")
+
+# Probabilities
+print("\n2. PROBABILITIES:")
+print(f"   P(X = 4):     {dist.pmf(4):.4f}")
+print(f"   P(X ≤ 6):     {dist.cdf(6):.4f}")
+print(f"   P(X > 6):     {dist.sf(6):.4f}")
+print(f"   Check: cdf + sf = {dist.cdf(6) + dist.sf(6):.4f}")
+
+# Quantiles
+print("\n3. QUANTILES (Inverse CDF):")
+print(f"   50th percentile (median): {dist.ppf(0.50):.0f}")
+print(f"   75th percentile:          {dist.ppf(0.75):.0f}")
+print(f"   90th percentile:          {dist.ppf(0.90):.0f}")
+print(f"   95th percentile:          {dist.ppf(0.95):.0f}")
+
+# Confidence intervals
+lower, upper = dist.interval(0.90)
+print("\n4. CONFIDENCE INTERVALS:")
+print(f"   90% interval: [{lower:.0f}, {upper:.0f}]")
+print(f"   Meaning: P({lower:.0f} ≤ X ≤ {upper:.0f}) ≈ 0.90")
+
+# Simulation
+samples = dist.rvs(size=10000, random_state=42)
+print("\n5. SIMULATION:")
+print(f"   Generated 10,000 samples")
+print(f"   Sample mean: {samples.mean():.4f} vs theoretical {dist.mean():.4f}")
+print("="*60)
 ```
+
+## 2. Understanding Quantiles and the PPF
+
+The **percent point function** (`.ppf()`) is one of the most useful but initially confusing methods.
+
+### What is PPF?
+
+The PPF is the **inverse of the CDF**:
+
+$$\text{ppf}(q) = \text{CDF}^{-1}(q) = \text{smallest } x \text{ where } P(X \le x) \ge q$$
+
+**In plain English:** "What value puts me at the q-th quantile?"
 
 ```{code-cell} ipython3
-# Calculate marginal PMF for X (sum over rows for each column)
-marginal_pmf_X = np.sum(joint_pmf_dice, axis=0) # axis=0 sums over rows
-print("\nMarginal PMF for X (P(X=x)):")
-print(marginal_pmf_X)
-print(f"Sum of marginal P(X=x): {np.sum(marginal_pmf_X):.2f}")
+# Example: Poisson(μ=5)
+dist = stats.poisson(mu=5)
+
+# Forward: value → probability
+k_value = 7
+prob = dist.cdf(k_value)
+print(f"CDF: Given k={k_value}, probability P(X ≤ {k_value}) = {prob:.4f}")
+
+# Inverse: probability → value
+q = 0.867
+k_inverse = dist.ppf(q)
+print(f"PPF: Given probability q={q:.4f}, value k = {k_inverse:.0f}")
+print(f"\nThey are inverses! CDF({k_value}) ≈ {prob:.4f}, PPF({prob:.4f}) = {k_value}")
 ```
+
+:::{admonition} Discrete Distributions and PPF
+:class: warning
+
+For discrete distributions, `.ppf(q)` returns the **smallest integer k where CDF(k) ≥ q**.
+
+This can create "jumps":
+```python
+dist = stats.poisson(mu=4)
+dist.ppf(0.60)  # Returns 4
+dist.ppf(0.70)  # Also returns 4
+dist.ppf(0.78)  # Also returns 4
+dist.ppf(0.79)  # Returns 5 (jump!)
+```
+
+This is correct behavior - it reflects the discrete nature.
+:::
+
+### Practical Applications of PPF
+
+**Use Case 1: Setting Thresholds**
 
 ```{code-cell} ipython3
-# Calculate marginal PMF for Y (sum over columns for each row)
-marginal_pmf_Y = np.sum(joint_pmf_dice, axis=1) # axis=1 sums over columns
-print("\nMarginal PMF for Y (P(Y=y)):")
-print(marginal_pmf_Y)
-print(f"Sum of marginal P(Y=y): {np.sum(marginal_pmf_Y):.2f}")
+# Customer service: calls per hour ~ Poisson(μ=15)
+calls_dist = stats.poisson(mu=15)
+
+threshold_90 = calls_dist.ppf(0.90)
+threshold_95 = calls_dist.ppf(0.95)
+
+print("Customer Calls per Hour ~ Poisson(μ=15)")
+print(f"\nStaffing for 90% of hours: {threshold_90:.0f} calls")
+print(f"  Verification: P(X ≤ {threshold_90:.0f}) = {calls_dist.cdf(threshold_90):.4f}")
+print(f"\nStaffing for 95% of hours: {threshold_95:.0f} calls")
+print(f"  Verification: P(X ≤ {threshold_95:.0f}) = {calls_dist.cdf(threshold_95):.4f}")
 ```
+
+**Use Case 2: Risk Analysis**
 
 ```{code-cell} ipython3
-# Verify the results match the expected 1/6 for each outcome
-dice_outcomes = np.arange(1, 7)
-plt.figure(figsize=(10, 4))
+# Defects per batch ~ Poisson(μ=2.5)
+defect_dist = stats.poisson(mu=2.5)
 
-plt.subplot(1, 2, 1)
-plt.bar(dice_outcomes, marginal_pmf_X, width=0.9)
-plt.xlabel("Outcome X (Die 1)")
-plt.ylabel("Probability P(X=x)")
-plt.title("Marginal PMF of X")
-plt.ylim(0, 0.2)
+worst_case_99 = defect_dist.ppf(0.99)
+worst_case_999 = defect_dist.ppf(0.999)
 
-plt.subplot(1, 2, 2)
-plt.bar(dice_outcomes, marginal_pmf_Y, width=0.9)
-plt.xlabel("Outcome Y (Die 2)")
-plt.ylabel("Probability P(Y=y)")
-plt.title("Marginal PMF of Y")
-plt.ylim(0, 0.2)
-
-plt.tight_layout()
-plt.show()
+print(f"Defects per Batch ~ Poisson(μ=2.5)")
+print(f"\nRisk Analysis:")
+print(f"  99th percentile (1 in 100):    {worst_case_99:.0f} defects")
+print(f"  99.9th percentile (1 in 1000): {worst_case_999:.0f} defects")
+print(f"\nPlan for {worst_case_99:.0f} defects to handle 99% of batches")
 ```
 
-## Conditional Distributions
+## 3. Comparing Distributions
 
-The conditional distribution tells us the probability distribution of one variable *given* that the other variable has taken a specific value.
+One powerful application is comparing distributions side-by-side.
 
-**Definition:**
-
-The **conditional PMF** of $Y$ given $X=x$ is:
-$$ p_{Y|X}(y|x) = P(Y=y | X=x) = \frac{P(X=x, Y=y)}{P(X=x)} = \frac{p_{X,Y}(x, y)}{p_X(x)} $$
-provided that $p_X(x) > 0$.
-
-The **conditional PDF** of $Y$ given $X=x$ is:
-$$ f_{Y|X}(y|x) = \frac{f_{X,Y}(x, y)}{f_X(x)} $$
-provided that $f_X(x) > 0$.
-
-Note that for a fixed value of $x$, the conditional PMF $p_{Y|X}(y|x)$ is a valid PMF in $y$ (sums to 1), and the conditional PDF $f_{Y|X}(y|x)$ is a valid PDF in $y$ (integrates to 1).
-
-**Example: Two Dice (Conditional)**
-
-What is the probability distribution of the second die roll ($Y$) given that the first die roll ($X$) was a 3?
-Using the formula: $p_{Y|X}(y|3) = \frac{p_{X,Y}(3, y)}{p_X(3)}$.
-We know $p_{X,Y}(3, y) = 1/36$ and $p_X(3) = 1/6$.
-So, $p_{Y|X}(y|3) = \frac{1/36}{1/6} = \frac{6}{36} = \frac{1}{6}$ for $y \in \{1, 2, 3, 4, 5, 6\}$.
-This makes intuitive sense: knowing the outcome of the first fair die doesn't change the probabilities for the second fair die because they are independent.
-
-**Example: Height and Weight (Conditional)**
-
-Consider the height ($X$) and weight ($Y$) example. The conditional distribution $f_{Y|X}(y|x=1.8)$ would describe the distribution of weights specifically for people who are 1.8 meters tall. If height and weight are positively correlated, we'd expect the mean of this conditional distribution (the average weight for people 1.8m tall) to be higher than the mean of the marginal distribution of weight $f_Y(y)$ (the average weight across all heights).
-
-+++
-
-**Hands-on: Conditional PMFs from Joint PMF**
-
-Let's calculate the conditional PMF of $Y$ given $X=3$ for the dice example.
-
-+++
-
-We need the joint PMF and the marginal PMF of X
-joint_pmf_dice (calculated above)
-marginal_pmf_X (calculated above)
+### Example: When Does Poisson Approximate Binomial?
 
 ```{code-cell} ipython3
-x_condition = 3 # Condition on X=3
-index_x = x_condition - 1 # Array index is value - 1
+# Compare Binomial and Poisson approximation
+scenarios = [
+    (20, 0.05, "Good"),
+    (100, 0.03, "Excellent"),
+    (20, 0.5, "Poor"),
+]
+
+print("="*70)
+print("COMPARING BINOMIAL AND POISSON APPROXIMATION")
+print("="*70)
+
+for n, p, quality in scenarios:
+    lam = n * p
+    binom_dist = stats.binom(n=n, p=p)
+    poisson_dist = stats.poisson(mu=lam)
+
+    print(f"\nn={n}, p={p}, λ={lam} ({quality} approximation expected):")
+    print(f"  Binomial mean={binom_dist.mean():.4f}, var={binom_dist.var():.4f}")
+    print(f"  Poisson  mean={poisson_dist.mean():.4f}, var={poisson_dist.var():.4f}")
+
+    # Compare probabilities at mode
+    mode_k = int(lam)
+    binom_prob = binom_dist.pmf(mode_k)
+    poisson_prob = poisson_dist.pmf(mode_k)
+    print(f"  P(X={mode_k}): Binomial={binom_prob:.6f}, Poisson={poisson_prob:.6f}")
+    print(f"  Difference: {abs(binom_prob - poisson_prob):.6f}")
 ```
+
+**Rule validated:** Poisson approximates Binomial well when n ≥ 20 and p ≤ 0.05.
+
+## 4. Simulation and Validation
+
+The `.rvs()` method generates samples for validation.
 
 ```{code-cell} ipython3
-# Get the probability P(X=3)
-p_X_eq_3 = marginal_pmf_X[index_x]
-print(f"Marginal P(X=3) = {p_X_eq_3:.4f}")
+# Example: Binomial(n=50, p=0.3)
+true_dist = stats.binom(n=50, p=0.3)
+np.random.seed(42)
+samples = true_dist.rvs(size=10000)
+
+print("="*70)
+print("SIMULATION VALIDATION: Binomial(n=50, p=0.3)")
+print("="*70)
+
+print("\nTHEORETICAL vs EMPIRICAL:")
+print(f"  Mean:     {true_dist.mean():.4f} vs {samples.mean():.4f}")
+print(f"  Variance: {true_dist.var():.4f} vs {samples.var():.4f}")
+print(f"  Std Dev:  {true_dist.std():.4f} vs {samples.std():.4f}")
+
+print("\nQUANTILE COMPARISON:")
+for q in [0.25, 0.50, 0.75, 0.90]:
+    theoretical = true_dist.ppf(q)
+    empirical = np.percentile(samples, q*100)
+    print(f"  {q:.2f}: {theoretical:5.1f} vs {empirical:5.1f}")
+
+print("="*70)
 ```
+
+With 10,000 samples, empirical closely matches theoretical!
+
+## 5. Reading the scipy.stats Documentation
+
+:::{admonition} Documentation Structure
+:class: tip
+
+Every scipy.stats distribution page follows the same structure:
+
+1. **Function signature** - Shows parameters
+2. **Parameters section** - Describes each parameter
+3. **Notes** - Mathematical definition and properties
+4. **Methods** - Complete list of available methods
+5. **Examples** - Copy-pasteable code
+
+**Example:** [scipy.stats.poisson documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.poisson.html)
+:::
+
+### Exercise: Learn the Geometric Distribution from Docs
+
+Using only the [scipy.stats.geom docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.geom.html), answer:
+1. What parameter does it take?
+2. What does it model?
+3. What's the mean?
+4. What's P(X = 5) if p = 0.2?
+5. What's the 75th percentile?
 
 ```{code-cell} ipython3
-# Get the joint probabilities P(X=3, Y=y) for y=1..6
-# This corresponds to the column where X=3 in the joint PMF table
-joint_p_X3_Y = joint_pmf_dice[:, index_x]
-print(f"\nJoint P(X=3, Y=y) for y=1..6: \n{joint_p_X3_Y}")
+# Solution using scipy.stats documentation
+geom_dist = stats.geom(p=0.2)
+
+print("="*70)
+print("LEARNING GEOMETRIC DISTRIBUTION FROM SCIPY DOCS")
+print("="*70)
+
+print("\n1. Parameter: p = 0.2 (probability of success)")
+print("2. Models: Number of trials until first success")
+print(f"3. Mean (from docs: 1/p): {geom_dist.mean():.4f} = {1/0.2:.4f} ✓")
+print(f"4. P(X = 5): {geom_dist.pmf(5):.6f}")
+
+p75 = geom_dist.ppf(0.75)
+print(f"5. 75th percentile: {p75:.0f} trials")
+
+# Validate with simulation
+samples = geom_dist.rvs(size=10000, random_state=42)
+print(f"\nValidation (10,000 samples):")
+print(f"  Empirical mean: {samples.mean():.4f} vs theory {geom_dist.mean():.4f}")
+print("="*70)
 ```
+
+**You just learned a distribution independently!**
+
+## 6. Practical Workflows
+
+### Workflow 1: Quality Control Decision
+
+**Scenario:** Factory produces batches of 100 items. 2% are defective. Reject batch if > 5 defective. What's rejection probability?
 
 ```{code-cell} ipython3
-# Calculate conditional PMF P(Y=y | X=3) = P(X=3, Y=y) / P(X=3)
-if p_X_eq_3 > 0:
-    conditional_pmf_Y_given_X3 = joint_p_X3_Y / p_X_eq_3
-    print(f"\nConditional P(Y=y | X=3) for y=1..6: \n{conditional_pmf_Y_given_X3}")
-    print(f"Sum of conditional probabilities: {np.sum(conditional_pmf_Y_given_X3):.2f}")
+print("="*70)
+print("QUALITY CONTROL WORKFLOW")
+print("="*70)
 
-    # Plot the conditional PMF
-    plt.figure(figsize=(5, 4))
-    plt.bar(dice_outcomes, conditional_pmf_Y_given_X3, width=0.9)
-    plt.xlabel("Outcome Y (Die 2)")
-    plt.ylabel("Probability P(Y=y | X=3)")
-    plt.title("Conditional PMF of Y given X=3")
-    plt.ylim(0, 0.2)
-    plt.show()
-else:
-    print("\nCannot calculate conditional PMF as P(X=3) is zero.")
+# Step 1: Model selection
+defect_dist = stats.binom(n=100, p=0.02)
+print("\nModel: Binomial(n=100, p=0.02)")
+print(f"Expected defectives: {defect_dist.mean():.2f}")
+
+# Step 2: Answer question
+prob_reject = defect_dist.sf(5)  # P(X > 5)
+print(f"\nP(X > 5) = {prob_reject:.6f}")
+print(f"→ {prob_reject*100:.3f}% of batches will be rejected")
+
+# Step 3: Sensitivity analysis
+print("\nWhat if threshold was 3?")
+prob_reject_3 = defect_dist.sf(3)
+print(f"  Rejection rate: {prob_reject_3*100:.3f}%")
+
+print("="*70)
 ```
 
-## Joint Cumulative Distribution Functions (CDFs)
+### Workflow 2: Inventory Planning
 
-The **joint cumulative distribution function (CDF)** $F_{X,Y}(x, y)$ gives the probability that $X$ is less than or equal to $x$ *and* $Y$ is less than or equal to $y$.
-
-$$ F_{X,Y}(x, y) = P(X \le x, Y \le y) $$
-
-**Discrete Case:**
-$$ F_{X,Y}(x, y) = \sum_{x_i \le x} \sum_{y_j \le y} p_{X,Y}(x_i, y_j) $$
-
-**Continuous Case:**
-$$ F_{X,Y}(x, y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u, v) \,dv \,du $$
-
-**Properties:**
-1. $0 \le F_{X,Y}(x, y) \le 1$.
-2. $F_{X,Y}(x, y)$ is non-decreasing in both $x$ and $y$.
-3. $\lim_{x \to \infty, y \to \infty} F_{X,Y}(x, y) = 1$.
-4. $\lim_{x \to -\infty} F_{X,Y}(x, y) = 0$ and $\lim_{y \to -\infty} F_{X,Y}(x, y) = 0$.
-
-**Example: Two Dice (CDF)**
-
-What is $F_{X,Y}(2, 3) = P(X \le 2, Y \le 3)$?
-This is the probability that the first die is 1 or 2, AND the second die is 1, 2, or 3.
-The pairs $(x, y)$ satisfying this are: (1,1), (1,2), (1,3), (2,1), (2,2), (2,3).
-There are $2 \times 3 = 6$ such pairs. Since each pair has probability 1/36:
-$F_{X,Y}(2, 3) = 6 \times \frac{1}{36} = \frac{1}{6}$.
-
-**Example: Height and Weight (CDF)**
-
-$F_{X,Y}(1.8, 75) = P(\text{Height} \le 1.8\text{m AND } \text{Weight} \le 75\text{kg})$. This represents the probability that a randomly selected person falls within this specific height and weight range (or below). This would be calculated by integrating the joint PDF $f_{X,Y}(x, y)$ over the region where $x \le 1.8$ and $y \le 75$.
-
-+++
-
-## Hands-on: Simulation and Visualization
-
-A powerful way to understand joint distributions is through simulation and visualization. We can generate random samples from a joint distribution and then use plots to visualize the relationship between the variables.
-
-**1. Simulating Independent Variables:**
-If $X$ and $Y$ are independent, we can simulate them separately from their marginal distributions and then pair the results. For our two dice example:
+**Scenario:** Daily demand ~ Poisson(μ=7). Stock enough for 95% of days. How much?
 
 ```{code-cell} ipython3
-num_simulations = 5000
+demand_dist = stats.poisson(mu=7)
+
+stock_95 = demand_dist.ppf(0.95)
+stock_99 = demand_dist.ppf(0.99)
+
+print("="*70)
+print("INVENTORY PLANNING")
+print("="*70)
+
+print(f"\nDaily Demand ~ Poisson(μ=7)")
+print(f"\nFor 95% service: Stock {stock_95:.0f} units")
+print(f"  Verification: P(Demand ≤ {stock_95:.0f}) = {demand_dist.cdf(stock_95):.4f}")
+
+print(f"\nFor 99% service: Stock {stock_99:.0f} units")
+print(f"  Verification: P(Demand ≤ {stock_99:.0f}) = {demand_dist.cdf(stock_99):.4f}")
+
+print("="*70)
 ```
+
+## 7. Advanced Topics (Preview)
+
+### Log Probabilities for Numerical Stability
+
+When working with very small probabilities, use log methods:
 
 ```{code-cell} ipython3
-# Simulate X (die 1)
-simulated_X = np.random.randint(1, 7, size=num_simulations)
+rare_dist = stats.poisson(mu=2)
+k_large = 20
+
+# Regular probability (may underflow)
+regular_prob = rare_dist.pmf(k_large)
+
+# Log probability (numerically stable)
+log_prob = rare_dist.logpmf(k_large)
+
+print("="*60)
+print("NUMERICAL STABILITY WITH LOG PROBABILITIES")
+print("="*60)
+
+print(f"\nP(X = {k_large}) for Poisson(μ=2):")
+print(f"  Regular .pmf({k_large}):   {regular_prob}")
+print(f"  Log .logpmf({k_large}): {log_prob:.4f}")
+print(f"  Recover: exp(log_prob) = {np.exp(log_prob)}")
+
+print("\nWhen to use log methods:")
+print("  - Very small probabilities (< 1e-10)")
+print("  - Products of many probabilities")
+print("  - Maximum likelihood estimation")
+
+print("="*60)
 ```
+
+### Parameter Estimation (Brief Preview)
 
 ```{code-cell} ipython3
-# Simulate Y (die 2) - independently
-simulated_Y = np.random.randint(1, 7, size=num_simulations)
+# Observed data from unknown Poisson process
+observed_data = np.array([3, 5, 4, 6, 3, 5, 4, 7, 2, 5, 4, 6, 5, 3, 4])
+
+# For Poisson, MLE is simply the sample mean
+mu_hat = observed_data.mean()
+
+fitted_dist = stats.poisson(mu=mu_hat)
+
+print("="*70)
+print("PARAMETER ESTIMATION (PREVIEW)")
+print("="*70)
+
+print(f"\nObserved data: {observed_data}")
+print(f"Estimated μ: {mu_hat:.4f}")
+print(f"\nFitted distribution: Poisson(μ={mu_hat:.4f})")
+print(f"  Mean: {fitted_dist.mean():.4f}")
+print(f"  Variance: {fitted_dist.var():.4f}")
+
+print("\nNote: Formal parameter estimation is covered in statistics courses.")
+print("scipy.stats supports this through methods like .fit()")
+print("="*70)
 ```
 
-```{code-cell} ipython3
-# Combine into pairs
-simulated_pairs = np.vstack((simulated_X, simulated_Y)).T # Transpose to get pairs
+## 8. Summary and Next Steps
+
+### What You've Learned
+
+**Core Skills:**
+- ✅ The unified scipy.stats API pattern (works for all 80+ distributions)
+- ✅ Calculating probabilities with `.pmf()`, `.pdf()`, `.cdf()`, `.sf()`
+- ✅ Finding quantiles and percentiles with `.ppf()`
+- ✅ Querying properties with `.mean()`, `.median()`, `.var()`, `.std()`, `.stats()`
+- ✅ Generating samples with `.rvs()` for simulation
+- ✅ Comparing distributions visually and numerically
+
+**Practical Workflows:**
+- ✅ Translating real problems into distribution questions
+- ✅ Setting thresholds based on confidence levels
+- ✅ Risk analysis with quantiles
+- ✅ Navigating scipy.stats documentation independently
+
+### The scipy.stats Documentation is Now Your Resource
+
+You can now:
+1. Pick any distribution from the [scipy.stats list](https://docs.scipy.org/doc/scipy/reference/stats.html)
+2. Read its documentation page
+3. Understand the parameters, methods, and examples
+4. Apply it to your problems confidently
+
+:::{admonition} The Power of the Unified API
+:class: important
+
+The scipy.stats interface is **consistent across all distributions**. This pattern works for ANY distribution:
+
+```python
+dist = stats.DISTRIBUTION_NAME(params)
+
+# Query properties
+dist.mean(), dist.median(), dist.var(), dist.std()
+
+# Calculate probabilities
+dist.pmf(k) or dist.pdf(x)  # Point
+dist.cdf(x)                  # Cumulative
+dist.sf(x)                   # Survival
+
+# Find quantiles
+dist.ppf(q)                  # Inverse CDF
+dist.interval(alpha)         # Confidence interval
+
+# Generate samples
+dist.rvs(size=n)             # Random variates
 ```
 
-```{code-cell} ipython3
-print("First 10 simulated pairs (X, Y):")
-print(simulated_pairs[:10])
-```
+Learn this pattern → Work with ANY distribution!
+:::
 
-```{code-cell} ipython3
-# Visualize the simulated pairs using a scatter plot (with jitter)
-plt.figure(figsize=(6, 6))
-sns.stripplot(x=simulated_X, y=simulated_Y, jitter=0.25, alpha=0.3, size=3)
-plt.xlabel("Outcome X (Die 1)")
-plt.ylabel("Outcome Y (Die 2)")
-plt.title(f"Scatter Plot of {num_simulations} Independent Dice Rolls")
-plt.grid(True, alpha=0.3)
-plt.show()
-```
+### Practice Exercises
 
-The scatter plot shows points distributed roughly evenly across all 36 possible outcomes, as expected for independent fair dice.
+1. **Distribution Comparison:** Compare Binomial(n=20, p=0.3) with Normal(μ=6, σ=2.05). How close is the normal approximation?
 
-**2. Simulating Dependent Variables (Bivariate Normal):**
-Let's simulate height and weight data assuming they follow a bivariate normal distribution. We need to specify means, standard deviations, and the correlation between them.
+2. **Risk Analysis:** Website visitors ~ Poisson(μ=500). Server handles 650. What's crash probability? What capacity for <1% crash risk?
 
-```{code-cell} ipython3
-from scipy.stats import multivariate_normal
-```
+3. **Learn a New Distribution:** Pick Negative Binomial. Model: "Roll die until three 6's. Probability of exactly 20 rolls?"
 
-```{code-cell} ipython3
-num_samples = 2000
-```
+4. **Simulation:** Generate 1000 samples from Exponential(λ=0.5). Compare sample mean to theoretical. Try 10,000 samples.
 
-```{code-cell} ipython3
-# Parameters (example values)
-mean_height = 1.75 # meters
-std_dev_height = 0.1
-mean_weight = 75 # kg
-std_dev_weight = 10
-correlation = 0.7 # Positive correlation between height and weight
-```
-
-```{code-cell} ipython3
-# Create the mean vector and covariance matrix
-mean_vector = [mean_height, mean_weight]
-```
-
-```{code-cell} ipython3
-# Covariance = correlation * std_dev_X * std_dev_Y
-covariance = correlation * std_dev_height * std_dev_weight
-covariance_matrix = [[std_dev_height**2, covariance],
-                     [covariance, std_dev_weight**2]]
-```
-
-```{code-cell} ipython3
-print("Mean Vector:", mean_vector)
-print("Covariance Matrix:\n", covariance_matrix)
-```
-
-```{code-cell} ipython3
-# Create the bivariate normal distribution object
-bivariate_norm = multivariate_normal(mean=mean_vector, cov=covariance_matrix)
-```
-
-```{code-cell} ipython3
-# Generate random samples
-simulated_data = bivariate_norm.rvs(size=num_samples)
-simulated_heights = simulated_data[:, 0]
-simulated_weights = simulated_data[:, 1]
-```
-
-```{code-cell} ipython3
-print(f"\nFirst 5 simulated (Height, Weight) pairs:\n{simulated_data[:5]}")
-```
-
-**3. Visualizing Joint Distributions:**
-
-* **Scatter Plot:** Good for showing the relationship and density of simulated points.
-* **2D Histogram (Heatmap):** Divides the space into bins and shows the count/density in each bin using color intensity.
-* **Contour Plot:** For continuous distributions, shows lines of constant probability density (like elevation lines on a map).
-
-```{code-cell} ipython3
-# Scatter Plot
-plt.figure(figsize=(7, 6))
-plt.scatter(simulated_heights, simulated_weights, alpha=0.3)
-plt.xlabel("Simulated Height (m)")
-plt.ylabel("Simulated Weight (kg)")
-plt.title("Scatter Plot of Simulated Height vs. Weight")
-plt.grid(True, alpha=0.3)
-plt.show()
-```
-
-```{code-cell} ipython3
-# 2D Histogram
-plt.figure(figsize=(8, 6))
-# cmap='viridis' is a common colormap, you can experiment with others
-hist, xedges, yedges, im = plt.hist2d(simulated_heights, simulated_weights, bins=30, cmap='viridis')
-plt.colorbar(label='Counts per bin')
-plt.xlabel("Simulated Height (m)")
-plt.ylabel("Simulated Weight (kg)")
-plt.title("2D Histogram of Simulated Height vs. Weight")
-plt.grid(True, alpha=0.3)
-plt.show()
-```
-
-```{code-cell} ipython3
-# Seaborn offers jointplot for combined views
-sns.jointplot(x=simulated_heights, y=simulated_weights, kind='hist', bins=30, cmap='viridis')
-plt.suptitle("Seaborn Jointplot (Histogram)", y=1.02) # Adjust title position
-plt.show()
-```
-
-```{code-cell} ipython3
-# Contour Plot (overlayed on scatter or alone)
-plt.figure(figsize=(7, 6))
-sns.kdeplot(x=simulated_heights, y=simulated_weights, cmap="Blues", fill=True, levels=10)
-#plt.scatter(simulated_heights, simulated_weights, alpha=0.1, s=5, color='grey') # Optional: overlay scatter
-plt.xlabel("Simulated Height (m)")
-plt.ylabel("Simulated Weight (kg)")
-plt.title("Contour Plot (Kernel Density Estimate)")
-plt.grid(True, alpha=0.3)
-plt.show()
-```
-
-These plots clearly show the positive correlation – taller simulated individuals tend to be heavier. The 2D histogram and contour plot visualize the shape of the joint probability density, concentrated around the means and elongated along the diagonal due to the correlation.
-
-## Summary
-
-This chapter introduced the fundamental concepts for dealing with multiple random variables:
-* **Joint PMFs/PDFs:** Describe the probability or density of multiple variables occurring together.
-* **Marginal Distributions:** Allow us to focus on the distribution of a single variable by summing or integrating out the others.
-* **Conditional Distributions:** Describe the distribution of one variable given a specific value of another.
-* **Joint CDFs:** Give the probability that all variables fall below certain thresholds.
-
-We saw how to represent these distributions mathematically and how to work with them in Python, particularly through simulation and visualization using NumPy, Matplotlib, and Seaborn. Understanding joint distributions is crucial for modeling complex systems where multiple factors interact, paving the way for concepts like covariance, correlation, and independence, which we will explore in the next chapter.
-
-+++
+5. **Documentation Explorer:** Find docs for `scipy.stats.describe()`. Use it to analyze data and interpret all statistics.
 
 ---
-**Exercises:**
 
-1.  **Coin Flips:** Let $X$ be the number of heads in 2 flips of a fair coin, and $Y$ be the outcome of the first flip (0 for Tails, 1 for Heads).
-    * Determine the joint PMF $p_{X,Y}(x, y)$. Represent it as a table or a 2D array.
-    * Calculate the marginal PMFs $p_X(x)$ and $p_Y(y)$.
-    * Calculate the conditional PMF $p_{X|Y}(x|1)$ (distribution of total heads given the first flip was Heads).
-2.  **Uniform Distribution on a Square:** Suppose $(X, Y)$ are uniformly distributed over the square defined by $0 \le x \le 2$ and $0 \le y \le 2$.
-    * What is the joint PDF $f_{X,Y}(x, y)$? (Remember it must integrate to 1 over the square).
-    * Find the marginal PDFs $f_X(x)$ and $f_Y(y)$. Are $X$ and $Y$ independent?
-    * Calculate $P(X \le 1, Y \le 1)$.
-    * Calculate $P(X+Y \le 1)$. (Hint: Visualize the region in the square).
-3.  **Simulation Visualization:** Modify the bivariate normal simulation for height and weight.
-    * Set the `correlation` to -0.6. Regenerate the samples and the three plots (scatter, 2D histogram, contour). How do the plots change?
-    * Set the `correlation` to 0. Regenerate the samples and plots. What do the plots look like now? What does this imply about the relationship between height and weight in this simulated scenario?
-
-+++
+**You're now scipy.stats-literate!** The documentation is your comprehensive reference for all future probability work. In the next chapter, we explore how multiple random variables interact (joint distributions, covariance, correlation).

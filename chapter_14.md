@@ -12,362 +12,310 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 14: The Central Limit Theorem (CLT)
+# Chapter 14: The Law of Large Numbers (LLN)
 
 +++
 
-## Introduction: The Ubiquitous Bell Curve
+## Introduction
 
-+++
+In the previous chapters, we explored individual random variables and their distributions, as well as how multiple variables interact. Now, we venture into the fascinating realm of *limit theorems*. These theorems describe the long-term behavior of sequences of random variables, forming the theoretical bedrock for many statistical methods and simulations.
 
-In the previous chapter, we explored the Law of Large Numbers (LLN), which tells us that the average of a large number of independent and identically distributed (IID) random variables converges to the expected value. That's about the *value* it approaches. But what about the *distribution* of that average? Does it have a predictable shape?
-
-+++
-
-Enter the Central Limit Theorem (CLT), often considered one of the most remarkable and useful results in probability theory. In essence, the CLT states that the distribution of the sum (or average) of a large number of IID random variables tends towards a Normal (Gaussian) distribution, *regardless of the shape of the original distribution* from which the variables are drawn, provided the original distribution has a finite variance.
-
-+++
-
-This is profound! It explains why the Normal distribution appears so frequently in nature and in data analysis. Many real-world phenomena can be thought of as the sum or average of many small, independent effects (e.g., measurement errors, height influenced by many genetic and environmental factors), and the CLT predicts that these resulting phenomena will be approximately Normally distributed.
-
-+++
+The first major limit theorem we'll explore is the **Law of Large Numbers (LLN)**. Intuitively, the LLN tells us that if we repeat an experiment independently many times, the average of the outcomes will tend to get closer and closer to the theoretical expected value of the experiment. This aligns with our everyday understanding – flip a fair coin enough times, and the proportion of heads will likely be very close to 50%. The LLN provides the mathematical justification for this intuition and is fundamental to why simulation methods, like Monte Carlo, work.
 
 In this chapter, we will:
-1. Formally state the Central Limit Theorem.
-2. Understand the concept of convergence in distribution.
-3. Discuss the conditions required for the CLT to hold and its limitations.
-4. Explore key applications, particularly the Normal approximation to other distributions.
-5. Use Python simulations to visualize the CLT in action and apply it to problems.
+1.  Introduce **Chebyshev's Inequality**, a tool that provides a bound on how likely a random variable is to deviate far from its mean.
+2.  Define and explain the **Weak Law of Large Numbers (WLLN)**, focusing on convergence in probability.
+3.  Discuss the conceptual difference with the **Strong Law of Large Numbers (SLLN)**.
+4.  Illustrate the practical implications, particularly how the LLN justifies **Monte Carlo simulations**.
+5.  Use Python simulations to visualize the convergence described by the LLN.
+
+Let's begin by looking at an inequality that helps us quantify deviations from the mean.
 
 +++
 
-Let's start by stating the theorem more formally.
+## Chebyshev's Inequality
+
+Chebyshev's Inequality provides a way to estimate the probability that a random variable takes a value far from its mean, using only its mean ($\mu$) and variance ($\sigma^2$). It's powerful because it applies regardless of the specific distribution of the random variable, as long as the mean and variance are finite.
+
+**Theorem (Chebyshev's Inequality):** Let $X$ be a random variable with finite mean $\mu = E[X]$ and finite variance $\sigma^2 = Var(X)$. Then, for any real number $\epsilon > 0$:
+
+$$P(|X - \mu| \ge \epsilon) \le \frac{Var(X)}{\epsilon^2} = \frac{\sigma^2}{\epsilon^2}$$
+
+Alternatively, letting $\epsilon = k\sigma$ for some $k > 0$, the inequality can be written as:
+
+$$P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}$$
+
+This second form states that the probability of $X$ being $k$ or more standard deviations away from its mean is at most $1/k^2$.
+
+* For $k=2$, the probability of being 2 or more standard deviations away is at most $1/4 = 0.25$.
+* For $k=3$, the probability of being 3 or more standard deviations away is at most $1/9 \approx 0.11$.
+
+**Interpretation:** Chebyshev's inequality gives us a *guaranteed upper bound* on the probability of large deviations. This bound is often quite loose (i.e., the actual probability might be much smaller), especially if we know more about the distribution (like if it's Normal). However, its universality makes it very useful in theoretical contexts.
+
+**Example:** Suppose the average daily return of a stock ($\mu$) is 0.05% and the standard deviation ($\sigma$) is 1%. What is the maximum probability that the return on a given day is outside the range [-1.95%, 2.05%]?
+This range corresponds to being $k\sigma$ away from the mean, where $k\sigma = 2\%$, so $k = 2\% / 1\% = 2$.
+Using Chebyshev's inequality with $k=2$:
+$P(|X - 0.05\%| \ge 2 \times 1\%) \le \frac{1}{2^2} = \frac{1}{4} = 0.25$.
+So, there's at most a 25% chance that the daily return falls outside the [-1.95%, 2.05%] range, regardless of the specific distribution shape (as long as mean and variance are as stated).
 
 +++
 
-## Statement and Intuition
+### Hands-on: Illustrating Chebyshev's Bound
 
-+++
+Let's consider a Binomial random variable, say $X \sim Binomial(n=100, p=0.5)$.
+We know $E[X] = np = 100 \times 0.5 = 50$.
+And $Var(X) = np(1-p) = 100 \times 0.5 \times 0.5 = 25$, so $\sigma = \sqrt{25} = 5$.
 
-**The Central Limit Theorem (Lindeberg–Lévy CLT):**
+Let's check the probability of being $k=2$ standard deviations away from the mean. That is, $P(|X - 50| \ge 2 \times 5) = P(|X - 50| \ge 10)$. This means we want $P(X \le 40 \text{ or } X \ge 60)$.
 
-+++
+Chebyshev's inequality states: $P(|X - 50| \ge 10) \le \frac{1}{2^2} = 0.25$.
 
-Let $X_1, X_2, \dots, X_n$ be a sequence of $n$ independent and identically distributed (IID) random variables, each having a finite expected value $\mu$ and a finite non-zero variance $\sigma^2$.
-Let $\bar{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ be the sample mean.
-As $n \to \infty$, the distribution of the standardized sample mean converges to a standard Normal distribution:
-
-+++
-
-$$ Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0, 1) $$
-
-+++
-
-Where $\xrightarrow{d}$ denotes convergence in distribution.
-
-+++
-
-**Intuition:**
-Imagine you have *any* distribution for a single random variable $X$ (as long as its variance isn't infinite). This could be a Uniform distribution (like rolling a fair die), an Exponential distribution (like waiting times), or something completely irregular.
-Now, take a sample of $n$ values from this distribution and calculate their average, $\bar{X}_n$. Repeat this process many times, collecting many sample averages.
-The CLT tells us that if $n$ is sufficiently large, the histogram of these collected sample averages will look like a bell curve (a Normal distribution).
-
-+++
-
-Furthermore, the theorem specifies the parameters of this Normal distribution:
-* The mean of the distribution of sample means ($\mu_{\bar{X}_n}$) is the same as the original distribution's mean ($\mu$).
-* The standard deviation of the distribution of sample means ($\sigma_{\bar{X}_n}$), often called the **standard error**, is the original standard deviation divided by the square root of the sample size ($\sigma/\sqrt{n}$).
-
-+++
-
-**Example:** Think about the average weight of 30 randomly chosen apples. Individual apple weights might follow some distribution (maybe skewed, maybe multimodal), but the CLT suggests that the distribution of the *average* weight calculated from samples of 30 apples will be approximately Normal. The more apples we average ($n=50, n=100$), the closer the distribution of the average weight will be to a perfect Normal distribution.
-
-+++
-
-## Convergence in Distribution
-
-+++
-
-The CLT uses the concept of **convergence in distribution**. This is different from *convergence in probability* which we saw with the Weak Law of Large Numbers (WLLN).
-
-+++
-
-* **Convergence in Probability (WLLN):** The *value* of the sample mean $\bar{X}_n$ gets arbitrarily close to the true mean $\mu$ as $n$ increases. $P(|\bar{X}_n - \mu| > \epsilon) \to 0$.
-* **Convergence in Distribution (CLT):** The *shape* of the probability distribution of the (standardized) sample mean $Z_n = (\bar{X}_n - \mu) / (\sigma/\sqrt{n})$ gets arbitrarily close to the shape of the standard Normal distribution $N(0, 1)$ as $n$ increases. Formally, the Cumulative Distribution Function (CDF) of $Z_n$ converges to the CDF of the standard Normal distribution at every point where the standard Normal CDF is continuous (which is everywhere for the Normal distribution).
-    $$ \lim_{n \to \infty} P(Z_n \le z) = \Phi(z) $$
-    where $\Phi(z)$ is the CDF of the standard Normal distribution.
-
-+++
-
-This means that for large $n$, we can approximate the probability $P(\bar{X}_n \le x)$ by using the Normal distribution $N(\mu, \sigma^2/n)$. Specifically:
-$$ P(\bar{X}_n \le x) \approx \Phi\left(\frac{x - \mu}{\sigma/\sqrt{n}}\right) $$
-
-+++
-
-Similarly, for the sum $S_n = \sum_{i=1}^{n} X_i$, we know $E[S_n] = n\mu$ and $Var(S_n) = n\sigma^2$. The CLT implies:
-$$ \frac{S_n - n\mu}{\sqrt{n}\sigma} \xrightarrow{d} N(0, 1) $$
-So, we can approximate the distribution of the sum $S_n$ using $N(n\mu, n\sigma^2)$.
-
-+++
-
-## Conditions and Limitations
-
-+++
-
-The power of the CLT is immense, but it's crucial to understand its requirements:
-
-+++
-
-1.  **Independent and Identically Distributed (IID) Variables:** The standard version of the CLT assumes the random variables $X_i$ are independent and drawn from the same distribution. There are extensions (like the Lyapunov CLT or Lindeberg-Feller CLT) that relax these conditions, particularly the identical distribution part, but they require more complex conditions. For many practical applications, the IID assumption is a reasonable starting point.
-2.  **Finite Variance ($\sigma^2 < \infty$):** The original distribution *must* have a finite variance. If the variance is infinite (e.g., the Cauchy distribution), the sample mean does not converge to a Normal distribution. The sample mean's distribution might still converge, but to a different type of stable distribution.
-3.  **Sufficiently Large Sample Size ($n$):** The theorem states convergence *as $n \to \infty$*. In practice, "sufficiently large" depends heavily on the shape of the original distribution.
-    * If the original distribution is already symmetric and close to Normal, $n$ can be quite small (even $n<10$).
-    * If the original distribution is highly skewed (like Exponential), $n$ might need to be larger (e.g., $n \ge 30$ or $n \ge 50$) for the Normal approximation to be reasonably accurate.
-    * There's no single magic number for $n$, but $n=30$ is a commonly cited, often overly simplistic, rule of thumb. Visualization (like we'll do in the hands-on section) is key.
-4.  **Applies to Sums or Averages:** The CLT specifically describes the distribution of the *sum* or *average* of random variables, not the distribution of the individual variables themselves.
-
-+++
-
-## Applications: The Normal Approximation
-
-+++
-
-One of the most frequent applications of the CLT is approximating probabilities for distributions that are difficult to calculate directly, especially sums of random variables.
-
-+++
-
-**Approximating the Binomial Distribution:**
-Recall that a Binomial random variable $X \sim Binomial(n, p)$ can be seen as the sum of $n$ independent Bernoulli($p$) random variables: $X = \sum_{i=1}^{n} Y_i$, where $Y_i \sim Bernoulli(p)$.
-Each $Y_i$ has mean $\mu = p$ and variance $\sigma^2 = p(1-p)$.
-By the CLT, if $n$ is large enough, the sum $X$ will be approximately Normally distributed.
-* Mean: $E[X] = n\mu = np$
-* Variance: $Var(X) = n\sigma^2 = np(1-p)$
-So, $X \approx N(np, np(1-p))$.
-
-+++
-
-A common rule of thumb for this approximation to be adequate is $np \ge 5$ and $n(1-p) \ge 5$. Some sources use $np \ge 10$ and $n(1-p) \ge 10$ for better accuracy.
-
-+++
-
-**Continuity Correction:** When approximating a discrete distribution (like Binomial) with a continuous one (Normal), accuracy is improved by using a **continuity correction**. Since a Normal variable can take any value, while a Binomial variable only takes integer values, we adjust the interval.
-* To approximate $P(X \le k)$, we calculate $P(Y \le k + 0.5)$ where $Y$ is the Normal approximation.
-* To approximate $P(X \ge k)$, we calculate $P(Y \ge k - 0.5)$.
-* To approximate $P(X = k)$, we calculate $P(k - 0.5 \le Y \le k + 0.5)$.
-* To approximate $P(a \le X \le b)$, we calculate $P(a - 0.5 \le Y \le b + 0.5)$.
-
-+++
-
-**Example:** What is the probability of getting more than 60 heads in 100 flips of a fair coin?
-Here, $X \sim Binomial(n=100, p=0.5)$.
-Mean $\mu = np = 100 \times 0.5 = 50$.
-Variance $\sigma^2 = np(1-p) = 100 \times 0.5 \times 0.5 = 25$. Standard deviation $\sigma = \sqrt{25} = 5$.
-Since $np = 50 \ge 5$ and $n(1-p) = 50 \ge 5$, we can use the Normal approximation $Y \sim N(50, 25)$.
-We want $P(X > 60)$, which is the same as $P(X \ge 61)$.
-Using continuity correction, we approximate this by $P(Y \ge 61 - 0.5) = P(Y \ge 60.5)$.
-Standardize the value: $Z = \frac{60.5 - 50}{5} = \frac{10.5}{5} = 2.1$.
-So we need $P(Z \ge 2.1)$, where $Z \sim N(0, 1)$.
-Using a standard Normal table or `scipy.stats`:
-$P(Z \ge 2.1) = 1 - P(Z < 2.1) \approx 1 - 0.9821 = 0.0179$.
-The probability is approximately 1.79%.
-
-+++
-
-Other applications include:
-* **Confidence Intervals:** The CLT underpins the construction of confidence intervals for population means, even when the population distribution is unknown.
-* **Hypothesis Testing:** Many statistical tests rely on the assumption that sample means are Normally distributed for large samples.
-
-+++
-
-## Hands-on: Simulating the Central Limit Theorem
-
-+++
-
-Let's use Python to see the CLT in action. We'll simulate taking averages from a non-Normal distribution (the Exponential distribution) and see how the distribution of these averages becomes Normal as the sample size $n$ increases.
+Let's calculate the actual probability using `scipy.stats`.
 
 ```{code-cell} ipython3
+import numpy as np
+from scipy.stats import binom
+import matplotlib.pyplot as plt
 
-# Import necessary libraries
+# Configure plot style
+plt.style.use('seaborn-v0_8-whitegrid')
+
+# Parameters
+n = 100
+p = 0.5
+mu = n * p
+sigma = np.sqrt(n * p * (1 - p))
+k = 2
+epsilon = k * sigma
+
+# Calculate the actual probability P(|X - mu| >= k*sigma)
+# This is P(X <= mu - k*sigma) + P(X >= mu + k*sigma)
+# Since Binomial is discrete, we need P(X <= floor(mu - k*sigma)) + P(X >= ceil(mu + k*sigma))
+lower_bound = np.floor(mu - epsilon)
+upper_bound = np.ceil(mu + epsilon)
+
+prob_lower = binom.cdf(k=lower_bound, n=n, p=p)
+prob_upper = 1.0 - binom.cdf(k=upper_bound - 1, n=n, p=p) # P(X >= upper_bound) = 1 - P(X < upper_bound) = 1 - P(X <= upper_bound - 1)
+
+actual_prob = prob_lower + prob_upper
+
+# Chebyshev bound
+chebyshev_bound = 1 / (k**2)
+
+print(f"Distribution: Binomial(n={n}, p={p})")
+print(f"Mean (mu): {mu}, Standard Deviation (sigma): {sigma:.2f}")
+print(f"Checking deviation of k={k} standard deviations (epsilon={epsilon:.2f})")
+print(f"We want P(|X - {mu}| >= {epsilon:.2f}), which is P(X <= {lower_bound} or X >= {upper_bound})")
+print(f"Actual Probability: {actual_prob:.4f}")
+print(f"Chebyshev Bound: <= {chebyshev_bound:.4f}")
+print(f"Is the actual probability less than or equal to the bound? {actual_prob <= chebyshev_bound}")
+
+# Plot the distribution and the bounds
+x_values = np.arange(0, n + 1)
+pmf_values = binom.pmf(k=x_values, n=n, p=p)
+
+plt.figure(figsize=(12, 6))
+plt.bar(x_values, pmf_values, label='Binomial PMF', color='skyblue')
+plt.axvline(mu, color='black', linestyle='--', label=f'Mean (mu={mu})')
+plt.axvline(mu - epsilon, color='red', linestyle=':', label=f'mu - {k}*sigma ({mu - epsilon:.1f})')
+plt.axvline(mu + epsilon, color='red', linestyle=':', label=f'mu + {k}*sigma ({mu + epsilon:.1f})')
+plt.fill_between(x_values, pmf_values, where=(x_values <= lower_bound) | (x_values >= upper_bound),
+                 color='red', alpha=0.5, label=f'Area where |X - mu| >= {k}*sigma')
+plt.title("Binomial Distribution and Chebyshev's Bound (k=2)")
+plt.xlabel("Number of Successes (X)")
+plt.ylabel("Probability")
+plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+```
+
+As we can see, the actual probability (around 0.0569) is much smaller than the Chebyshev bound (0.25). This illustrates that while the inequality always holds, it might not be very precise for specific, well-behaved distributions like the Binomial (which is close to Normal for these parameters).
+
++++
+
+## The Law of Large Numbers (LLN)
+
+Chebyshev's inequality provides a foundation for proving one version of the Law of Large Numbers. The LLN formalizes the idea that sample averages converge to the population mean as the sample size increases.
+
+Let $X_1, X_2, ..., X_n$ be a sequence of independent and identically distributed (i.i.d.) random variables, each with the same finite mean $\mu = E[X_i]$ and finite variance $\sigma^2 = Var(X_i)$.
+
+Let $\bar{X}_n$ be the sample mean (average) of the first $n$ variables:
+$$\bar{X}_n = \frac{X_1 + X_2 + ... + X_n}{n}$$
+
+The LLN describes the behavior of $\bar{X}_n$ as $n \to \infty$. There are two main versions:
+
++++
+
+### 1. Weak Law of Large Numbers (WLLN)
+
+The WLLN states that the sample mean $\bar{X}_n$ **converges in probability** to the true mean $\mu$.
+
+**Definition (Convergence in Probability):** A sequence of random variables $Y_n$ converges in probability to a constant $c$ (written $Y_n \xrightarrow{P} c$) if, for every $\epsilon > 0$:
+$$\lim_{n\to\infty} P(|Y_n - c| \ge \epsilon) = 0$$
+In words: As $n$ gets larger, the probability that $Y_n$ is significantly different from $c$ becomes arbitrarily small.
+
+**Theorem (Weak Law of Large Numbers):** If $X_1, X_2, ...$ are i.i.d. with finite mean $\mu$ and finite variance $\sigma^2$, then the sample mean $\bar{X}_n$ converges in probability to $\mu$:
+$$\bar{X}_n \xrightarrow{P} \mu \quad \text{as } n \to \infty$$
+That is, for any $\epsilon > 0$:
+$$\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0$$
+
+**Proof using Chebyshev's Inequality:**
+We need the properties of expected value and variance for the sample mean $\bar{X}_n$:
+1.  $E[\bar{X}_n] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{1}{n}\sum_{i=1}^n \mu = \frac{n\mu}{n} = \mu$.
+    (The expected value of the sample mean is the true mean).
+2.  $Var(\bar{X}_n) = Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2} Var\left(\sum_{i=1}^n X_i\right)$.
+    Since the $X_i$ are independent:
+    $Var(\bar{X}_n) = \frac{1}{n^2} \sum_{i=1}^n Var(X_i) = \frac{1}{n^2} \sum_{i=1}^n \sigma^2 = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}$.
+    (The variance of the sample mean decreases as $n$ increases).
+
+Now, apply Chebyshev's Inequality to the random variable $\bar{X}_n$, which has mean $\mu$ and variance $\sigma^2/n$:
+$$P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{Var(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2/n}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}$$
+Taking the limit as $n \to \infty$:
+$$\lim_{n\to\infty} P(|\bar{X}_n - \mu| \ge \epsilon) \le \lim_{n\to\infty} \frac{\sigma^2}{n\epsilon^2} = 0$$
+Since probability cannot be negative, the limit must be exactly 0. This proves the WLLN under the condition of finite variance. (Note: The WLLN holds even if only the mean is finite, but the proof is more complex).
+
+**Intuition:** The WLLN tells us that for a *sufficiently large sample size n*, the probability that the sample average $\bar{X}_n$ deviates from the true mean $\mu$ by more than any small amount $\epsilon$ is very low.
+
++++
+
+### 2. Strong Law of Large Numbers (SLLN)
+
+The SLLN makes a stronger statement about the convergence of the sample mean. It states that $\bar{X}_n$ converges **almost surely** to $\mu$.
+
+**Definition (Almost Sure Convergence):** A sequence of random variables $Y_n$ converges almost surely to a constant $c$ (written $Y_n \xrightarrow{a.s.} c$) if:
+$$P\left( \lim_{n\to\infty} Y_n = c \right) = 1$$
+In words: The probability that the sequence of values $Y_n$ eventually converges to and stays at $c$ is 1. This means that for any *specific realization* (sequence of outcomes) of the random process, the sample average will converge to the true mean, except possibly for a set of outcomes with zero probability.
+
+**Theorem (Strong Law of Large Numbers - Kolmogorov):** If $X_1, X_2, ...$ are i.i.d. with finite mean $\mu = E[X_i]$, then the sample mean $\bar{X}_n$ converges almost surely to $\mu$:
+$$\bar{X}_n \xrightarrow{a.s.} \mu \quad \text{as } n \to \infty$$
+$$P\left( \lim_{n\to\infty} \bar{X}_n = \mu \right) = 1$$
+*(Note: The condition for the SLLN only requires finite mean, not finite variance, unlike our proof of the WLLN using Chebyshev).*
+
+**WLLN vs SLLN:**
+* WLLN concerns the probability of deviation for a *specific large n*. It doesn't guarantee that convergence will happen for a *particular sequence* of outcomes.
+* SLLN concerns the behavior of the *entire sequence* of sample averages. It guarantees that the sample average will *eventually* converge to the true mean for almost every possible sequence of outcomes.
+
+For most practical applications in simulation and statistics, the intuition provided by either law is similar: **the sample average is a reliable estimator of the true expected value for large sample sizes.**
+
++++
+
+## Applications: Justification for Monte Carlo Methods
+
+The Law of Large Numbers is the cornerstone of **Monte Carlo simulation**. Monte Carlo methods use repeated random sampling to obtain numerical results, often when analytical solutions are intractable.
+
+Consider estimating a probability $p$ of some event $A$. We can perform $n$ independent trials of the relevant experiment. Let $X_i$ be an indicator random variable for the $i$-th trial:
+$X_i = 1$ if event $A$ occurs on trial $i$,
+$X_i = 0$ if event $A$ does not occur on trial $i$.
+
+Then $E[X_i] = 1 \cdot P(X_i=1) + 0 \cdot P(X_i=0) = P(A) = p$.
+The sample mean $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ represents the proportion of times event $A$ occurred in the $n$ trials (the empirical probability).
+
+By the LLN (either Weak or Strong), as $n \to \infty$:
+$$\bar{X}_n \longrightarrow E[X_i] = p$$
+So, the proportion of successes in a large number of trials converges to the true probability of success. This justifies using the observed frequency from a large simulation to estimate an unknown probability.
+
+Similarly, if we want to estimate the expected value $E[g(Y)]$ for some random variable $Y$ and function $g$, we can generate many i.i.d. samples $Y_1, Y_2, ..., Y_n$ from the distribution of $Y$. Let $Z_i = g(Y_i)$. Then $E[Z_i] = E[g(Y)]$. The sample mean of the transformed variables is:
+$$\bar{Z}_n = \frac{1}{n} \sum_{i=1}^n g(Y_i)$$
+By the LLN, as $n \to \infty$:
+$$\bar{Z}_n \longrightarrow E[Z_i] = E[g(Y)]$$
+Thus, the average of $g(Y_i)$ over many simulations converges to the true expected value $E[g(Y)]$. This is the basis for Monte Carlo integration and estimating expected values of complex systems.
+
++++
+
+## Hands-on: Simulating the Law of Large Numbers
+
+Let's visualize the LLN by simulating the rolling of a fair six-sided die.
+The random variable $X$ is the outcome of a single roll. The sample space is $\{1, 2, 3, 4, 5, 6\}$.
+The true mean (expected value) is:
+$$E[X] = \sum_{k=1}^6 k \cdot P(X=k) = \sum_{k=1}^6 k \cdot \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = \frac{21}{6} = 3.5$$
+
+We will simulate $N$ die rolls, calculate the running sample average after each roll, and plot how it converges towards the theoretical mean of 3.5.
+
+```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.stats as stats
 
-# Set parameters for the simulation
-# We'll use the Exponential distribution
-# Lambda (rate parameter) for Exponential
-lambda_param = 1.0 
-# Theoretical mean (mu) = 1/lambda
-theo_mean = 1 / lambda_param
-# Theoretical variance (sigma^2) = 1/lambda^2
-theo_var = 1 / (lambda_param**2)
-# Theoretical standard deviation (sigma)
-theo_std_dev = np.sqrt(theo_var) 
+# Configure plot style
+plt.style.use('seaborn-v0_8-whitegrid')
 
-# Number of simulations (number of sample means to generate)
-num_simulations = 10000 
+# --- Simulation Parameters ---
+num_rolls = 5000  # Total number of die rolls to simulate
+true_mean = 3.5   # Theoretical expected value for a fair die
 
-# Sample sizes (n) to test
-sample_sizes = [1, 2, 5, 10, 30, 100] 
+# --- Simulate Die Rolls ---
+# Generate random integers between 1 and 6 (inclusive)
+rolls = np.random.randint(1, 7, size=num_rolls)
 
-print(f"Original Distribution: Exponential(lambda={lambda_param})")
-print(f"Theoretical Mean (mu): {theo_mean:.4f}")
-print(f"Theoretical Variance (sigma^2): {theo_var:.4f}")
-print(f"Theoretical Std Dev (sigma): {theo_std_dev:.4f}\n")
+# --- Calculate Running Average ---
+# Calculate the cumulative sum of the rolls
+cumulative_sum = np.cumsum(rolls)
+# Calculate the number of rolls at each step (1, 2, 3, ..., num_rolls)
+roll_numbers = np.arange(1, num_rolls + 1)
+# Calculate the running average: cumulative_sum / number_of_rolls
+running_average = cumulative_sum / roll_numbers
 
-# Create subplots
-fig, axes = plt.subplots(2, 3, figsize=(15, 8))
-# Flatten axes array for easy iteration
-axes = axes.ravel() 
+# --- Plotting ---
+plt.figure(figsize=(12, 6))
 
-# --- Simulation Loop ---
-for i, n in enumerate(sample_sizes):
-    # Store the means of samples
-    sample_means = [] 
-    for _ in range(num_simulations):
-        # 1. Draw n samples from the Exponential distribution
-        samples = np.random.exponential(scale=1/lambda_param, size=n)
-        # 2. Calculate the mean of these n samples
-        current_mean = np.mean(samples)
-        # 3. Store the mean
-        sample_means.append(current_mean)
-    
-    # --- Plotting ---
-    ax = axes[i]
-    # Plot histogram of the sample means
-    ax.hist(sample_means, bins=50, density=True, alpha=0.7, label='Sample Means Hist')
-    
-    # Calculate theoretical mean and std dev for the sample mean distribution (CLT prediction)
-    clt_mean = theo_mean
-    clt_std_dev = theo_std_dev / np.sqrt(n)
-    
-    # Generate points for the theoretical Normal PDF curve
-    x_values = np.linspace(min(sample_means), max(sample_means), 200)
-    clt_pdf = stats.norm.pdf(x_values, loc=clt_mean, scale=clt_std_dev)
-    
-    # Plot the theoretical Normal PDF
-    ax.plot(x_values, clt_pdf, 'r-', lw=2, label='CLT Normal PDF')
-    
-    ax.set_title(f'Distribution of Sample Means (n={n})')
-    ax.set_xlabel('Sample Mean Value')
-    ax.set_ylabel('Density')
-    ax.legend()
+# Plot the running average
+plt.plot(roll_numbers, running_average, label='Running Sample Average')
 
-plt.tight_layout()
+# Plot the true mean
+plt.axhline(true_mean, color='red', linestyle='--', label=f'True Mean ({true_mean})')
+
+# Add annotations and labels
+plt.title(f'Law of Large Numbers: Convergence of Sample Mean ({num_rolls} Die Rolls)')
+plt.xlabel('Number of Rolls')
+plt.ylabel('Sample Average')
+plt.xlim(0, num_rolls)
+# Adjust y-limits for better visualization if needed, e.g.:
+# plt.ylim(1, 6)
+plt.legend()
+plt.grid(True)
+
+# Optional: Show the plot for the first few rolls more clearly
+plt.figure(figsize=(12, 6))
+plt.plot(roll_numbers[:100], running_average[:100], label='Running Sample Average (First 100)')
+plt.axhline(true_mean, color='red', linestyle='--', label=f'True Mean ({true_mean})')
+plt.title('LLN: Convergence Detail (First 100 Rolls)')
+plt.xlabel('Number of Rolls')
+plt.ylabel('Sample Average')
+plt.xlim(0, 100)
+plt.ylim(1, 6) # Set fixed y-axis for fair comparison
+plt.legend()
+plt.grid(True)
+
 plt.show()
+
+print(f"Final sample average after {num_rolls} rolls: {running_average[-1]:.4f}")
+print(f"Difference from true mean: {abs(running_average[-1] - true_mean):.4f}")
 ```
 
-+++ {"title": "++"}
+The plots clearly demonstrate the LLN in action. Initially, the sample average fluctuates significantly. However, as the number of rolls increases, the sample average stabilizes and gets progressively closer to the true expected value of 3.5. The final average after 5000 rolls is very close to the theoretical mean. This convergence is exactly what the LLN predicts.
 
-**Observation:**
-Notice how the histogram of sample means starts highly skewed (similar to the original Exponential distribution) when $n=1$. As the sample size $n$ increases (from 2, 5, 10, 30, to 100), the shape of the histogram becomes increasingly symmetric and bell-shaped, closely matching the red curve representing the Normal distribution predicted by the CLT ($N(\mu, \sigma^2/n)$). For $n=30$ and especially $n=100$, the fit is remarkably good, even though the original data came from a very non-Normal, skewed Exponential distribution.
++++
 
-### Using Q-Q Plots for Visual Assessment
+## Chapter Summary
 
-A Quantile-Quantile (Q-Q) plot is another excellent tool to visually check if a dataset follows a particular distribution (in this case, Normal). It plots the quantiles of the sample data against the theoretical quantiles of the target distribution. If the data follows the distribution, the points should fall approximately along a straight line.
+* **Chebyshev's Inequality** provides a distribution-independent upper bound on the probability that a random variable deviates from its mean by a certain amount: $P(|X - \mu| \ge \epsilon) \le \frac{\sigma^2}{\epsilon^2}$. While often loose, it's universally applicable given finite mean and variance.
+* **The Law of Large Numbers (LLN)** describes the convergence of the sample average ($\bar{X}_n$) of i.i.d. random variables to the population mean ($\mu$) as the sample size ($n$) grows.
+* **Weak Law of Large Numbers (WLLN):** States that $\bar{X}_n$ converges *in probability* to $\mu$. This means $P(|\bar{X}_n - \mu| \ge \epsilon) \to 0$ as $n \to \infty$. It can be proven using Chebyshev's inequality (if variance is finite).
+* **Strong Law of Large Numbers (SLLN):** States that $\bar{X}_n$ converges *almost surely* to $\mu$. This means $P(\lim_{n\to\infty} \bar{X}_n = \mu) = 1$. It's a stronger condition, implying convergence for almost every specific sequence of outcomes.
+* **Applications:** The LLN is the fundamental justification for **Monte Carlo methods**, ensuring that averages calculated from large simulations reliably estimate true probabilities and expected values.
+* **Simulation:** We visualized the LLN by plotting the running average of simulated die rolls, observing its convergence towards the theoretical mean of 3.5.
 
-Let's generate Q-Q plots for our sample means for different $n$.
+The LLN tells us *where* the sample average converges (to the population mean). Our next topic, the Central Limit Theorem (CLT), will tell us about the *shape of the distribution* of the sample average around that mean for large sample sizes.
 
-```{code-cell} ipython3
-
-fig_qq, axes_qq = plt.subplots(2, 3, figsize=(15, 10))
-axes_qq = axes_qq.ravel()
-
-# --- Simulation and Q-Q Plot Loop ---
-for i, n in enumerate(sample_sizes):
-    # Regenerate sample means for clarity (could reuse from above)
-    sample_means_qq = []
-    for _ in range(num_simulations):
-        samples = np.random.exponential(scale=1/lambda_param, size=n)
-        current_mean = np.mean(samples)
-        sample_means_qq.append(current_mean)
-        
-    ax_qq = axes_qq[i]
-    # Create Q-Q plot against the Normal distribution
-    # stats.probplot generates the plot directly
-    stats.probplot(sample_means_qq, dist="norm", plot=ax_qq) 
-    
-    # Calculate theoretical parameters for title
-    clt_mean = theo_mean
-    clt_std_dev = theo_std_dev / np.sqrt(n)
-    
-    ax_qq.set_title(f'Q-Q Plot vs Normal (n={n})\nMean={clt_mean:.2f}, SD={clt_std_dev:.2f}')
-
-plt.tight_layout()
-plt.show()
-```
-
-+++ {"title": "++"}
-
-**Observation:**
-The Q-Q plots reinforce our findings. For small $n$ (like $n=1, n=2$), the points deviate significantly from the straight red line, especially at the tails, indicating non-Normality. As $n$ increases, the points align much more closely with the line, showing that the distribution of sample means is increasingly well-approximated by a Normal distribution. For $n=30$ and $n=100$, the points lie almost perfectly on the line.
-
-### Hands-on: Normal Approximation to Binomial
-
-Let's verify the coin flip example calculation ($P(X > 60)$ for $X \sim Binomial(100, 0.5)$) using Python.
-
-```{code-cell} ipython3
-
-# Parameters for Binomial
-n_binom = 100
-p_binom = 0.5
-
-# Calculate exact probability using Binomial CDF/SF
-# P(X > 60) = P(X >= 61) = 1 - P(X <= 60)
-# Using Survival Function (SF = 1 - CDF) is often more numerically stable for upper tail
-exact_prob = stats.binom.sf(k=60, n=n_binom, p=p_binom)
-
-# Calculate parameters for Normal approximation
-mu_approx = n_binom * p_binom
-var_approx = n_binom * p_binom * (1 - p_binom)
-sigma_approx = np.sqrt(var_approx)
-
-# Calculate approximated probability WITHOUT continuity correction
-# P(Y > 60) where Y ~ N(mu_approx, var_approx)
-approx_prob_no_cc = stats.norm.sf(x=60, loc=mu_approx, scale=sigma_approx)
-
-# Calculate approximated probability WITH continuity correction
-# P(Y >= 60.5) where Y ~ N(mu_approx, var_approx)
-# We want P(X > 60) which is P(X >= 61). The continuity correction is P(Y >= 61 - 0.5) = P(Y >= 60.5)
-approx_prob_cc = stats.norm.sf(x=60.5, loc=mu_approx, scale=sigma_approx)
-
-print(f"Binomial Parameters: n={n_binom}, p={p_binom}")
-print(f"Normal Approx Params: mean={mu_approx}, std_dev={sigma_approx:.4f}\n")
-
-print(f"Exact Probability P(X > 60) using Binomial: {exact_prob:.6f}")
-print(f"Approx Probability P(Y > 60) (No CC):       {approx_prob_no_cc:.6f}")
-print(f"Approx Probability P(Y >= 60.5) (With CC):  {approx_prob_cc:.6f}")
-
-print(f"\nError (No CC): {abs(approx_prob_no_cc - exact_prob):.6f}")
-print(f"Error (With CC): {abs(approx_prob_cc - exact_prob):.6f}")
-```
-
-+++ {"title": "++"}
-
-**Observation:**
-As expected, the Normal approximation with continuity correction (`0.017864`) is significantly closer to the exact Binomial probability (`0.017600`) than the approximation without it (`0.022750`). This highlights the importance of the continuity correction when approximating a discrete distribution with a continuous one.
-
-## Summary
-
-The Central Limit Theorem is a cornerstone of probability and statistics. It tells us that under fairly general conditions (IID variables, finite variance), the distribution of the sample mean (or sum) converges to a Normal distribution as the sample size grows large. This convergence is in *distribution*, meaning the shape of the standardized distribution approaches the standard Normal bell curve.
-
-This theorem is incredibly practical:
-* It explains the prevalence of Normal distributions in observed data.
-* It allows us to approximate complex distributions (like Binomial or Poisson for large parameters) with the well-understood Normal distribution, simplifying calculations.
-* It provides the theoretical basis for many statistical inference techniques, such as constructing confidence intervals and performing hypothesis tests for means.
-
-Through simulation, we visually confirmed how the distribution of sample means from an Exponential distribution becomes increasingly Normal as the sample size $n$ increases, validating the CLT's prediction. We also demonstrated the effectiveness and importance of the continuity correction when using the Normal distribution to approximate Binomial probabilities.
-
-Understanding the CLT empowers you to make approximations, understand statistical methods, and appreciate the surprising emergence of order (the Normal distribution) from the combination of many independent random events.
++++
 
 ## Exercises
 
-1.  **Simulating from Uniform:** Repeat the simulation and plotting steps (histograms and Q-Q plots) from the "Hands-on: Simulating the Central Limit Theorem" section, but this time draw samples from a `Uniform(0, 1)` distribution instead of an Exponential distribution. Does the convergence to Normality appear faster or slower compared to the Exponential case? Why might this be?
-    * *Hint:* The Uniform(0, 1) distribution has mean $\mu=0.5$ and variance $\sigma^2=1/12$. Consider the symmetry of the Uniform distribution compared to the Exponential.
-2.  **Poisson Approximation:** The number of calls arriving at a call center follows a Poisson distribution with an average rate of $\lambda = 30$ calls per hour. We are interested in the probability of receiving *fewer than 25 calls* in a given hour.
-    * Calculate the exact probability using `scipy.stats.poisson`.
-    * Use the Normal approximation to the Poisson distribution (recall for Poisson($\lambda$), $\mu=\lambda$ and $\sigma^2=\lambda$) to estimate this probability. Remember to use the continuity correction. Compare the approximation to the exact value. (Is the approximation valid here? Check the rule of thumb $\lambda \ge 5$ or $\lambda \ge 10$).
-3.  **Limitations Question:** Suppose you are averaging samples from a Cauchy distribution. Why does the standard Central Limit Theorem *not* apply in this case? What key condition is violated?
-
-```{code-cell} ipython3
-
-```
+1.  **Chebyshev vs. Reality (Exponential):** Let $X \sim Exponential(\lambda=1)$. Recall $E[X] = 1/\lambda = 1$ and $Var(X) = 1/\lambda^2 = 1$.
+    a. Use Chebyshev's inequality to find an upper bound for $P(|X - 1| \ge 2)$. (Here $\mu=1, \sigma=1$, so $k=2$).
+    b. Calculate the exact probability $P(|X - 1| \ge 2) = P(X \ge 3)$ using the CDF of the Exponential distribution ($F(x) = 1 - e^{-\lambda x}$ for $x \ge 0$).
+    c. Compare the bound from (a) with the exact value from (b).
+2.  **Simulating LLN for Bernoulli:** Consider a Bernoulli trial with $p=0.3$ (probability of success). The true mean is $\mu = p = 0.3$.
+    a. Simulate 10,000 Bernoulli trials with $p=0.3$.
+    b. Calculate and plot the running average of the outcomes (which represents the empirical probability of success).
+    c. Verify visually that the running average converges towards 0.3.
+3.  **Convergence Rate:** In the proof of WLLN using Chebyshev, we found $P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n\epsilon^2}$. If we want to ensure this probability bound is less than 0.01 for $\epsilon=0.1$, how large does $n$ need to be for the die roll example ($Var(X) = E[X^2] - (E[X])^2 = (1^2+2^2+3^2+4^2+5^2+6^2)/6 - 3.5^2 = 91/6 - 12.25 \approx 15.167 - 12.25 = 2.917$)? Does this seem like a practical sample size based on the simulation?
