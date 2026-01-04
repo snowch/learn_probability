@@ -2121,7 +2121,7 @@ def create_poisson_visual(lam=4):
             f'Visualizing Poisson: The Three Forces ($\lambda = {lam}$)',
             ha='center', fontsize=22, fontweight='bold', color='#333333')
 
-    ax.text((k_max * (box_width + gap))/2, 8.8,
+    ax.text((k_max * (box_width + gap))/2, 8.2,
             f'Expected rate: {lam} events. Probability of exactly k events?',
             ha='center', fontsize=15, color='#555555')
 
