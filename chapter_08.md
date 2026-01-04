@@ -340,7 +340,7 @@ The results from numerical integration closely match the built-in methods, confi
 
 ### 4. Simulating Data and Comparing Empirical vs. Theoretical
 
-We can simulate drawing random samples from the distribution using the `.rvs()` method (Random VariateS) and compare the results (like the histogram and sample statistics) to the theoretical distribution. This is a fundamental technique in Monte Carlo methods (Chapter 17).
+We can simulate drawing random samples from the distribution using the `.rvs()` method (Random VariateS) and compare the results (like the histogram and sample statistics) to the theoretical distribution. This is a fundamental technique in Monte Carlo methods (Chapter 18).
 
 ```{code-cell} ipython3
 # Generate 10,000 random height samples
@@ -373,7 +373,7 @@ plt.show()
 
 As the plot shows, the histogram of the randomly generated samples closely follows the shape of the theoretical Probability Density Function. Furthermore, the calculated sample mean and standard deviation are very close to the theoretical parameters ($\mu=177$, $\sigma=7$) of the distribution we sampled from.
 
-According to the Law of Large Numbers (Chapter 13), as the number of samples (`num_samples`) increases, the empirical histogram will better approximate the true PDF, and the sample statistics (like mean and standard deviation) will converge to the true parameters of the distribution.
+According to the Law of Large Numbers (Chapter 14), as the number of samples (`num_samples`) increases, the empirical histogram will better approximate the true PDF, and the sample statistics (like mean and standard deviation) will converge to the true parameters of the distribution.
 
 This hands-on section demonstrated how to work with the core concepts of continuous random variables – PDFs, CDFs, expectations, percentiles – using `scipy.stats`. We also saw how numerical integration can be used for calculations and how simulation allows us to generate data that follows a specific distribution, enabling comparison between empirical results and theoretical models.
 

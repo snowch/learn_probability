@@ -734,7 +734,7 @@ It's useful to be aware of the connections between these common distributions:
     * **Binomial Approximation:** A Binomial($n, p$) distribution can be approximated by $N(np, np(1-p))$ when $n$ is large and $p$ is not too close to 0 or 1 (rules of thumb like $np > 5$ and $n(1-p) > 5$ are common).
     * **Poisson Approximation:** A Poisson($\lambda$) distribution can be approximated by $N(\lambda, \lambda)$ when $\lambda$ is large (e.g., $\lambda > 10$ or $20$).
     * **Gamma Approximation:** A Gamma($k, \lambda$) distribution becomes more symmetric and bell-shaped (approaching Normal) as the shape parameter $k$ increases.
-    (We will explore the Central Limit Theorem in detail in Chapter 14).
+    (We will explore the Central Limit Theorem in detail in Chapter 15).
 
 4.  **Chi-Squared Distribution:** The Chi-Squared distribution with $k$ degrees of freedom, $\chi^2(k)$, is a special case of the Gamma distribution: $\chi^2(k) \equiv Gamma(k/2, \text{rate}=1/2)$ or $Gamma(\text{shape}=k/2, \text{scale}=2)$. It arises frequently in statistical testing.
 
