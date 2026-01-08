@@ -72,12 +72,22 @@ def create_zip_archive(notebook_dir, zip_path):
 
 def main():
     """Main function to generate all notebooks and archive."""
+    import sys
+
     print("=" * 60)
     print("Generating Jupyter Notebooks from MyST Markdown")
     print("=" * 60)
 
-    # Create output directory in project root (not _build)
-    output_dir = Path("notebooks")
+    # Allow specifying output directory (for pre-build vs post-build)
+    if len(sys.argv) > 1 and sys.argv[1] == '--post-build':
+        # Generate to _build/html for final output
+        output_dir = Path("_build/html/notebooks")
+        zip_path = Path("_build/html/learn_probability_notebooks.zip")
+    else:
+        # Generate to project root for MyST validation
+        output_dir = Path("notebooks")
+        zip_path = Path("learn_probability_notebooks.zip")
+
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Get all notebook files
@@ -93,10 +103,9 @@ def main():
 
     print(f"\n✓ Successfully converted {len(converted_files)} notebooks")
 
-    # Create zip archive in project root
+    # Create zip archive
     if converted_files:
         print("\nCreating zip archive...")
-        zip_path = Path("learn_probability_notebooks.zip")
         create_zip_archive(output_dir, zip_path)
 
         # Calculate total size

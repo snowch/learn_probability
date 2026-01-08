@@ -62,7 +62,7 @@ jobs:
           COMMIT_SHA=$(git rev-parse --short HEAD)
           sed -i "s/COMMIT_HASH/${COMMIT_SHA}/g" footer.md
 
-      - name: Generate Jupyter Notebooks
+      - name: Generate Jupyter Notebooks (pre-build for MyST validation)
         run: python generate_notebooks.py
 
       - name: Build HTML Assets (execute)
@@ -72,6 +72,9 @@ jobs:
           max_attempts: 3
           retry_on: timeout
           command: myst build --execute --html
+
+      - name: Generate Jupyter Notebooks (post-build for downloads)
+        run: python generate_notebooks.py --post-build
 
       - name: Generate Sitemap
         run: |
