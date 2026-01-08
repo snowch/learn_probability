@@ -70,6 +70,9 @@ jobs:
           retry_on: timeout
           command: myst build --execute --html
 
+      - name: Generate Jupyter Notebooks
+        run: python generate_notebooks.py
+
       - name: Generate Sitemap
         run: |
           python generate_sitemap.py

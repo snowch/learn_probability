@@ -16,8 +16,11 @@ project:
     - format: pdf
       template: plain_latex_book
       output: exports/book.pdf
+    - format: ipynb
+      output: exports/notebooks
   toc:
     - file: index.md
+    - file: downloads.md
     - title: Part 1 - Foundations of Probability
       children:
         - file: chapter_01.md

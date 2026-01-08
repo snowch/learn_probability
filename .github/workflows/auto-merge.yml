@@ -38,6 +38,9 @@ jobs:
       - name: Build HTML Assets (execute)
         run: myst build --execute --html
 
+      - name: Generate Jupyter Notebooks
+        run: python generate_notebooks.py
+
       - name: Merge to main
         if: success()
         run: |
