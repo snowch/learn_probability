@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/appendix_d.ipynb
 ---
 
 # Appendix D: Further Reading and Resources

@@ -10,6 +10,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_06.ipynb
 ---
 
 # Chapter 6: Discrete Random Variables

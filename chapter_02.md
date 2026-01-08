@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_02.ipynb
 ---
 
 # Chapter 2: The Language of Probability: Sets, Sample Spaces, and Events
