@@ -63,9 +63,7 @@ jobs:
           sed -i "s/COMMIT_HASH/${COMMIT_SHA}/g" footer.md
 
       - name: Generate Jupyter Notebooks
-        run: |
-          mkdir -p _build/html/notebooks
-          python generate_notebooks.py
+        run: python generate_notebooks.py
 
       - name: Build HTML Assets (execute)
         uses: nick-fields/retry@v3

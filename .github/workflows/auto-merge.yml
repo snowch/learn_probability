@@ -36,9 +36,7 @@ jobs:
         run: npm install -g mystmd
 
       - name: Generate Jupyter Notebooks
-        run: |
-          mkdir -p _build/html/notebooks
-          python generate_notebooks.py
+        run: python generate_notebooks.py
 
       - name: Build HTML Assets (execute)
         run: myst build --execute --html
