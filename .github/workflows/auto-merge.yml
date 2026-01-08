@@ -35,11 +35,14 @@ jobs:
       - name: Install MyST Markdown
         run: npm install -g mystmd
 
-      - name: Generate Jupyter Notebooks
+      - name: Generate Jupyter Notebooks (pre-build for MyST validation)
         run: python generate_notebooks.py
 
       - name: Build HTML Assets (execute)
         run: myst build --execute --html
+
+      - name: Generate Jupyter Notebooks (post-build for downloads)
+        run: python generate_notebooks.py --post-build
 
       - name: Merge to main
         if: success()
