@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_21.ipynb
 ---
 
 # Chapter 21: Probability with SageMath

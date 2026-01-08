@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_01.ipynb
 ---
 
 # Chapter 1: Introduction to Probability and Python Setup

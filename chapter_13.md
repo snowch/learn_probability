@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_13.ipynb
 ---
 
 # Chapter 13: Functions of Multiple Random Variables

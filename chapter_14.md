@@ -10,6 +10,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_14.ipynb
 ---
 
 # Chapter 14: The Law of Large Numbers (LLN)

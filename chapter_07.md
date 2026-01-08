@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_07.ipynb
 ---
 
 # Chapter 7: Common Discrete Distributions

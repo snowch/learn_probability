@@ -9,6 +9,8 @@ kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
   name: python3
+downloads:
+  - file: notebooks/chapter_16.ipynb
 ---
 
 # Chapter 16: Introduction to Bayesian Inference
